@@ -42,9 +42,15 @@ namespace ServerForTheLogic.Infrastructure
         public Block[,] blockMap { get; set; }
 
         /// <summary>
+        /// Clock to keep track of the time that 
+        /// has passed since city creation.
+        /// </summary>
+        private Clock clock;
+
+        /// <summary>
         /// Constructor for a new city, creates the 100x100 grid of cells,
         /// and the grid of city blocks
-        /// <para/> Last editted:  2017-10-02
+        /// <para/> Last edited:  2017-10-02
         /// </summary>
         public City()
         {
@@ -53,11 +59,12 @@ namespace ServerForTheLogic.Infrastructure
             AllPeople = new List<Person>();
             homes = new List<Residential>();
             workplaces = new List<Building>();
+            clock = new Clock();
 
-           // TO DO: code to create initial state, or load from DB
+            // TO DO: code to create initial state, or load from DB
 
-           // blocks.Add(new Block(new Point(CITY_WIDTH / 2, CITY_LENGTH / 2)));
-            
+            // blocks.Add(new Block(new Point(CITY_WIDTH / 2, CITY_LENGTH / 2)));
+
         }
 
         /// <summary>
