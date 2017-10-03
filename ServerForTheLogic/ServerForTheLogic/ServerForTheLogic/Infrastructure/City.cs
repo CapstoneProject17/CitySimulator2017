@@ -59,7 +59,7 @@ namespace ServerForTheLogic.Infrastructure
             AllPeople = new List<Person>();
             homes = new List<Residential>();
             workplaces = new List<Building>();
-            clock = new Clock();
+           // clock = new Clock();
 
             // TO DO: code to create initial state, or load from DB
 

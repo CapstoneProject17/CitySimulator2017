@@ -52,6 +52,9 @@ namespace ServerForTheLogic
             creator.createIndustrialBuilding(city, b);
             creator.createIndustrialBuilding(city, b1);
             creator.createIndustrialBuilding(city, b2);
+            creator.createResidentialBuilding(city, b1);
+            creator.createCommercialBuilding(city, b);
+
 
             printCity();
 
@@ -65,7 +68,6 @@ namespace ServerForTheLogic
         public static void KeepOpen()
         {
             while (true) ;
-
         }
 
         /// <summary>
@@ -114,5 +116,7 @@ namespace ServerForTheLogic
                 Console.WriteLine();
             }
         }
+
+        
     }
 }
