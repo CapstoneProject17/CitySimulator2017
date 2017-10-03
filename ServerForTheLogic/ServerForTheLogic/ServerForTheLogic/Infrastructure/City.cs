@@ -41,8 +41,6 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public Block[,] blockMap { get; set; }
 
-        //Clock clock = new Clock();
-
         /// <summary>
         /// Clock to keep track of the time that 
         /// has passed since city creation.
