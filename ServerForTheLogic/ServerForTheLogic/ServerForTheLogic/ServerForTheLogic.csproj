@@ -52,13 +52,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Block.cs" />
+    <Compile Include="Infrastructure\Building.cs" />
+    <Compile Include="Infrastructure\City.cs" />
+    <Compile Include="Infrastructure\Commercial.cs" />
+    <Compile Include="Infrastructure\Industrial.cs" />
+    <Compile Include="Infrastructure\Location.cs" />
+    <Compile Include="Infrastructure\Residential.cs" />
+    <Compile Include="Infrastructure\Road.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Creator.cs" />
+    <Compile Include="Utilities\Point.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
