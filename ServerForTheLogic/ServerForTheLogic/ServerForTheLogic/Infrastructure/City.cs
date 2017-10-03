@@ -41,6 +41,8 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public Block[,] blockMap { get; set; }
 
+        Clock clock = new Clock();
+
         /// <summary>
         /// Constructor for a new city, creates the 100x100 grid of cells,
         /// and the grid of city blocks
