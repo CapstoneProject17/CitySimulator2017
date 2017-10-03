@@ -39,20 +39,27 @@ namespace ServerForTheLogic.Utilities
             var modelFaker = new Faker<Industrial>("")
                 .RuleFor(o => o.Name, f => f.Company.CompanyName());
             Industrial industrial = modelFaker.Generate();
-            bool added = false;
-
-            for (int i = 0; i < Block.BLOCK_WIDTH && !added; ++i)
+            //bool added = false;
+            List<Point> availablePoints = new List<Point>();
+            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
-                for (int j = 0; j < Block.BLOCK_LENGTH && !added; ++j)
+                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
                 {
                     if (block.LandPlot[i, j] == null)
                     {
-                        block.LandPlot[i, j] = industrial;
-                        city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        added = true;
-    }
+                        //block.LandPlot[i, j] = industrial;
+                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
+                        //added = true;
+                        availablePoints.Add(new Point(i, j));
+                    }
                 }
             }
+
+            int rand = new Random().Next(0, availablePoints.Count);
+            int x = availablePoints[rand].x;
+            int z = availablePoints[rand].z;
+            block.LandPlot[x,z] = industrial;
+            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = industrial;
         }
 
         /// <summary>
@@ -60,11 +67,31 @@ namespace ServerForTheLogic.Utilities
         /// NOT YET IMPLEMENTED
         /// </summary>
         /// <returns></returns>
-        public Commercial createCommercialBuilding()
+        public void createCommercialBuilding(City city, Block block)
         {
             var modelFaker = new Faker<Commercial>()
                 .RuleFor(o => o.Name, f => f.Company.CompanyName());
-            return modelFaker.Generate();
+            Commercial commercial =  modelFaker.Generate();
+            List<Point> availablePoints = new List<Point>();
+            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
+            {
+                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
+                {
+                    if (block.LandPlot[i, j] == null)
+                    {
+                        //block.LandPlot[i, j] = industrial;
+                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
+                        //added = true;
+                        availablePoints.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            int rand = new Random().Next(0, availablePoints.Count);
+            int x = availablePoints[rand].x;
+            int z = availablePoints[rand].z;
+            block.LandPlot[x, z] = commercial;
+            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = commercial;
         }
 
         /// <summary>
@@ -72,10 +99,30 @@ namespace ServerForTheLogic.Utilities
         /// NOT YET IMPLEMENTED
         /// </summary>
         /// <returns></returns>
-        public Residential createResidentialBuilding()
+        public void createResidentialBuilding(City city, Block block)
         {
             var modelFaker = new Faker<Residential>();
-            return modelFaker.Generate();
+            Residential residential =  modelFaker.Generate();
+            List<Point> availablePoints = new List<Point>();
+            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
+            {
+                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
+                {
+                    if (block.LandPlot[i, j] == null)
+                    {
+                        //block.LandPlot[i, j] = industrial;
+                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
+                        //added = true;
+                        availablePoints.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            int rand = new Random().Next(0, availablePoints.Count);
+            int x = availablePoints[rand].x;
+            int z = availablePoints[rand].z;
+            block.LandPlot[x, z] = residential;
+            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = residential;
         }
 
         /// <summary>
