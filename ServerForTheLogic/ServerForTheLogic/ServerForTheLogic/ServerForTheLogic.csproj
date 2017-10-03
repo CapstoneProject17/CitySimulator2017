@@ -63,6 +63,7 @@
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Clock.cs" />
     <Compile Include="Utilities\Creator.cs" />
     <Compile Include="Utilities\Point.cs" />
   </ItemGroup>
