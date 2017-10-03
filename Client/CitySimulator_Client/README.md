@@ -1,11 +1,10 @@
-## Capstone17Prototype
-Created by 2017-09-18
-Last Updated by 2017-10-02
+## Capstone17
+Created by 2017-10-03
 
-Client side prototype
+Client side Unity Project
 
-City Simulator prototype project
-To contribute, fork this repo please
+City Simulator Client side
+- To contribute, fork this repo please
 
 How to play simulator prototype.
 
@@ -23,3 +22,8 @@ In-simulation
 - Mouse moving: change camera direction
 - Reload button: reload entire scene
 - quit Button: back to main menu
+
+Issues & Bugs
+-  Windows build
+    - WASD deosn't work properly
+- GUI Overlapped by world objects when zoom in too much
