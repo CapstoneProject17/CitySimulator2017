@@ -21,7 +21,6 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public Person createPerson()
         {
-
             var modelFaker = new Faker<Person>("en")
                 .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())
                 .RuleFor(o => o.LName, (f, o) => f.Name.LastName());
@@ -30,48 +29,30 @@ namespace ServerForTheLogic.Utilities
         }
 
         /// <summary>
-        /// Generates an industrial building that has a random company name.
-        /// </summary>
-        /// <param name="city"></param>
-        /// <param name="block"></param>
-        public void createIndustrialBuilding(City city, Block block)
-        {
-            var modelFaker = new Faker<Industrial>("")
-                .RuleFor(o => o.Name, f => f.Company.CompanyName());
-            Industrial industrial = modelFaker.Generate();
-            //bool added = false;
-            List<Point> availablePoints = new List<Point>();
-            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
-            {
-                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
-                {
-                    if (block.LandPlot[i, j] == null)
-                    {
-                        //block.LandPlot[i, j] = industrial;
-                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        //added = true;
-                        availablePoints.Add(new Point(i, j));
-                    }
-                }
-            }
-
-            int rand = new Random().Next(0, availablePoints.Count);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
-            block.LandPlot[x,z] = industrial;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = industrial;
-        }
-
-        /// <summary>
-        /// Generates a commercial building with a random company name
-        /// NOT YET IMPLEMENTED
+        /// Generates a building based on the block's BlockType
         /// </summary>
         /// <returns></returns>
-        public void createCommercialBuilding(City city, Block block)
+        public void createBuilding(City city, Block block)
         {
-            var modelFaker = new Faker<Commercial>()
-                .RuleFor(o => o.Name, f => f.Company.CompanyName());
-            Commercial commercial =  modelFaker.Generate();
+            Building building;
+            if (block.Type == BlockType.Commercial)
+            {
+                var modelFaker = new Faker<Commercial>()
+                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
+                building = modelFaker.Generate();
+            }
+            else if (block.Type == BlockType.Residential)
+            {
+                var modelFaker = new Faker<Residential>();
+                building = modelFaker.Generate();
+
+            }
+            else
+            {
+                var modelFaker = new Faker<Industrial>("")
+                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
+                building = modelFaker.Generate();
+            }
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
@@ -90,48 +71,17 @@ namespace ServerForTheLogic.Utilities
             int rand = new Random().Next(0, availablePoints.Count);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
-            block.LandPlot[x, z] = commercial;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = commercial;
+            block.LandPlot[x, z] = building;
+            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
         }
 
         /// <summary>
-        /// Generates a residential building
-        /// NOT YET IMPLEMENTED
-        /// </summary>
-        /// <returns></returns>
-        public void createResidentialBuilding(City city, Block block)
-        {
-            var modelFaker = new Faker<Residential>();
-            Residential residential =  modelFaker.Generate();
-            List<Point> availablePoints = new List<Point>();
-            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
-            {
-                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
-                {
-                    if (block.LandPlot[i, j] == null)
-                    {
-                        //block.LandPlot[i, j] = industrial;
-                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        //added = true;
-                        availablePoints.Add(new Point(i, j));
-                    }
-                }
-            }
-
-            int rand = new Random().Next(0, availablePoints.Count);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
-            block.LandPlot[x, z] = residential;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = residential;
-        }
-
-        /// <summary>
-        /// Generate a new block, and fill the border with road.
+        /// Fill the border of a block with road.
         /// </summary>
         /// <param name="startPoint"></param>
         /// <param name="city"></param>
         /// <returns></returns>
-        public Block createBlock(Point startPoint, City city)
+        public Block addRoadsToEmptyBlock(Point startPoint, City city)
         {
             Block b = new Block(startPoint);
 
@@ -182,7 +132,7 @@ namespace ServerForTheLogic.Utilities
                     city.map[startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
                 }
             }
-
+            city.blockMap[b.StartPoint.x / Block.BLOCK_WIDTH, b.StartPoint.z / Block.BLOCK_LENGTH] = b;
             return b;
         }
     }

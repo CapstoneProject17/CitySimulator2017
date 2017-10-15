@@ -46,18 +46,29 @@ namespace ServerForTheLogic
             //TEST DATA 
             city = new City();
             creator = new Creator();
-            Block b = creator.createBlock(new Point(City.CITY_WIDTH / 2, City.CITY_LENGTH / 2), city);
-            Block b1 = creator.createBlock(new Point(City.CITY_WIDTH / 2 + 3, City.CITY_LENGTH / 2), city);
-            Block b2 = creator.createBlock(new Point(0, 0), city);
-            creator.createIndustrialBuilding(city, b);
-            creator.createIndustrialBuilding(city, b1);
-            creator.createIndustrialBuilding(city, b2);
-            creator.createResidentialBuilding(city, b1);
-            creator.createCommercialBuilding(city, b);
+            //fill 3 blocks
+            Block b = creator.addRoadsToEmptyBlock(new Point(52, 56), city);
+            Block b1 = creator.addRoadsToEmptyBlock(new Point(56, 56), city);
+            Block b2 = creator.addRoadsToEmptyBlock(new Point(0, 0), city);
+            b.setBlockType();
+            b1.setBlockType();
+            b2.setBlockType();
+            //stick some buildings in them blocks
+            creator.createBuilding(city, b);
+            creator.createBuilding(city, b1);
+            creator.createBuilding(city, b2);
+            creator.createBuilding(city, b1);
+            creator.createBuilding(city, b);
 
-
+            //sets the adjacent blocks of the specified block
+            foreach (Block block in city.blockMap)
+            {
+                city.setAdjacents(block);
+            }
+            Console.WriteLine("expand");
+            city.expandCity();
+            
             printCity();
-
 
             KeepOpen();
         }
@@ -87,7 +98,7 @@ namespace ServerForTheLogic
                     }
                     else
                     {
-                        Console.Write("o");
+                        Console.Write(".");
                     }
                 }
                 Console.WriteLine();
@@ -100,9 +111,9 @@ namespace ServerForTheLogic
         /// </summary>
         public static void printCity()
         {
-            for (int i = 0; i < City.CITY_LENGTH; ++i)
+            for (int i = 0; i < City.CITY_WIDTH; ++i)
             {
-                for (int j = 0; j < City.CITY_WIDTH; ++j)
+                for (int j = 0; j < City.CITY_LENGTH; ++j)
                 {
                     if (city.map[i, j] != null)
                     {
@@ -117,6 +128,6 @@ namespace ServerForTheLogic
             }
         }
 
-        
+
     }
 }
