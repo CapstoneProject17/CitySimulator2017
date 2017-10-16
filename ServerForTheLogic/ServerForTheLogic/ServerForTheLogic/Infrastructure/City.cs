@@ -55,13 +55,13 @@ namespace ServerForTheLogic.Infrastructure
         public City()
         {
             map = new Location[CITY_WIDTH, CITY_LENGTH];
-            blockMap = new Block[CITY_WIDTH / Block.BLOCK_WIDTH, CITY_LENGTH / Block.BLOCK_LENGTH];
+            blockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1), CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
             AllPeople = new List<Person>();
             homes = new List<Residential>();
             workplaces = new List<Building>();
 
-            int width = CITY_WIDTH / Block.BLOCK_WIDTH;
-            int height = CITY_LENGTH / Block.BLOCK_LENGTH;
+            int width = CITY_WIDTH / (Block.BLOCK_WIDTH - 1);
+            int height = CITY_LENGTH / (Block.BLOCK_LENGTH - 1);
 
             //fills the blockMap array
             for (int i = 0; i < width; ++i)
@@ -106,28 +106,40 @@ namespace ServerForTheLogic.Infrastructure
         /// <param name="b"></param>
         public void setAdjacents(Block b)
         {
+            if (b.Adjacents.Count > 0)
+                return;
             int x = b.StartPoint.x / (Block.BLOCK_WIDTH - 1);
             int z = b.StartPoint.z / (Block.BLOCK_LENGTH - 1);
+            //Console.WriteLine(blockMap.GetLength(0) + " " + blockMap.GetLength(1));
             for (int i = x - 1; i < x + 2; ++i)
             {
                 //if out of bounds of the map, skip
-                if (i < 0 || (i + x) >= blockMap.GetLength(0))
+                if (i < 0 || i >= blockMap.GetLength(0))
+                {
+                    //Console.WriteLine("WE OUT X: " + x + " I+X: " + i);
                     continue;
+                }
                 for (int j = z - 1; j < z + 2; ++j)
                 {
                     //if out of bounds of the map, or on the current block's cell, skip
-                    if (j < 0 || (j + z) >= blockMap.GetLength(1) || (j == z && i == x))
-                        continue;
-                    //checks if adjacent block is null (though it should never be null)
-                    if (blockMap[i + x, j + z] != null)
+                    if (j < 0 || j >= blockMap.GetLength(1) || (j == z && i == x))
                     {
-                        blockMap[x, z].Adjacents.Add(blockMap[i + x, j + z]);
+                        //Console.WriteLine("WE OUT X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
+                        continue;
+                    }
+                    //checks if adjacent block is null (though it should never be null)
+                    if (blockMap[i, j] != null)
+                    {
+                        //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
+                        blockMap[x, z].Adjacents.Add(blockMap[i, j]);
                     }
                     else
                     {
+                        //Console.WriteLine("how?");
                         blockMap[x, z].Adjacents.Add(null);
                     }
                 }
+
             }
 
             /*       FOR DEBUGGING
@@ -149,6 +161,7 @@ namespace ServerForTheLogic.Infrastructure
                 else
                     Console.WriteLine(temp.Adjacents[i]);
             }*/
+            //Console.WriteLine(blockMap[x, z].Adjacents.Count);
         }
 
         public void expandCity()
@@ -156,43 +169,52 @@ namespace ServerForTheLogic.Infrastructure
             List<Block> occupiedBlocks = new List<Block>();
             int width = blockMap.GetLength(0);
             int length = blockMap.GetLength(1);
-            for (int i = 0; i < width; ++i)
-            {
-                for (int j = 0; j < length; ++j)
-                {
-                    if (blockMap[i, j].Type != BlockType.Empty)
-                        occupiedBlocks.Add(blockMap[i, j]);
-                }
-            }
+
+            foreach (Block b in blockMap)
+                if (b.Type != BlockType.Empty)
+                    occupiedBlocks.Add(b);
+
+            List<Block> empties = new List<Block>();
+            //Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
             foreach (Block occupiedBlock in occupiedBlocks)
             {
-                Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
                 //Console.WriteLine("in occupied blocks");
-                List<Block> empties = new List<Block>();
+                //Console.WriteLine("Adjacent Count: " + occupiedBlock.Adjacents.Count);
                 foreach (Block b in occupiedBlock.Adjacents)
                 {
-                    Console.WriteLine(occupiedBlock.Adjacents.Count);
                     if (b.Type == BlockType.Empty)
                     {
                         //Console.WriteLine(b.Type);
                         empties.Add(b);
                     }
                 }
-                Console.WriteLine("Empties: " + empties.Count);
-                if (empties.Count != 0)
-                {
-                    Console.WriteLine("fuck you");
-                    Bogus.Randomizer rand = new Bogus.Randomizer();
-                    Creator c = new Creator();
-                    Block temp = empties[rand.Number(0, empties.Count - 1)];
-                    
-                    temp = c.addRoadsToEmptyBlock(temp.StartPoint, this);
-                    temp.setBlockType();
-                    blockMap[temp.StartPoint.x, temp.StartPoint.z] = temp;
-                    c.createBuilding(this, temp);
-                    return;
-                }
 
+            }
+            foreach (Block b in empties)
+                Console.WriteLine(b.Type);
+            Console.WriteLine("Empties: " + empties.Count);
+            if (empties.Count != 0)
+            {
+                //Console.WriteLine("fuck you");
+                Bogus.Randomizer rand = new Bogus.Randomizer();
+                Creator c = new Creator();
+
+                int x = rand.Number(0, empties.Count - 1);
+
+                empties[x] = c.addRoadsToEmptyBlock(empties[x].StartPoint, this);
+                setAdjacents(empties[x]);
+                empties[x].setBlockType();
+                c.createBuilding(this,
+                    blockMap[empties[x].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                             empties[x].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+            }
+        }
+
+        public void printBlockMapTypes()
+        {
+            foreach (Block b in blockMap)
+            {
+                Console.WriteLine(b.Type);
             }
         }
     }

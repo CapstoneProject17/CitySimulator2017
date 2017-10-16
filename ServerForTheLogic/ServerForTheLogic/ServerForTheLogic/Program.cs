@@ -47,12 +47,13 @@ namespace ServerForTheLogic
             city = new City();
             creator = new Creator();
             //fill 3 blocks
-            Block b = creator.addRoadsToEmptyBlock(new Point(52, 56), city);
-            Block b1 = creator.addRoadsToEmptyBlock(new Point(56, 56), city);
+            Block b = creator.addRoadsToEmptyBlock(new Point(51, 56), city);
+            Block b1 = creator.addRoadsToEmptyBlock(new Point(54, 56), city);
             Block b2 = creator.addRoadsToEmptyBlock(new Point(0, 0), city);
-            b.setBlockType();
-            b1.setBlockType();
-            b2.setBlockType();
+
+            city.blockMap[0, 0].setBlockType();
+            city.blockMap[51 / 3, 56 / 7].setBlockType();
+            city.blockMap[54 / 3, 56 / 7].setBlockType();
             //stick some buildings in them blocks
             creator.createBuilding(city, b);
             creator.createBuilding(city, b1);
@@ -65,10 +66,24 @@ namespace ServerForTheLogic
             {
                 city.setAdjacents(block);
             }
+
+            Console.WriteLine(b2.ToString());
+
+
             Console.WriteLine("expand");
-            city.expandCity();
-            
+            for (int i = 0; i < 10; i++)
+                city.expandCity();
+
+            //Console.WriteLine(b.Adjacents.Count);
+            //Console.WriteLine(b1.Adjacents.Count);
+            //Console.WriteLine(b2.Adjacents.Count);
+            foreach (Block block in city.blockMap)
+                if (block.Adjacents.Count > 8)
+                    Console.WriteLine("Too many:" + block.ToString());
+            //city.printBlockMapTypes();
             printCity();
+            foreach (Block block in city.blockMap[51 / 3, 56 / 7].Adjacents)
+                Console.WriteLine("b adjacents" + block.ToString());
 
             KeepOpen();
         }

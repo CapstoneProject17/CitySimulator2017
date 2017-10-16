@@ -132,7 +132,7 @@ namespace ServerForTheLogic.Utilities
                     city.map[startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
                 }
             }
-            city.blockMap[b.StartPoint.x / Block.BLOCK_WIDTH, b.StartPoint.z / Block.BLOCK_LENGTH] = b;
+            city.blockMap[b.StartPoint.x / (Block.BLOCK_WIDTH - 1), b.StartPoint.z / (Block.BLOCK_LENGTH - 1)] = b;
             return b;
         }
     }
