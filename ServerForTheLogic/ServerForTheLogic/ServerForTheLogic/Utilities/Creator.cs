@@ -47,11 +47,15 @@ namespace ServerForTheLogic.Utilities
                 building = modelFaker.Generate();
 
             }
-            else
+            else if (block.Type == BlockType.Industrial)
             {
                 var modelFaker = new Faker<Industrial>("")
                     .RuleFor(o => o.Name, f => f.Company.CompanyName());
                 building = modelFaker.Generate();
+            }
+            else
+            {
+                throw new InvalidOperationException("cannot add building to empty block");
             }
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
@@ -68,7 +72,7 @@ namespace ServerForTheLogic.Utilities
                 }
             }
 
-            int rand = new Random().Next(0, availablePoints.Count);
+            int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
             block.LandPlot[x, z] = building;
@@ -81,57 +85,57 @@ namespace ServerForTheLogic.Utilities
         /// <param name="startPoint"></param>
         /// <param name="city"></param>
         /// <returns></returns>
-        public Block addRoadsToEmptyBlock(Point startPoint, City city)
+        public Block addRoadsToEmptyBlock(Block b, City city)
         {
-            Block b = new Block(startPoint);
 
             // Adds roads to the top and bottom borders of the block grid
             for (int i = 0; i < Block.BLOCK_WIDTH; i++)
             {
-                if (city.GetLocationAt(i + startPoint.x, startPoint.z) != null)
+                if (city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z) != null)
                 {
-                    b.LandPlot[i, 0] = city.GetLocationAt(i + startPoint.x, startPoint.z);
+                    b.LandPlot[i, 0] = city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[i, 0] = new Road("");
-                    city.map[i + startPoint.x, startPoint.z] = b.LandPlot[i, 0];
+                    city.map[i + b.StartPoint.x, b.StartPoint.z] = b.LandPlot[i, 0];
                 }
 
-                if (city.GetLocationAt(i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1) != null)
+                if (city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1) != null)
                 {
-                    b.LandPlot[i, Block.BLOCK_LENGTH - 1] = city.GetLocationAt(i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1);
+                    b.LandPlot[i, Block.BLOCK_LENGTH - 1] = city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1);
                 }
                 else
                 {
                     b.LandPlot[i, Block.BLOCK_LENGTH - 1] = new Road("");
-                    city.map[i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
+                    city.map[i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
                 }
             }
 
             //adds roads to the left and right borders of the block grid
             for (int i = 0; i < Block.BLOCK_LENGTH; i++)
             {
-                if (city.GetLocationAt(startPoint.x, i + startPoint.z) != null)
+                if (city.GetLocationAt(b.StartPoint.x, i + b.StartPoint.z) != null)
                 {
-                    b.LandPlot[0, i] = city.GetLocationAt(startPoint.x, i + startPoint.z);
+                    b.LandPlot[0, i] = city.GetLocationAt(b.StartPoint.x, i + b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[0, i] = new Road("");
-                    city.map[startPoint.x, i + startPoint.z] = b.LandPlot[0, i];
+                    city.map[b.StartPoint.x, i + b.StartPoint.z] = b.LandPlot[0, i];
                 }
 
-                if (city.GetLocationAt(startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z) != null)
+                if (city.GetLocationAt(b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z) != null)
                 {
-                    b.LandPlot[Block.BLOCK_WIDTH - 1, i] = city.GetLocationAt(startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z);
+                    b.LandPlot[Block.BLOCK_WIDTH - 1, i] = city.GetLocationAt(b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[Block.BLOCK_WIDTH - 1, i] = new Road("");
-                    city.map[startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
+                    city.map[b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
                 }
             }
+            b.setBlockType();
             city.blockMap[b.StartPoint.x / (Block.BLOCK_WIDTH - 1), b.StartPoint.z / (Block.BLOCK_LENGTH - 1)] = b;
             return b;
         }

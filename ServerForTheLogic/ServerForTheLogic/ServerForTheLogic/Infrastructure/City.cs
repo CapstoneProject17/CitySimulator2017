@@ -141,34 +141,11 @@ namespace ServerForTheLogic.Infrastructure
                 }
 
             }
-
-            /*       FOR DEBUGGING
-             * for (int i = 0; i < blockMap.GetLength(0); i++)
-            {
-                for (int j = 0; j < blockMap.GetLength(1); j++)
-                    if (blockMap[i, j] == null)
-                        Console.Write(".");
-                    else
-                        Console.Write("B");
-                Console.WriteLine();
-            }
-
-            Block temp = blockMap[x, z];
-            for (int i = 0; i < temp.Adjacents.Count; i++)
-            {
-                if (temp.Adjacents[i] == null)
-                    Console.WriteLine("empty");
-                else
-                    Console.WriteLine(temp.Adjacents[i]);
-            }*/
-            //Console.WriteLine(blockMap[x, z].Adjacents.Count);
         }
 
         public void expandCity()
         {
             List<Block> occupiedBlocks = new List<Block>();
-            int width = blockMap.GetLength(0);
-            int length = blockMap.GetLength(1);
 
             foreach (Block b in blockMap)
                 if (b.Type != BlockType.Empty)
@@ -190,23 +167,21 @@ namespace ServerForTheLogic.Infrastructure
                 }
 
             }
-            foreach (Block b in empties)
-                Console.WriteLine(b.Type);
-            Console.WriteLine("Empties: " + empties.Count);
+            //foreach (Block b in empties)
+            //    Console.WriteLine(b.ToString());
+            //Console.WriteLine("Empties: " + empties.Count);
             if (empties.Count != 0)
             {
-                //Console.WriteLine("fuck you");
                 Bogus.Randomizer rand = new Bogus.Randomizer();
                 Creator c = new Creator();
 
-                int x = rand.Number(0, empties.Count - 1);
+                int index = rand.Number(0, empties.Count - 1);
 
-                empties[x] = c.addRoadsToEmptyBlock(empties[x].StartPoint, this);
-                setAdjacents(empties[x]);
-                empties[x].setBlockType();
+                empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
+                setAdjacents(empties[index]);
                 c.createBuilding(this,
-                    blockMap[empties[x].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                             empties[x].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                    blockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                             empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
 

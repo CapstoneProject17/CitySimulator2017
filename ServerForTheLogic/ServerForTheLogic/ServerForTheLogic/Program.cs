@@ -47,20 +47,15 @@ namespace ServerForTheLogic
             city = new City();
             creator = new Creator();
             //fill 3 blocks
-            Block b = creator.addRoadsToEmptyBlock(new Point(51, 56), city);
-            Block b1 = creator.addRoadsToEmptyBlock(new Point(54, 56), city);
-            Block b2 = creator.addRoadsToEmptyBlock(new Point(0, 0), city);
-
-            city.blockMap[0, 0].setBlockType();
-            city.blockMap[51 / 3, 56 / 7].setBlockType();
-            city.blockMap[54 / 3, 56 / 7].setBlockType();
+            Block b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 56)), city);
+            Block b1 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 56)), city);
+            Block b2 = creator.addRoadsToEmptyBlock(new Block(new Point(48, 49)), city);
+            
             //stick some buildings in them blocks
             creator.createBuilding(city, b);
             creator.createBuilding(city, b1);
             creator.createBuilding(city, b2);
-            creator.createBuilding(city, b1);
-            creator.createBuilding(city, b);
-
+            
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.blockMap)
             {
@@ -71,8 +66,11 @@ namespace ServerForTheLogic
 
 
             Console.WriteLine("expand");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
+            {
                 city.expandCity();
+                Console.WriteLine(DateTime.Now);
+            }
 
             //Console.WriteLine(b.Adjacents.Count);
             //Console.WriteLine(b1.Adjacents.Count);
@@ -82,9 +80,7 @@ namespace ServerForTheLogic
                     Console.WriteLine("Too many:" + block.ToString());
             //city.printBlockMapTypes();
             printCity();
-            foreach (Block block in city.blockMap[51 / 3, 56 / 7].Adjacents)
-                Console.WriteLine("b adjacents" + block.ToString());
-
+           
             KeepOpen();
         }
         /// <summary>
