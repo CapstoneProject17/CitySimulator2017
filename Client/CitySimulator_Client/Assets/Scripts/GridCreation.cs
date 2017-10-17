@@ -41,7 +41,7 @@ public class GridCreation : MonoBehaviour {
 				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = (Random.Range (0, 4)).ToString();
 				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";
 
-				cellPrefab.tag = (cellPrefab.GetChild (0).GetComponent<TextMesh> ().text).ToString();
+				cellPrefab.tag = "plane";
 
 					
 				//set color index to GridColor to color the grid
