@@ -21,7 +21,6 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public Person createPerson()
         {
-
             var modelFaker = new Faker<Person>("en")
                 .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())
                 .RuleFor(o => o.LName, (f, o) => f.Name.LastName());
@@ -30,48 +29,34 @@ namespace ServerForTheLogic.Utilities
         }
 
         /// <summary>
-        /// Generates an industrial building that has a random company name.
-        /// </summary>
-        /// <param name="city"></param>
-        /// <param name="block"></param>
-        public void createIndustrialBuilding(City city, Block block)
-        {
-            var modelFaker = new Faker<Industrial>("")
-                .RuleFor(o => o.Name, f => f.Company.CompanyName());
-            Industrial industrial = modelFaker.Generate();
-            //bool added = false;
-            List<Point> availablePoints = new List<Point>();
-            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
-            {
-                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
-                {
-                    if (block.LandPlot[i, j] == null)
-                    {
-                        //block.LandPlot[i, j] = industrial;
-                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        //added = true;
-                        availablePoints.Add(new Point(i, j));
-                    }
-                }
-            }
-
-            int rand = new Random().Next(0, availablePoints.Count);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
-            block.LandPlot[x,z] = industrial;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = industrial;
-        }
-
-        /// <summary>
-        /// Generates a commercial building with a random company name
-        /// NOT YET IMPLEMENTED
+        /// Generates a building based on the block's BlockType
         /// </summary>
         /// <returns></returns>
-        public void createCommercialBuilding(City city, Block block)
+        public void createBuilding(City city, Block block)
         {
-            var modelFaker = new Faker<Commercial>()
-                .RuleFor(o => o.Name, f => f.Company.CompanyName());
-            Commercial commercial =  modelFaker.Generate();
+            Building building;
+            if (block.Type == BlockType.Commercial)
+            {
+                var modelFaker = new Faker<Commercial>()
+                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
+                building = modelFaker.Generate();
+            }
+            else if (block.Type == BlockType.Residential)
+            {
+                var modelFaker = new Faker<Residential>();
+                building = modelFaker.Generate();
+
+            }
+            else if (block.Type == BlockType.Industrial)
+            {
+                var modelFaker = new Faker<Industrial>("")
+                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
+                building = modelFaker.Generate();
+            }
+            else
+            {
+                throw new InvalidOperationException("cannot add building to empty block");
+            }
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
@@ -87,102 +72,71 @@ namespace ServerForTheLogic.Utilities
                 }
             }
 
-            int rand = new Random().Next(0, availablePoints.Count);
+            int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
-            block.LandPlot[x, z] = commercial;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = commercial;
+            block.LandPlot[x, z] = building;
+            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
         }
 
         /// <summary>
-        /// Generates a residential building
-        /// NOT YET IMPLEMENTED
-        /// </summary>
-        /// <returns></returns>
-        public void createResidentialBuilding(City city, Block block)
-        {
-            var modelFaker = new Faker<Residential>();
-            Residential residential =  modelFaker.Generate();
-            List<Point> availablePoints = new List<Point>();
-            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
-            {
-                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
-                {
-                    if (block.LandPlot[i, j] == null)
-                    {
-                        //block.LandPlot[i, j] = industrial;
-                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        //added = true;
-                        availablePoints.Add(new Point(i, j));
-                    }
-                }
-            }
-
-            int rand = new Random().Next(0, availablePoints.Count);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
-            block.LandPlot[x, z] = residential;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = residential;
-        }
-
-        /// <summary>
-        /// Generate a new block, and fill the border with road.
+        /// Fill the border of a block with road.
         /// </summary>
         /// <param name="startPoint"></param>
         /// <param name="city"></param>
         /// <returns></returns>
-        public Block createBlock(Point startPoint, City city)
+        public Block addRoadsToEmptyBlock(Block b, City city)
         {
-            Block b = new Block(startPoint);
 
             // Adds roads to the top and bottom borders of the block grid
             for (int i = 0; i < Block.BLOCK_WIDTH; i++)
             {
-                if (city.GetLocationAt(i + startPoint.x, startPoint.z) != null)
+                if (city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z) != null)
                 {
-                    b.LandPlot[i, 0] = city.GetLocationAt(i + startPoint.x, startPoint.z);
+                    b.LandPlot[i, 0] = city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[i, 0] = new Road("");
-                    city.map[i + startPoint.x, startPoint.z] = b.LandPlot[i, 0];
+                    city.map[i + b.StartPoint.x, b.StartPoint.z] = b.LandPlot[i, 0];
                 }
 
-                if (city.GetLocationAt(i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1) != null)
+                if (city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1) != null)
                 {
-                    b.LandPlot[i, Block.BLOCK_LENGTH - 1] = city.GetLocationAt(i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1);
+                    b.LandPlot[i, Block.BLOCK_LENGTH - 1] = city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1);
                 }
                 else
                 {
                     b.LandPlot[i, Block.BLOCK_LENGTH - 1] = new Road("");
-                    city.map[i + startPoint.x, startPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
+                    city.map[i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
                 }
             }
 
             //adds roads to the left and right borders of the block grid
             for (int i = 0; i < Block.BLOCK_LENGTH; i++)
             {
-                if (city.GetLocationAt(startPoint.x, i + startPoint.z) != null)
+                if (city.GetLocationAt(b.StartPoint.x, i + b.StartPoint.z) != null)
                 {
-                    b.LandPlot[0, i] = city.GetLocationAt(startPoint.x, i + startPoint.z);
+                    b.LandPlot[0, i] = city.GetLocationAt(b.StartPoint.x, i + b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[0, i] = new Road("");
-                    city.map[startPoint.x, i + startPoint.z] = b.LandPlot[0, i];
+                    city.map[b.StartPoint.x, i + b.StartPoint.z] = b.LandPlot[0, i];
                 }
 
-                if (city.GetLocationAt(startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z) != null)
+                if (city.GetLocationAt(b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z) != null)
                 {
-                    b.LandPlot[Block.BLOCK_WIDTH - 1, i] = city.GetLocationAt(startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z);
+                    b.LandPlot[Block.BLOCK_WIDTH - 1, i] = city.GetLocationAt(b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z);
                 }
                 else
                 {
                     b.LandPlot[Block.BLOCK_WIDTH - 1, i] = new Road("");
-                    city.map[startPoint.x + Block.BLOCK_WIDTH - 1, i + startPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
+                    city.map[b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
                 }
             }
-
+            b.setBlockType();
+            city.blockMap[b.StartPoint.x / (Block.BLOCK_WIDTH - 1), b.StartPoint.z / (Block.BLOCK_LENGTH - 1)] = b;
             return b;
         }
     }

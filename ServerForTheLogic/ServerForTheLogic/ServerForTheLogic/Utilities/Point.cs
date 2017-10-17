@@ -21,5 +21,10 @@ namespace ServerForTheLogic.Utilities
 
         public int x { get; }
         public int z { get; }
+
+        public override string ToString()
+        {
+            return "X: " + x + " Z: " + z;
+        }
     }
 }
