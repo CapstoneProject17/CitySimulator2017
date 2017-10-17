@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
+using NLog;
 using System.Json;
 
 namespace CitySimNetworkService
 {
     class RequestHandler
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private DatabaseHandler dbHandler;
         private SimulationStateHandler simulationStateHandler;
 
@@ -24,6 +26,7 @@ namespace CitySimNetworkService
                 case "database":
                     return dbHandler.HandleRequest((DatabaseResourceRequest) request);
                 default:
+                    logger.Error("Invalid request made: {0}", _request);
                     //FIXME: This should return a JsonObject that contains request not valid field
                     return new JsonObject();
             }

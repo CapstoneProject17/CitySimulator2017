@@ -4,11 +4,29 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Json;
+using NLog;
 
 namespace CitySimNetworkService
 {
+    /// <summary>
+    /// <Name></Module>
+    /// <Team></Team>
+    /// <Description></Description>
+    /// <BasedOn></BasedOn>
+    /// <Author>
+    /// <By></By>
+    /// <ChangeLog></ChangeLog>
+    /// <Date></Date>
+    /// </Author>
+    /// <Modified>
+    /// <By></By>
+    /// <ChangeLog></ChangeLog>
+    /// <Date></Date>
+    /// </Modified>
+    /// </summary>
     class AsyncServer
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         private RequestHandler requestHandler;
         public ManualResetEvent allDone = new ManualResetEvent(false);
 
@@ -46,7 +64,7 @@ namespace CitySimNetworkService
             }
             catch (Exception e)
             {
-                //FIXME: Log the exceptions 
+                logger.Error(e);
             }
         }
 
@@ -104,7 +122,7 @@ namespace CitySimNetworkService
             }
             catch (Exception e)
             {
-                //TODO: Log all exceptions
+                logger.Error(e);
             }
         }
     }
