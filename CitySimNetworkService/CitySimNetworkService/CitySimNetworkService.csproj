@@ -50,8 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncServer.cs" />
-    <Compile Include="DatabaseHandler.cs" />
-    <Compile Include="RequestHandler.cs" />
+    <Compile Include="Handlers\DatabaseHandler.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Requests\RequestJsonConverter.cs" />
     <Compile Include="Requests\Requests.cs" />
     <Compile Include="NetworkService.cs">
@@ -62,7 +62,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulationStateHandler.cs" />
+    <Compile Include="Handlers\SimulationStateHandler.cs" />
     <Compile Include="SimulationStateQueue.cs" />
     <Compile Include="SocketState.cs" />
   </ItemGroup>
