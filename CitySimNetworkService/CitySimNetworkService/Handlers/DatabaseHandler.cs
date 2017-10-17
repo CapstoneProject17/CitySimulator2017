@@ -11,14 +11,22 @@ namespace CitySimNetworkService
             switch (request.ResourceType)
             {
                 case "building":
-                //Call the function to get building info
+                    Building obj = GetBuildings(request.ResourceID);
+					break;
                 case "person":
-                //call the function to get person info
+                    Citizen obj = GetCitizens(request.ResourceID);
+					break;
+                case "road":
+                    Road obj = GetRoad(request.ResourceID);
+					break;
                 default:
                     return new JsonObject();
             }
 
-            throw new NotImplementedException();
+            jsonObj = JsonConvert.SerializeObject(obj);
+
+			return jsonObj;
+            //throw new NotImplementedException();
         }
     }
 }
