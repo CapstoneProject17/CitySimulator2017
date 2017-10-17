@@ -39,11 +39,7 @@ namespace DataAccessLayer {
             var buildingCol = Database.GetCollection<Buildings>("Buildings");
             buildingCol.InsertOne(building);
         }
-
-        public void InsertRoad(Roads road) {
-            var roadCol = Database.GetCollection<Roads>("Roads");
-            roadCol.InsertOne(road);
-        }
+        
 
         public void InsertSaveState(SaveState save) {
             var saveStateCol = Database.GetCollection<SaveState>("SaveState");
@@ -61,6 +57,23 @@ namespace DataAccessLayer {
             List<Citizens> citizen = BsonSerializer.Deserialize<List<Citizens>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
             return citizen;
         }
+
+        /// <summary>
+        /// If the GetCitizens method works then this one should work. YOLO
+        /// Author: Michael
+        /// Date: 2017-10-16
+        /// </summary>
+        /// <param name="roadId"></param>
+        /// <returns></returns>
+        public List<Buildings> GetBuildings(ObjectId buildId) {
+            var buildCol = Database.GetCollection<BsonDocument>("Buildings");
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", buildId);
+            var document = buildCol.Find(filter).First();
+            List<Buildings> building = BsonSerializer.Deserialize<List<Buildings>>(document.ToJson());
+            return building;
+        }
+
+   
 
         /* ==================== Update Section ==================== */
 

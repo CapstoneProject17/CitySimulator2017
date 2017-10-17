@@ -8,6 +8,6 @@ namespace DataAccessLayer {
         public string BuildingCompany { get; set; }
         public int BuildingLocation { get; set; }
         public int BuildingMoney { get; set; }
-        public int BuildingLevel { get; set; }
+        public int BuildingLevel { get; set; }        
     }
 }
