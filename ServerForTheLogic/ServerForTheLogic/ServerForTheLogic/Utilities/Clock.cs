@@ -125,8 +125,11 @@ namespace ServerForTheLogic.Utilities
         {
             netHours = netMinutes / 60;
             Console.WriteLine("Hours:\t" + netHours);
-            Updater updater = new Updater();
-            updater.sendHourlyUpdate(city.PartialUpdateList[(int)HourComponent]);
+            Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+            updater.sendPartialUpdate(
+                city.PartialUpdateList[(int)HourComponent], //gets all persons that have move
+                Newtonsoft.Json.Formatting.None
+                );
             if (netHours / 24 > netDays)
             {
                 tickDay();

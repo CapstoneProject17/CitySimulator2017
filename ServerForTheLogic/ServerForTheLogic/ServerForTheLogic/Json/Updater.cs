@@ -9,33 +9,30 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Json
 {
-    class Updater
+    /// <summary>
+    /// Updater takes in a generic type of object, and queues it to be
+    /// sent accross the network to clients or database
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    class Updater<T>
     {
-        public void sendHourlyUpdate(Dictionary<Guid, Point> dictionary)
+        /// <summary>
+        /// Send a partial update from the simulator to clients. A partial update
+        /// must consist of data that is not the entire state of the city.
+        /// </summary>
+        /// <param name="sendableData"></param>
+        /// <param name="formatting"></param>
+        public void sendPartialUpdate(T sendableData, Formatting formatting)
         {
             //Queue q = new Queue();
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(dictionary, Formatting.None));
+            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
             //q.enqueue(dataToSend);
         }
 
-        public void sendDailyUpdateo(object[] sendableData)
+        public void sendFullUpdate(T sendableData, Formatting formatting)
         {
             //Queue q = new Queue();
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, Formatting.None));
-            //q.enqueue(dataToSend);
-        }
-
-        public void sendWeeklyUpdate(object[] sendableData)
-        {
-            //Queue q = new Queue();
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, Formatting.None));
-            //q.enqueue(dataToSend);
-        }
-
-        public void sendFullUpdate(object[] sendableData)
-        {
-            //Queue q = new Queue();
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, Formatting.None));
+            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
             //q.enqueue(dataToSend);
         }
     }

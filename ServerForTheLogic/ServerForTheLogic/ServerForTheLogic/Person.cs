@@ -75,7 +75,8 @@ namespace ServerForTheLogic
         /// </summary>
         private int DaysLeft;
 
-        private int StartTime;
+        private int timeToGoToWork;
+        private int timeToGoToHome;
 
         public Person(City c, Building workplace, Building home)
         {
@@ -84,7 +85,8 @@ namespace ServerForTheLogic
             setDeathAge();
             Workplace = workplace;
             Home = home;
-            c.PartialUpdateList[StartTime][id] = new Point(0, 0);
+            c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
+            c.PartialUpdateList[timeToGoToWork][id] = Workplace.Point;
         }
 
 
