@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServerForTheLogic.Infrastructure;
+using ServerForTheLogic.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +17,8 @@ namespace ServerForTheLogic.Utilities
     {
         // Ticks every second to update the current time values.
         private Timer timer;
+        private City city;
 
-        
         private UInt32 netMinutes;
         /// <summary>
         /// The total number of minutes since this Clock started.
@@ -84,8 +86,9 @@ namespace ServerForTheLogic.Utilities
         /// Constructs a Clock object.
         /// <para/> Last edited:  2017-10-02
         /// </summary>
-        public Clock()
+        public Clock(City city)
         {
+            this.city = city;
             timer = new Timer();
 
             timer.Interval = INTERVAL;
@@ -122,7 +125,8 @@ namespace ServerForTheLogic.Utilities
         {
             netHours = netMinutes / 60;
             Console.WriteLine("Hours:\t" + netHours);
-
+            Updater updater = new Updater();
+            updater.sendHourlyUpdate(city.PartialUpdateList[(int)HourComponent]);
             if (netHours / 24 > netDays)
             {
                 tickDay();
@@ -135,8 +139,17 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-10-02
         private void tickDay()
         {
+            foreach (Person p in city.AllPeople)
+            {
+                if (p.Age())
+                {
+                    city.AllPeople.Remove(p);
+                }
+            }
             netDays = netHours / 24;
             Console.WriteLine("Days:\t" + netDays);
+            //Updater updater = new Updater();
+            //updater.SendDailyUpdate(DATA);
         }
     }
 }

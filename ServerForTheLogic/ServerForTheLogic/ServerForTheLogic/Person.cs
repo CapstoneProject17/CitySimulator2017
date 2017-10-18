@@ -9,59 +9,82 @@ using ConsoleDump;
 using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
 using static Bogus.DataSets.Name;
+using Newtonsoft.Json;
 
 namespace ServerForTheLogic
 {
-    public class Person
+    [JsonObject(MemberSerialization.OptIn)]
+    class Person
     {
+
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
 
-
+        [JsonProperty]
         /// <summary>
         /// ID for database
-        /// </summary>        
+        /// </summary>
         private Guid id;
+
+        [JsonProperty]
         /// <summary>
         /// Person's first name
         /// </summary>
         public string FName { get; private set; }
+
+        [JsonProperty]
         /// <summary>
         /// Person's last name
         /// </summary>
         public string LName { get; private set; }
+
+        [JsonProperty]
         /// <summary>
         /// Money earned every 4 weeks of simulation time
         /// </summary>
         public int MonthlyIncome { get; set; }
 
+        [JsonProperty]
         /// <summary>
         /// current amount of money in bank account
         /// </summary>
         private int money;
 
+        [JsonProperty]
         /// <summary>
         /// where this person works 
         /// </summary>
         /// <param name="works"></param>
         /// <returns></returns>
-        private Building workplace;
+        public Building Workplace { get; private set; }
+
+        [JsonProperty]
         /// <summary>
         /// Where this person lives
         /// </summary>
-        private Building home;
+        public Building Home { get; private set; }
+
         /// <summary>
         /// If this person is alive or dead
         /// </summary>
         private bool isDead;
+
+        [JsonProperty]
         /// <summary>
         /// Number of days remaining until person dies
         /// </summary>
         private int DaysLeft;
 
-        public Person()
+        private int StartTime;
+
+        public Person(City c, Building workplace, Building home)
         {
             id = new Guid();
+            isDead = false;
+            setDeathAge();
+            Workplace = workplace;
+            Home = home;
+            c.PartialUpdateList[StartTime][id] = new Point(0, 0);
         }
 
 
@@ -83,7 +106,7 @@ namespace ServerForTheLogic
             double u2 = 1.0 - rand.NextDouble();
             double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
             double randNormal = MEAN_DEATH_AGE + STANDARD_DEVIATION_DEATH * randStdNormal; //random normal(mean,stdDev^2)
-            
+
             //converts years left to days
             DaysLeft = (int)randNormal * 365;
         }
@@ -98,9 +121,15 @@ namespace ServerForTheLogic
                 MonthlyIncome + " Current money: " + money + " Unique ID: " + id;
         }
 
-
+        /// <summary>
+        ///
+        /// </summary>
+        public bool Age()
+        {
+            DaysLeft--;
+            if (DaysLeft == 0)
+                isDead = true;
+            return isDead;
+        }
     }
-
-
-
 }

@@ -76,7 +76,7 @@ namespace ServerForTheLogic.Utilities
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
             block.LandPlot[x, z] = building;
-            city.map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+            city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ServerForTheLogic.Utilities
                 else
                 {
                     b.LandPlot[i, 0] = new Road("");
-                    city.map[i + b.StartPoint.x, b.StartPoint.z] = b.LandPlot[i, 0];
+                    city.Map[i + b.StartPoint.x, b.StartPoint.z] = b.LandPlot[i, 0];
                 }
 
                 if (city.GetLocationAt(i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1) != null)
@@ -108,7 +108,7 @@ namespace ServerForTheLogic.Utilities
                 else
                 {
                     b.LandPlot[i, Block.BLOCK_LENGTH - 1] = new Road("");
-                    city.map[i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
+                    city.Map[i + b.StartPoint.x, b.StartPoint.z + Block.BLOCK_LENGTH - 1] = b.LandPlot[i, Block.BLOCK_LENGTH - 1];
                 }
             }
 
@@ -122,7 +122,7 @@ namespace ServerForTheLogic.Utilities
                 else
                 {
                     b.LandPlot[0, i] = new Road("");
-                    city.map[b.StartPoint.x, i + b.StartPoint.z] = b.LandPlot[0, i];
+                    city.Map[b.StartPoint.x, i + b.StartPoint.z] = b.LandPlot[0, i];
                 }
 
                 if (city.GetLocationAt(b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z) != null)
@@ -132,11 +132,11 @@ namespace ServerForTheLogic.Utilities
                 else
                 {
                     b.LandPlot[Block.BLOCK_WIDTH - 1, i] = new Road("");
-                    city.map[b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
+                    city.Map[b.StartPoint.x + Block.BLOCK_WIDTH - 1, i + b.StartPoint.z] = b.LandPlot[Block.BLOCK_WIDTH - 1, i];
                 }
             }
             b.setBlockType();
-            city.blockMap[b.StartPoint.x / (Block.BLOCK_WIDTH - 1), b.StartPoint.z / (Block.BLOCK_LENGTH - 1)] = b;
+            city.BlockMap[b.StartPoint.x / (Block.BLOCK_WIDTH - 1), b.StartPoint.z / (Block.BLOCK_LENGTH - 1)] = b;
             return b;
         }
     }

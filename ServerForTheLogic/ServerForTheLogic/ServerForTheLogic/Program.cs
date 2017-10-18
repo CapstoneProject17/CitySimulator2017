@@ -8,6 +8,7 @@ using Bogus;
 using ConsoleDump;
 using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
+using Newtonsoft.Json;
 
 namespace ServerForTheLogic
 {
@@ -47,17 +48,17 @@ namespace ServerForTheLogic
             city = new City();
             creator = new Creator();
             //fill 3 blocks
-            Block b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 56)), city);
-            Block b1 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 56)), city);
-            Block b2 = creator.addRoadsToEmptyBlock(new Block(new Point(48, 49)), city);
+            Block b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 84)), city);
+            Block b1 = creator.addRoadsToEmptyBlock(new Block(new Point(0,0)), city);
+            Block b2 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
             
             //stick some buildings in them blocks
             creator.createBuilding(city, b);
             creator.createBuilding(city, b1);
             creator.createBuilding(city, b2);
-            
+
             //sets the adjacent blocks of the specified block
-            foreach (Block block in city.blockMap)
+            foreach (Block block in city.BlockMap)
             {
                 city.setAdjacents(block);
             }
@@ -66,21 +67,23 @@ namespace ServerForTheLogic
 
 
             Console.WriteLine("expand");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 city.expandCity();
-                Console.WriteLine(DateTime.Now);
+                //Console.WriteLine(DateTime.Now);
             }
 
             //Console.WriteLine(b.Adjacents.Count);
             //Console.WriteLine(b1.Adjacents.Count);
             //Console.WriteLine(b2.Adjacents.Count);
-            foreach (Block block in city.blockMap)
+            foreach (Block block in city.BlockMap)
                 if (block.Adjacents.Count > 8)
                     Console.WriteLine("Too many:" + block.ToString());
             //city.printBlockMapTypes();
-            printCity();
-           
+            //printCity();
+            string output = JsonConvert.SerializeObject(city, Formatting.Indented);
+            Console.WriteLine(output.Length);
+
             KeepOpen();
         }
         /// <summary>
@@ -126,9 +129,9 @@ namespace ServerForTheLogic
             {
                 for (int j = 0; j < City.CITY_LENGTH; ++j)
                 {
-                    if (city.map[i, j] != null)
+                    if (city.Map[i, j] != null)
                     {
-                        Console.Write(city.map[i, j].Type);
+                        Console.Write(city.Map[i, j].Type);
                     }
                     else
                     {
