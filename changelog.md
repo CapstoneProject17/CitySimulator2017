@@ -19,10 +19,15 @@ Release Date: 2017-10-15
 ## Updated Components
 
 - Methods
-	Removed methods related to Roads.
-	Date Updated: 2017-10-17
+
+	Removed methods related to Roads.  
+	Date Updated: 2017-10-17  
+	
 - Feilds
+
    Date Updated:  
+   
 - Classes
-	Removed the Roads class.
-	Date Updated: 2017-10-17
+
+	Removed the Roads class.  
+	Date Updated: 2017-10-17  
