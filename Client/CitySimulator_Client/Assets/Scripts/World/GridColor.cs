@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- * GridColor that color sprite renderer to represent zone
- * 
- * Author: 		Dongwon(Shawn) Kim
- * Date(Cr): 	2017-09-18
- * Date(Mo):	2017-09-18 
- * Reference:
- * https://docs.unity3d.com/ScriptReference/Material-color.html
- **/
+/// <summary>
+/// Module: GridColor
+/// Team: Client
+/// Description: Handle the all the data of the city, for now it has been used
+/// Author: 
+///	 Name: Dongwon(Shawn) Kim    Date: 2017-09-18
+/// Modified by:	
+///	 Name: N/A   Change: N/A	Fix bug Date: N/A
+/// Based on:  N/A
+/// https://docs.unity3d.com/ScriptReference/Material-color.html
+/// </summary>
 public class GridColor : MonoBehaviour {
 	
 	//	public Color colorStart = Color.red;

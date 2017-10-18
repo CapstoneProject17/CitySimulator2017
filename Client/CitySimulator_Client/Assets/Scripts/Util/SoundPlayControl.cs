@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
+
 /// <summary>
-/// Sound Play Control.
-/// play different clip depends on the status
-/// Functionality: play sound clip
-/// Author: Shawn Kim
-/// Reference: https://support.unity3d.com/hc/en-us/articles/206116386-How-do-I-play-multiple-Audio-Sources-from-one-GameObject-
+/// Module: Sound Play Control
+/// Team: Client
+/// Description: play different clip depends on the status Functionality: play sound clip
+/// Author: 
+///	 Name: Dongwon(Shawn) Kim    Date: 2017-09-30
+/// Modified by:	
+///	 Name: Dongwon(Shawn) Kim   Change:	Created Date: 2017-09-30
+/// Based on:  https://support.unity3d.com/hc/en-us/articles/206116386-How-do-I-play-multiple-Audio-Sources-from-one-GameObject-
 /// </summary>
 public class SoundPlayControl : MonoBehaviour {
 
