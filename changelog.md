@@ -1,4 +1,5 @@
-#Change Log
+## Change Log
+
 Team Members: Michael, Stephanie, Sean, and Bill
 Team conventions: Allman notation, markdown for changelog  
 Changelog format: [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) 
