@@ -57,6 +57,16 @@ ModelImporter:
     4300014: Residential Buildings 002
     4300016: Residential Buildings 006
     4300018: Residential Buildings 001
+    6400000: Residential Buildings 001
+    6400002: Residential Buildings 002
+    6400004: Residential Buildings 003
+    6400006: Residential Buildings 004
+    6400008: Residential Buildings 005
+    6400010: Residential Buildings 006
+    6400012: Residential Buildings 007
+    6400014: Residential Buildings 008
+    6400016: Residential Buildings 009
+    6400018: Residential Buildings 010
   materials:
     importMaterials: 1
     materialName: 0
@@ -86,7 +96,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1

@@ -369,6 +369,77 @@ ModelImporter:
     4300136: Cubo.001
     4300138: Cubo
     4300140: Cube
+    6400000: Cilindro
+    6400002: Cilindro.001
+    6400004: Cilindro.002
+    6400006: Cilindro.003
+    6400008: Cilindro.004
+    6400010: Cilindro.005
+    6400012: Cilindro.006
+    6400014: Cilindro.007
+    6400016: Cilindro.008
+    6400018: Cilindro.009
+    6400020: Cilindro.010
+    6400022: Cilindro.011
+    6400024: Cilindro.012
+    6400026: Cilindro.013
+    6400028: Cilindro.014
+    6400030: Cilindro.015
+    6400032: Cilindro.016
+    6400034: Cilindro.018
+    6400036: Cilindro.019
+    6400038: Cilindro.020
+    6400040: Cilindro.021
+    6400042: Cilindro.023
+    6400044: Cilindro.024
+    6400046: Cilindro.025
+    6400048: Cilindro.026
+    6400050: Cilindro.027
+    6400052: Cilindro.028
+    6400054: Cilindro.029
+    6400056: Cube
+    6400058: Cube.001
+    6400060: Cube.004
+    6400062: Cube.006
+    6400064: Cubo
+    6400066: Cubo.001
+    6400068: Cubo.002
+    6400070: Cubo.003
+    6400072: Cubo.004
+    6400074: Cubo.005
+    6400076: Cubo.006
+    6400078: Cubo.007
+    6400080: Cubo.008
+    6400082: Cubo.009
+    6400084: Cubo.010
+    6400086: Cubo.011
+    6400088: Cubo.012
+    6400090: Cubo.013
+    6400092: Cubo.014
+    6400094: Cubo.015
+    6400096: Cubo.016
+    6400098: Cubo.017
+    6400100: Cubo.018
+    6400102: Cubo.019
+    6400104: Cubo.020
+    6400106: Cubo.021
+    6400108: Cubo.022
+    6400110: Cubo.023
+    6400112: Cubo.024
+    6400114: Cubo.025
+    6400116: Cubo.026
+    6400118: Cubo.027
+    6400120: Cubo.028
+    6400122: Cubo.029
+    6400124: Cubo.030
+    6400126: Cubo.031
+    6400128: Cubo.032
+    6400130: Cubo.033
+    6400132: Cubo.034
+    6400134: Cubo.035
+    6400136: Cubo.036
+    6400138: Cubo.037
+    6400140: Cubo.038
     10800000: Lamp
     10800002: Lamp.001
   materials:
@@ -400,7 +471,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
