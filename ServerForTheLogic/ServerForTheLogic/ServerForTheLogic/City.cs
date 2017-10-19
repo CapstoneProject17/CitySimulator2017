@@ -44,9 +44,8 @@ namespace ServerForTheLogic
         /// </summary>
         public Dictionary<int, Dictionary<Guid, Point>> PartialUpdateList { get; private set; }
 
-        //MAKE A PAIR CLASS/STRUCT PLS
         /// <summary>
-        /// 
+        /// Dictionary of Locations to send to client when they connect
         /// </summary>
         public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
 
