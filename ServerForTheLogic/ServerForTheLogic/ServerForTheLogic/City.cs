@@ -48,7 +48,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// 
         /// </summary>
-        //public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
+        public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
 
         /// <summary>
         /// Dictionary of all people to send to clients when they connect
