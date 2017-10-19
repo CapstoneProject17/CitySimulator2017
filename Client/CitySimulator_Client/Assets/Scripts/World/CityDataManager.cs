@@ -16,14 +16,14 @@ using UnityEngine;
 public class CityDataManager : MonoBehaviour {
 
 	// population of the city
-	public int population = 1000;
+	public int population;
 	// x number of grids in horizontal
-	public int size_x = 20;
+	public int size_x;
 	// y number of grids in vertical
-	public int size_z = 20;
-	// grid map
+	public int size_z;
+	// grid 2D map: information of grids
 	public int[][] grid;
-	public bool isInitiated;
+
 
 	public void initialGrid(){
 		grid = new int[size_x][];
@@ -33,13 +33,16 @@ public class CityDataManager : MonoBehaviour {
 		}
 
 		for(int x = 0; x < size_x; x++){
-			for (int z = size_z -1; z > 0; z--) {
+			for (int z = size_z -1; z >= 0; z--) {
 				grid [x][z] = Random.Range (0, 4);
 			}
 		}
 	}
 
 	void Awake () {
+		size_x = 45;
+		size_z = 45;
+		population = 1000;
 		initialGrid ();
 	}
 
