@@ -1,4 +1,5 @@
-﻿using ServerForTheLogic.Infrastructure;
+﻿using Newtonsoft.Json;
+using ServerForTheLogic.Infrastructure;
 using ServerForTheLogic.Json;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,18 @@ using System.Timers;
 
 namespace ServerForTheLogic.Utilities
 {
+    [JsonObject(MemberSerialization.OptIn)]
     /// <summary>
     /// Holds the current time.  Intended for use by the City.
     /// <para/> Last edited:  2017-10-02
     /// </summary>
     class Clock
     {
+        [JsonProperty]
         // Ticks every second to update the current time values.
         private Timer timer;
         private City city;
-
+        [JsonProperty]
         private UInt32 netMinutes;
         /// <summary>
         /// The total number of minutes since this Clock started.
@@ -41,7 +44,7 @@ namespace ServerForTheLogic.Utilities
                 return netMinutes % 60;
             }
         }
-
+        [JsonProperty]
         private UInt32 netHours;
         /// <summary>
         /// The total number of hours since this Clock started.
@@ -64,7 +67,7 @@ namespace ServerForTheLogic.Utilities
                 return netHours % 24;
             }
         }
-
+        [JsonProperty]
         private UInt32 netDays;
         /// <summary>
         /// The total number of days since this Clock started.
@@ -76,7 +79,7 @@ namespace ServerForTheLogic.Utilities
                 return netDays;
             }
         }
-
+        [JsonProperty]
         /// <summary>
         /// The number of milliseconds between Clock "ticks."  In this case, 1 second.
         /// </summary>
@@ -149,7 +152,7 @@ namespace ServerForTheLogic.Utilities
                     city.AllPeople.Remove(p);
                 }
             }
-            netDays = netHours / 24;
+            netDays = netHours / 24;//send nudes
             Console.WriteLine("Days:\t" + netDays);
             //Updater updater = new Updater();
             //updater.SendDailyUpdate(DATA);

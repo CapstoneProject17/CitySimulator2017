@@ -1,4 +1,5 @@
-﻿using ServerForTheLogic.Infrastructure;
+﻿using Newtonsoft.Json;
+using ServerForTheLogic.Infrastructure;
 using ServerForTheLogic.Json;
 using ServerForTheLogic.Utilities;
 using System;
@@ -9,37 +10,55 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic
 {
+    [JsonObject(MemberSerialization.OptIn)]
     class City
     {
+        [JsonProperty]
         /// <summary>
         /// Max width of the city grid
         /// </summary>
         public const int CITY_WIDTH = 100;
+        [JsonProperty]
         /// <summary>
         /// Max length of the city grid
         /// </summary>
         public const int CITY_LENGTH = 204;
 
+        [JsonProperty]
         /// <summary>
         /// List of all homes in the city
         /// </summary>
         public List<Residential> Homes { get; set; }
+        [JsonProperty]
         /// <summary>
         /// List of all places of work in the city
         /// </summary>
         public List<Building> Workplaces { get; set; }
+        [JsonProperty]
         /// <summary>
         /// List of all inhabitants of the city
         /// </summary>
         public List<Person> AllPeople { get; set; }
         /// <summary>
-        /// Every hour, one of the 
+        /// Every hour, send the nested dictionary to the network queue
         /// </summary>
         public Dictionary<int, Dictionary<Guid, Point>> PartialUpdateList { get; private set; }
+
+        //MAKE A PAIR CLASS/STRUCT PLS
+        /// <summary>
+        /// 
+        /// </summary>
+        //public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
+
+        /// <summary>
+        /// Dictionary of all people to send to clients when they connect
+        /// </summary>
+        public Dictionary<Guid, Point> OnLoadPeople { get; set; }
         /// <summary>
         /// The grid that all buildings/roads/people exist in
         /// </summary>
         public Location[,] Map { get; set; }
+        [JsonProperty]
         /// <summary>
         /// 2D array of city blocks, this is for easier city expansion
         /// NOTE: not currently implemented
@@ -47,6 +66,7 @@ namespace ServerForTheLogic
         /// </summary>
         public Block[,] BlockMap { get; set; }
 
+        [JsonProperty]
         /// <summary>
         /// Clock to keep track of the time that 
         /// has passed since city creation.
@@ -190,9 +210,10 @@ namespace ServerForTheLogic
 
                 empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
                 setAdjacents(empties[index]);
-                c.createBuilding(this,
-                    BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                             empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                for (int i = 0; i < 12; i++)
+                    c.createBuilding(this,
+                        BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                                 empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
 

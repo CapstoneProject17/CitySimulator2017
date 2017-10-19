@@ -17,11 +17,9 @@ namespace ServerForTheLogic.Infrastructure
         private static int IndCount;
 
         //width of the landplot array in terms of grid cells
-        [JsonProperty]
         public const int BLOCK_WIDTH = 4;
 
         //height of the landplot array in terms of grid cells
-        [JsonProperty]
         public const int BLOCK_LENGTH = 8;
 
         //starting point of the landplot in terms of world grid

@@ -13,7 +13,6 @@ namespace ServerForTheLogic.Utilities
     /// Creator holds all of the methods to instantiate other objects
     /// </summary>
     class Creator
-
     {
         /// <summary>
         /// Generates a person with an english first and last name.
@@ -40,11 +39,13 @@ namespace ServerForTheLogic.Utilities
                 var modelFaker = new Faker<Commercial>()
                     .RuleFor(o => o.Name, f => f.Company.CompanyName());
                 building = modelFaker.Generate();
+                city.Workplaces.Add(building);
             }
             else if (block.Type == BlockType.Residential)
             {
                 var modelFaker = new Faker<Residential>();
                 building = modelFaker.Generate();
+                city.Homes.Add((Residential)building);
 
             }
             else if (block.Type == BlockType.Industrial)
@@ -52,6 +53,7 @@ namespace ServerForTheLogic.Utilities
                 var modelFaker = new Faker<Industrial>("")
                     .RuleFor(o => o.Name, f => f.Company.CompanyName());
                 building = modelFaker.Generate();
+                city.Workplaces.Add(building);
             }
             else
             {

@@ -75,16 +75,24 @@ namespace ServerForTheLogic
         /// </summary>
         private int DaysLeft;
 
+        /// <summary>
+        /// 0-23
+        /// </summary>
         private int timeToGoToWork;
+        /// <summary>
+        /// 0-23
+        /// </summary>
         private int timeToGoToHome;
 
         public Person(City c, Building workplace, Building home)
         {
-            id = new Guid();
+            id = Guid.NewGuid();
             isDead = false;
             setDeathAge();
             Workplace = workplace;
             Home = home;
+            timeToGoToWork = new Random().Next(0, 24);
+            timeToGoToHome = (timeToGoToWork + 8) % 24;
             c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
             c.PartialUpdateList[timeToGoToWork][id] = Workplace.Point;
         }

@@ -60,6 +60,7 @@
     <Compile Include="Infrastructure\Location.cs" />
     <Compile Include="Infrastructure\Residential.cs" />
     <Compile Include="Infrastructure\Road.cs" />
+    <Compile Include="Json\DatabaseLoader.cs" />
     <Compile Include="Json\Updater.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
