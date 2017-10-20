@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 4974876575087240, guid: 580d5a3ccdeef44a6812ddf7c07dd01f, type: 2}
-  size: {x: 20, y: 0, z: 20}
+  size: {x: 0, y: 0, z: 0}
   cityDataManager: {fileID: 0}
   parentGrid: {fileID: 0}
 --- !u!4 &561852877
@@ -945,7 +945,6 @@ MonoBehaviour:
   population: 1000
   size_x: 40
   size_z: 40
-  forPathFind: 0
 --- !u!1 &599436262
 GameObject:
   m_ObjectHideFlags: 0
