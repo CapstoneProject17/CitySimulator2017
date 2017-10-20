@@ -23,27 +23,20 @@ public class CityDataManager : MonoBehaviour {
 	public int size_z;
 	// grid 2D map: information of grids
 	public int[][] grid;
-
-
-	public void initialGrid(){
-		grid = new int[size_x][];
-
-		for (int x = 0; x < grid.Length; x++) {
-			grid [x] = new int[size_z]; 
-		}
-
-		for(int x = 0; x < size_x; x++){
-			for (int z = size_z -1; z >= 0; z--) {
-				grid [x][z] = Random.Range (0, 4);
-			}
-		}
-	}
+	public bool forPathFind;
 
 	void Awake () {
-		size_x = 45;
-		size_z = 45;
+		size_x = 49;
+		size_z = 36;
 		population = 1000;
+
+		forPathFind = true;
+
 		initialGrid ();
+
+		if (forPathFind) {
+			assignAllZoneToGrid ();
+		} 
 	}
 
 	// Use this for initialization
@@ -77,12 +70,25 @@ public class CityDataManager : MonoBehaviour {
 	}
 
 	public int getIndexOfXZ(int x, int z){
-		
 		if (x > size_x && z > size_z) {
 			return -1;
 		}
-		
 		return grid[x][z];
+	}
+	public void initialGrid(){
+		grid = new int[size_x][];
+
+		for (int x = 0; x < grid.Length; x++) {
+			grid [x] = new int[size_z]; 
+		}
+	}
+
+	public void assignAllZoneToGrid(){
+		for(int x = 0; x < size_x; x++){
+			for (int z = size_z -1; z >= 0; z--) {
+				grid [x][z] = Random.Range(0,4);
+			}
+		}
 	}
 
 }
