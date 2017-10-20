@@ -13,24 +13,34 @@ using UnityEngine;
 ///	 Name: N/A   Change: N/A	Date: N/A
 /// Based on:  BuildingCreation.cs
 public class CharacterCreation : MonoBehaviour {
-
+	// population of the city
 	int population;
+
+	// character object
 	public Transform character;
+
+	// list of the planes
 	private GameObject[] planes;
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () {
 		population = 10;
 		
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	void Update () {
 		
 		CreateCharacter();
 
 	}
-
+	/// <summary>
+	/// Creates the character.
+	/// </summary>
 	void CreateCharacter(){
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
