@@ -12,6 +12,7 @@ using UnityEngine;
 ///	 Name: Dongwon(Shawn) Kim   Change:	Fix bug 						Date: 2017-09-19
 ///  Name: Dongwon(Shawn) Kim   Change:	adding data by CityDataManager  Date: 2017-10-18
 /// Based on:  
+/// 	https://docs.unity3d.com/ScriptReference/Object.Instantiate.html
 /// 	http://answers.unity3d.com/questions/718778/trying-to-create-a-grid.html
 /// 	https://docs.unity3d.com/Manual/InstantiatingPrefabs.html
 /// 	http://answers.unity3d.com/questions/25352/add-texture-to-gameobject-through-code.html
@@ -21,16 +22,17 @@ public class GridCreation : MonoBehaviour {
 
 	public Transform cellPrefab;
 	public Vector3 size;
-	public Random randZone;
 //	public int gridWidth;
 //	public int gridHeight;
 	public CityDataManager cityDataManager;
+	public GameObject parentGrid;
 
 	// Use this for initialization
 	void Start () {
+		parentGrid = GameObject.Find ("Grid");
 		cityDataManager = this.GetComponent<CityDataManager> ();
-		cityDataManager.initialGrid ();
 		CreateGrid ();
+		//ShowGrid (false);
 	}
 
 	void Update(){
@@ -48,33 +50,34 @@ public class GridCreation : MonoBehaviour {
 		for(int x = 0; x < size.x; x++){
 			for(int z = 0; z < size.z; z++){
 
-				//getting random number for zone( its temporally used for prototype)
+				// getting random number for zone( its temporally used for prototype)
 //				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = (Random.Range (0, 4)).ToString();
 				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";
 				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = cityDataManager.getIndexOfXZ(x, z).ToString();
 
+				// put the tag plane on the object
 				cellPrefab.tag = "plane";
-
 					
-				//set color index to GridColor to color the grid
+				// set color index to GridColor to color the grid
 				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
 
-				//Creating each cell of grid
+				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
-							new Vector3(x + (cellPrefab.localScale.x * x)*10,
-											0,
-											z + (cellPrefab.localScale.z * z)*10),
-							Quaternion.identity);
+							new Vector3(x + (cellPrefab.localScale.x * x)*10, 0, z + (cellPrefab.localScale.z * z)*10),
+							Quaternion.identity,
+							parentGrid.transform);
 				
 			}
 		}
 	}
 
-	void SetCoordinate(){
-	}
-
-	void SetZone() {
-		
+	/// <summary>
+	/// Shows the grid.
+	/// </summary>
+	/// <param name="onOff">If set to <c>true</c> on.</param>
+	void ShowGrid(bool onOff){
+		// important this will inactivate all grid objects, so the building and other objects will not be rendered.
+		parentGrid.SetActive(onOff);
 	}
 
 }
