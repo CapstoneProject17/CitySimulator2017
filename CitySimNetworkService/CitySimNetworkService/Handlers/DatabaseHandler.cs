@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Json;
 
 namespace CitySimNetworkService
@@ -8,17 +9,23 @@ namespace CitySimNetworkService
 
         internal JsonObject HandleRequest(DatabaseResourceRequest request)
         {
+            
             switch (request.ResourceType)
             {
                 case "building":
-                //Call the function to get building info
+                    List<Building> obj = GetBuildings(request.ResourceID);
+					break;
                 case "person":
-                //call the function to get person info
+                    List<Citizen> obj = GetCitizens(request.ResourceID);
+					break;
                 default:
+                    //FIX ME: JSON representation of invalid request
                     return new JsonObject();
             }
 
-            throw new NotImplementedException();
+            jsonObj = JsonConvert.SerializeObject(obj);
+
+			return jsonObj;
         }
     }
 }
