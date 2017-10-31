@@ -11,7 +11,7 @@ using System.Collections;
 /// Based on:  N/A
 /// </summary>
 
-public class ShowUnitInfo : Interaction
+public class GUIObjectShowUnitInfo : Interaction
 {
 
     public string Name;  // the name of units
@@ -24,8 +24,8 @@ public class ShowUnitInfo : Interaction
     /// </summary>
     public override void Select()
     {
-        InfoManager.Current.SetPic(ProfilePic);
-        InfoManager.Current.SetLines(
+        GUIObjectInfoManager.Current.SetPic(ProfilePic);
+        GUIObjectInfoManager.Current.SetLines(
             Name,
             info,
             info2);
@@ -36,7 +36,7 @@ public class ShowUnitInfo : Interaction
     /// </summary>
     public override void Deselect()
     {
-        InfoManager.Current.ClearPic();
-        InfoManager.Current.ClearLines();
+        GUIObjectInfoManager.Current.ClearPic();
+        GUIObjectInfoManager.Current.ClearLines();
     }
 }

@@ -12,15 +12,15 @@ using System.Collections;
 /// Based on:  N/A
 /// </summary>
 
-public class InfoManager : MonoBehaviour
+public class GUIObjectInfoManager : MonoBehaviour
 {
 
-	public static InfoManager Current;
+    public static GUIObjectInfoManager Current;
 
 	public Image ProfilePic;  // Thumbnails of selected unit
 	public Text Line1, Line2, Line3;  // the information for selected unit
 
-	public InfoManager()
+    public GUIObjectInfoManager()
 	{
 		Current = this;
 	}

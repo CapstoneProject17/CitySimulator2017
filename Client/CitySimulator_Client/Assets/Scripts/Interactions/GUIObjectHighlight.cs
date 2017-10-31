@@ -10,7 +10,7 @@ using System.Collections;
 /// Based on:  N/A
 /// </summary>
 
-public class Highlight : Interaction
+public class GUIObjectHighlight : Interaction
 {
 
     public GameObject DisplayItem; // Display unit when it is selected

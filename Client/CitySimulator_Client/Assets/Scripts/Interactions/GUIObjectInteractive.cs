@@ -12,7 +12,7 @@ using System.Collections;
 /// Based on:  https://www.youtube.com/watch?v=1GJWas9IyYc
 /// </summary>
 
-public class Interactive : MonoBehaviour
+public class GUIObjectInteractive : MonoBehaviour
 {
 
     private bool _Selected = false;   // check if the unit gets selected

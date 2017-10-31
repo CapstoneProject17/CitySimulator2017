@@ -1072,9 +1072,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4050513972299326}
-  - component: {fileID: 114115232548152700}
-  - component: {fileID: 114697736133871348}
   - component: {fileID: 65187543395624318}
+  - component: {fileID: 114697736133871348}
+  - component: {fileID: 114115232548152700}
   - component: {fileID: 114072337339218106}
   m_Layer: 0
   m_Name: YellowHouse
@@ -6301,7 +6301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85015855b8406431e9e4cf3deb7307c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rotation: {x: 0, y: 0, z: 30}
+  Type: 1
+  Action: {x: 0, y: 0, z: 30}
 --- !u!114 &114697736133871348
 MonoBehaviour:
   m_ObjectHideFlags: 1

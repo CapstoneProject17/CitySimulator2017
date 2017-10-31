@@ -15,7 +15,7 @@ using System.Collections.Generic;
 public class MouseManager : MonoBehaviour
 {
 
-    private List<Interactive> Selections = new List<Interactive>();  // the list of selected objects
+    private List<GUIObjectInteractive> Selections = new List<GUIObjectInteractive>();  // the list of selected objects
 
     // Update is called once per frame
     void Update()
@@ -45,7 +45,7 @@ public class MouseManager : MonoBehaviour
         if (!Physics.Raycast(ray, out hit))  // If nothing is clicked, return
             return;
 
-        var interact = hit.transform.GetComponent<Interactive>(); // Check "Interactive" module, if Null, then return
+        var interact = hit.transform.GetComponent<GUIObjectInteractive>(); // Check "Interactive" module, if Null, then return
         if (interact == null)
             return;
 

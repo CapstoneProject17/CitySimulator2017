@@ -111,11 +111,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4355730246981008}
   - component: {fileID: 65548373800031620}
-  - component: {fileID: 114183116240303324}
   - component: {fileID: 114581623692764030}
+  - component: {fileID: 114183116240303324}
   - component: {fileID: 114083244198990306}
   m_Layer: 0
-  m_Name: IndustrialBuilding 1
+  m_Name: IndustrialBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,4 +1051,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85015855b8406431e9e4cf3deb7307c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rotation: {x: 0, y: 0, z: 30}
+  Type: 1
+  Action: {x: 0, y: 0, z: 30}
