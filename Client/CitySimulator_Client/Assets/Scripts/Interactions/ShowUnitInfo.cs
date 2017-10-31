@@ -1,0 +1,42 @@
+﻿using UnityEngine;
+using System.Collections;
+
+/// <summary>
+/// Module: ShowUnitInfo
+/// Team: Client
+/// Description: Show information of units
+/// Author: Benjamin Hao Date: Oct. 28th, 2017
+/// Modified by:
+///     Name: Benjamin Hao   Change: modified Select() method  Date: Oct.29th, 2017
+/// Based on:  N/A
+/// </summary>
+
+public class ShowUnitInfo : Interaction
+{
+
+    public string Name;  // the name of units
+    public string info;   // the information of units
+    public string info2; // TODO: something needs to be added
+    public Sprite ProfilePic;    // the profile picture of units
+
+    /// <summary>
+    /// override Select() method
+    /// </summary>
+    public override void Select()
+    {
+        InfoManager.Current.SetPic(ProfilePic);
+        InfoManager.Current.SetLines(
+            Name,
+            info,
+            info2);
+    }
+
+    /// <summary>
+    /// override Deselect() method.
+    /// </summary>
+    public override void Deselect()
+    {
+        InfoManager.Current.ClearPic();
+        InfoManager.Current.ClearLines();
+    }
+}
