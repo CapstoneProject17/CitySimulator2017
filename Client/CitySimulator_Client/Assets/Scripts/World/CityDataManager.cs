@@ -17,48 +17,80 @@ using UnityEngine;
 public class CityDataManager : MonoBehaviour {
 
 	// population of the city
-	public int population = 1000;
+	private int population = 1000;
+
+	/// <summary>
+	/// Gets the population.
+	/// </summary>
+	/// <returns>The population.</returns>
+	public int Population{
+		get {
+			return  population;
+		}
+		set {
+			population = value;
+		}
+	}
 
 	// x number of grids in horizontal
-	public int size_x = 50;
-	// y number of grids in vertical
-	public int size_z = 50;
-	// grid map
-	public int[][] grid;
+	private int size_x = 50;
 
+	/// <summary>
+	/// Gets the size x.
+	/// </summary>
+	/// <returns>The size x.</returns>
+	public int Size_x{
+		get{
+			return size_x;
+		}
+		set{
+			size_x = value;
+		}
+	}
+
+	// z number of grids in vertical
+	private int size_z = 50;
+
+	/// <summary>
+	/// Gets the size z.
+	/// </summary>
+	/// <returns>The size z.</returns>
+	public int Size_z{
+		get{
+			return size_z;
+		}
+		set{
+			size_z = value;
+		}
+	}
+
+
+	// grid map contains the index of the zone
+	private int[][] grid;
+
+	/// <summary>
+	/// Gets or sets the grid.
+	/// </summary>
+	/// <value>The grid.</value>
+	public int[][] Grid{
+		get{
+			return grid;
+		}
+		set{
+			grid = value;
+		}
+	}
 
 	// Awake this instance.
 	void Awake () {
 		initiateGrid ();
 	}
 
-	// Use this for initialization
-	void Start () {
-
-	}
-
 	/// <summary>
-	/// Gets the size x.
+	/// Update this instance.
 	/// </summary>
-	/// <returns>The size x.</returns>
-	public int getSizeX (){
-		return size_x;
-	}
-
-	/// <summary>
-	/// Gets the size y.
-	/// </summary>
-	/// <returns>The size y.</returns>
-	public int getSizeZ (){
-		return size_z;
-	}
-
-	/// <summary>
-	/// Gets the population.
-	/// </summary>
-	/// <returns>The population.</returns>
-	public int getPopulation (){
-		return population;
+	void Update(){
+		/// Will be used in the future
 	}
 
 	/// <summary>

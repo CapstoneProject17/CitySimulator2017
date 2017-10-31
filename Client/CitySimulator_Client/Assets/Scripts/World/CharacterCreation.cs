@@ -10,7 +10,7 @@ using UnityEngine;
 /// Author: 
 ///	 Name: Dongwon(Shawn) Kim   Date: 2017-10-02
 /// Modified by:	
-///	 Name: N/A   Change: N/A	Date: N/A
+///	 Name: Dongwon(Shawn) Kim   Change: initiate belongs to CharacterManager Date: 2017-10-31
 /// Based on:  BuildingCreation.cs
 public class CharacterCreation : MonoBehaviour {
 	// population of the city
@@ -22,11 +22,16 @@ public class CharacterCreation : MonoBehaviour {
 	// list of the planes
 	private GameObject[] planes;
 
+	// The character manager.
+	private GameObject characterManager;
+
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	void Start () {
 		population = 10;
+		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
 	
@@ -55,7 +60,8 @@ public class CharacterCreation : MonoBehaviour {
 					new Vector3(road.transform.position.x,
 						0,
 						road.transform.position.z),
-					Quaternion.identity);
+					Quaternion.identity,
+					characterManager.transform);
 				population--;
 			}
 

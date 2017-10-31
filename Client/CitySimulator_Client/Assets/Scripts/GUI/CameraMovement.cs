@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Camera movement.
-/// Purpose: Controls movement of the camera using keys.
-/// Author: Lancelei Herradura
-/// Date: 09.26.17.
-/// </summary>
-
-/// <summary>
 /// Module: CameraMovement
 /// Team: Client
 /// Description: Controls movement of the camera using keys.
