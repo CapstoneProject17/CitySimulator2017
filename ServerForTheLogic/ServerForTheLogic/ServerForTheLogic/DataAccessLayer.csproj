@@ -64,7 +64,6 @@
     <Compile Include="MongoDAL.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Roads.cs" />
     <Compile Include="SaveState.cs" />
   </ItemGroup>
   <ItemGroup>

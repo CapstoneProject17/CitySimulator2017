@@ -20,7 +20,7 @@ namespace DataAccessLayer {
     ///           https://docs.mongodb.com/getting-started/csharp/
     ///           http://mongodb.github.io/mongo-csharp-driver/2.2/getting_started/quick_tour/
     /// </summary>
-    class MongoDAL {
+    partial class MongoDAL {
         private IMongoDatabase Database {
             get {
                 MongoClient client = new MongoClient();
@@ -51,6 +51,18 @@ namespace DataAccessLayer {
         public void InsertBuilding(Buildings building) {
             var buildingCol = Database.GetCollection<Buildings>("Buildings");
             buildingCol.InsertOne(building);
+        }
+
+        /// <summary>
+        /// purpose: insert multiple buildings
+        /// Author: Bill
+        /// Date:2017-10-31
+        /// </summary>
+        /// <param name="buildings"></param>
+        public void InsertBuildings(IEnumerable<Buildings> buildings)
+        {
+            var buildingCol = Database.GetCollection<Buildings>("Buildings");
+            buildingCol.InsertMany(buildings);
         }
         
 
@@ -86,9 +98,127 @@ namespace DataAccessLayer {
             return building;
         }
 
-   
+
 
         /* ==================== Update Section ==================== */
+        // reference: 
+        // how to use update: https://docs.mongodb.com/getting-started/csharp/update/
+        // Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
+
+        /// <summary>
+        ///  update one citizen by its Id. 
+        ///  if string field is empty string then there will be no change in the original string,
+        ///  if int field == -1 then there will be no change in the original int value.
+        ///  updated value also have to meet validation rules, otherwise there's no change to the old value.
+        ///  
+        ///  Author: Bill
+        ///  Date: 2017-10-31
+        ///  
+        /// TO-DO: add validation methods
+        /// </summary>
+        /// <param name="_id"></param>
+        /// <param name="newName"></param>
+        /// <param name="newSalary"></param>
+        /// <param name="newHomeAddress"></param>
+        /// <param name="newWorkAddress"></param>
+        /// <param name="newAge"></param>
+        /// <param name="newDaysLeftToLive"></param>
+        public async void UpdateCitizenByID(ObjectId _id, string newName, int newSalary, int newHomeAddress, int newWorkAddress, int newAge, int newDaysLeftToLive)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
+            var citizenListData = await collection.Find(filter).ToListAsync();
+            if (citizenListData == null || citizenListData.length == 0)
+            {
+                throw new System.Exception("Can not update citizen, _id is invalid.");
+            }
+            
+            var citizenBSON = citizenListData[0];
+
+            //get the current fields on the citizen
+            string oldName = citizenBSON[1].toString();
+            int oldSalary = System.Convert.ToInt32(citizenBSON[2].toString());
+            int oldHomeAddress = System.Convert.ToInt32(citizenBSON[3].toString());
+            int oldWorkAddress = System.Convert.ToInt32(citizenBSON[4].toString());
+            int oldAge = System.Convert.ToInt32(citizenBSON[5].toString());
+            int oldDaysLeftToLive = System.Convert.ToInt32(citizenBSON[6].toString());
+
+            //validate changes for the fields to update
+            string name = (newName.CompareTo(string.Empty) != 0 && Validator.isValidCitizenName(newName)) ? newName : oldName;
+            int salary = (newSalary != -1 && Validator.isValidCitizenSalary(newSalary)) ? newSalary : oldSalary;
+            int homeAddress = (newHomeAddress != -1 && Validator.isValidCitizenHomeAddress(newHomeAddress)) ? newHomeAddress : oldHomeAddress;
+            int workAddress = (newWorkAddress != -1 && Validator.isValidCitizenWorkAddress(newWorkAddress)) ? newWorkAddress : oldWorkAddress;
+            int age = (newAge != -1 && Validator.isValidCitizenAge(newAge)) ? newAge : oldAge;
+            int daysLeftToLive = (newDaysLeftToLive != -1 && Validator.isValidCitizenDaysLeftToLive(newDaysLeftToLive)) ? newDaysLeftToLive : oldDaysLeftToLive;
+
+            //update changes
+            var update = Builders<BsonDocument>.Update
+                .Set("Name", name)
+                .Set("Salary", salary)
+                .Set("HomeAddress", homeAddress)
+                .Set("WorkAddress", workAddress)
+                .Set("Age", age)
+                .Set("DaysLeftToLive", daysLeftToLive);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
+        /// <summary>
+        ///  update one building by its Id. 
+        ///  if string field is empty string then there will be no change in the original string,
+        ///  if int field == -1 then there will be no change in the original int value.
+        ///  updated value also have to meet validation rules, otherwise there's no change to the old value.
+        ///  
+        ///  Author: Bill
+        ///  Date: 2017-10-31
+        ///  
+        /// TO-DO: add validation methods
+        /// </summary>
+        /// <param name="_id"></param>
+        /// <param name="newBuildingName"></param>
+        /// <param name="newBuildingType"></param>
+        /// <param name="newBuildingCompany"></param>
+        /// <param name="newBuildingLocation"></param>
+        /// <param name="newBuildingMoney"></param>
+        /// <param name="newBuildingLevel"></param>
+        public async void UpdateBuildingById(ObjectId _id, string newBuildingName, string newBuildingType, string newBuildingCompany, int newBuildingLocation, int newBuildingMoney, int newBuildingLevel)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Buildings"); // Should it be a BSON document or a collection of Citizens?
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
+            var buildingListData = await collection.Find(filter).ToListAsync();
+            if (buildingListData == null || buildingListData.length == 0)
+            {
+                throw new System.Exception("Can not update building, _id is invalid.");
+            }
+
+            var citizenBSON = buildingListData[0];
+
+            //get the current fields on the citizen
+            string oldBuildingName = citizenBSON[1].toString();
+            string oldBuildingType = System.Convert.ToInt32(citizenBSON[2].toString());
+            string oldBuildingCompany = System.Convert.ToInt32(citizenBSON[3].toString());
+            int oldBuildingLocation = System.Convert.ToInt32(citizenBSON[4].toString());
+            int oldBuildingMoney = System.Convert.ToInt32(citizenBSON[5].toString());
+            int oldBuildingLevel = System.Convert.ToInt32(citizenBSON[6].toString());
+
+            //validate changes for the fields to update
+            string buildingName = (newBuildingName.CompareTo(string.Empty) != 0 && Validator.isValidBuildingName(newBuildingName)) ? newBuildingName : oldBuildingName;
+            string buildingType = (newBuildingType.CompareTo(string.Empty) != 0 && Validator.isValidBuildingType(newBuildingType)) ? newBuildingType : oldBuildingType;
+            string buildingCompany = (newBuildingCompany.CompareTo(string.Empty) != 0 && Validator.isValidBuildingCompany(newBuildingCompany)) ? newBuildingCompany : oldBuildingCompany;
+            int buildingLocation = (newBuildingLocation != -1 && Validator.isValidBuildingLocation(newBuildingLocation)) ? newBuildingLocation : oldBuildingLocation;
+            int buildingMoney = (newBuildingMoney != -1 && Validator.isValidBuildingMoney(newBuildingMoney)) ? newBuildingMoney : oldBuildingMoney;
+            int buildingLevel = (newBuildingLevel != -1 && Validator.isValidBuildingLevel(newBuildingLevel)) ? newBuildingLevel : oldBuildingLevel;
+
+            //update changes
+            var update = Builders<BsonDocument>.Update
+                .Set("BuildingName", buildingName)
+                .Set("BuildingType", buildingType)
+                .Set("BuildingCompany", buildingCompany)
+                .Set("BuildingLocation", buildingLocation)
+                .Set("buildingMoney", buildingMoney)
+                .Set("BuildingLevel", buildingLevel);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
 
         /// <summary>
         /// Updates the citizens age.
@@ -102,6 +232,7 @@ namespace DataAccessLayer {
             var result = await collection.UpdateOneAsync(filter, update);
         }
 
+
         /* ==================== Delete Section ==================== */
 
         /// <summary>
@@ -114,6 +245,43 @@ namespace DataAccessLayer {
             var collection = Database.GetCollection<Citizens>("Citizens");
             var filter = Builders<Citizens>.Filter.Eq("_id", _id);
             await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete one building from the collection by its id
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// </summary>
+        /// <param name="_id">building id</param>
+        public async void DeleteOneBuilding(ObjectId _id)
+        {
+            var collection = Database.GetCollection<Citizens>("Buildings");
+            var filter = Builders<Buildings>.Filter.Eq("_id", _id);
+            await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete all citizens (drop then recreate table)
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// </summary>
+        public async void DeleteAllCitizens()
+        {
+            var collection = Database.GetCollection<Citizens>("Citizens");
+            await collection.drop();
+            await collection.createCollection("Citizens");
+        }
+
+        /// <summary>
+        /// Delete all buildings (drop then recreate table)
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// </summary>
+        public async void DeleteAllBuildings()
+        {
+            var collection = Database.GetCollection<Buildings>("Buildings");
+            await collection.drop();
+            await collection.createCollection("Buildings");
         }
     }
 }
