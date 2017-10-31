@@ -1,4 +1,5 @@
-﻿using ServerForTheLogic.Utilities;
+﻿using Newtonsoft.Json;
+using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,30 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Infrastructure
 {
+    [JsonObject(MemberSerialization.OptIn)]
     class Block
     {
+
         private static int ResCount;
         private static int ComCount;
         private static int IndCount;
+
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;
+
         //height of the landplot array in terms of grid cells
         public const int BLOCK_LENGTH = 8;
+
         //starting point of the landplot in terms of world grid
+        [JsonProperty]
         public Point StartPoint { get; }
         public List<Block> Adjacents { get; }
+
         //2d array of cells that contain locations
+        [JsonProperty]
         public Location[,] LandPlot;
         //type of buildings a block will hold
+        [JsonProperty]
         public BlockType Type { get; private set; }
         /// <summary>
         /// Constructs a new Block object using from the passed start point
