@@ -1,46 +1,71 @@
-﻿using ServerForTheLogic.Utilities;
+﻿using Newtonsoft.Json;
+using ServerForTheLogic.Infrastructure;
+using ServerForTheLogic.Json;
+using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace ServerForTheLogic
 {
+    [JsonObject(MemberSerialization.OptIn)]
     class City
     {
+        [JsonProperty]
         /// <summary>
         /// Max width of the city grid
         /// </summary>
         public const int CITY_WIDTH = 100;
+        [JsonProperty]
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 200;
+        public const int CITY_LENGTH = 204;
 
+        [JsonProperty]
         /// <summary>
         /// List of all homes in the city
         /// </summary>
-        public List<Residential> homes { get; set; }
+        public List<Residential> Homes { get; set; }
+        [JsonProperty]
         /// <summary>
         /// List of all places of work in the city
         /// </summary>
-        public List<Building> workplaces { get; set; }
+        public List<Building> Workplaces { get; set; }
+        [JsonProperty]
         /// <summary>
         /// List of all inhabitants of the city
         /// </summary>
         public List<Person> AllPeople { get; set; }
         /// <summary>
+        /// Every hour, send the nested dictionary to the network queue
+        /// </summary>
+        public Dictionary<int, Dictionary<Guid, Point>> PartialUpdateList { get; private set; }
+
+        /// <summary>
+        /// Dictionary of Locations to send to client when they connect
+        /// </summary>
+        public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
+
+        /// <summary>
+        /// Dictionary of all people to send to clients when they connect
+        /// </summary>
+        public Dictionary<Guid, Point> OnLoadPeople { get; set; }
+        /// <summary>
         /// The grid that all buildings/roads/people exist in
         /// </summary>
-        public Location[,] map { get; set; }
+        public Location[,] Map { get; set; }
+        [JsonProperty]
         /// <summary>
         /// 2D array of city blocks, this is for easier city expansion
         /// NOTE: not currently implemented
         /// <para/> Last editted:  2017-10-02
         /// </summary>
-        public Block[,] blockMap { get; set; }
+        public Block[,] BlockMap { get; set; }
 
+        [JsonProperty]
         /// <summary>
         /// Clock to keep track of the time that 
         /// has passed since city creation.
@@ -54,29 +79,34 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public City()
         {
-            map = new Location[CITY_WIDTH, CITY_LENGTH];
-            blockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1), CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
+            Map = new Location[CITY_WIDTH, CITY_LENGTH];
+            BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1),
+                                 CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
             AllPeople = new List<Person>();
-            homes = new List<Residential>();
-            workplaces = new List<Building>();
+            Homes = new List<Residential>();
+            Workplaces = new List<Building>();
+            PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
 
             int width = CITY_WIDTH / (Block.BLOCK_WIDTH - 1);
             int height = CITY_LENGTH / (Block.BLOCK_LENGTH - 1);
-
             //fills the blockMap array
             for (int i = 0; i < width; ++i)
             {
                 for (int j = 0; j < height; ++j)
                 {
-                    blockMap[i, j] = new Block(new Point(i * (Block.BLOCK_WIDTH - 1), j * (Block.BLOCK_LENGTH - 1)));
+                    BlockMap[i, j] = new Block(
+                        new Point(i * (Block.BLOCK_WIDTH - 1),
+                        j * (Block.BLOCK_LENGTH - 1))
+                    );
                 }
             }
-            // clock = new Clock();
+            // clock = new Clock(this);
 
             // TO DO: code to create initial state, or load from DB
 
             // blocks.Add(new Block(new Point(CITY_WIDTH / 2, CITY_LENGTH / 2)));
         }
+
 
         /// <summary>
         /// Returns the location object at the specified point
@@ -86,7 +116,7 @@ namespace ServerForTheLogic.Infrastructure
         /// <returns></returns>
         public Location GetLocationAt(Point p)
         {
-            return map[p.x, p.z];
+            return Map[p.x, p.z];
         }
         /// <summary>
         /// Returns the location object at the specified x z coordinate 
@@ -97,7 +127,7 @@ namespace ServerForTheLogic.Infrastructure
         /// <returns></returns>
         public Location GetLocationAt(int x, int z)
         {
-            return map[x, z];
+            return Map[x, z];
         }
 
         /// <summary>
@@ -114,7 +144,7 @@ namespace ServerForTheLogic.Infrastructure
             for (int i = x - 1; i < x + 2; ++i)
             {
                 //if out of bounds of the map, skip
-                if (i < 0 || i >= blockMap.GetLength(0))
+                if (i < 0 || i >= BlockMap.GetLength(0))
                 {
                     //Console.WriteLine("WE OUT X: " + x + " I+X: " + i);
                     continue;
@@ -122,21 +152,21 @@ namespace ServerForTheLogic.Infrastructure
                 for (int j = z - 1; j < z + 2; ++j)
                 {
                     //if out of bounds of the map, or on the current block's cell, skip
-                    if (j < 0 || j >= blockMap.GetLength(1) || (j == z && i == x))
+                    if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
                     {
                         //Console.WriteLine("WE OUT X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
                         continue;
                     }
                     //checks if adjacent block is null (though it should never be null)
-                    if (blockMap[i, j] != null)
+                    if (BlockMap[i, j] != null)
                     {
                         //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
-                        blockMap[x, z].Adjacents.Add(blockMap[i, j]);
+                        BlockMap[x, z].Adjacents.Add(BlockMap[i, j]);
                     }
                     else
                     {
                         //Console.WriteLine("how?");
-                        blockMap[x, z].Adjacents.Add(null);
+                        BlockMap[x, z].Adjacents.Add(null);
                     }
                 }
 
@@ -147,7 +177,7 @@ namespace ServerForTheLogic.Infrastructure
         {
             List<Block> occupiedBlocks = new List<Block>();
 
-            foreach (Block b in blockMap)
+            foreach (Block b in BlockMap)
                 if (b.Type != BlockType.Empty)
                     occupiedBlocks.Add(b);
 
@@ -179,15 +209,16 @@ namespace ServerForTheLogic.Infrastructure
 
                 empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
                 setAdjacents(empties[index]);
-                c.createBuilding(this,
-                    blockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                             empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                for (int i = 0; i < 12; i++)
+                    c.createBuilding(this,
+                        BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                                 empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
 
         public void printBlockMapTypes()
         {
-            foreach (Block b in blockMap)
+            foreach (Block b in BlockMap)
             {
                 Console.WriteLine(b.Type);
             }

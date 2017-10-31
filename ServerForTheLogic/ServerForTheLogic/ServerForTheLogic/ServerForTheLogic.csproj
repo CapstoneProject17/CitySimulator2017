@@ -54,17 +54,20 @@
   <ItemGroup>
     <Compile Include="Infrastructure\Block.cs" />
     <Compile Include="Infrastructure\Building.cs" />
-    <Compile Include="Infrastructure\City.cs" />
+    <Compile Include="City.cs" />
     <Compile Include="Infrastructure\Commercial.cs" />
     <Compile Include="Infrastructure\Industrial.cs" />
     <Compile Include="Infrastructure\Location.cs" />
     <Compile Include="Infrastructure\Residential.cs" />
     <Compile Include="Infrastructure\Road.cs" />
+    <Compile Include="Json\DatabaseLoader.cs" />
+    <Compile Include="Json\Updater.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Clock.cs" />
     <Compile Include="Utilities\Creator.cs" />
+    <Compile Include="Utilities\Pair.cs" />
     <Compile Include="Utilities\Point.cs" />
   </ItemGroup>
   <ItemGroup>

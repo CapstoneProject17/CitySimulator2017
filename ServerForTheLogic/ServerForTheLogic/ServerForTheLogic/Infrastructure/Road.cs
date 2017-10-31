@@ -12,7 +12,7 @@ namespace ServerForTheLogic.Infrastructure
         {
             this.Type = "R";
         }
-        public Road(string Name) : base(Name, true)
+        public Road(string Name) : base(Name)
         {
             this.Type = "R";
         }
