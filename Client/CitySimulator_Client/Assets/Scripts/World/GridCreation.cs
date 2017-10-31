@@ -22,10 +22,11 @@ public class GridCreation : MonoBehaviour {
 
 	// 3D prefab of grid
 	public Transform cellPrefab;
+
 	// Size for the cell
 	public Vector3 size;
 
-	// not using now
+// not using now
 //	public int gridWidth;
 //	public int gridHeight;
 
