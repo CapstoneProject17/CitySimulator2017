@@ -38,7 +38,6 @@ public class Server : MonoBehaviour {
 		if (!serverStarted) {
 			return;
 		}
-
 		foreach (ServerClient c in clients) {
 			//is the client still connected?
 			if (!isConnected (c.tcp)) {
@@ -58,6 +57,14 @@ public class Server : MonoBehaviour {
 					}
 				}
 			}
+		}
+
+		// dealing with disconnected user
+		for (int i = 0; i < disconnnectList.Count - 1; i++) {
+			Broadcast (disconnnectList[i].clientName + " has disconnected", clients);
+
+			clients.Remove (disconnnectList [i]);
+			disconnnectList.RemoveAt (i);
 		}
 	}
 
