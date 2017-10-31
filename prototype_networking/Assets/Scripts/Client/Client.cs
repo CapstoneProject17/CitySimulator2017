@@ -49,8 +49,6 @@ public class Client : MonoBehaviour
             socket = new TcpClient(host, port);
             stream = socket.GetStream();
             socketReady = true;
-
-
         }
         catch (Exception e)
         {
@@ -60,8 +58,8 @@ public class Client : MonoBehaviour
 
     private void Update()
     {
-        if (socketReady)
-        {
+		if (socketReady)
+		{
             if (stream.DataAvailable)
             {
                 byte[] buffer = new byte[1024];
@@ -77,8 +75,9 @@ public class Client : MonoBehaviour
         }
     }
 
+
     private void OnIncomingData(string data)
-    {
+    {	
         if (data == "%NAME")
         {
             Send("&NAME| " + clientName);
@@ -89,6 +88,10 @@ public class Client : MonoBehaviour
         go.GetComponentInChildren<Text>().text = data;
     }
 
+	/// <summary>
+	/// Send the specified data.
+	/// </summary>
+	/// <param name="data">Json type of data we want to sent to the server </param>
     private void Send(string data)
     {
         if (!socketReady)
@@ -97,18 +100,47 @@ public class Client : MonoBehaviour
             Console.WriteLine("Socket not ready");
             return;
         }
-
+	
         byte[] dataToSend = Encoding.ASCII.GetBytes(data);
         stream.Write(dataToSend, 0, dataToSend.Length);
         stream.Flush();
+
         Debug.Log("data sent");
     }
 
+	/// <summary>
+	/// Raises the send button event.
+	/// </summary>
     public void OnSendBtn()
     {
         string message = GameObject.Find("SendInput").GetComponent<InputField>().text;
         Send(message);
     }
+
+	/// <summary>
+	/// Closes the socket.
+	/// </summary>
+	private void CloseSocket() {
+		if (!socketReady)
+			return;
+		
+		stream.Close ();
+		socket.Close ();
+		socketReady = false;
+	}
+	/// <summary>
+	/// Raises the application quit event.
+	/// </summary>
+	private void OnApplicationQuit() {
+		CloseSocket ();
+	}
+
+	/// <summary>
+	/// Raises the disable event.
+	/// </summary>
+	private void OnDisable() {
+		CloseSocket ();
+	}
 }
 
 
