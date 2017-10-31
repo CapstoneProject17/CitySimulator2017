@@ -7,6 +7,19 @@ using MongoDB.Driver;
 
 
 namespace DataAccessLayer {
+
+    /// <summary>
+    /// MongoDAL
+    /// Team: DB
+    /// Data Access Layer for the Server Logic and Server Communication team to talk with the database.
+    /// Has standard get, update, insert, and delete operations.
+    /// Author: Michael 
+    /// Date: 2017-10-15
+    /// Based on: http://rundevrun.blogspot.ca/2014/10/c-simple-dal-layer-with-mongodb.html
+    ///           http://mongodb.github.io/mongo-csharp-driver/2.3/reference/driver/crud/
+    ///           https://docs.mongodb.com/getting-started/csharp/
+    ///           http://mongodb.github.io/mongo-csharp-driver/2.2/getting_started/quick_tour/
+    /// </summary>
     class MongoDAL {
         private IMongoDatabase Database {
             get {
