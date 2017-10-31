@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
+    /// <summary>
+    /// MongoDAL Validator
+    /// Team: DB
+    /// Validator used for the MongoDAL class when insert, update is requested.
+    /// Has validator for citizen.
+    /// Author: Sean 
+    /// Date: 2017-10-31
+    /// Based on: http://cacodaemon.de/index.php?id=42
+    ///           https://docs.mongodb.com/manual/core/document-validation/
+    ///           http://www.c-sharpcorner.com/UploadFile/87b416/validating-user-input-with-regular-expressions/
+    /// </summary>
     class DALValidator
     {
         public static Boolean CitizenValidator(Citizens citizen)
@@ -20,6 +31,7 @@ namespace DataAccessLayer
                 Console.Write("Invalid Name");
                 return false;
             }
+            // Salary, HomeAddress, WorkAddress, Age and DaysLeftToLive cannot be a negative number
             if(citizen.Salary < 0)
             {
                 Console.Write("Cannot be a negative number for salary.");
