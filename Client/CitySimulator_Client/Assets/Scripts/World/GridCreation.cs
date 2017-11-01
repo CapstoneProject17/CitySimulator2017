@@ -20,11 +20,19 @@ using UnityEngine;
 /// </summary>
 public class GridCreation : MonoBehaviour {
 
+	// 3D prefab of grid
 	public Transform cellPrefab;
+
+	// Size for the cell
 	public Vector3 size;
+
+// not using now
 //	public int gridWidth;
 //	public int gridHeight;
+
+	// Reference for the CityDataManager class
 	public CityDataManager cityDataManager;
+	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
 	// Use this for initialization
@@ -35,6 +43,9 @@ public class GridCreation : MonoBehaviour {
 		//ShowGrid (false);
 	}
 
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	void Update(){
 	}
 
@@ -42,8 +53,8 @@ public class GridCreation : MonoBehaviour {
 	 * Creates grid and put zone, coordinate
 	 **/
 	void CreateGrid(){
-		size.x = cityDataManager.getSizeX();
-		size.z = cityDataManager.getSizeZ();
+		size.x = cityDataManager.Size_x;
+		size.z = cityDataManager.Size_z;
 
 //		Debug.Log (cellPrefab.localScale.x +", " + cellPrefab.localScale.z);
 
