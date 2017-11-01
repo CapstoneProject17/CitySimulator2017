@@ -303,8 +303,8 @@ namespace DataAccessLayer
         /// </summary>
         public void DeleteAllCitizens()
         {
-            Database.DropCollection("Citizen");
-            Database.CreateCollection("Citizen");
+            Database.DropCollection("Citizens");
+            Database.CreateCollection("Citizens");
         }
 
         /// <summary>
