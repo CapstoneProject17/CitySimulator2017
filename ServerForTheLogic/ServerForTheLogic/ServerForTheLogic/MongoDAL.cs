@@ -36,14 +36,24 @@ namespace DataAccessLayer {
         /// </summary>
         /// <param name="citizen"></param>
         public void InsertCitizen(Citizens citizen) {
-            var citizensCol = Database.GetCollection<Citizens>("Citizens");
-            citizensCol.InsertOne(citizen);
+            if (DALValidator.CitizenValidator(citizen))
+            {
+                var citizensCol = Database.GetCollection<Citizens>("Citizens");
+                citizensCol.InsertOne(citizen);
+            }
         }
 
         // Plural? Insert multiple citizens at once if needed...
         // Should it be a Task type with a return value?
         // https://msdn.microsoft.com/en-us/library/dd235678#Remarks
         public Task InsertCitizens(IEnumerable<Citizens> citizens) {
+            foreach(Citizens c in citizens)
+            {
+                if (!DALValidator.CitizenValidator(c))
+                {
+                    return null;
+                }
+            }
             var citizensCol = Database.GetCollection<Citizens>("Citizens");
             return citizensCol.InsertManyAsync(citizens);
         }
