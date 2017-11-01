@@ -6,7 +6,8 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 
-namespace DataAccessLayer {
+namespace DataAccessLayer
+{
 
     /// <summary>
     /// MongoDAL
@@ -58,19 +59,44 @@ namespace DataAccessLayer {
             return citizensCol.InsertManyAsync(citizens);
         }
 
+        /// <summary>
+        /// purpose: insert one building
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// 
+        /// Update:
+        /// 2017-11-01 Bill
+        ///     add validation
+        /// </summary>
+        /// <param name="building"></param>
         public void InsertBuilding(Buildings building) {
-            var buildingCol = Database.GetCollection<Buildings>("Buildings");
-            buildingCol.InsertOne(building);
+            if (DALValidator.BuildingValidator(building))
+            {
+                var buildingCol = Database.GetCollection<Buildings>("Buildings");
+                buildingCol.InsertOne(building);
+            }
         }
 
         /// <summary>
         /// purpose: insert multiple buildings
         /// Author: Bill
         /// Date:2017-10-31
+        /// 
+        /// Update:
+        /// 2017-11-01 Bill
+        ///     add validation
         /// </summary>
         /// <param name="buildings"></param>
         public void InsertBuildings(IEnumerable<Buildings> buildings)
         {
+            foreach (Buildings b in buildings)
+            {
+                if (!DALValidator.BuildingValidator(b))
+                {
+                    System.Console.WriteLine("Building id: " + b.Id + " did not meet validation rules.");
+                    return;
+                }
+            }
             var buildingCol = Database.GetCollection<Buildings>("Buildings");
             buildingCol.InsertMany(buildings);
         }
@@ -138,7 +164,7 @@ namespace DataAccessLayer {
             var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
             var citizenListData = await collection.Find(filter).ToListAsync();
-            if (citizenListData == null || citizenListData.length == 0)
+            if (citizenListData == null || citizenListData.Count == 0)
             {
                 throw new System.Exception("Can not update citizen, _id is invalid.");
             }
@@ -146,20 +172,20 @@ namespace DataAccessLayer {
             var citizenBSON = citizenListData[0];
 
             //get the current fields on the citizen
-            string oldName = citizenBSON[1].toString();
-            int oldSalary = System.Convert.ToInt32(citizenBSON[2].toString());
-            int oldHomeAddress = System.Convert.ToInt32(citizenBSON[3].toString());
-            int oldWorkAddress = System.Convert.ToInt32(citizenBSON[4].toString());
-            int oldAge = System.Convert.ToInt32(citizenBSON[5].toString());
-            int oldDaysLeftToLive = System.Convert.ToInt32(citizenBSON[6].toString());
+            string oldName = citizenBSON[1].ToString();
+            int oldSalary = System.Convert.ToInt32(citizenBSON[2].ToString());
+            int oldHomeAddress = System.Convert.ToInt32(citizenBSON[3].ToString());
+            int oldWorkAddress = System.Convert.ToInt32(citizenBSON[4].ToString());
+            int oldAge = System.Convert.ToInt32(citizenBSON[5].ToString());
+            int oldDaysLeftToLive = System.Convert.ToInt32(citizenBSON[6].ToString());
 
             //validate changes for the fields to update
-            string name = (newName.CompareTo(string.Empty) != 0 && Validator.isValidCitizenName(newName)) ? newName : oldName;
-            int salary = (newSalary != -1 && Validator.isValidCitizenSalary(newSalary)) ? newSalary : oldSalary;
-            int homeAddress = (newHomeAddress != -1 && Validator.isValidCitizenHomeAddress(newHomeAddress)) ? newHomeAddress : oldHomeAddress;
-            int workAddress = (newWorkAddress != -1 && Validator.isValidCitizenWorkAddress(newWorkAddress)) ? newWorkAddress : oldWorkAddress;
-            int age = (newAge != -1 && Validator.isValidCitizenAge(newAge)) ? newAge : oldAge;
-            int daysLeftToLive = (newDaysLeftToLive != -1 && Validator.isValidCitizenDaysLeftToLive(newDaysLeftToLive)) ? newDaysLeftToLive : oldDaysLeftToLive;
+            string name = (DALValidator.isValidCitizenName(newName)) ? newName : oldName;
+            int salary = (DALValidator.isValidCitizenSalary(newSalary)) ? newSalary : oldSalary;
+            int homeAddress = (DALValidator.isValidCitizenHomeAddress(newHomeAddress)) ? newHomeAddress : oldHomeAddress;
+            int workAddress = (DALValidator.isValidCitizenWorkAddress(newWorkAddress)) ? newWorkAddress : oldWorkAddress;
+            int age = (DALValidator.isValidCitizenAge(newAge)) ? newAge : oldAge;
+            int daysLeftToLive = (DALValidator.isValidCitizenDaysLeftToLive(newDaysLeftToLive)) ? newDaysLeftToLive : oldDaysLeftToLive;
 
             //update changes
             var update = Builders<BsonDocument>.Update
@@ -195,7 +221,7 @@ namespace DataAccessLayer {
             var collection = Database.GetCollection<BsonDocument>("Buildings"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
             var buildingListData = await collection.Find(filter).ToListAsync();
-            if (buildingListData == null || buildingListData.length == 0)
+            if (buildingListData == null || buildingListData.Count == 0)
             {
                 throw new System.Exception("Can not update building, _id is invalid.");
             }
@@ -203,20 +229,20 @@ namespace DataAccessLayer {
             var citizenBSON = buildingListData[0];
 
             //get the current fields on the citizen
-            string oldBuildingName = citizenBSON[1].toString();
-            string oldBuildingType = System.Convert.ToInt32(citizenBSON[2].toString());
-            string oldBuildingCompany = System.Convert.ToInt32(citizenBSON[3].toString());
-            int oldBuildingLocation = System.Convert.ToInt32(citizenBSON[4].toString());
-            int oldBuildingMoney = System.Convert.ToInt32(citizenBSON[5].toString());
-            int oldBuildingLevel = System.Convert.ToInt32(citizenBSON[6].toString());
+            string oldBuildingName = citizenBSON[1].ToString();
+            string oldBuildingType = citizenBSON[2].ToString();
+            string oldBuildingCompany = citizenBSON[3].ToString();
+            int oldBuildingLocation = System.Convert.ToInt32(citizenBSON[4].ToString());
+            int oldBuildingMoney = System.Convert.ToInt32(citizenBSON[5].ToString());
+            int oldBuildingLevel = System.Convert.ToInt32(citizenBSON[6].ToString());
 
             //validate changes for the fields to update
-            string buildingName = (newBuildingName.CompareTo(string.Empty) != 0 && Validator.isValidBuildingName(newBuildingName)) ? newBuildingName : oldBuildingName;
-            string buildingType = (newBuildingType.CompareTo(string.Empty) != 0 && Validator.isValidBuildingType(newBuildingType)) ? newBuildingType : oldBuildingType;
-            string buildingCompany = (newBuildingCompany.CompareTo(string.Empty) != 0 && Validator.isValidBuildingCompany(newBuildingCompany)) ? newBuildingCompany : oldBuildingCompany;
-            int buildingLocation = (newBuildingLocation != -1 && Validator.isValidBuildingLocation(newBuildingLocation)) ? newBuildingLocation : oldBuildingLocation;
-            int buildingMoney = (newBuildingMoney != -1 && Validator.isValidBuildingMoney(newBuildingMoney)) ? newBuildingMoney : oldBuildingMoney;
-            int buildingLevel = (newBuildingLevel != -1 && Validator.isValidBuildingLevel(newBuildingLevel)) ? newBuildingLevel : oldBuildingLevel;
+            string buildingName = (DALValidator.isValidBuildingName(newBuildingName)) ? newBuildingName : oldBuildingName;
+            string buildingType = (DALValidator.isValidBuildingType(newBuildingType)) ? newBuildingType : oldBuildingType;
+            string buildingCompany = (DALValidator.isValidBuildingCompany(newBuildingCompany)) ? newBuildingCompany : oldBuildingCompany;
+            int buildingLocation = (DALValidator.isValidBuildingLocation(newBuildingLocation)) ? newBuildingLocation : oldBuildingLocation;
+            int buildingMoney = (DALValidator.isValidBuildingMoney(newBuildingMoney)) ? newBuildingMoney : oldBuildingMoney;
+            int buildingLevel = (DALValidator.isValidBuildingLevel(newBuildingLevel)) ? newBuildingLevel : oldBuildingLevel;
 
             //update changes
             var update = Builders<BsonDocument>.Update
@@ -265,7 +291,7 @@ namespace DataAccessLayer {
         /// <param name="_id">building id</param>
         public async void DeleteOneBuilding(ObjectId _id)
         {
-            var collection = Database.GetCollection<Citizens>("Buildings");
+            var collection = Database.GetCollection<Buildings>("Buildings");
             var filter = Builders<Buildings>.Filter.Eq("_id", _id);
             await collection.DeleteOneAsync(filter);
         }
@@ -275,11 +301,10 @@ namespace DataAccessLayer {
         /// Author: Bill
         /// Date: 2017-10-31
         /// </summary>
-        public async void DeleteAllCitizens()
+        public void DeleteAllCitizens()
         {
-            var collection = Database.GetCollection<Citizens>("Citizens");
-            await collection.drop();
-            await collection.createCollection("Citizens");
+            Database.DropCollection("Citizen");
+            Database.CreateCollection("Citizen");
         }
 
         /// <summary>
@@ -287,11 +312,10 @@ namespace DataAccessLayer {
         /// Author: Bill
         /// Date: 2017-10-31
         /// </summary>
-        public async void DeleteAllBuildings()
+        public void DeleteAllBuildings()
         {
-            var collection = Database.GetCollection<Buildings>("Buildings");
-            await collection.drop();
-            await collection.createCollection("Buildings");
+            Database.DropCollection("Buildings");
+            Database.CreateCollection("Buildings");
         }
     }
 }
