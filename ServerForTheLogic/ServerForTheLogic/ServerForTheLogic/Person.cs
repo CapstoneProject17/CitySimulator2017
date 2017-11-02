@@ -56,13 +56,13 @@ namespace ServerForTheLogic
         /// </summary>
         /// <param name="works"></param>
         /// <returns></returns>
-        public Building Workplace { get; private set; }
+        public Building Workplace { get; set; }
 
         [JsonProperty]
         /// <summary>
         /// Where this person lives
         /// </summary>
-        public Building Home { get; private set; }
+        public Building Home { get; set; }
 
         /// <summary>
         /// If this person is alive or dead
