@@ -9,23 +9,39 @@ using static Bogus.DataSets.Name;
 
 namespace ServerForTheLogic.Utilities
 {
+
     /// <summary>
     /// Creator holds all of the methods to instantiate other objects
     /// </summary>
     class Creator
     {
+
+        public static int FIXED_CAPACITY = 50;
+
         /// <summary>
         /// Generates a person with an english first and last name.
         /// </summary>
         /// <returns></returns>
-        public Person createPerson()
+        public Person createPerson(City city)
         {
             var modelFaker = new Faker<Person>("en")
                 .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())
                 .RuleFor(o => o.LName, (f, o) => f.Name.LastName());
 
-            return modelFaker.Generate();
+            Person temp = modelFaker.Generate();
+            //Random rand = new Random(); 
+            //List<Residential> randHomes = city.Homes.OrderBy(x => rand.Next()).ToList();
+            foreach (Residential r in city.Homes)
+            {
+                if(r.NumberOfResidents < r.Capacity)
+                {
+                    temp.Home = r;
+                    break;
+                }
+            }
+            return temp;
         }
+
 
         /// <summary>
         /// Generates a building based on the block's BlockType
@@ -77,6 +93,7 @@ namespace ServerForTheLogic.Utilities
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
+            building.Capacity = FIXED_CAPACITY;
             block.LandPlot[x, z] = building;
             city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
         }
@@ -90,7 +107,7 @@ namespace ServerForTheLogic.Utilities
         /// Updated on: 18-10-2017
         /// Updated by: Connor Goudie
         /// Changes: Refactored for readability (no functionality changes)
-        public Block addRoadsToEmptyBlock(Block b, City city)
+        public void addRoadsToEmptyBlock(Block b, City city)
         {
             int xPos = b.StartPoint.x;
             int zPos = b.StartPoint.z;
@@ -144,8 +161,8 @@ namespace ServerForTheLogic.Utilities
                 }
             }
             b.setBlockType();
-            city.BlockMap[xPos / width, zPos / length] = b;
-            return b;
+            //city.BlockMap[xPos / width, zPos / length] = b;
+           // return b;
         }
     }
 }
