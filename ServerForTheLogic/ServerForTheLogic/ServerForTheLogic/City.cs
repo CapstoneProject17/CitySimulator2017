@@ -17,12 +17,12 @@ namespace ServerForTheLogic
         /// <summary>
         /// Max width of the city grid
         /// </summary>
-        public const int CITY_WIDTH = 100;
+        public const int CITY_WIDTH = 55;
         [JsonProperty]
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 204;
+        public const int CITY_LENGTH = 99;
 
         [JsonProperty]
         /// <summary>
@@ -127,7 +127,7 @@ namespace ServerForTheLogic
         /// <returns></returns>
         public Location GetLocationAt(int x, int z)
         {
-            return Map[x, z];
+           return Map[x, z];
         }
 
         /// <summary>
@@ -207,7 +207,8 @@ namespace ServerForTheLogic
 
                 int index = rand.Number(0, empties.Count - 1);
 
-                empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
+                //empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
+                c.addRoadsToEmptyBlock(empties[index], this);
                 setAdjacents(empties[index]);
                 for (int i = 0; i < 12; i++)
                     c.createBuilding(this,
@@ -215,7 +216,7 @@ namespace ServerForTheLogic
                                  empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
-
+        
         public void printBlockMapTypes()
         {
             foreach (Block b in BlockMap)

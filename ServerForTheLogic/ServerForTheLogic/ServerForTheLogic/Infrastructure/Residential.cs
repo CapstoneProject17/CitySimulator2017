@@ -8,6 +8,8 @@ namespace ServerForTheLogic.Infrastructure
 {
     class Residential : Building
     {
+        public int NumberOfResidents { get; set; }
+
         public Residential() : base()
         {
             this.Type = "H";
