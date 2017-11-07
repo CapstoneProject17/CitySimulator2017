@@ -22,12 +22,12 @@ public class BuildingCreation : MonoBehaviour {
 	public Transform industryBuilding;
 	private GameObject[] planes;
 	private Transform planeTransform;
-	public GameObject parentBuilding;
+	public GameObject buildingManager;
 
 	// Use this for initialization
 	void Start () {
 		planeTransform = GameObject.Find("Plane(Clone)").transform;
-		parentBuilding = GameObject.Find ("BuildingManager");
+		buildingManager = GameObject.Find ("BuildingManager");
 		CreateBuilding ();
 	}
 
@@ -57,7 +57,7 @@ public class BuildingCreation : MonoBehaviour {
 				Instantiate (building,
 							new Vector3 (grid.transform.position.x, 0, grid.transform.position.z),
 							Quaternion.identity, 
-							parentBuilding.transform);
+							buildingManager.transform);
 			}
 
 			//Industrial building objects
@@ -70,7 +70,7 @@ public class BuildingCreation : MonoBehaviour {
 								grid.transform.position.y,
 								grid.transform.position.z),
 								Quaternion.identity,
-								parentBuilding.transform);
+								buildingManager.transform);
 			}
 
 			z++;
