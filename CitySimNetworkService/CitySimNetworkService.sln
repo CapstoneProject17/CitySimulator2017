@@ -5,7 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkService", "CitySimNetworkService\CitySimNetworkService.csproj", "{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DAL\ServerForTheLogic\DataAccessLayer.csproj", "{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Request.Test", "Request.Test\Request.Test.csproj", "{EE6AEC51-2028-441B-87BB-C7F99DC56F84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{065E11FA-B4E9-4643-B7BC-06BBBA97D285}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +19,16 @@ Global
 		{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6AEC51-2028-441B-87BB-C7F99DC56F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6AEC51-2028-441B-87BB-C7F99DC56F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6AEC51-2028-441B-87BB-C7F99DC56F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6AEC51-2028-441B-87BB-C7F99DC56F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE6AEC51-2028-441B-87BB-C7F99DC56F84} = {065E11FA-B4E9-4643-B7BC-06BBBA97D285}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FDB12A47-BF9C-42AE-B04A-218967001DDF}
