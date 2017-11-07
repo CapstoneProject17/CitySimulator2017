@@ -1,0 +1,3 @@
+[submodule "CitySimulator2017"]
+	path = CitySimulator2017
+	url = https://github.com/CapstoneProject17Client/CitySimulator2017.git
