@@ -4,7 +4,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CitySimNetworkService
 {
-    class RequestJsonConverter : JsonConverter
+    // class set public for testing
+    public class RequestJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
