@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Building deletion.
-/// Author: Dongwon(Shawn) Kim
-/// 
+//// Module: BuildingDeletion
+/// Team: Client
+/// Description: For Testing, not using in general
+/// Author: 
+///	 Name: Dongwon(Shawn) Kim   Date: 2017-10-09
+/// Modified by:	
+///	 Name: N/A   Change: N/A 				Date: N/A
+/// Based on:  N/A
 /// </summary>
 public class BuildingDeletion : MonoBehaviour {
 	

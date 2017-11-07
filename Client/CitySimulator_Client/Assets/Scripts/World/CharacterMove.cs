@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Not used yet
+/// </summary>
 public class CharacterMove : MonoBehaviour {
 
 	public int x_dest = 4;
