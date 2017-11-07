@@ -124,9 +124,4 @@ public class CityDataManager : MonoBehaviour {
 
 		return grid[x][z];
 	}
-
-    private void Update()
-    {
-        
-    }
 }
