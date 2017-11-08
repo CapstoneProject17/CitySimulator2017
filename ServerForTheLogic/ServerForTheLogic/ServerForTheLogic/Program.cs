@@ -10,6 +10,7 @@ using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json;
 using ServerForTheLogic.Json;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic
 {
@@ -44,6 +45,7 @@ namespace ServerForTheLogic
             //me = new Person();
             //// me.KeepOpen();
             //KeepOpen();
+            
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
             Block b, b1, b2;
@@ -53,14 +55,17 @@ namespace ServerForTheLogic
                 city = new City();
                 creator = new Creator();
                 //fill 3 blocks
-                b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
-                b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
-                b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
+                //b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
+                //b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
+                //b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
+                Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
+                Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
 
+                creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
                 //stick some buildings in them blocks
-                creator.createBuilding(city, b);
-                creator.createBuilding(city, b1);
-                creator.createBuilding(city, b2);
+                //creator.createBuilding(city, b);
+                //creator.createBuilding(city, b1);
+                //creator.createBuilding(city, b2);
             }
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.BlockMap)
@@ -68,10 +73,10 @@ namespace ServerForTheLogic
                 city.setAdjacents(block);
             }
 
-
+             
 
             Console.WriteLine("expand");
-            for (int i = 0; i < city.BlockMap.Length; i++)
+            for (int i = 0; i < city.BlockMap.GetLength(0); i++)
             {
                 city.expandCity();
             }

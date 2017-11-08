@@ -10,6 +10,7 @@ using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
 using static Bogus.DataSets.Name;
 using Newtonsoft.Json;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic
 {
@@ -48,7 +49,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// current amount of money in bank account
         /// </summary>
-        private int money;
+        public int Money { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -56,13 +57,13 @@ namespace ServerForTheLogic
         /// </summary>
         /// <param name="works"></param>
         /// <returns></returns>
-        public Building Workplace { get; private set; }
+        public Building Workplace { get; set; }
 
         [JsonProperty]
         /// <summary>
         /// Where this person lives
         /// </summary>
-        public Building Home { get; private set; }
+        public Building Home { get; set; }
 
         /// <summary>
         /// If this person is alive or dead
@@ -84,13 +85,15 @@ namespace ServerForTheLogic
         /// </summary>
         private int timeToGoToHome;
 
-        public Person(City c, Building workplace, Building home)
+        public Person(string fName, string lName,City c)
         {
+            FName = fName;
+            LName = lName;
+
             id = Guid.NewGuid();
             isDead = false;
             setDeathAge();
-            Workplace = workplace;
-            Home = home;
+            Money = new Random().Next(500, 10000);
             timeToGoToWork = new Random().Next(0, 24);
             timeToGoToHome = (timeToGoToWork + 8) % 24;
             c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
@@ -104,7 +107,6 @@ namespace ServerForTheLogic
         /// </summary>
         public void setDeathAge()
         {
-            Random random = new Random();
             //if we want to add additional randomness to death age
             //int months = random.Next(1, 13);
             //int days = random.Next(1, 30);
@@ -128,7 +130,7 @@ namespace ServerForTheLogic
         public override String ToString()
         {
             return FName + " " + LName + " " + "Monthly income: " +
-                MonthlyIncome + " Current money: " + money + " Unique ID: " + id;
+                MonthlyIncome + " Current money: " + Money + " Unique ID: " + id;
         }
 
         /// <summary>
@@ -140,6 +142,21 @@ namespace ServerForTheLogic
             if (DaysLeft == 0)
                 isDead = true;
             return isDead;
+        }
+
+
+        public void BuyThings()
+        {
+            
+            int rand = new Randomizer().Number(0, Market.Products.Count - 1);
+            if (Money >= Market.Products[rand].RetailPrice)
+            {
+                Order order = new Order(Market.Products[rand], 1, this);
+               // Money -= (int)order.OrderProduct.RetailPrice * order.Amount;
+                Market.ProcessCustOrder(order);
+            }
+           
+            
         }
     }
 }

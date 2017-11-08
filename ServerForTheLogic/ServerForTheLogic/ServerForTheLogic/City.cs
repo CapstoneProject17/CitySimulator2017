@@ -2,6 +2,7 @@
 using ServerForTheLogic.Infrastructure;
 using ServerForTheLogic.Json;
 using ServerForTheLogic.Utilities;
+using ServerForTheLogic.Econ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace ServerForTheLogic
         /// <summary>
         /// Max width of the city grid
         /// </summary>
-        public const int CITY_WIDTH = 100;
+        public const int CITY_WIDTH = 58;
         [JsonProperty]
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 204;
+        public const int CITY_LENGTH = 99;
 
         [JsonProperty]
         /// <summary>
@@ -33,7 +34,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// List of all places of work in the city
         /// </summary>
-        public List<Building> Workplaces { get; set; }
+        public List<Business> Workplaces { get; set; }
         [JsonProperty]
         /// <summary>
         /// List of all inhabitants of the city
@@ -71,6 +72,7 @@ namespace ServerForTheLogic
         /// has passed since city creation.
         /// </summary>
         private Clock clock;
+        public static int DEFAULT_RATING = 1;
 
         /// <summary>
         /// Constructor for a new city, creates the 100x200 grid of cells,
@@ -79,12 +81,13 @@ namespace ServerForTheLogic
         /// </summary>
         public City()
         {
+
             Map = new Location[CITY_WIDTH, CITY_LENGTH];
             BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1),
                                  CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
             AllPeople = new List<Person>();
             Homes = new List<Residential>();
-            Workplaces = new List<Building>();
+            Workplaces = new List<Business>();
             PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
 
             int width = CITY_WIDTH / (Block.BLOCK_WIDTH - 1);
@@ -127,7 +130,7 @@ namespace ServerForTheLogic
         /// <returns></returns>
         public Location GetLocationAt(int x, int z)
         {
-            return Map[x, z];
+           return Map[x, z];
         }
 
         /// <summary>
@@ -207,7 +210,8 @@ namespace ServerForTheLogic
 
                 int index = rand.Number(0, empties.Count - 1);
 
-                empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
+                //empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
+                c.addRoadsToEmptyBlock(empties[index], this);
                 setAdjacents(empties[index]);
                 for (int i = 0; i < 12; i++)
                     c.createBuilding(this,
@@ -215,7 +219,7 @@ namespace ServerForTheLogic
                                  empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
-
+        
         public void printBlockMapTypes()
         {
             foreach (Block b in BlockMap)
