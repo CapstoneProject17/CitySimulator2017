@@ -10,6 +10,7 @@ using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json;
 using ServerForTheLogic.Json;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic
 {
@@ -44,6 +45,7 @@ namespace ServerForTheLogic
             //me = new Person();
             //// me.KeepOpen();
             //KeepOpen();
+            
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
             Block b, b1, b2;
@@ -59,7 +61,7 @@ namespace ServerForTheLogic
                 Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
                 Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
 
-                creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(0)/2, city.BlockMap.GetLength(1) / 2],city);
+                creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
                 //stick some buildings in them blocks
                 //creator.createBuilding(city, b);
                 //creator.createBuilding(city, b1);

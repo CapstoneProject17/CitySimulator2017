@@ -14,7 +14,7 @@ namespace ServerForTheLogic.Infrastructure
         {
             this.Type = "H";
         }
-        public Residential(string Name) : base(Name)
+        public Residential(int capacity) : base("Residence",capacity)
         {
 
             this.Type = "H";

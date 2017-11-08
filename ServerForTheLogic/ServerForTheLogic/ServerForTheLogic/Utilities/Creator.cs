@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using ServerForTheLogic.Econ;
 using ServerForTheLogic.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,14 @@ namespace ServerForTheLogic.Utilities
     /// </summary>
     class Creator
     {
-
         public static int FIXED_CAPACITY = 50;
+
+        private Faker faker;
+        
+        public Creator()
+        {
+            faker = new Faker("en");
+        }
 
         /// <summary>
         /// Generates a person with an english first and last name.
@@ -24,11 +31,8 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public Person createPerson(City city)
         {
-            var modelFaker = new Faker<Person>("en")
-                .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())
-                .RuleFor(o => o.LName, (f, o) => f.Name.LastName());
 
-            Person temp = modelFaker.Generate();
+            Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), city);
             //Random rand = new Random(); 
             //List<Residential> randHomes = city.Homes.OrderBy(x => rand.Next()).ToList();
             foreach (Residential r in city.Homes)
@@ -36,9 +40,15 @@ namespace ServerForTheLogic.Utilities
                 if(r.NumberOfResidents < r.Capacity)
                 {
                     temp.Home = r;
+                    r.NumberOfResidents++;
                     break;
                 }
             }
+            if (temp.Home == null)
+            {
+                //MAKE NEW HOUSING 
+            }
+
             return temp;
         }
 
@@ -49,32 +59,6 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public void createBuilding(City city, Block block)
         {
-            Building building;
-            if (block.Type == BlockType.Commercial)
-            {
-                var modelFaker = new Faker<Commercial>()
-                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
-                building = modelFaker.Generate();
-                city.Workplaces.Add(building);
-            }
-            else if (block.Type == BlockType.Residential)
-            {
-                var modelFaker = new Faker<Residential>();
-                building = modelFaker.Generate();
-                city.Homes.Add((Residential)building);
-
-            }
-            else if (block.Type == BlockType.Industrial)
-            {
-                var modelFaker = new Faker<Industrial>("")
-                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
-                building = modelFaker.Generate();
-                city.Workplaces.Add(building);
-            }
-            else
-            {
-                throw new InvalidOperationException("cannot add building to empty block");
-            }
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
@@ -93,9 +77,40 @@ namespace ServerForTheLogic.Utilities
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
-            building.Capacity = FIXED_CAPACITY;
-            block.LandPlot[x, z] = building;
-            city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            if (block.Type == BlockType.Commercial)
+            {
+                Commercial building = new Commercial(faker.Company.CompanyName(),FIXED_CAPACITY);
+
+                Market.CommercialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            }
+            else if (block.Type == BlockType.Residential)
+            {
+                Residential building = new Residential(FIXED_CAPACITY);
+                city.Homes.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            }
+            else if (block.Type == BlockType.Industrial)
+            {
+                Industrial building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY);
+                Market.IndustrialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+                // city.Workplaces.Add(building);
+            }
+            else
+            {
+                throw new InvalidOperationException("cannot add building to empty block");
+            }
+            
+          
         }
 
         /// <summary>
