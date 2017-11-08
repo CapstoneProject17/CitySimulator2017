@@ -27,6 +27,11 @@ namespace ServerForTheLogic.Infrastructure
 
         public Building(string Name) : base(Name)
         { }
+
+        public Building (string Name, int Capacity): base(Name)
+        {
+            this.Capacity = Capacity;
+        }
         public Building() : base()
         { }
 
