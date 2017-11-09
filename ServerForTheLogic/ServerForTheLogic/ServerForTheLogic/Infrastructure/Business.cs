@@ -43,7 +43,7 @@ namespace ServerForTheLogic.Infrastructure
 
         public virtual void AddProductToInventory()
         {
-            Console.WriteLine(Market.ProductsInDemand + "  " + Market.ProductsInDemand.Count);
+            //Console.WriteLine(Market.ProductsInDemand + "  " + Market.ProductsInDemand.Count);
             if (Market.ProductsInDemand != null && Market.ProductsInDemand.Count > 0)
             {
                 foreach (Product p in Market.ProductsInDemand)

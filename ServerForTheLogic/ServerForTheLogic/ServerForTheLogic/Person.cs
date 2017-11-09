@@ -63,7 +63,18 @@ namespace ServerForTheLogic
         /// <summary>
         /// Number of days remaining until person dies
         /// </summary>
-        private int DaysLeft;
+        public int DaysLeft;
+
+        [JsonProperty]
+        /// <summary>
+        /// Current Age in years
+        /// </summary>
+        public int Age;
+
+        /// <summary>
+        /// Current Age in years
+        /// </summary>
+        private bool isDead;
 
         /// <summary>
         /// 0-23
@@ -78,7 +89,7 @@ namespace ServerForTheLogic
         {
             FName = fName;
             LName = lName;
-
+            isDead = false;
             Id = Guid.NewGuid();
             setDeathAge();
             Funds = new Random().Next(500, 10000);
@@ -86,7 +97,6 @@ namespace ServerForTheLogic
             TimeToGoToWork = new Random().Next(0, 24);
             TimeToGoToHome = (TimeToGoToWork + 8) % 24;
         }
-
 
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
@@ -121,12 +131,14 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        ///
+        /// Decrements the Days left for a person
         /// </summary>
-        public bool Age()
+        public bool AgeDeathTick()
         {
             DaysLeft--;
-            return DaysLeft == 0;
+            if (DaysLeft <= 0)
+                isDead = true;
+            return isDead;
         }
 
 
@@ -138,8 +150,14 @@ namespace ServerForTheLogic
                 Order order = new Order(Market.Products[rand], 1, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
+                //Console.WriteLine("Bought " + order.OrderProduct.ProductName);
             }
+        }
+        /// <summary>
+        /// Sets Age of Person
+        /// </summary>
+        public void SetAge() {
+                Age++;
         }
     }
 }
