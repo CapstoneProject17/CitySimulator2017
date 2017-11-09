@@ -52,9 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Econ\ICustomer.cs" />
+    <Compile Include="Econ\Market.cs" />
+    <Compile Include="Econ\Order.cs" />
+    <Compile Include="Econ\Product.cs" />
     <Compile Include="Infrastructure\Block.cs" />
     <Compile Include="Infrastructure\Building.cs" />
     <Compile Include="City.cs" />
+    <Compile Include="Infrastructure\Business.cs" />
     <Compile Include="Infrastructure\Commercial.cs" />
     <Compile Include="Infrastructure\Industrial.cs" />
     <Compile Include="Infrastructure\Location.cs" />

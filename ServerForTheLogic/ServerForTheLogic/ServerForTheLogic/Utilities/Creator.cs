@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using ServerForTheLogic.Econ;
 using ServerForTheLogic.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -9,23 +10,51 @@ using static Bogus.DataSets.Name;
 
 namespace ServerForTheLogic.Utilities
 {
+
     /// <summary>
     /// Creator holds all of the methods to instantiate other objects
     /// </summary>
     class Creator
     {
+        public static int FIXED_CAPACITY = 50;
+
+        private Faker faker;
+
+        public Creator()
+        {
+            faker = new Faker("en");
+        }
+
         /// <summary>
         /// Generates a person with an english first and last name.
         /// </summary>
         /// <returns></returns>
-        public Person CreatePerson()
+        public Person createPerson(City city)
         {
-            var modelFaker = new Faker<Person>("en")
-                .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())
-                .RuleFor(o => o.LName, (f, o) => f.Name.LastName());
+            Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), city);
+            Randomizer rand = new Randomizer(); 
+            List<Residential> randHomes = city.Homes.OrderBy(x => rand.Int()).ToList();
+            foreach (Residential r in randHomes)
+            {
+                if (r.NumberOfResidents < r.Capacity)
+                {
+                    temp.Home = r;
+                    r.NumberOfResidents++;
+                    city.PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, r.Point);
+                    break;
+                }
+            }
+            if (temp.Home == null)
+            {
+                //MAKE NEW RESIDENTIAL BUILDING
+            }
+            Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
+            temp.Workplace = business;
+            city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
 
-            return modelFaker.Generate();
+            return temp;
         }
+
 
         /// <summary>
         /// Generates a building based on the block's BlockType
@@ -33,32 +62,6 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public void createBuilding(City city, Block block)
         {
-            Building building;
-            if (block.Type == BlockType.Commercial)
-            {
-                var modelFaker = new Faker<Commercial>()
-                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
-                building = modelFaker.Generate();
-                city.Workplaces.Add(building);
-            }
-            else if (block.Type == BlockType.Residential)
-            {
-                var modelFaker = new Faker<Residential>();
-                building = modelFaker.Generate();
-                city.Homes.Add((Residential)building);
-
-            }
-            else if (block.Type == BlockType.Industrial)
-            {
-                var modelFaker = new Faker<Industrial>("")
-                    .RuleFor(o => o.Name, f => f.Company.CompanyName());
-                building = modelFaker.Generate();
-                city.Workplaces.Add(building);
-            }
-            else
-            {
-                throw new InvalidOperationException("cannot add building to empty block");
-            }
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
@@ -77,8 +80,40 @@ namespace ServerForTheLogic.Utilities
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;
-            block.LandPlot[x, z] = building;
-            city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            if (block.Type == BlockType.Commercial)
+            {
+                Commercial building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
+                Market.CommercialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            }
+            else if (block.Type == BlockType.Residential)
+            {
+                Residential building = new Residential(FIXED_CAPACITY);
+                city.Homes.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+                if (building.IsTall)
+                    building.NumberOfResidents = Residential.CAPACITY_TALL;
+            }
+            else if (block.Type == BlockType.Industrial)
+            {
+                Industrial building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY);
+                Market.IndustrialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+                // city.Workplaces.Add(building);
+            }
+            else
+            {
+                throw new InvalidOperationException("cannot add building to empty block");
+            }
+
+
         }
 
         /// <summary>
@@ -90,7 +125,7 @@ namespace ServerForTheLogic.Utilities
         /// Updated on: 18-10-2017
         /// Updated by: Connor Goudie
         /// Changes: Refactored for readability (no functionality changes)
-        public Block addRoadsToEmptyBlock(Block b, City city)
+        public void addRoadsToEmptyBlock(Block b, City city)
         {
             int xPos = b.StartPoint.x;
             int zPos = b.StartPoint.z;
@@ -144,8 +179,8 @@ namespace ServerForTheLogic.Utilities
                 }
             }
             b.setBlockType();
-            city.BlockMap[xPos / width, zPos / length] = b;
-            return b;
+            //city.BlockMap[xPos / width, zPos / length] = b;
+            // return b;
         }
     }
 }

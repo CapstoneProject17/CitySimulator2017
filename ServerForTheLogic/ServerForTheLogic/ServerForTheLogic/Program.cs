@@ -10,6 +10,7 @@ using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json;
 using ServerForTheLogic.Json;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic
 {
@@ -35,28 +36,30 @@ namespace ServerForTheLogic
             
 
             //KeepOpen();
+            
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
-            Block b, b1, b2;
+           // Block b, b1, b2;
             if (city == null)
             {
                 //TEST DATA 
                 city = new City();
                 creator = new Creator();
                 //fill 3 blocks
-                b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
-                b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
-                b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
+                //b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
+                //b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
+                //b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
+                Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
+                Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
 
-                //stick some buildings in them blocks
-                creator.createBuilding(city, b);
-                creator.createBuilding(city, b1);
-                creator.createBuilding(city, b2);
-
+                creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
+                //creator.createBuilding(city, b);
+                //creator.createBuilding(city, b1);
+                //creator.createBuilding(city, b2);
                 //stick some poeple in here
                 Person me = new Person();
-                me = maker.CreatePerson();
                 city.AllPeople.Add(me);
+                me = maker.CreatePerson();
                 //me.Dump();
             }
             //sets the adjacent blocks of the specified block
@@ -65,6 +68,7 @@ namespace ServerForTheLogic
                 city.setAdjacents(block);
             }
 
+             
 
 
             //Console.WriteLine("expand");
@@ -83,6 +87,8 @@ namespace ServerForTheLogic
             //printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
+            //foo();
+            bar();
             KeepOpen();
         }
         /// <summary>
@@ -140,7 +146,20 @@ namespace ServerForTheLogic
                 Console.WriteLine();
             }
         }
-
+        private static void foo()
+        {
+            Person p = new Person("go", "an", city);
+            Console.WriteLine(p.Funds);
+            p.BuyThings();
+            Console.WriteLine(p.Funds);
+        }
+        private static void bar()
+        {
+            Commercial b = new Commercial("fuck", 10);
+            Console.WriteLine("funds before "  + b.Funds);
+            b.FillInventory();
+            Console.WriteLine("funds after " + b.Funds);
+        }
 
     }
 }
