@@ -15,17 +15,17 @@ using ServerForTheLogic.Econ;
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class Person
+    class Person : ICustomer
     {
 
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
-
+        public int Funds { get; set; }
         [JsonProperty]
         /// <summary>
         /// ID for database
         /// </summary>
-        private Guid id;
+        public Guid Id { get; private set; }
 
         [JsonProperty]
         /// <summary>
@@ -41,15 +41,9 @@ namespace ServerForTheLogic
 
         [JsonProperty]
         /// <summary>
-        /// Money earned every 4 weeks of simulation time
+        /// Funds earned every 4 weeks of simulation time
         /// </summary>
         public int MonthlyIncome { get; set; }
-
-        [JsonProperty]
-        /// <summary>
-        /// current amount of money in bank account
-        /// </summary>
-        public int Money { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -64,12 +58,7 @@ namespace ServerForTheLogic
         /// Where this person lives
         /// </summary>
         public Building Home { get; set; }
-
-        /// <summary>
-        /// If this person is alive or dead
-        /// </summary>
-        private bool isDead;
-
+        
         [JsonProperty]
         /// <summary>
         /// Number of days remaining until person dies
@@ -79,25 +68,23 @@ namespace ServerForTheLogic
         /// <summary>
         /// 0-23
         /// </summary>
-        private int timeToGoToWork;
+        public int TimeToGoToWork { get; }
         /// <summary>
         /// 0-23
         /// </summary>
-        private int timeToGoToHome;
+        public int TimeToGoToHome { get; }
 
         public Person(string fName, string lName,City c)
         {
             FName = fName;
             LName = lName;
 
-            id = Guid.NewGuid();
-            isDead = false;
+            Id = Guid.NewGuid();
             setDeathAge();
-            Money = new Random().Next(500, 10000);
-            timeToGoToWork = new Random().Next(0, 24);
-            timeToGoToHome = (timeToGoToWork + 8) % 24;
-            c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
-            c.PartialUpdateList[timeToGoToWork][id] = Workplace.Point;
+            Funds = new Random().Next(500, 10000);
+
+            TimeToGoToWork = new Random().Next(0, 24);
+            TimeToGoToHome = (TimeToGoToWork + 8) % 24;
         }
 
 
@@ -130,7 +117,7 @@ namespace ServerForTheLogic
         public override String ToString()
         {
             return FName + " " + LName + " " + "Monthly income: " +
-                MonthlyIncome + " Current money: " + Money + " Unique ID: " + id;
+                MonthlyIncome + " Current money: " + Funds + " Unique ID: " + Id;
         }
 
         /// <summary>
@@ -139,24 +126,20 @@ namespace ServerForTheLogic
         public bool Age()
         {
             DaysLeft--;
-            if (DaysLeft == 0)
-                isDead = true;
-            return isDead;
+            return DaysLeft == 0;
         }
 
 
         public void BuyThings()
         {
-            
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
-            if (Money >= Market.Products[rand].RetailPrice)
+            if (Funds >= Market.Products[rand].RetailPrice)
             {
                 Order order = new Order(Market.Products[rand], 1, this);
-               // Money -= (int)order.OrderProduct.RetailPrice * order.Amount;
-                Market.ProcessCustOrder(order);
+                // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
+                Market.ProcessOrder(order, Market.CommercialBusinesses);
+                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
             }
-           
-            
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ServerForTheLogic.Utilities
         public static int FIXED_CAPACITY = 50;
 
         private Faker faker;
-        
+
         public Creator()
         {
             faker = new Faker("en");
@@ -31,23 +31,26 @@ namespace ServerForTheLogic.Utilities
         /// <returns></returns>
         public Person createPerson(City city)
         {
-
             Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), city);
-            //Random rand = new Random(); 
-            //List<Residential> randHomes = city.Homes.OrderBy(x => rand.Next()).ToList();
-            foreach (Residential r in city.Homes)
+            Randomizer rand = new Randomizer(); 
+            List<Residential> randHomes = city.Homes.OrderBy(x => rand.Int()).ToList();
+            foreach (Residential r in randHomes)
             {
-                if(r.NumberOfResidents < r.Capacity)
+                if (r.NumberOfResidents < r.Capacity)
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
+                    city.PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, r.Point);
                     break;
                 }
             }
             if (temp.Home == null)
             {
-                //MAKE NEW HOUSING 
+                //MAKE NEW RESIDENTIAL BUILDING
             }
+            Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
+            temp.Workplace = business;
+            city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
 
             return temp;
         }
@@ -80,8 +83,7 @@ namespace ServerForTheLogic.Utilities
 
             if (block.Type == BlockType.Commercial)
             {
-                Commercial building = new Commercial(faker.Company.CompanyName(),FIXED_CAPACITY);
-
+                Commercial building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
                 Market.CommercialBusinesses.Add(building);
                 Market.BusinessesHiring.Add(building);
                 block.LandPlot[x, z] = building;
@@ -94,7 +96,8 @@ namespace ServerForTheLogic.Utilities
                 city.Homes.Add(building);
                 block.LandPlot[x, z] = building;
                 city.Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
-
+                if (building.IsTall)
+                    building.NumberOfResidents = Residential.CAPACITY_TALL;
             }
             else if (block.Type == BlockType.Industrial)
             {
@@ -109,8 +112,8 @@ namespace ServerForTheLogic.Utilities
             {
                 throw new InvalidOperationException("cannot add building to empty block");
             }
-            
-          
+
+
         }
 
         /// <summary>
@@ -177,7 +180,7 @@ namespace ServerForTheLogic.Utilities
             }
             b.setBlockType();
             //city.BlockMap[xPos / width, zPos / length] = b;
-           // return b;
+            // return b;
         }
     }
 }

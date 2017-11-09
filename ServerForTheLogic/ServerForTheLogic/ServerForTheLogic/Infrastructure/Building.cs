@@ -25,6 +25,9 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public int Capacity { get; set; }
 
+        [JsonProperty]
+        public bool IsTall { get; private set; }
+        
         public Building(string Name) : base(Name)
         { }
 

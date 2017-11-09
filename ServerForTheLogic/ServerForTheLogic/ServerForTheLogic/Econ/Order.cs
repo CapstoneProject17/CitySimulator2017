@@ -10,9 +10,9 @@ namespace ServerForTheLogic.Econ
     {
         public Product OrderProduct { get; }
         public int Amount { get; }
-        public Object Sender { get; }
+        public ICustomer Sender { get; }
 
-        public Order (Product prod, int Amount, Object Sender)
+        public Order (Product prod, int Amount, ICustomer Sender)
         {
             this.OrderProduct = prod;
             this.Amount = Amount;
