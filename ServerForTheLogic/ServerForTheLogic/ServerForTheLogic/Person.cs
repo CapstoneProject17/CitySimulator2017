@@ -97,15 +97,6 @@ namespace ServerForTheLogic
             TimeToGoToWork = new Random().Next(0, 24);
             TimeToGoToHome = (TimeToGoToWork + 8) % 24;
         }
-        /// <summary>
-        /// Determines time to go to work.
-        /// </summary>
-        public void WorkGroup() {
-
-        }
-        /// <summary>
-        /// Determines time to go to home.
-        /// </summary>
 
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
