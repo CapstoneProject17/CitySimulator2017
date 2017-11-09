@@ -11,111 +11,102 @@ namespace ServerForTheLogic.Econ
     {
         public static List<Business> BusinessesHiring { get; set; }
         //People will go here to buy products
-        public static List<Commercial> CommercialBusinesses { get; set; }
+        public static List<Business> CommercialBusinesses { get; set; }
         //Commercial will go here to buy products
-        public static List<Industrial> IndustrialBusinesses { get; set; }
+        public static List<Business> IndustrialBusinesses { get; set; }
         public static List<Business> Businesses { get; set; }
         public static List<Product> ProductsInDemand { get; set; }
         public static List<Product> Products { get; set; }
         //public static List<Product> RawMaterials { get; set; }
-        static Market ()
+        static Market()
         {
-            
-        
             ProductsInDemand = new List<Product>();
             Products = new List<Product>();
             Businesses = new List<Business>();
-            IndustrialBusinesses = new List<Industrial>();
+            IndustrialBusinesses = new List<Business>();
             BusinessesHiring = new List<Business>();
-            CommercialBusinesses = new List<Commercial>();
-           // RawMaterials = new List<Product>();
+            CommercialBusinesses = new List<Business>();
+            // RawMaterials = new List<Product>();
 
-            Product meme = new Product("Meme", 10,20,30);
+            Product meme = new Product("Meme", 10, 20, 30);
             //RawMaterials.Add(meme);
             ProductsInDemand.Add(meme);
             Products.Add(meme);
-
 
             //RawMaterials.Add(new Product("Metal", 20));
             //RawMaterials.Add(new Product("Cotton", 10));
             //RawMaterials.Add(new Product("Water", 10));
             //RawMaterials.Add(new Product("Silk", 10));
             //RawMaterials.Add(new Product("Plastic", 10));
-
-            //ProductInDemand = 
         }
 
-        public static void ProcessCustOrder(Order order)
+        public static void ProcessOrder(Order order, List<Business> SellerList)
         {
             int quantity = order.Amount;
-            Person customer = (Person)order.Sender;
-
-            foreach (Commercial c in CommercialBusinesses)
+            ICustomer buyer = order.Sender;
+            List<Business> storesAvailable = new List<Business>();
+            Console.WriteLine("Businesses available " + SellerList.Count);
+            int transfer;
+            for (int i = 0; i < SellerList.Count && quantity > 0; ++i)
             {
-                foreach (KeyValuePair<Product, int> p in c.inventory)
+                Business seller = SellerList[i];
+                if (seller.inventory.ContainsKey(order.OrderProduct))
                 {
-                    // do something with entry.Value or entry.Key
-                    if (p.Key.Equals(order.OrderProduct))
+                    int amountAvailable = seller.inventory[order.OrderProduct];
+                    if (amountAvailable < quantity)
                     {
-                        if (p.Value >= quantity)
-                        {
-                            c.inventory[p.Key] -= quantity;
-                            customer.Money -= (int)(p.Key.RetailPrice * quantity);
-                            c.Funds += (int)(p.Key.RetailPrice * quantity);
-                            break;
-                        } 
-                        else
-                        {
-                            quantity -= c.inventory[p.Key];
-                            customer.Money -= (int)(p.Key.RetailPrice * c.inventory[p.Key]);
-                            c.Funds += (int)(p.Key.RetailPrice * c.inventory[p.Key]);
-                            c.inventory[p.Key] = 0 ;
-                            //STOCK UP INVENTORY
+                        //storesAvailable.Add(b);
+                        transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
+                        seller.inventory[order.OrderProduct] -= amountAvailable;
+                        //seller needs to order more
+                        quantity -= amountAvailable;
+                        //b.inventory[order.OrderProduct] -= amountAvailable;
+                        seller.Funds += transfer;
+                        buyer.Funds -= transfer;
+                    } else
+                    {
+                        //storesAvailable.Add(b);
+                        transfer = (int)(order.OrderProduct.RetailPrice * quantity);
+                        seller.inventory[order.OrderProduct] -= quantity;
+                        //seller needs to order more
 
-                        }
-
+                        quantity = 0;
+                        //b.inventory[order.OrderProduct] -= amountAvailable;
+                        seller.Funds += transfer;
+                        buyer.Funds -= transfer;
                     }
                 }
             }
-        }
-
-        public static void ProcessBusOrder(Order order)
-        {
-            int quantity = order.Amount;
-            Business customer = (Business)order.Sender;
-
-            foreach (Industrial i in IndustrialBusinesses)
+            Console.WriteLine("Available count = " + storesAvailable.Count);
+            //int transfer;
+            /*for (int i = 0; i < storesAvailable.Count; ++i)
             {
-                foreach (KeyValuePair<Product, int> p in i.inventory)
+                if (i == storesAvailable.Count - 1)
                 {
-                    // do something with entry.Value or entry.Key
-                    if (p.Key.Equals(order.OrderProduct))
-                    {
-                        if (p.Value >= quantity)
-                        {
-                            i.inventory[p.Key] -= quantity;
-
-                            i.Funds += (int)(p.Key.RetailPrice * quantity);
-                            break;
-                        }
-                        else
-                        {
-                            quantity -= i.inventory[p.Key];
-                            i.Funds += (int)(p.Key.RetailPrice * i.inventory[p.Key]);
-                            i.inventory[p.Key] = 0;
-                            //PRODUCE MORE
-                            i.CreateProduct(p.Key);
-
-                        }
-
-
-
-                    }
+                    transfer = (int)(order.OrderProduct.RetailPrice * quantity);
+                    Console.WriteLine("tf" + transfer);
+                    Console.WriteLine("cnt" + storesAvailable[i].inventory[order.OrderProduct]);
+                    storesAvailable[i].inventory[order.OrderProduct] -= quantity;
+                    customer.Funds -= transfer;
+                    Console.WriteLine("customer funds = " + customer.Funds);
+                    Console.WriteLine("store available = " + storesAvailable[i].Funds);
+                    storesAvailable[i].Funds += transfer;
+                    Console.WriteLine(storesAvailable[i].Funds);
                 }
+                else
+                {
+                   // quantity -= storesAvailable[i].inventory[order.OrderProduct];
+                    transfer = (int)(order.OrderProduct.RetailPrice * storesAvailable[i].inventory[order.OrderProduct]);
+                    customer.Funds -= transfer;
+                    storesAvailable[i].Funds += transfer;
+                    storesAvailable[i].inventory[order.OrderProduct] = 0;
+                    //ORDER MORE PRODUCT
+                    storesAvailable[i].FillInventory();
+                }*/
+            while (quantity > 0)
+            {
+
             }
         }
-
-
-
     }
 }

@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Infrastructure
 {
-    class Business : Building
+    class Business : Building, ICustomer
     {
         public static int FIXED_FUNDS = 20000;
+        public const int MINIMUM_VALUE = 5;
+
         public double WageMultiplier { get; set; }
-        public int Funds { get; set; }
         public int AvgWorkerSalary { get; set; }
         public List<Person> workers { get; set; }
 
         /// <summary>
         /// Products being sold.
         /// </summary>
-        public Dictionary<Product,int> inventory { get; set; }
+        public Dictionary<Product, int> inventory { get; set; }
+        public int Funds { get; set; }
 
         public Business() : base()
         {
@@ -28,7 +30,7 @@ namespace ServerForTheLogic.Infrastructure
             inventory = new Dictionary<Product, int>();
         }
 
-        public Business(string Name,int capacity) : base(Name,capacity)
+        public Business(string Name, int capacity) : base(Name, capacity)
         {
             Funds = FIXED_FUNDS;
             WageMultiplier = 0.5;
@@ -41,7 +43,8 @@ namespace ServerForTheLogic.Infrastructure
 
         public virtual void AddProductToInventory()
         {
-            if (Market.ProductsInDemand != null && Market.ProductsInDemand.Count>0)
+            Console.WriteLine(Market.ProductsInDemand + "  " + Market.ProductsInDemand.Count);
+            if (Market.ProductsInDemand != null && Market.ProductsInDemand.Count > 0)
             {
                 foreach (Product p in Market.ProductsInDemand)
                 {
@@ -54,16 +57,10 @@ namespace ServerForTheLogic.Infrastructure
             }
         }
 
-        public virtual void BuyProducts()
-        {
-            
-        }
-
-        public virtual void BuyProduct(Product product)
+        public virtual void FillInventory()
         {
 
         }
-
 
         public void PayEmployees()
         {
@@ -78,7 +75,7 @@ namespace ServerForTheLogic.Infrastructure
             }
             foreach (Person w in workers)
             {
-                w.Money += AvgWorkerSalary;
+                w.Funds += AvgWorkerSalary;
             }
         }
     }

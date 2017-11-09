@@ -48,7 +48,7 @@ namespace ServerForTheLogic
             
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
-            Block b, b1, b2;
+           // Block b, b1, b2;
             if (city == null)
             {
                 //TEST DATA 
@@ -62,7 +62,6 @@ namespace ServerForTheLogic
                 Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
 
                 creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
-                //stick some buildings in them blocks
                 //creator.createBuilding(city, b);
                 //creator.createBuilding(city, b1);
                 //creator.createBuilding(city, b2);
@@ -91,6 +90,8 @@ namespace ServerForTheLogic
             printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
+            //foo();
+            bar();
             KeepOpen();
         }
         /// <summary>
@@ -148,7 +149,20 @@ namespace ServerForTheLogic
                 Console.WriteLine();
             }
         }
-
+        private static void foo()
+        {
+            Person p = new Person("go", "an", city);
+            Console.WriteLine(p.Funds);
+            p.BuyThings();
+            Console.WriteLine(p.Funds);
+        }
+        private static void bar()
+        {
+            Commercial b = new Commercial("fuck", 10);
+            Console.WriteLine("funds before "  + b.Funds);
+            b.FillInventory();
+            Console.WriteLine("funds after " + b.Funds);
+        }
 
     }
 }

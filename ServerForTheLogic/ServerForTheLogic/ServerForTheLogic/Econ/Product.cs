@@ -15,6 +15,7 @@ namespace ServerForTheLogic.Econ
         public double ManufacturingPrice { get; set; }
         public double WholesalePrice { get; set; }
         public double RetailPrice { get; set; }
+        public static int GlobalCount { get; set; }
         public Dictionary<Product,double> Materials { get; set; }
 
         /// <summary>

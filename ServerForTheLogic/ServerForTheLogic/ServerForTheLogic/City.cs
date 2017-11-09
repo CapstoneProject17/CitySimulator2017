@@ -81,14 +81,16 @@ namespace ServerForTheLogic
         /// </summary>
         public City()
         {
-
             Map = new Location[CITY_WIDTH, CITY_LENGTH];
             BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1),
                                  CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
             AllPeople = new List<Person>();
             Homes = new List<Residential>();
             Workplaces = new List<Business>();
+
             PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
+            for (int i = 0; i < 24; ++i)
+                PartialUpdateList.Add(i, new Dictionary<Guid, Point>());
 
             int width = CITY_WIDTH / (Block.BLOCK_WIDTH - 1);
             int height = CITY_LENGTH / (Block.BLOCK_LENGTH - 1);

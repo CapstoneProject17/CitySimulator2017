@@ -9,33 +9,36 @@ namespace ServerForTheLogic.Infrastructure
 {
     class Commercial : Business
     {
-        public const int MINIMUM_VALUE = 5;
         public Commercial() : base()
         {
             this.Type = "C";
+            //FillInventory();
         }
-        public Commercial(string Name,int capacity) : base(Name,capacity)
+        public Commercial(string Name, int capacity) : base(Name, capacity)
         {
             this.Type = "C";
+            //FillInventory();
         }
-        public override void BuyProducts()
+        public override void FillInventory()
         {
+            Dictionary<Product, int> productsBought = new Dictionary<Product, int>();
             foreach (KeyValuePair<Product, int> p in inventory)
             {
-
-                if (p.Value < MINIMUM_VALUE)
-                {
-                    Order order = new Order(p.Key, 3 * MINIMUM_VALUE,this);
-                    
-                }
+                //if (p.Value < MINIMUM_VALUE)
+                //{
+                Order order = new Order(p.Key, 3 * MINIMUM_VALUE, this);
+                productsBought.Add(p.Key, order.Amount);
+                Console.WriteLine("Sending order to market");
+                Market.ProcessOrder(order, Market.IndustrialBusinesses);
+                Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
+                //}
 
             }
-        }
 
-        public override void BuyProduct(Product product)
-        {
-            
-
+            foreach (KeyValuePair<Product, int> p in productsBought)
+            {
+                inventory[p.Key] += p.Value;
+            }
         }
     }
 }
