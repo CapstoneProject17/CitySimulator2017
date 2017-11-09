@@ -48,9 +48,10 @@ namespace ServerForTheLogic.Utilities
             {
                 //MAKE NEW RESIDENTIAL BUILDING
             }
-            Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
-            temp.Workplace = business;
-            city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
+            //Had an error here
+            //Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
+            //temp.Workplace = business;
+            //city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
 
             return temp;
         }

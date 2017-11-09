@@ -72,6 +72,11 @@ namespace ServerForTheLogic
         public int Age;
 
         /// <summary>
+        /// Current Age in years
+        /// </summary>
+        private bool isDead;
+
+        /// <summary>
         /// 0-23
         /// </summary>
         public int TimeToGoToWork { get; }
@@ -84,7 +89,7 @@ namespace ServerForTheLogic
         {
             FName = fName;
             LName = lName;
-
+            isDead = false;
             Id = Guid.NewGuid();
             setDeathAge();
             Funds = new Random().Next(500, 10000);
@@ -154,7 +159,7 @@ namespace ServerForTheLogic
                 Order order = new Order(Market.Products[rand], 1, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
+                //Console.WriteLine("Bought " + order.OrderProduct.ProductName);
             }
         }
         /// <summary>

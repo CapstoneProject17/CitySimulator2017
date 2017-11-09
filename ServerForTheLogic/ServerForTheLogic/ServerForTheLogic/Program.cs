@@ -49,18 +49,18 @@ namespace ServerForTheLogic
                 //b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
                 //b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
                 //b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
-                Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
-                Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
+                //Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
+                //Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
 
                 creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
                 //creator.createBuilding(city, b);
                 //creator.createBuilding(city, b1);
                 //creator.createBuilding(city, b2);
                 //stick some poeple in here
-                Person me = new Person();
+                Person me;
+                me = creator.createPerson(city);
                 city.AllPeople.Add(me);
-                me = maker.CreatePerson();
-                //me.Dump();
+                //city.AllPeople.Dump();
             }
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.BlockMap)

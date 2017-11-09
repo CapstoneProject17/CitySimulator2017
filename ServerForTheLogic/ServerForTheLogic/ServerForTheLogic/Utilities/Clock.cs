@@ -83,7 +83,7 @@ namespace ServerForTheLogic.Utilities
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
             netMinutes++;
-            Console.WriteLine("Mins:\t" + netMinutes);
+            //Console.WriteLine("Mins:\t" + netMinutes);
 
             if (netMinutes / 30 > netHours)
             {
@@ -98,7 +98,7 @@ namespace ServerForTheLogic.Utilities
         private void tickHour()
         {
             netHours = netMinutes / 30;
-            Console.WriteLine("Hours:\t" + netHours);
+            //Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
             //error
             //updater.sendPartialUpdate(
@@ -126,7 +126,7 @@ namespace ServerForTheLogic.Utilities
             }
 
             netDays = netHours / 24;//send nudes
-            Console.WriteLine("Days:\t" + netDays);
+            //Console.WriteLine("Days:\t" + netDays);
             if (netDays / 3 > netYears) {
                 tickYear();
             }
@@ -140,7 +140,7 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-11-07
         private void tickYear() {
             netYears++;
-            Console.WriteLine("Years:\t" + netYears);
+            //Console.WriteLine("Years:\t" + netYears);
             foreach (Person p in city.AllPeople) {
                 p.SetAge();
             }
