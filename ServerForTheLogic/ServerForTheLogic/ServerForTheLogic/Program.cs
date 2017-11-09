@@ -65,6 +65,13 @@ namespace ServerForTheLogic
                 //creator.createBuilding(city, b);
                 //creator.createBuilding(city, b1);
                 //creator.createBuilding(city, b2);
+
+
+                //Commented out Creating a Person
+                //Person me;
+                //me = creator.createPerson(city);
+                //city.AllPeople.Add(me);
+                
             }
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.BlockMap)
