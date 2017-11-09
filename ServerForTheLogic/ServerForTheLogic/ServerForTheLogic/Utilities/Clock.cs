@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using ConsoleDump;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -21,69 +22,39 @@ namespace ServerForTheLogic.Utilities
         // Ticks every second to update the current time values.
         private Timer timer;
         private City city;
-        [JsonProperty]
-        private UInt32 netMinutes;
-        /// <summary>
-        /// The total number of minutes since this Clock started.
-        /// </summary>
-        public UInt32 NetMinutes
-        {
-            get
-            {
-                return netMinutes;
-            }
-        }
 
         /// <summary>
         /// The number of minutes that have passed in the current hour.
+        /// minutes are 0.5 seconds
         /// </summary>
-        public UInt32 MinuteComponent
-        {
-            get
-            {
-                return netMinutes % 60;
-            }
-        }
         [JsonProperty]
-        private UInt32 netHours;
-        /// <summary>
-        /// The total number of hours since this Clock started.
-        /// </summary>
-        public UInt32 NetHours
-        {
-            get
-            {
-                return netHours;
-            }
-        }
+        public UInt32 netMinutes { get; set; }
 
         /// <summary>
-        /// The number of hours that have passed in the current day.
+        /// The total number of hours since this Clock started.
+        /// hours are 30 seconds
         /// </summary>
-        public UInt32 HourComponent
-        {
-            get
-            {
-                return netHours % 24;
-            }
-        }
         [JsonProperty]
-        private UInt32 netDays;
+        public UInt32 netHours { get; set; }
+
         /// <summary>
         /// The total number of days since this Clock started.
+        /// days are 12 min
         /// </summary>
-        public UInt32 NetDays
-        {
-            get
-            {
-                return netDays;
-            }
-        }
+        [JsonProperty]
+        private UInt32 netDays { get; set; }
+
+        /// <summary>
+        /// The total number of years since this Clock started.
+        /// </summary>
+        [JsonProperty]
+        private UInt32 netYears { get; set; }
+
         [JsonProperty]
         /// <summary>
         /// The number of milliseconds between Clock "ticks."  In this case, 1 second.
         /// </summary>
-        public const int INTERVAL = 1000;
+        public const int INTERVAL = 500;
 
         /// <summary>
         /// Constructs a Clock object.
@@ -114,7 +85,7 @@ namespace ServerForTheLogic.Utilities
             netMinutes++;
             Console.WriteLine("Mins:\t" + netMinutes);
 
-            if (netMinutes / 60 > netHours)
+            if (netMinutes / 30 > netHours)
             {
                 tickHour();
             }
@@ -126,13 +97,14 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-10-02
         private void tickHour()
         {
-            netHours = netMinutes / 60;
+            netHours = netMinutes / 30;
             Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
-            updater.sendPartialUpdate(
-                city.PartialUpdateList[(int)HourComponent], //gets all persons that have move
-                Newtonsoft.Json.Formatting.None
-                );
+            //error
+            //updater.sendPartialUpdate(
+            //    city.PartialUpdateList[(int)HourComponent], //gets all persons that have move
+            //    Newtonsoft.Json.Formatting.None
+            //    );
             if (netHours / 24 > netDays)
             {
                 tickDay();
@@ -142,20 +114,36 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netDays.
         /// </summary>
-        /// <para/> Last edited:  2017-10-02
+        /// <para/> Last edited:  2017-11-07
         private void tickDay()
         {
             foreach (Person p in city.AllPeople)
             {
-                if (p.Age())
+                if (p.AgeDeathTick())
                 {
                     city.AllPeople.Remove(p);
                 }
             }
+
             netDays = netHours / 24;//send nudes
             Console.WriteLine("Days:\t" + netDays);
+            if (netDays / 3 > netYears) {
+                tickYear();
+            }
             //Updater updater = new Updater();
             //updater.SendDailyUpdate(DATA);
+        }
+
+        /// <summary>
+        /// Updates netYears.
+        /// </summary>
+        /// <para/> Last edited:  2017-11-07
+        private void tickYear() {
+            netYears++;
+            Console.WriteLine("Years:\t" + netYears);
+            foreach (Person p in city.AllPeople) {
+                p.SetAge();
+            }
         }
     }
 }

@@ -100,7 +100,7 @@ namespace ServerForTheLogic
                     );
                 }
             }
-            // clock = new Clock(this);
+             clock = new Clock(this);
 
             // TO DO: code to create initial state, or load from DB
 

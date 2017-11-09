@@ -18,7 +18,7 @@ namespace ServerForTheLogic.Utilities
         /// Generates a person with an english first and last name.
         /// </summary>
         /// <returns></returns>
-        public Person createPerson()
+        public Person CreatePerson()
         {
             var modelFaker = new Faker<Person>("en")
                 .RuleFor(o => o.FName, (f, o) => f.Name.FirstName())

@@ -73,7 +73,13 @@ namespace ServerForTheLogic
         /// <summary>
         /// Number of days remaining until person dies
         /// </summary>
-        private int DaysLeft;
+        public int DaysLeft;
+
+        [JsonProperty]
+        /// <summary>
+        /// Current Age in years
+        /// </summary>
+        public int Age;
 
         /// <summary>
         /// 0-23
@@ -84,19 +90,28 @@ namespace ServerForTheLogic
         /// </summary>
         private int timeToGoToHome;
 
-        public Person(City c, Building workplace, Building home)
+        //public Person(City c, Building workplace, Building home)
+        public Person()
         {
             id = Guid.NewGuid();
             isDead = false;
             setDeathAge();
-            Workplace = workplace;
-            Home = home;
+            //Workplace = workplace;
+            //Home = home;
             timeToGoToWork = new Random().Next(0, 24);
             timeToGoToHome = (timeToGoToWork + 8) % 24;
-            c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
-            c.PartialUpdateList[timeToGoToWork][id] = Workplace.Point;
+            //c.PartialUpdateList[timeToGoToHome][id] = Home.Point;
+            //c.PartialUpdateList[timeToGoToWork][id] = Workplace.Point;
         }
+        /// <summary>
+        /// Determines time to go to work.
+        /// </summary>
+        public void WorkGroup() {
 
+        }
+        /// <summary>
+        /// Determines time to go to home.
+        /// </summary>
 
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
@@ -132,14 +147,20 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        ///
+        /// Decrements the Days left for a person
         /// </summary>
-        public bool Age()
+        public bool AgeDeathTick()
         {
             DaysLeft--;
-            if (DaysLeft == 0)
+            if (DaysLeft <= 0)
                 isDead = true;
             return isDead;
+        }
+        /// <summary>
+        /// Sets Age of Person
+        /// </summary>
+        public void SetAge() {
+                Age++;
         }
     }
 }

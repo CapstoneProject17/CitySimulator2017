@@ -31,18 +31,9 @@ namespace ServerForTheLogic
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            ////Person me = new Person();
-            ////me.Dump();
-            //Person me = new Person();
-            //for (int i = 0; i < 24; i++) {
-            //    me = new Person();
-            //   // me.createPerson();
-            //    People.Add(me);
-            //    me = null;
-            //}
-            //People.Dump();
-            //me = new Person();
-            //// me.KeepOpen();
+            Creator maker = new Creator();
+            
+
             //KeepOpen();
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
@@ -61,6 +52,12 @@ namespace ServerForTheLogic
                 creator.createBuilding(city, b);
                 creator.createBuilding(city, b1);
                 creator.createBuilding(city, b2);
+
+                //stick some poeple in here
+                Person me = new Person();
+                me = maker.CreatePerson();
+                city.AllPeople.Add(me);
+                //me.Dump();
             }
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.BlockMap)
@@ -70,7 +67,7 @@ namespace ServerForTheLogic
 
 
 
-            Console.WriteLine("expand");
+            //Console.WriteLine("expand");
             for (int i = 0; i < city.BlockMap.Length; i++)
             {
                 city.expandCity();
@@ -83,7 +80,7 @@ namespace ServerForTheLogic
                 if (block.Adjacents.Count > 8)
                     Console.WriteLine("Too many:" + block.ToString());
             //city.printBlockMapTypes();
-            printCity();
+            //printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
             KeepOpen();
