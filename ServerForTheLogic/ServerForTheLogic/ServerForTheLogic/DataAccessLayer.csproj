@@ -62,11 +62,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings.cs" />
-    <Compile Include="Citizens.cs" />
+    <Compile Include="Commercial.cs" />
+    <Compile Include="Industrial.cs" />
+    <Compile Include="OLDBuildings.cs" />
+    <Compile Include="OLDCitizens.cs" />
     <Compile Include="MongoDAL.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Road.cs" />
     <Compile Include="SaveState.cs" />
   </ItemGroup>
   <ItemGroup>
