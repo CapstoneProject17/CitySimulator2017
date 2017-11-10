@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 0}
   gameSettings: {fileID: 0}
-  levelToLoad: 
+  sceneToLoad: 
 --- !u!1 &17867333
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,8 +649,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 127092656}
-  - component: {fileID: 127092657}
   - component: {fileID: 127092658}
+  - component: {fileID: 127092657}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 0}
   gameSettings: {fileID: 0}
-  levelToLoad: 
+  sceneToLoad: 
 --- !u!1 &1814105742
 GameObject:
   m_ObjectHideFlags: 0
