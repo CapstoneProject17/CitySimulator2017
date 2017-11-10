@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Module: MouseManager
+/// Module: GUIMouseEventManager
 /// Team: Client
 /// Description: Add functionality for mouse clicking, in order to select objects
 /// Author: 
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 /// Based on: https://docs.unity3d.com/ScriptReference/Input.GetMouseButtonDown.html
 /// </summary>
 
-public class MouseManager : MonoBehaviour
+public class GUIMouseEventManager : MonoBehaviour
 {
 
     private List<GUIObjectInteractive> Selections = new List<GUIObjectInteractive>();  // the list of selected objects

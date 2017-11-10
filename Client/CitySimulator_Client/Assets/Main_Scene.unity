@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427147, b: 0.56452364, a: 1}
+  m_IndirectSpecularColor: {r: 0.43668893, g: 0.4842832, b: 0.56452656, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 0}
   gameSettings: {fileID: 0}
-  levelToLoad: 
+  sceneToLoad: 
 --- !u!1 &17867333
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +890,7 @@ RectTransform:
   - {fileID: 15247961}
   - {fileID: 1278615829}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1874,7 +1874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 0}
   gameSettings: {fileID: 0}
-  levelToLoad: 
+  sceneToLoad: 
 --- !u!1 &1619327302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2033,7 +2033,6 @@ GameObject:
   - component: {fileID: 1857592183}
   - component: {fileID: 1857592182}
   - component: {fileID: 1857592184}
-  - component: {fileID: 1857592185}
   m_Layer: 0
   m_Name: BuildingManager
   m_TagString: Untagged
@@ -2055,7 +2054,7 @@ MonoBehaviour:
   building: {fileID: 4050513972299326, guid: 011e0bc1e412f4a029f3438b01663eaa, type: 2}
   industryBuilding: {fileID: 4355730246981008, guid: c5986d2fafae94e789a654f6ed10006e,
     type: 2}
-  parentBuilding: {fileID: 0}
+  buildingManager: {fileID: 0}
 --- !u!4 &1857592183
 Transform:
   m_ObjectHideFlags: 0
@@ -2067,7 +2066,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1857592184
 MonoBehaviour:
@@ -2078,17 +2077,6 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c98572b495a844bf58c07febed75605c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1857592185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1857592181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a948a1a8e885f467bba5b3e007b993a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1898423400
