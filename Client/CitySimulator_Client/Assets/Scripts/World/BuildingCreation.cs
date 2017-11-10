@@ -28,7 +28,7 @@ public class BuildingCreation : MonoBehaviour {
 	void Start () {
 		planeTransform = GameObject.Find("Plane(Clone)").transform;
 		buildingManager = GameObject.Find ("BuildingManager");
-		CreateBuilding ();
+		createBuilding ();
 	}
 
 	// Update is called once per frame
@@ -36,7 +36,7 @@ public class BuildingCreation : MonoBehaviour {
 	}
 
 	// Create building model
-	void CreateBuilding () {
+	void createBuilding () {
 		planes = GameObject.FindGameObjectsWithTag ("plane");
 		int x = 0;
 		int z = 0;
