@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerForTheLogic.ClientObject.Building;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,17 +13,26 @@ namespace ServerForTheLogic
     /// Industrial class for buildings which produce goods and have employees.
     /// Author: Stephanie 
     /// Date: 2017 11 08
+    /// 
+    /// Update:
+    /// 2017-11-12 Bill
+    ///     - updated summary for all fields
     /// </summary>
-    class Industrial
+    class Industrial : Building
     {
-        public Guid Guid { get; set; }
-        public int XPoint { get; set; }
-        public int YPoint { get; set; }
+        /// <summary>
+        /// InventoryCount - positive int only
+        /// </summary>
         public int InventoryCount { get; set; }
+
+        /// <summary>
+        /// ProductionCost - positive int only
+        /// </summary>
         public int ProductionCost { get; set; }
+
+        /// <summary>
+        /// WholesalePrice - positive int only
+        /// </summary>
         public int WholesalePrice { get; set; }
-        public int Rating { get; set; }
-        public int Capacity { get; set; }
-        public Boolean IsTall { get; set; }
     }
 }
