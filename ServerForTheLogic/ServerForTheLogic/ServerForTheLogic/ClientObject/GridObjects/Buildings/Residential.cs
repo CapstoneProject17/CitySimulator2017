@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerForTheLogic.ClientObject.Building;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +10,12 @@ namespace ServerForTheLogic
     /// <summary>
     /// MongoDAL
     /// Team: DB
-    /// Road class mapped to Road collection of the database and the "roads" in the simulation.
+    /// Residential class for homes of inhabitants.
     /// Author: Stephanie 
     /// Date: 2017 11 08
     /// </summary>
-    class Road
+    class Residential : Building
     {
-        public Guid Guid { get; set; }
-        public int XPoint { get; set; }
-        public int YPoint { get; set; }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerForTheLogic.ClientObject.Building;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,21 @@ namespace ServerForTheLogic
     /// Commercial class represents buildings which buy goods from industrial providers and sell them to actors within the simulation.
     /// Author: Stephanie 
     /// Date: 2017 11 08
+    /// 
+    /// Update:
+    /// 2017-11-12 Bill
+    ///     - updated summary for all fields
     /// </summary>
-    class Commercial
+    class Commercial : Building
     {
-        public Guid Guid { get; set; }
-        public int XPoint { get; set; }
-        public int YPoint { get; set; }
-        public int Rating { get; set; }
+        /// <summary>
+        /// RetailPrice must be a valid integer
+        /// </summary>
         public int RetailPrice { get; set; }
-        public int Capacity { get; set; }
-        public Boolean IsTall { get; set; }
+
+        /// <summary>
+        /// InventoryCount must be a valid integer
+        /// </summary>                  
         public int InventoryCount { get; set; }
     }
 }
