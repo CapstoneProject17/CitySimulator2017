@@ -19,6 +19,12 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     class Product
     {
+
+        public Product(string name, int globalCount)
+        {
+            Name = name;
+            GlobalCount = globalCount;
+        }
         /// <summary>
         /// 1. Name can not be null
         /// 2. Name can not be empty

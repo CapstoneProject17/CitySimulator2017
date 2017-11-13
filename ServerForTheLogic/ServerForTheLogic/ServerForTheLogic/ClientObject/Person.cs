@@ -24,6 +24,47 @@ namespace ServerForTheLogic.ClientObject
     class Person
     {
         /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="monthlyIncome"></param>
+        /// <param name="accountBalance"></param>
+        /// <param name="workPlaceID"></param>
+        /// <param name="workplaceX"></param>
+        /// <param name="workplaceY"></param>
+        /// <param name="homeID"></param>
+        /// <param name="homeX"></param>
+        /// <param name="homeY"></param>
+        /// <param name="daysLeft"></param>
+        /// <param name="age"></param>
+        /// <param name="startShift"></param>
+        /// <param name="endShift"></param>
+        public Person(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
+        {
+            Guid = guid;
+            FirstName = firstName;
+            LastName = lastName;
+            MonthlyIncome = monthlyIncome;
+            AccountBalance = accountBalance;
+            WorkplaceID = workPlaceID;
+            WorkplaceX = workplaceX;
+            WorkplaceY = workplaceY;
+            HomeID = homeID;
+            HomeX = homeX;
+            HomeY = homeY;
+            DaysLeft = daysLeft;
+            Age = age;
+            StartShift = startShift;
+            EndShift = endShift;
+        }
+
+        /// <summary>
+        /// ID for the person
+        /// </summary>
+        public Guid Guid { get; set; }
+
+        /// <summary>
         /// 1. FirstName can not be null
         /// 2. FirstName can not be empty
         /// 3. FirstName can not be longer than 30 letters

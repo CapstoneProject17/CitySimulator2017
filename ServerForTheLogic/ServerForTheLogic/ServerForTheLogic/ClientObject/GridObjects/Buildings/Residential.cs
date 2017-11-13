@@ -16,6 +16,9 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     class Residential : Building
     {
-        
+        public Residential(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint, rating, isTall, capacity)
+        {
+
+        }
     }
 }

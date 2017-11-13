@@ -133,7 +133,7 @@ namespace DataAccessLayer
 
         /// <summary>
         /// Residential Building Validator
-        /// 
+        ///  
         /// Check whether all the fields in residentialBuilding is valid
         /// 
         /// Author: Bill

@@ -21,6 +21,13 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     class Commercial : Building
     {
+        public Commercial(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
+            : base(guid, xPoint, yPoint, rating, isTall, capacity)
+        {
+            RetailPrice = retailPrice;
+            InventoryCount = inventoryCount;
+        }
+
         /// <summary>
         /// RetailPrice must be a valid integer
         /// </summary>
