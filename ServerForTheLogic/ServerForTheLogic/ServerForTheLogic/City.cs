@@ -8,12 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
     class City
     {
+
+        public static int FIXED_CAPACITY = 50;
+
+        private Faker faker;
+
         [JsonProperty]
         /// <summary>
         /// Max width of the city grid
@@ -88,6 +94,9 @@ namespace ServerForTheLogic
             Homes = new List<Residential>();
             Workplaces = new List<Business>();
 
+            faker = new Faker("en");
+
+
             PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
             for (int i = 0; i < 24; ++i)
                 PartialUpdateList.Add(i, new Dictionary<Guid, Point>());
@@ -105,7 +114,7 @@ namespace ServerForTheLogic
                     );
                 }
             }
-             clock = new Clock(this);
+            clock = new Clock(this);
 
             // TO DO: code to create initial state, or load from DB
 
@@ -132,7 +141,7 @@ namespace ServerForTheLogic
         /// <returns></returns>
         public Location GetLocationAt(int x, int z)
         {
-           return Map[x, z];
+            return Map[x, z];
         }
 
         /// <summary>
@@ -190,8 +199,6 @@ namespace ServerForTheLogic
             //Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
             foreach (Block occupiedBlock in occupiedBlocks)
             {
-                //Console.WriteLine("in occupied blocks");
-                //Console.WriteLine("Adjacent Count: " + occupiedBlock.Adjacents.Count);
                 foreach (Block b in occupiedBlock.Adjacents)
                 {
                     if (b.Type == BlockType.Empty)
@@ -202,26 +209,22 @@ namespace ServerForTheLogic
                 }
 
             }
-            //foreach (Block b in empties)
-            //    Console.WriteLine(b.ToString());
-            //Console.WriteLine("Empties: " + empties.Count);
+            
             if (empties.Count != 0)
             {
-                Bogus.Randomizer rand = new Bogus.Randomizer();
-                Creator c = new Creator();
-
+                Randomizer rand = new Randomizer();
                 int index = rand.Number(0, empties.Count - 1);
 
                 //empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
-                c.addRoadsToEmptyBlock(empties[index], this);
+                addRoadsToEmptyBlock(empties[index]);
                 setAdjacents(empties[index]);
-                for (int i = 0; i < 12; i++)
-                    c.createBuilding(this,
-                        BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                                 empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+
+                //for (int i = 0; i < 12; i++)
+                createBuilding( BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                                empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
         }
-        
+
         public void printBlockMapTypes()
         {
             foreach (Block b in BlockMap)
@@ -229,5 +232,169 @@ namespace ServerForTheLogic
                 Console.WriteLine(b.Type);
             }
         }
+
+        /// <summary>
+        /// Generates a person with an english first and last name.
+        /// </summary>
+        /// <returns></returns>
+        public Person createPerson()
+        {
+            Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), this);
+            Randomizer rand = new Randomizer();
+            List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0,Homes.Count)).ToList();
+            foreach (Residential r in randHomes)
+            {
+                if (r.NumberOfResidents < r.Capacity)
+                {
+                    temp.Home = r;
+                    r.NumberOfResidents++;
+                    PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, r.Point);
+                    break;
+                }
+            }
+            if (temp.Home == null)
+            {
+                //MAKE NEW RESIDENTIAL BUILDING
+            }
+
+
+            //Had an error here
+            //Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
+            //temp.Workplace = business;
+            //city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
+
+            return temp;
+        }
+
+        /// <summary>
+        /// Generates a building based on the block's BlockType
+        /// </summary>
+        /// <returns></returns>
+        public void createBuilding(Block block)
+        {
+            List<Point> availablePoints = new List<Point>();
+            for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
+            {
+                for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
+                {
+                    if (block.LandPlot[i, j] == null)
+                    {
+                        //block.LandPlot[i, j] = industrial;
+                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
+                        //added = true;
+                        availablePoints.Add(new Point(i, j));
+                    }
+                }
+            }
+
+            int rand = new Randomizer().Number(0, availablePoints.Count - 1);
+            int x = availablePoints[rand].x;
+            int z = availablePoints[rand].z;
+
+            if (block.Type == BlockType.Commercial)
+            {
+                Commercial building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
+                Market.CommercialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+
+            }
+            else if (block.Type == BlockType.Residential)
+            {
+                Residential building = new Residential(FIXED_CAPACITY);
+                Homes.Add(building);
+                block.LandPlot[x, z] = building;
+                Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+                if (building.IsTall)
+                    building.NumberOfResidents = Residential.CAPACITY_TALL;
+            }
+            else if (block.Type == BlockType.Industrial)
+            {
+                Industrial building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY);
+                Market.IndustrialBusinesses.Add(building);
+                Market.BusinessesHiring.Add(building);
+                block.LandPlot[x, z] = building;
+                Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+                // city.Workplaces.Add(building);
+            }
+            else
+            {
+                throw new InvalidOperationException("cannot add building to empty block");
+            }
+
+
+        }
+
+        /// <summary>
+        /// Fill the border of a block with road.
+        /// </summary>
+        /// <param name="startPoint"></param>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        /// Updated on: 18-10-2017
+        /// Updated by: Connor Goudie
+        /// Changes: Refactored for readability (no functionality changes)
+        public void addRoadsToEmptyBlock(Block b)
+        {
+            int xPos = b.StartPoint.x;
+            int zPos = b.StartPoint.z;
+            int width = Block.BLOCK_WIDTH - 1;
+            int length = Block.BLOCK_LENGTH - 1;
+            // Adds roads to the top and bottom borders of the block grid
+            for (int i = 0; i < Block.BLOCK_WIDTH; i++)
+            {
+                if (GetLocationAt(i + xPos, zPos) != null)
+                {
+                    b.LandPlot[i, 0] = GetLocationAt(i + xPos, zPos);
+                }
+                else
+                {
+                    b.LandPlot[i, 0] = new Road("");
+                    Map[i + xPos, zPos] = b.LandPlot[i, 0];
+                }
+
+                if (GetLocationAt(i + xPos, zPos + length) != null)
+                {
+                    b.LandPlot[i, length] = GetLocationAt(i + xPos, zPos + length);
+                }
+                else
+                {
+                    b.LandPlot[i, length] = new Road("");
+                    Map[i + xPos, zPos + length] = b.LandPlot[i, length];
+                }
+            }
+
+            //adds roads to the left and right borders of the block grid
+            for (int i = 0; i < Block.BLOCK_LENGTH; i++)
+            {
+                if (GetLocationAt(xPos, i + zPos) != null)
+                {
+                    b.LandPlot[0, i] = GetLocationAt(xPos, i + zPos);
+                }
+                else
+                {
+                    b.LandPlot[0, i] = new Road("");
+                    Map[xPos, i + zPos] = b.LandPlot[0, i];
+                }
+
+                if (GetLocationAt(xPos + width, i + zPos) != null)
+                {
+                    b.LandPlot[width, i] = GetLocationAt(xPos + width, i + zPos);
+                }
+                else
+                {
+                    b.LandPlot[width, i] = new Road("");
+                    Map[xPos + width, i + zPos] = b.LandPlot[width, i];
+                }
+            }
+            b.setBlockType();
+
+            //city.BlockMap[xPos / width, zPos / length] = b;
+            // return b;
+        }
+
     }
+
+
 }

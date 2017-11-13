@@ -23,7 +23,6 @@ namespace ServerForTheLogic
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
-        private static Creator creator;
 
         /// <summary>
         /// Entry point for the city simulator program
@@ -32,11 +31,7 @@ namespace ServerForTheLogic
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Creator maker = new Creator();
-            
-
-            //KeepOpen();
-            
+          
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
            // Block b, b1, b2;
@@ -44,20 +39,10 @@ namespace ServerForTheLogic
             {
                 //TEST DATA 
                 city = new City();
-                creator = new Creator();
                 //fill 3 blocks
-                //b = creator.addRoadsToEmptyBlock(new Block(new Point(51, 98)), city);
-                //b1 = creator.addRoadsToEmptyBlock(new Block(new Point(51, 91)), city);
-                //b2 = creator.addRoadsToEmptyBlock(new Block(new Point(54, 91)), city);
-                //Console.WriteLine("BlockMap Length = " + city.BlockMap.GetLength(0));
-                //Console.WriteLine("BlockMap Width = " + city.BlockMap.GetLength(1));
-
-                creator.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2],city);
-                //creator.createBuilding(city, b);
-                //creator.createBuilding(city, b1);
-                //creator.createBuilding(city, b2);
-
-
+               
+                city.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2]);
+                
                 //Commented out Creating a Person
                 //Person me;
                 //me = creator.createPerson(city);
@@ -70,26 +55,21 @@ namespace ServerForTheLogic
                 city.setAdjacents(block);
             }
 
-             
-
-
-            //Console.WriteLine("expand");
-            for (int i = 0; i < city.BlockMap.Length; i++)
+          
+            for (int i = 0; i < city.BlockMap.GetLength(0); i++)
             {
                 city.expandCity();
             }
 
-            //Console.WriteLine(b.Adjacents.Count);
-            //Console.WriteLine(b1.Adjacents.Count);
-            //Console.WriteLine(b2.Adjacents.Count);
+            
             foreach (Block block in city.BlockMap)
                 if (block.Adjacents.Count > 8)
                     Console.WriteLine("Too many:" + block.ToString());
             //city.printBlockMapTypes();
-            //printCity();
+            printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
-            //foo();
+            foo();
             bar();
             KeepOpen();
         }
@@ -150,6 +130,7 @@ namespace ServerForTheLogic
         }
         private static void foo()
         {
+            Console.WriteLine("FOO");
             Person p = new Person("go", "an", city);
             Console.WriteLine(p.Funds);
             p.BuyThings();
@@ -157,6 +138,7 @@ namespace ServerForTheLogic
         }
         private static void bar()
         {
+            Console.WriteLine("BAR");
             Commercial b = new Commercial("fuck", 10);
             Console.WriteLine("funds before "  + b.Funds);
             b.FillInventory();

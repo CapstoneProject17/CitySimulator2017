@@ -12,26 +12,26 @@ namespace ServerForTheLogic.Infrastructure
         public Commercial() : base()
         {
             this.Type = "C";
-            //FillInventory();
+            FillInventory();
         }
         public Commercial(string Name, int capacity) : base(Name, capacity)
         {
             this.Type = "C";
-            //FillInventory();
+            FillInventory();
         }
         public override void FillInventory()
         {
             Dictionary<Product, int> productsBought = new Dictionary<Product, int>();
             foreach (KeyValuePair<Product, int> p in inventory)
             {
-                //if (p.Value < MINIMUM_VALUE)
-                //{
-                Order order = new Order(p.Key, 3 * MINIMUM_VALUE, this);
-                productsBought.Add(p.Key, order.Amount);
-                Console.WriteLine("Sending order to market");
-                Market.ProcessOrder(order, Market.IndustrialBusinesses);
-                Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
-                //}
+                if (p.Value < MINIMUM_VALUE)
+                {
+                    Order order = new Order(p.Key, MINIMUM_VALUE, this);
+                    productsBought.Add(p.Key, order.Amount);
+                   // Console.WriteLine("Sending order to market");
+                    Market.ProcessOrder(order, Market.IndustrialBusinesses);
+                    Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
+                }
 
             }
 

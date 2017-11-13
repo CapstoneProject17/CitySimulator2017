@@ -42,38 +42,40 @@ namespace ServerForTheLogic.Econ
 
         public static void ProcessOrder(Order order, List<Business> SellerList)
         {
-            int quantity = order.Amount;
+            int quantityOrdered = order.Amount;
             ICustomer buyer = order.Sender;
             List<Business> storesAvailable = new List<Business>();
             Console.WriteLine("Businesses available " + SellerList.Count);
             int transfer;
-            for (int i = 0; i < SellerList.Count && quantity > 0; ++i)
+            for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
             {
                 Business seller = SellerList[i];
                 if (seller.inventory.ContainsKey(order.OrderProduct))
                 {
                     int amountAvailable = seller.inventory[order.OrderProduct];
-                    if (amountAvailable < quantity)
+                    if (amountAvailable < quantityOrdered && amountAvailable != 0)
                     {
                         //storesAvailable.Add(b);
                         transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
                         seller.inventory[order.OrderProduct] -= amountAvailable;
                         //seller needs to order more
-                        quantity -= amountAvailable;
+                        seller.FillInventory();
+                        quantityOrdered -= amountAvailable;
                         //b.inventory[order.OrderProduct] -= amountAvailable;
                         seller.Funds += transfer;
                         buyer.Funds -= transfer;
-                    } else
+                    }
+                    else if (amountAvailable >= quantityOrdered)
                     {
                         //storesAvailable.Add(b);
-                        transfer = (int)(order.OrderProduct.RetailPrice * quantity);
-                        seller.inventory[order.OrderProduct] -= quantity;
-                        //seller needs to order more
-
-                        quantity = 0;
+                        transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);
+                        seller.inventory[order.OrderProduct] -= quantityOrdered;
+                    
+                        quantityOrdered = 0;
                         //b.inventory[order.OrderProduct] -= amountAvailable;
                         seller.Funds += transfer;
                         buyer.Funds -= transfer;
+
                     }
                 }
             }
@@ -103,10 +105,7 @@ namespace ServerForTheLogic.Econ
                     //ORDER MORE PRODUCT
                     storesAvailable[i].FillInventory();
                 }*/
-            while (quantity > 0)
-            {
-
-            }
+         
         }
     }
 }
