@@ -8,8 +8,7 @@ using ServerForTheLogic;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.ClientObject.Building;
 using ServerForTheLogic.ClientObject;
-
-
+using System;
 
 namespace DataAccessLayer
 {
@@ -201,111 +200,148 @@ namespace DataAccessLayer
         /// Update:
         /// 2017-11-01 Bill
         ///     add validation
+        ///     
+        /// Update:
+        /// 2017-11-13 Michael
+        /// Changed method to use new validation style
         /// </summary>
         /// <param name="buildings"></param>
-        public void InsertBuildings(IEnumerable<Buildings> buildings)
-        {
-            foreach (Buildings b in buildings)
-            {
-                if (!DALValidator.BuildingValidator(b))
-                {
-                    System.Console.WriteLine("Building id: " + b.Id + " did not meet validation rules.");
+        public void InsertBuildings(IEnumerable<Building> buildings) {
+            foreach (Building b in buildings) {
+                if (!DALValidator.DALBuildingValidator(b)) {
+                    System.Console.WriteLine("Building id: " + b + " did not meet validation rules.");
                     return;
                 }
             }
-            var buildingCol = Database.GetCollection<Buildings>("Buildings");
+            var buildingCol = Database.GetCollection<Building>("Buildings");
             buildingCol.InsertMany(buildings);
         }
-        
+
 
         /* ==================== Get Section ==================== */
 
-        // Would this work?
-        // No, I don't think it will... Would it just get one citizen? I think so...
-        public List<Citizens> GetCitizens(ObjectId objectid) {  
-            var citizensCol = Database.GetCollection<BsonDocument>("Citizens");
+
+        /// <summary>
+        /// Gets a list of Person objects
+        /// Author: Michael
+        /// Date: 2017-10-15
+        /// Update:
+        /// 2017-11-13 Michael
+        /// Changed from Citizen to Person. Method is still the same.
+        /// </summary>
+        /// <param name="objectid"></param>
+        /// <returns>Returns a list of persons as JSON documents</returns>
+        public List<Person> GetCitizens(ObjectId objectid) {
+            var citizensCol = Database.GetCollection<BsonDocument>("Person");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", objectid);
             var document = citizensCol.Find(filter).First(); // Find a citizen based on the filter, first result.
-            List<Citizens> citizen = BsonSerializer.Deserialize<List<Citizens>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
-            return citizen;
+            List<Person> person = BsonSerializer.Deserialize<List<Person>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
+            return person;
         }
 
         /// <summary>
-        /// If the GetCitizens method works then this one should work. YOLO
+        /// <para>
+        /// If the GetCitizens method works then this one should work.
+        /// </para>
         /// Author: Michael
         /// Date: 2017-10-16
         /// </summary>
         /// <param name="roadId"></param>
         /// <returns></returns>
-        public List<Buildings> GetBuildings(ObjectId buildId) {
+        public List<Building> GetBuildings(ObjectId buildId) {
             var buildCol = Database.GetCollection<BsonDocument>("Buildings");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", buildId);
             var document = buildCol.Find(filter).First();
-            List<Buildings> building = BsonSerializer.Deserialize<List<Buildings>>(document.ToJson());
+            List<Building> building = BsonSerializer.Deserialize<List<Building>>(document.ToJson());
             return building;
         }
 
 
 
         /* ==================== Update Section ==================== */
-        // reference: 
-        // how to use update: https://docs.mongodb.com/getting-started/csharp/update/
-        // Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
-
         /// <summary>
-        ///  update one citizen by its Id. 
-        ///  if string field is empty string then there will be no change in the original string,
-        ///  if int field == -1 then there will be no change in the original int value.
-        ///  updated value also have to meet validation rules, otherwise there's no change to the old value.
-        ///  
-        ///  Author: Bill
-        ///  Date: 2017-10-31
-        ///  
-        /// TO-DO: add validation methods
+        /// <para>
+        /// update one citizen by its Id. 
+        /// if string field is empty string then there will be no change in the original string,
+        /// if int field == -1 then there will be no change in the original int value.
+        /// updated value also have to meet validation rules, otherwise there's no change to the old value.
+        /// </para> 
+        /// 
+        /// <para>
+        /// reference: 
+        /// how to use update: https://docs.mongodb.com/getting-started/csharp/update/
+        /// Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
+        /// </para>
+        /// 
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// 
+        /// Update: 
+        /// 2017-11-13 Micahel
+        /// Updated the method to use the new DAL convention. Uses PersonValidator.
         /// </summary>
-        /// <param name="_id"></param>
-        /// <param name="newName"></param>
+        /// 
+        /// <param name="_id">The ObjectId that MongoDB automatically creates</param>
+        /// <param name="newFName">The new first name of the person</param>
+        /// <param name="newLName"></param>
         /// <param name="newSalary"></param>
-        /// <param name="newHomeAddress"></param>
-        /// <param name="newWorkAddress"></param>
+        /// <param name="newHomeID"></param>
+        /// <param name="newHomeAddressX"></param>
+        /// <param name="newHomeAddressY"></param>
+        /// <param name="newWorplaceID"></param>
+        /// <param name="newWorkAddressX"></param>
+        /// <param name="newWorkAddressY"></param>
         /// <param name="newAge"></param>
-        /// <param name="newDaysLeftToLive"></param>
-        public async void UpdateCitizenByID(ObjectId _id, string newName, int newSalary, int newHomeAddress, int newWorkAddress, int newAge, int newDaysLeftToLive)
-        {
-            var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
+        /// <param name="newDaysLeft"></param>
+        public async void UpdatePersonByID(ObjectId _id, string newFName, string newLName, int newSalary, string newHomeID, int newHomeAddressX, int newHomeAddressY, string newWorplaceID, int newWorkAddressX, int newWorkAddressY, int newAge, int newDaysLeft) {
+            var collection = Database.GetCollection<BsonDocument>("Person"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
-            var citizenListData = await collection.Find(filter).ToListAsync();
-            if (citizenListData == null || citizenListData.Count == 0)
-            {
-                throw new System.Exception("Can not update citizen, _id is invalid.");
+            var personListData = await collection.Find(filter).ToListAsync();
+            if (personListData == null || personListData.Count == 0) {
+                throw new System.Exception("Can not update person, _id is invalid.");
             }
-            
-            var citizenBSON = citizenListData[0];
+
+            var personBSON = personListData[0];
 
             //get the current fields on the citizen
-            string oldName = citizenBSON[1].ToString();
-            int oldSalary = System.Convert.ToInt32(citizenBSON[2].ToString());
-            int oldHomeAddress = System.Convert.ToInt32(citizenBSON[3].ToString());
-            int oldWorkAddress = System.Convert.ToInt32(citizenBSON[4].ToString());
-            int oldAge = System.Convert.ToInt32(citizenBSON[5].ToString());
-            int oldDaysLeftToLive = System.Convert.ToInt32(citizenBSON[6].ToString());
+            string oldFName = personBSON[1].ToString();
+            string oldLName = personBSON[2].ToString();
+            int oldSalary = System.Convert.ToInt32(personBSON[3].ToString());
+            string oldHomeID = personBSON[4].ToString();
+            int oldHomeAddressX = System.Convert.ToInt32(personBSON[5].ToString());
+            int oldHomeAddressY = System.Convert.ToInt32(personBSON[6].ToString());
+            string oldWorkplaceID = personBSON[7].ToString();
+            int oldWorkAddressX = System.Convert.ToInt32(personBSON[8].ToString());
+            int oldWorkAddressY = System.Convert.ToInt32(personBSON[9].ToString());
+            int oldAge = System.Convert.ToInt32(personBSON[10].ToString());
+            int oldDaysLeft = System.Convert.ToInt32(personBSON[11].ToString());
 
             //validate changes for the fields to update
-            string name = (DALValidator.isValidCitizenName(newName)) ? newName : oldName;
-            int salary = (DALValidator.isValidCitizenSalary(newSalary)) ? newSalary : oldSalary;
-            int homeAddress = (DALValidator.isValidCitizenHomeAddress(newHomeAddress)) ? newHomeAddress : oldHomeAddress;
-            int workAddress = (DALValidator.isValidCitizenWorkAddress(newWorkAddress)) ? newWorkAddress : oldWorkAddress;
-            int age = (DALValidator.isValidCitizenAge(newAge)) ? newAge : oldAge;
-            int daysLeftToLive = (DALValidator.isValidCitizenDaysLeftToLive(newDaysLeftToLive)) ? newDaysLeftToLive : oldDaysLeftToLive;
+            string fName = (PersonValidator.isValidPersonFirstName(newFName)) ? newFName : oldFName;
+            string lName = (PersonValidator.isValidPersonLastName(newFName)) ? newFName : oldFName;
+            int salary = (PersonValidator.isValidPersonMonthlyIncome(newSalary)) ? newSalary : oldSalary;
+            string homeID = (PersonValidator.isValidPersonHomeID(newHomeID)) ? newHomeID : oldHomeID;
+            int homeAddressX = (PersonValidator.isValidPersonHomeX(newHomeAddressX)) ? newHomeAddressX : oldHomeAddressX;
+            int homeAddressY = (PersonValidator.isValidPersonHomeY(newHomeAddressY)) ? newHomeAddressY : oldHomeAddressY;
+            string workplaceID = (PersonValidator.isValidPersonWorkplaceID(newWorplaceID)) ? newWorplaceID : oldWorkplaceID;
+            int workAddressX = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressX)) ? newWorkAddressX : oldWorkAddressX;
+            int workAddressY = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressY)) ? newWorkAddressY : oldWorkAddressY;
+            int age = (PersonValidator.isValidPersonAge(newAge)) ? newAge : oldAge;
+            int daysLeft = (PersonValidator.isValidPersonDaysLeft(newDaysLeft)) ? newDaysLeft : oldDaysLeft;
 
             //update changes
             var update = Builders<BsonDocument>.Update
-                .Set("Name", name)
+                .Set("First Name", fName)
+                .Set("Last Name", lName)
                 .Set("Salary", salary)
-                .Set("HomeAddress", homeAddress)
-                .Set("WorkAddress", workAddress)
+                .Set("HomeID", homeID)
+                .Set("HomeAddressX", homeAddressX)
+                .Set("HomeAddressY", homeAddressY)
+                .Set("WorkplaceID", workplaceID)
+                .Set("WorkAddressX", workAddressX)
+                .Set("WorkAddressY", workAddressY)
                 .Set("Age", age)
-                .Set("DaysLeftToLive", daysLeftToLive);
+                .Set("DaysLeft", daysLeft);
             var result = await collection.UpdateOneAsync(filter, update);
         }
 
@@ -490,7 +526,7 @@ namespace DataAccessLayer
         /// </summary>
         public void DeleteAllRoads()
         {
-            Database.DropColection("Road");
+            Database.DropCollection("Road");
             Database.CreateCollection("Road");
         }
 
@@ -501,7 +537,7 @@ namespace DataAccessLayer
         /// </summary>
         public void DeleteAllProducts()
         {
-            Database.DropColection("Product");
+            Database.DropCollection("Product");
             Database.CreateCollection("Product");
         }
     }

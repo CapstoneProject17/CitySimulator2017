@@ -1,16 +1,10 @@
 ﻿using ServerForTheLogic;
 using ServerForTheLogic.ClientObject;
 using ServerForTheLogic.ClientObject.Building;
-using ServerForTheLogic.ClientObject.GridObjects;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.DALValidator.ValidationHelper;
 using ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
