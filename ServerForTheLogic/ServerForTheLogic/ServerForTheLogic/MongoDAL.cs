@@ -348,7 +348,7 @@ namespace DataAccessLayer
                 return;
             }
 
-            Person personToUpdate = new Person(firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
+            Person personToUpdate = new Person(guid, firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
             if (!DALValidator.DALPersonValidator(personToUpdate))
             {
                 Console.WriteLine("Can not update person, at least one of the input field is invalid.");

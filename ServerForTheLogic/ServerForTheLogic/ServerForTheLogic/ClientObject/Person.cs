@@ -40,8 +40,9 @@ namespace ServerForTheLogic.ClientObject
         /// <param name="age"></param>
         /// <param name="startShift"></param>
         /// <param name="endShift"></param>
-        public Person(string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
+        public Person(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
         {
+            Guid = guid;
             FirstName = firstName;
             LastName = lastName;
             MonthlyIncome = monthlyIncome;
@@ -57,6 +58,12 @@ namespace ServerForTheLogic.ClientObject
             StartShift = startShift;
             EndShift = endShift;
         }
+
+        /// <summary>
+        /// ID for the person
+        /// </summary>
+        public Guid Guid { get; set; }
+
         /// <summary>
         /// 1. FirstName can not be null
         /// 2. FirstName can not be empty
