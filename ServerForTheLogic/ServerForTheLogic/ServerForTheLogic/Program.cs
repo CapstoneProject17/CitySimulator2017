@@ -40,14 +40,15 @@ namespace ServerForTheLogic
                 //TEST DATA 
                 city = new City();
                 //fill 3 blocks
-               
-                city.addRoadsToEmptyBlock(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2]);
-                
+
+                // city.addRoads(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2]);
+                city.initialBlockAdd();
+
                 //Commented out Creating a Person
                 //Person me;
                 //me = creator.createPerson(city);
                 //city.AllPeople.Add(me);
-                
+
             }
             //sets the adjacent blocks of the specified block
             foreach (Block block in city.BlockMap)
@@ -56,10 +57,11 @@ namespace ServerForTheLogic
             }
 
           
-            for (int i = 0; i < city.BlockMap.GetLength(0); i++)
-            {
-                city.expandCity();
-            }
+
+            //for (int i = 0; i < city.BlockMap.GetLength(0); i++)
+            //{
+            //   // city.expandCity();
+            //}
 
             
             foreach (Block block in city.BlockMap)

@@ -21,6 +21,17 @@ namespace ServerForTheLogic
         private Faker faker;
 
         [JsonProperty]
+        public Queue<Block> CommercialToFill { get; set; }
+
+
+        [JsonProperty]
+        public Queue<Block> IndustrialToFill { get; set; }
+
+        [JsonProperty]
+        public Queue<Block> ResidentialToFill { get; set; }
+
+
+        [JsonProperty]
         /// <summary>
         /// Max width of the city grid
         /// </summary>
@@ -96,6 +107,10 @@ namespace ServerForTheLogic
 
             faker = new Faker("en");
 
+
+            CommercialToFill = new Queue<Block>();
+            IndustrialToFill = new Queue<Block>();
+            ResidentialToFill = new Queue<Block>();
 
             PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
             for (int i = 0; i < 24; ++i)
@@ -187,7 +202,19 @@ namespace ServerForTheLogic
             }
         }
 
-        public void expandCity()
+        public void initialBlockAdd()
+        {
+            Block initialBlock = BlockMap[BlockMap.GetLength(0) / 2, BlockMap.GetLength(1) / 2];
+            setAdjacents(initialBlock);
+            addRoads(initialBlock);
+            initialBlock.Type = BlockType.Industrial;
+            IndustrialToFill.Enqueue(initialBlock);
+            createBuilding(initialBlock);
+            expandCity(BlockType.Commercial);
+            expandCity(BlockType.Residential);
+        }
+
+        public void expandCity(BlockType type)
         {
             List<Block> occupiedBlocks = new List<Block>();
 
@@ -216,9 +243,25 @@ namespace ServerForTheLogic
                 int index = rand.Number(0, empties.Count - 1);
 
                 //empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
-                addRoadsToEmptyBlock(empties[index]);
+                addRoads(empties[index]);
                 setAdjacents(empties[index]);
+                empties[index].Type = type;
 
+                switch (type)
+                {
+                    case BlockType.Commercial:
+                        CommercialToFill.Enqueue(empties[index]);
+                        break;
+                    case BlockType.Residential:
+                        ResidentialToFill.Enqueue(empties[index]);
+                        break;
+                    case BlockType.Industrial:
+                        IndustrialToFill.Enqueue(empties[index]);
+                        break;
+                    default:
+                        throw new Exception("pass a type in ya fuck");
+                       
+                }
                 //for (int i = 0; i < 12; i++)
                 createBuilding( BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
                                 empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
@@ -237,7 +280,7 @@ namespace ServerForTheLogic
         /// Generates a person with an english first and last name.
         /// </summary>
         /// <returns></returns>
-        public Person createPerson()
+        public void createPerson()
         {
             Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), this);
             Randomizer rand = new Randomizer();
@@ -252,8 +295,10 @@ namespace ServerForTheLogic
                     break;
                 }
             }
+
             if (temp.Home == null)
             {
+
                 //MAKE NEW RESIDENTIAL BUILDING
             }
 
@@ -262,8 +307,7 @@ namespace ServerForTheLogic
             //Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
             //temp.Workplace = business;
             //city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
-
-            return temp;
+            AllPeople.Add(temp);
         }
 
         /// <summary>
@@ -335,7 +379,7 @@ namespace ServerForTheLogic
         /// Updated on: 18-10-2017
         /// Updated by: Connor Goudie
         /// Changes: Refactored for readability (no functionality changes)
-        public void addRoadsToEmptyBlock(Block b)
+        public void addRoads(Block b)
         {
             int xPos = b.StartPoint.x;
             int zPos = b.StartPoint.z;
@@ -364,7 +408,6 @@ namespace ServerForTheLogic
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
                 }
             }
-
             //adds roads to the left and right borders of the block grid
             for (int i = 0; i < Block.BLOCK_LENGTH; i++)
             {
@@ -377,7 +420,6 @@ namespace ServerForTheLogic
                     b.LandPlot[0, i] = new Road("");
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
                 }
-
                 if (GetLocationAt(xPos + width, i + zPos) != null)
                 {
                     b.LandPlot[width, i] = GetLocationAt(xPos + width, i + zPos);
@@ -388,7 +430,7 @@ namespace ServerForTheLogic
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
                 }
             }
-            b.setBlockType();
+           // b.setBlockType();
 
             //city.BlockMap[xPos / width, zPos / length] = b;
             // return b;
