@@ -1,4 +1,5 @@
 ﻿using ServerForTheLogic;
+using ServerForTheLogic.ClientObject;
 using ServerForTheLogic.ClientObject.Building;
 using ServerForTheLogic.ClientObject.GridObjects;
 using ServerForTheLogic.DALValidator;
@@ -46,7 +47,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        public static Boolean DALPersonValidator(Person person)
+        public static Boolean DALPersonValidator(ServerForTheLogic.ClientObject.Person person)
         {
             if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
