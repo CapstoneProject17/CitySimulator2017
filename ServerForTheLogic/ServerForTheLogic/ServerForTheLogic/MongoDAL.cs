@@ -25,9 +25,12 @@ namespace DataAccessLayer
     ///           https://docs.mongodb.com/getting-started/csharp/
     ///           http://mongodb.github.io/mongo-csharp-driver/2.2/getting_started/quick_tour/
     /// </summary>
-    partial class MongoDAL {
-        private IMongoDatabase Database {
-            get {
+    partial class MongoDAL
+    {
+        private IMongoDatabase Database
+        {
+            get
+            {
                 MongoClient client = new MongoClient();
                 var database = client.GetDatabase("Prototype");
                 return database;
@@ -45,7 +48,8 @@ namespace DataAccessLayer
             if (!DALValidator.DALPersonValidator(person))
             {
                 return false;
-            } else
+            }
+            else
             {
                 var personCol = Database.GetCollection<Person>("Person");
                 personCol.InsertOne(person);
@@ -84,7 +88,8 @@ namespace DataAccessLayer
             if (!DALValidator.DALResidentialBuildingValidator(residential))
             {
                 return false;
-            } else
+            }
+            else
             {
                 var residentialCol = Database.GetCollection<Residential>("Residential");
                 residentialCol.InsertOne(residential);
@@ -97,7 +102,8 @@ namespace DataAccessLayer
             if (!DALValidator.DALCommercialBuildingValidator(commercial))
             {
                 return false;
-            } else
+            }
+            else
             {
                 var commercialCol = Database.GetCollection<Commercial>("Commercial");
                 commercialCol.InsertOne(commercial);
@@ -110,7 +116,8 @@ namespace DataAccessLayer
             if (!DALValidator.DALIndustrialBuildingValidator(industrial))
             {
                 return false;
-            } else
+            }
+            else
             {
                 var industrialCol = Database.GetCollection<Industrial>("Industrial");
                 industrialCol.InsertOne(industrial);
@@ -124,7 +131,8 @@ namespace DataAccessLayer
             if (!DALValidator.DALRoadValidator(road))
             {
                 return false;
-            } else
+            }
+            else
             {
                 var roadCol = Database.GetCollection<Road>("Road");
                 roadCol.InsertOne(road);
@@ -206,15 +214,21 @@ namespace DataAccessLayer
         /// Changed method to use new validation style
         /// </summary>
         /// <param name="buildings"></param>
-        public void InsertBuildings(IEnumerable<Building> buildings) {
-            foreach (Building b in buildings) {
-                if (!DALValidator.DALBuildingValidator(b)) {
-                    System.Console.WriteLine("Building id: " + b + " did not meet validation rules.");
+        public void InsertBuildings(IEnumerable<Building> buildings)
+        {
+            foreach (Building b in buildings)
+            {
+                if (!DALValidator.DALBuildingValidator(b))
+                {
+                    System.Console.WriteLine("Building id: " + b.Guid.ToString() + " did not meet validation rules.");
                     return;
                 }
             }
-            var buildingCol = Database.GetCollection<Building>("Buildings");
-            buildingCol.InsertMany(buildings);
+
+            //TODO: we need to decide if inserting collection of buildings is needed
+
+            //var buildingCol = Database.GetCollection<Building>("Buildings");
+            //buildingCol.InsertMany(buildings);
         }
 
 
@@ -222,20 +236,53 @@ namespace DataAccessLayer
 
 
         /// <summary>
-        /// Gets a list of Person objects
+        /// Return an object based on the input guid
+        /// return null if there's no object with the input guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        public Object GetObjectByGuid(Guid guid)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+            foreach (var collectionName in Database.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
+            {
+                var collection = Database.GetCollection<BsonDocument>(collectionName.ToString());
+                var document = collection.Find(filter).First();
+                if (document != null)
+                {
+                    Object myObj = BsonSerializer.Deserialize<Object>(document.ToJson()); 
+                    return myObj;
+                }
+            }
+            Console.WriteLine("Guid: " + guid + "does not exist in the database.");
+            return null;
+        }
+
+
+        /// <summary>
+        /// Gets a person object
         /// Author: Michael
         /// Date: 2017-10-15
         /// Update:
         /// 2017-11-13 Michael
         /// Changed from Citizen to Person. Method is still the same.
         /// </summary>
-        /// <param name="objectid"></param>
+        /// <param name="personGuid"></param>
         /// <returns>Returns a list of persons as JSON documents</returns>
-        public List<Person> GetCitizens(ObjectId objectid) {
+        public Person GetPersonByGuid(Guid personGuid)
+        {
             var citizensCol = Database.GetCollection<BsonDocument>("Person");
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", objectid);
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", personGuid);
             var document = citizensCol.Find(filter).First(); // Find a citizen based on the filter, first result.
-            List<Person> person = BsonSerializer.Deserialize<List<Person>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
+            if (document == null)
+            {
+                Console.WriteLine("Person Guid: " + personGuid + "does not exist in the collection");
+                return null;
+            }
+            Person person = BsonSerializer.Deserialize<Person>(document.ToJson()); // Stores it in a list, deserializes the document(?)
             return person;
         }
 
@@ -248,7 +295,8 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="roadId"></param>
         /// <returns></returns>
-        public List<Building> GetBuildings(ObjectId buildId) {
+        public List<Building> GetBuildings(ObjectId buildId)
+        {
             var buildCol = Database.GetCollection<BsonDocument>("Buildings");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", buildId);
             var document = buildCol.Find(filter).First();
@@ -293,11 +341,13 @@ namespace DataAccessLayer
         /// <param name="newWorkAddressY"></param>
         /// <param name="newAge"></param>
         /// <param name="newDaysLeft"></param>
-        public async void UpdatePersonByID(ObjectId _id, string newFName, string newLName, int newSalary, string newHomeID, int newHomeAddressX, int newHomeAddressY, string newWorplaceID, int newWorkAddressX, int newWorkAddressY, int newAge, int newDaysLeft) {
+        public async void UpdatePersonByID(ObjectId _id, string newFName, string newLName, int newSalary, string newHomeID, int newHomeAddressX, int newHomeAddressY, string newWorplaceID, int newWorkAddressX, int newWorkAddressY, int newAge, int newDaysLeft)
+        {
             var collection = Database.GetCollection<BsonDocument>("Person"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
             var personListData = await collection.Find(filter).ToListAsync();
-            if (personListData == null || personListData.Count == 0) {
+            if (personListData == null || personListData.Count == 0)
+            {
                 throw new System.Exception("Can not update person, _id is invalid.");
             }
 
@@ -408,7 +458,8 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="_id"></param>
         /// <param name="citizen"></param>
-        public async void UpdateOneCitizen(ObjectId _id, int newAge) {
+        public async void UpdateOneCitizen(ObjectId _id, int newAge)
+        {
             var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
             var update = Builders<BsonDocument>.Update.Set("Age", newAge);
@@ -425,7 +476,8 @@ namespace DataAccessLayer
         /// Date: 2017-10-15
         /// </summary>
         /// <param name="_id"></param>
-        public async void DeleteOnePerson(Guid guid) {
+        public async void DeleteOnePerson(Guid guid)
+        {
             var collection = Database.GetCollection<Person>("Person");
             //what to do here?
             var filter = Builders<Person>.Filter.Eq("guid", guid);
