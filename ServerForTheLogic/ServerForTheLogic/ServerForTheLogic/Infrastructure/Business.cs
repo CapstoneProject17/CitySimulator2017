@@ -50,7 +50,7 @@ namespace ServerForTheLogic.Infrastructure
                 {
                     if (!inventory.ContainsKey(p))
                     {
-                        inventory.Add(p, 0);
+                        inventory.Add(p, MINIMUM_VALUE);
                         return;
                     }
                 }

@@ -141,7 +141,9 @@ namespace ServerForTheLogic
             return isDead;
         }
 
-
+        /// <summary>
+        /// Buys a thing (singular right now)
+        /// </summary>
         public void BuyThings()
         {
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);

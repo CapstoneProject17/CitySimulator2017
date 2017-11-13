@@ -32,7 +32,7 @@ namespace ServerForTheLogic.Infrastructure
         public Location[,] LandPlot;
         //type of buildings a block will hold
         [JsonProperty]
-        public BlockType Type { get; private set; }
+        public BlockType Type { get;  set; }
         /// <summary>
         /// Constructs a new Block object using from the passed start point
         /// </summary>
@@ -55,6 +55,7 @@ namespace ServerForTheLogic.Infrastructure
             //LandPlot[x - 1, z - 1].GetType() == typeof(Road)||
             //LandPlot[x + 1, z + 1].GetType() == typeof(Road));
         }
+   
 
         public void setBlockType()
         {
@@ -100,5 +101,9 @@ namespace ServerForTheLogic.Infrastructure
                 + Type.ToString() + " Res: " + ResCount + " Ind: " + IndCount + " Com: " + ComCount;
         }
     }
+
     public enum BlockType { Residential, Industrial, Commercial, Empty }
+
+   
+    
 }
