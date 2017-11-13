@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerForTheLogic
+namespace ServerForTheLogic.ClientObject
 {
     /// <summary>
     /// MongoDAL

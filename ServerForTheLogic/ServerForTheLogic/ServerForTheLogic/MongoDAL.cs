@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using ServerForTheLogic;
+using ServerForTheLogic.DALValidator;
+using ServerForTheLogic.ClientObject.Building;
+using ServerForTheLogic.ClientObject;
+
 
 
 namespace DataAccessLayer
@@ -33,48 +38,159 @@ namespace DataAccessLayer
         /* ==================== Insert Section ==================== */
 
         /// <summary>
-        /// Insert a new Citizen into the Database
+        /// Insert a new Person into the Database
         /// </summary>
-        /// <param name="citizen"></param>
-        public void InsertCitizen(Citizens citizen) {
-            if (DALValidator.CitizenValidator(citizen))
+        /// <param name="person"></param>
+        public bool InsertPerson(Person person)
+        {
+            if (!DALValidator.DALPersonValidator(person))
             {
-                var citizensCol = Database.GetCollection<Citizens>("Citizens");
-                citizensCol.InsertOne(citizen);
+                return false;
+            } else
+            {
+                var personCol = Database.GetCollection<Person>("Person");
+                personCol.InsertOne(person);
             }
+            return true;
         }
 
         // Plural? Insert multiple citizens at once if needed...
         // Should it be a Task type with a return value?
+        // this will only insert if all entries pass validation, not just the ones that do pass.
         // https://msdn.microsoft.com/en-us/library/dd235678#Remarks
-        public Task InsertCitizens(IEnumerable<Citizens> citizens) {
-            foreach(Citizens c in citizens)
+        public Task InsertPeople(IEnumerable<Person> people)
+        {
+            foreach (Person p in people)
             {
-                if (!DALValidator.CitizenValidator(c))
+                if (!DALValidator.DALPersonValidator(p))
                 {
                     return null;
                 }
             }
-            var citizensCol = Database.GetCollection<Citizens>("Citizens");
-            return citizensCol.InsertManyAsync(citizens);
+            var personCol = Database.GetCollection<Person>("Person");
+            return personCol.InsertManyAsync(people);
         }
 
         /// <summary>
-        /// purpose: insert one building
-        /// Author: Bill
-        /// Date: 2017-10-31
-        /// 
-        /// Update:
-        /// 2017-11-01 Bill
-        ///     add validation
+        /// Individual insert methods for each type of "building" to follow: 
+        ///     - Residential
+        ///     - Commercial
+        ///     - Industrial
+        ///     - Road
         /// </summary>
+        /// Author: Steph
         /// <param name="building"></param>
-        public void InsertBuilding(Buildings building) {
-            if (DALValidator.BuildingValidator(building))
+        public bool InsertResidential(Residential residential)
+        {
+            if (!DALValidator.DALResidentialBuildingValidator(residential))
             {
-                var buildingCol = Database.GetCollection<Buildings>("Buildings");
-                buildingCol.InsertOne(building);
+                return false;
+            } else
+            {
+                var residentialCol = Database.GetCollection<Residential>("Residential");
+                residentialCol.InsertOne(residential);
             }
+            return true;
+        }
+
+        public bool InsertCommercial(Commercial commercial)
+        {
+            if (!DALValidator.DALCommercialBuildingValidator(commercial))
+            {
+                return false;
+            } else
+            {
+                var commercialCol = Database.GetCollection<Commercial>("Commercial");
+                commercialCol.InsertOne(commercial);
+            }
+            return true;
+        }
+
+        public bool InsertIndustrial(Industrial industrial)
+        {
+            if (!DALValidator.DALIndustrialBuildingValidator(industrial))
+            {
+                return false;
+            } else
+            {
+                var industrialCol = Database.GetCollection<Industrial>("Industrial");
+                industrialCol.InsertOne(industrial);
+            }
+            return true;
+        }
+
+        // is this method necessary? 
+        public bool InsertRoad(Road road)
+        {
+            if (!DALValidator.DALRoadValidator(road))
+            {
+                return false;
+            } else
+            {
+                var roadCol = Database.GetCollection<Road>("Road");
+                roadCol.InsertOne(road);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Inserts one product
+        /// Author: Steph
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public bool InsertProduct(Product product)
+        {
+            if (!DALValidator.DALProductValidator(product))
+            {
+                return false;
+            }
+            else
+            {
+                var prodCol = Database.GetCollection<Product>("Product");
+                prodCol.InsertOne(product);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// TODO: Inserts a savestate at a given timestamp.
+        /// Author:
+        /// </summary>
+        /// <param name="savestate"></param>
+        /// <returns></returns>
+        public bool InsertSaveState(SaveState savestate)
+        {
+            if (!DALValidator.DALSaveStateValidator(savestate))
+            {
+                return false;
+            }
+            else
+            {
+                //TODO
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Inserts a clock (time stamp)
+        /// Author: Steph
+        /// May or may not be used.
+        /// </summary>
+        /// <param name="clock"></param>
+        /// <returns></returns>
+        public bool InsertClock(Clock clock)
+        {
+            if (!DALValidator.DALClockValidator(clock))
+            {
+                return false;
+            }
+            else
+            {
+                var clockCol = Database.GetCollection<Clock>("Clock");
+                clockCol.InsertOne(clock);
+            }
+            return true;
         }
 
         /// <summary>
@@ -101,11 +217,6 @@ namespace DataAccessLayer
             buildingCol.InsertMany(buildings);
         }
         
-
-        public void InsertSaveState(SaveState save) {
-            var saveStateCol = Database.GetCollection<SaveState>("SaveState");
-            saveStateCol.InsertOne(save);
-        }
 
         /* ==================== Get Section ==================== */
 
@@ -272,50 +383,126 @@ namespace DataAccessLayer
         /* ==================== Delete Section ==================== */
 
         /// <summary>
-        /// Delete one citizen from the collection.
+        /// Delete one person from the collection.
         /// Author: Michael
+        /// Updated: Steph - reflects schema changes
         /// Date: 2017-10-15
         /// </summary>
         /// <param name="_id"></param>
-        public async void DeleteOneCitizen(ObjectId _id) {
-            var collection = Database.GetCollection<Citizens>("Citizens");
-            var filter = Builders<Citizens>.Filter.Eq("_id", _id);
+        public async void DeleteOnePerson(Guid guid) {
+            var collection = Database.GetCollection<Person>("Person");
+            //what to do here?
+            var filter = Builders<Person>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
         /// <summary>
         /// Delete one building from the collection by its id
         /// Author: Bill
+        /// Updated: Steph - reflects schema changes 
         /// Date: 2017-10-31
         /// </summary>
         /// <param name="_id">building id</param>
-        public async void DeleteOneBuilding(ObjectId _id)
+        public async void DeleteOneResidential(Residential residential, Guid guid)
         {
-            var collection = Database.GetCollection<Buildings>("Buildings");
-            var filter = Builders<Buildings>.Filter.Eq("_id", _id);
+            var collection = Database.GetCollection<Residential>("Residential");
+            var filter = Builders<Residential>.Filter.Eq("guid", guid);
+            await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete one building from the collection by its id
+        /// Author: Bill
+        /// Updated: Steph - reflects schema changes
+        /// Date: 2017-10-31
+        /// </summary>
+        /// <param name="_id">building id</param>
+        public async void DeleteOneCommercial(Commercial commercial, Guid guid)
+        {
+            var collection = Database.GetCollection<Commercial>("Commercial");
+            var filter = Builders<Commercial>.Filter.Eq("guid", guid);
+            await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete one building from the collection by its id
+        /// Author: Bill
+        /// Updated: Steph - reflects schema changes
+        /// Date: 2017-10-31
+        /// </summary>
+        /// <param name="_id">building id</param>
+        public async void DeleteOneIndustrial(Industrial industrial, Guid guid)
+        {
+            var collection = Database.GetCollection<Industrial>("Industrial");
+            var filter = Builders<Industrial>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
         /// <summary>
         /// Delete all citizens (drop then recreate table)
         /// Author: Bill
+        /// Updated: Steph - reflects schema changes
         /// Date: 2017-10-31
         /// </summary>
         public void DeleteAllCitizens()
         {
-            Database.DropCollection("Citizens");
-            Database.CreateCollection("Citizens");
+            Database.DropCollection("Person");
+            Database.CreateCollection("Person");
         }
 
         /// <summary>
-        /// Delete all buildings (drop then recreate table)
-        /// Author: Bill
-        /// Date: 2017-10-31
+        /// Delete all residential type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
         /// </summary>
-        public void DeleteAllBuildings()
+        public void DeleteAllResidential()
         {
-            Database.DropCollection("Buildings");
-            Database.CreateCollection("Buildings");
+            Database.DropCollection("Residential");
+            Database.CreateCollection("Residential");
+        }
+
+        /// <summary>
+        /// Delete all commercial type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllCommercial()
+        {
+            Database.DropCollection("Commercial");
+            Database.CreateCollection("Commercial");
+        }
+
+        /// <summary>
+        /// Delete all industrial type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllIndustrial()
+        {
+            Database.DropCollection("Industrial");
+            Database.CreateCollection("Industrial");
+        }
+
+        /// <summary>
+        /// Delete all roads (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllRoads()
+        {
+            Database.DropColection("Road");
+            Database.CreateCollection("Road");
+        }
+
+        /// <summary>
+        /// Delete all products (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllProducts()
+        {
+            Database.DropColection("Product");
+            Database.CreateCollection("Product");
         }
     }
 }
