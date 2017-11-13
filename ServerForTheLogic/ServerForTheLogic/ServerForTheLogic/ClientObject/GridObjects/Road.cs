@@ -2,6 +2,7 @@
 
 
 using ServerForTheLogic.ClientObject;
+using System;
 
 namespace ServerForTheLogic
 {
@@ -14,6 +15,8 @@ namespace ServerForTheLogic
     /// </summary>
     class Road : GridObject
     {
-
+        public Road(Guid guid, int xPoint, int yPoint) : base(guid, xPoint, yPoint)
+        {
+        }
     }
 }

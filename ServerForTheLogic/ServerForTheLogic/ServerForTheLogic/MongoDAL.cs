@@ -233,7 +233,7 @@ namespace DataAccessLayer
 
 
         /* ==================== Get Section ==================== */
-
+        //TODO: 2017-11-13 do we need getter for all objects in db? currently we only have getters for objects with guid
 
         /// <summary>
         /// Return an object based on the input guid
@@ -253,7 +253,7 @@ namespace DataAccessLayer
                 var document = collection.Find(filter).First();
                 if (document != null)
                 {
-                    Object myObj = BsonSerializer.Deserialize<Object>(document.ToJson()); 
+                    Object myObj = BsonSerializer.Deserialize<Object>(document.ToJson());
                     return myObj;
                 }
             }
@@ -307,165 +307,117 @@ namespace DataAccessLayer
 
 
         /* ==================== Update Section ==================== */
+        /*
+         * Update rule: object can not be updated if one of the input fields doesnot pass validation.
+         * 
+         * reference: 
+         * how to use update: https://docs.mongodb.com/getting-started/csharp/update/
+         * Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
+         * 
+         */
+
         /// <summary>
-        /// <para>
-        /// update one citizen by its Id. 
-        /// if string field is empty string then there will be no change in the original string,
-        /// if int field == -1 then there will be no change in the original int value.
-        /// updated value also have to meet validation rules, otherwise there's no change to the old value.
-        /// </para> 
-        /// 
-        /// <para>
-        /// reference: 
-        /// how to use update: https://docs.mongodb.com/getting-started/csharp/update/
-        /// Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
-        /// </para>
+        /// Update one person by guid
         /// 
         /// Author: Bill
-        /// Date: 2017-10-31
-        /// 
-        /// Update: 
-        /// 2017-11-13 Micahel
-        /// Updated the method to use the new DAL convention. Uses PersonValidator.
+        /// Date: 2017-11-13
         /// </summary>
-        /// 
-        /// <param name="_id">The ObjectId that MongoDB automatically creates</param>
-        /// <param name="newFName">The new first name of the person</param>
-        /// <param name="newLName"></param>
-        /// <param name="newSalary"></param>
-        /// <param name="newHomeID"></param>
-        /// <param name="newHomeAddressX"></param>
-        /// <param name="newHomeAddressY"></param>
-        /// <param name="newWorplaceID"></param>
-        /// <param name="newWorkAddressX"></param>
-        /// <param name="newWorkAddressY"></param>
-        /// <param name="newAge"></param>
-        /// <param name="newDaysLeft"></param>
-        public async void UpdatePersonByID(ObjectId _id, string newFName, string newLName, int newSalary, string newHomeID, int newHomeAddressX, int newHomeAddressY, string newWorplaceID, int newWorkAddressX, int newWorkAddressY, int newAge, int newDaysLeft)
+        /// <param name="guid"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="monthlyIncome"></param>
+        /// <param name="accountBalance"></param>
+        /// <param name="workplaceID"></param>
+        /// <param name="workplaceX"></param>
+        /// <param name="workplaceY"></param>
+        /// <param name="homeID"></param>
+        /// <param name="homeX"></param>
+        /// <param name="homeY"></param>
+        /// <param name="daysLeft"></param>
+        /// <param name="age"></param>
+        /// <param name="startShift"></param>
+        /// <param name="endShift"></param>
+        public async void UpdatePersonByGuid(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workplaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
         {
             var collection = Database.GetCollection<BsonDocument>("Person"); // Should it be a BSON document or a collection of Citizens?
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
             var personListData = await collection.Find(filter).ToListAsync();
             if (personListData == null || personListData.Count == 0)
             {
-                throw new System.Exception("Can not update person, _id is invalid.");
+                Console.WriteLine("Can not update person, guid is invalid.");
+                return;
             }
 
-            var personBSON = personListData[0];
-
-            //get the current fields on the citizen
-            string oldFName = personBSON[1].ToString();
-            string oldLName = personBSON[2].ToString();
-            int oldSalary = System.Convert.ToInt32(personBSON[3].ToString());
-            string oldHomeID = personBSON[4].ToString();
-            int oldHomeAddressX = System.Convert.ToInt32(personBSON[5].ToString());
-            int oldHomeAddressY = System.Convert.ToInt32(personBSON[6].ToString());
-            string oldWorkplaceID = personBSON[7].ToString();
-            int oldWorkAddressX = System.Convert.ToInt32(personBSON[8].ToString());
-            int oldWorkAddressY = System.Convert.ToInt32(personBSON[9].ToString());
-            int oldAge = System.Convert.ToInt32(personBSON[10].ToString());
-            int oldDaysLeft = System.Convert.ToInt32(personBSON[11].ToString());
-
-            //validate changes for the fields to update
-            string fName = (PersonValidator.isValidPersonFirstName(newFName)) ? newFName : oldFName;
-            string lName = (PersonValidator.isValidPersonLastName(newFName)) ? newFName : oldFName;
-            int salary = (PersonValidator.isValidPersonMonthlyIncome(newSalary)) ? newSalary : oldSalary;
-            string homeID = (PersonValidator.isValidPersonHomeID(newHomeID)) ? newHomeID : oldHomeID;
-            int homeAddressX = (PersonValidator.isValidPersonHomeX(newHomeAddressX)) ? newHomeAddressX : oldHomeAddressX;
-            int homeAddressY = (PersonValidator.isValidPersonHomeY(newHomeAddressY)) ? newHomeAddressY : oldHomeAddressY;
-            string workplaceID = (PersonValidator.isValidPersonWorkplaceID(newWorplaceID)) ? newWorplaceID : oldWorkplaceID;
-            int workAddressX = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressX)) ? newWorkAddressX : oldWorkAddressX;
-            int workAddressY = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressY)) ? newWorkAddressY : oldWorkAddressY;
-            int age = (PersonValidator.isValidPersonAge(newAge)) ? newAge : oldAge;
-            int daysLeft = (PersonValidator.isValidPersonDaysLeft(newDaysLeft)) ? newDaysLeft : oldDaysLeft;
-
-            //update changes
-            var update = Builders<BsonDocument>.Update
-                .Set("First Name", fName)
-                .Set("Last Name", lName)
-                .Set("Salary", salary)
-                .Set("HomeID", homeID)
-                .Set("HomeAddressX", homeAddressX)
-                .Set("HomeAddressY", homeAddressY)
-                .Set("WorkplaceID", workplaceID)
-                .Set("WorkAddressX", workAddressX)
-                .Set("WorkAddressY", workAddressY)
-                .Set("Age", age)
-                .Set("DaysLeft", daysLeft);
-            var result = await collection.UpdateOneAsync(filter, update);
-        }
-
-        /// <summary>
-        ///  update one building by its Id. 
-        ///  if string field is empty string then there will be no change in the original string,
-        ///  if int field == -1 then there will be no change in the original int value.
-        ///  updated value also have to meet validation rules, otherwise there's no change to the old value.
-        ///  
-        ///  Author: Bill
-        ///  Date: 2017-10-31
-        ///  
-        /// TO-DO: add validation methods
-        /// </summary>
-        /// <param name="_id"></param>
-        /// <param name="newBuildingName"></param>
-        /// <param name="newBuildingType"></param>
-        /// <param name="newBuildingCompany"></param>
-        /// <param name="newBuildingLocation"></param>
-        /// <param name="newBuildingMoney"></param>
-        /// <param name="newBuildingLevel"></param>
-        public async void UpdateBuildingById(ObjectId _id, string newBuildingName, string newBuildingType, string newBuildingCompany, int newBuildingLocation, int newBuildingMoney, int newBuildingLevel)
-        {
-            var collection = Database.GetCollection<BsonDocument>("Buildings"); // Should it be a BSON document or a collection of Citizens?
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
-            var buildingListData = await collection.Find(filter).ToListAsync();
-            if (buildingListData == null || buildingListData.Count == 0)
+            Person personToUpdate = new Person(firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
+            if (!DALValidator.DALPersonValidator(personToUpdate))
             {
-                throw new System.Exception("Can not update building, _id is invalid.");
+                Console.WriteLine("Can not update person, at least one of the input field is invalid.");
+                return;
             }
 
-            var citizenBSON = buildingListData[0];
-
-            //get the current fields on the citizen
-            string oldBuildingName = citizenBSON[1].ToString();
-            string oldBuildingType = citizenBSON[2].ToString();
-            string oldBuildingCompany = citizenBSON[3].ToString();
-            int oldBuildingLocation = System.Convert.ToInt32(citizenBSON[4].ToString());
-            int oldBuildingMoney = System.Convert.ToInt32(citizenBSON[5].ToString());
-            int oldBuildingLevel = System.Convert.ToInt32(citizenBSON[6].ToString());
-
-            //validate changes for the fields to update
-            string buildingName = (DALValidator.isValidBuildingName(newBuildingName)) ? newBuildingName : oldBuildingName;
-            string buildingType = (DALValidator.isValidBuildingType(newBuildingType)) ? newBuildingType : oldBuildingType;
-            string buildingCompany = (DALValidator.isValidBuildingCompany(newBuildingCompany)) ? newBuildingCompany : oldBuildingCompany;
-            int buildingLocation = (DALValidator.isValidBuildingLocation(newBuildingLocation)) ? newBuildingLocation : oldBuildingLocation;
-            int buildingMoney = (DALValidator.isValidBuildingMoney(newBuildingMoney)) ? newBuildingMoney : oldBuildingMoney;
-            int buildingLevel = (DALValidator.isValidBuildingLevel(newBuildingLevel)) ? newBuildingLevel : oldBuildingLevel;
-
-            //update changes
             var update = Builders<BsonDocument>.Update
-                .Set("BuildingName", buildingName)
-                .Set("BuildingType", buildingType)
-                .Set("BuildingCompany", buildingCompany)
-                .Set("BuildingLocation", buildingLocation)
-                .Set("buildingMoney", buildingMoney)
-                .Set("BuildingLevel", buildingLevel);
+                .Set("guid", guid)
+                .Set("FirstName", firstName)
+                .Set("LastName", lastName)
+                .Set("MonthlyIncome", monthlyIncome)
+                .Set("AccountBalance", accountBalance)
+                .Set("WorkplaceID", workplaceID)
+                .Set("WorkplaceX", workplaceX)
+                .Set("WorkplaceY", workplaceY)
+                .Set("HomeID", homeID)
+                .Set("HomeX", homeX)
+                .Set("HomeY", homeY)
+                .Set("DaysLeft", daysLeft)
+                .Set("Age", age)
+                .Set("StartShift", startShift)
+                .Set("EndShift", endShift);
             var result = await collection.UpdateOneAsync(filter, update);
         }
-
 
         /// <summary>
-        /// Updates the citizens age.
+        /// Update one residential building by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
         /// </summary>
-        /// <param name="_id"></param>
-        /// <param name="citizen"></param>
-        public async void UpdateOneCitizen(ObjectId _id, int newAge)
+        /// <param name="guid"></param>
+        /// <param name="xPoint"></param>
+        /// <param name="yPoint"></param>
+        /// <param name="rating"></param>
+        /// <param name="isTall"></param>
+        /// <param name="capacity"></param>
+        public async void UpdateResidentialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity)
         {
-            var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
-            var update = Builders<BsonDocument>.Update.Set("Age", newAge);
+            var collection = Database.GetCollection<BsonDocument>("Residential"); // Should it be a BSON document or a collection of Citizens?
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+            var residentialListData = await collection.Find(filter).ToListAsync();
+            if (residentialListData == null || residentialListData.Count == 0)
+            {
+                Console.WriteLine("Can not update residential building, guid is invalid.");
+                return;
+            }
+
+            Residential residentialBuildingToUpdate = new Residential(guid, xPoint, yPoint, rating, isTall, capacity);
+            if (!DALValidator.DALResidentialBuildingValidator(residentialBuildingToUpdate))
+            {
+                Console.WriteLine("Can not update residential building, at least one of the input field is invalid.");
+                return;
+            }
+
+            var update = Builders<BsonDocument>.Update
+                .Set("guid", guid)
+                .Set("XPoint", xPoint)
+                .Set("YPoint", yPoint)
+                .Set("Rating", rating)
+                .Set("IsTall", isTall)
+                .Set("Capacity", capacity);
             var result = await collection.UpdateOneAsync(filter, update);
         }
 
+        public async void UpdateCommercialBuildingByGuid()
+        {
+
+        }
 
         /* ==================== Delete Section ==================== */
 
@@ -541,7 +493,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Delete all residential type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017-11-13
         /// </summary>
         public void DeleteAllResidential()
         {
@@ -552,7 +504,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Delete all commercial type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017-11-13
         /// </summary>
         public void DeleteAllCommercial()
         {
@@ -563,7 +515,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Delete all industrial type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017-11-13
         /// </summary>
         public void DeleteAllIndustrial()
         {
@@ -574,7 +526,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Delete all roads (drop then recreate table)
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017-11-13
         /// </summary>
         public void DeleteAllRoads()
         {
@@ -585,7 +537,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Delete all products (drop then recreate table)
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017-11-13
         /// </summary>
         public void DeleteAllProducts()
         {

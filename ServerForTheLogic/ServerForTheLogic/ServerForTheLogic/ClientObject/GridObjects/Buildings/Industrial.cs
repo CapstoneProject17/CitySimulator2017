@@ -20,6 +20,14 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     class Industrial : Building
     {
+        public Industrial(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
+            : base(guid, xPoint, yPoint, rating, isTall, capacity)
+        {
+            InventoryCount = inventoryCount;
+            ProductionCost = productionCost;
+            WholesalePrice = wholesalePrice;
+        }
+
         /// <summary>
         /// InventoryCount - positive int only
         /// </summary>

@@ -19,6 +19,19 @@ namespace ServerForTheLogic.ClientObject
     class GridObject
     {
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="xPoint"></param>
+        /// <param name="yPoint"></param>
+        public GridObject(Guid guid, int xPoint, int yPoint)
+        {
+            Guid = guid;
+            XPoint = xPoint;
+            YPoint = yPoint;
+        }
+
+        /// <summary>
         /// ID for the grid object
         /// </summary>
         public Guid Guid { get; set; }

@@ -20,6 +20,14 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     class Clock
     {
+        public Clock(int netMinutes, int netHours, int netDays, int netYears)
+        {
+            NetMinutes = netMinutes;
+            NetHours = netHours;
+            NetDays = netDays;
+            NetYears = netYears;
+        }
+
         /// <summary>
         /// NetMinutes must be an unsigned int between 0 - 59
         /// </summary>
