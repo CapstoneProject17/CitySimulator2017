@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43668893, g: 0.4842832, b: 0.56452656, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2051,9 +2051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31db78e09720944c4863c963b751e892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 4050513972299326, guid: 011e0bc1e412f4a029f3438b01663eaa, type: 2}
-  industryBuilding: {fileID: 4355730246981008, guid: c5986d2fafae94e789a654f6ed10006e,
-    type: 2}
+  building: {fileID: 400000, guid: bbf2f06505381413ea848e71eb538cb8, type: 3}
+  industryBuilding: {fileID: 400000, guid: 0e45d74dd6b74472daeeefdf6897ea17, type: 3}
   buildingManager: {fileID: 0}
 --- !u!4 &1857592183
 Transform:
