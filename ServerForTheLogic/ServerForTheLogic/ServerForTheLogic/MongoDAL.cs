@@ -261,48 +261,113 @@ namespace DataAccessLayer
             return null;
         }
 
-
         /// <summary>
-        /// Gets a person object
-        /// Author: Michael
-        /// Date: 2017-10-15
-        /// Update:
-        /// 2017-11-13 Michael
-        /// Changed from Citizen to Person. Method is still the same.
+        /// return the simulation clock
+        /// return null if there's no clock stored in the db
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
         /// </summary>
-        /// <param name="personGuid"></param>
-        /// <returns>Returns a list of persons as JSON documents</returns>
-        public Person GetPersonByGuid(Guid personGuid)
-        {
-            var citizensCol = Database.GetCollection<BsonDocument>("Person");
-            var filter = Builders<BsonDocument>.Filter.Eq("guid", personGuid);
-            var document = citizensCol.Find(filter).First(); // Find a citizen based on the filter, first result.
-            if (document == null)
-            {
-                Console.WriteLine("Person Guid: " + personGuid + "does not exist in the collection");
-                return null;
-            }
-            Person person = BsonSerializer.Deserialize<Person>(document.ToJson()); // Stores it in a list, deserializes the document(?)
-            return person;
-        }
-
-        /// <summary>
-        /// <para>
-        /// If the GetCitizens method works then this one should work.
-        /// </para>
-        /// Author: Michael
-        /// Date: 2017-10-16
-        /// </summary>
-        /// <param name="roadId"></param>
         /// <returns></returns>
-        public List<Building> GetBuildings(ObjectId buildId)
+        public Clock GetClock()
         {
-            var buildCol = Database.GetCollection<BsonDocument>("Buildings");
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", buildId);
-            var document = buildCol.Find(filter).First();
-            List<Building> building = BsonSerializer.Deserialize<List<Building>>(document.ToJson());
-            return building;
+            var collection = Database.GetCollection<BsonDocument>("Clock");
+            var clockData = collection.Find(new BsonDocument()).FirstOrDefault();
+            if (clockData != null)
+            {
+                Clock myClock = BsonSerializer.Deserialize<Clock>(clockData.ToJson());
+                return myClock;
+            }
+            Console.WriteLine("clock collection is empty.");
+            return null;
         }
+
+
+        /// <summary>
+        /// return a product based on the input product name
+        /// return null if the product name does not exist
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Product GetProduct(string name)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("Name", name);
+            var collection = Database.GetCollection<BsonDocument>("Product");
+            var product = collection.Find(filter).First();
+            if (product != null)
+            {
+                Product myProduct = BsonSerializer.Deserialize<Product>(product.ToJson());
+                return myProduct;
+            }
+            Console.WriteLine("Product name: " + name + " does not exist in the database.");
+            return null;
+        }
+
+        /// <summary>
+        /// return simulation SaveState
+        /// return null if there's no SaveState stored in db
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <returns></returns>
+        public SaveState GetSaveState()
+        {
+            var collection = Database.GetCollection<BsonDocument>("SaveState");
+            var saveStateData = collection.Find(new BsonDocument()).FirstOrDefault();
+            if (saveStateData != null)
+            {
+                SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
+                return mySaveState;
+            }
+            Console.WriteLine("SaveState collection is empty.");
+            return null;
+        }
+
+        ///// <summary>
+        ///// gets a person object
+        ///// author: michael
+        ///// date: 2017-10-15
+        ///// update:
+        ///// 2017-11-13 michael
+        ///// changed from citizen to person. method is still the same.
+        ///// </summary>
+        ///// <param name="personguid"></param>
+        ///// <returns>returns a list of persons as json documents</returns>
+        //public person getpersonbyguid(guid personguid)
+        //{
+        //    var citizenscol = database.getcollection<bsondocument>("person");
+        //    var filter = builders<bsondocument>.filter.eq("guid", personguid);
+        //    var document = citizenscol.find(filter).first(); // find a citizen based on the filter, first result.
+        //    if (document == null)
+        //    {
+        //        console.writeline("person guid: " + personguid + "does not exist in the collection");
+        //        return null;
+        //    }
+        //    person person = bsonserializer.deserialize<person>(document.tojson()); // stores it in a list, deserializes the document(?)
+        //    return person;
+        //}
+
+        ///// <summary>
+        ///// <para>
+        ///// if the getcitizens method works then this one should work.
+        ///// </para>
+        ///// author: michael
+        ///// date: 2017-10-16
+        ///// </summary>
+        ///// <param name="roadid"></param>
+        ///// <returns></returns>
+        //public list<building> getbuildings(objectid buildid)
+        //{
+        //    var buildcol = database.getcollection<bsondocument>("buildings");
+        //    var filter = builders<bsondocument>.filter.eq("_id", buildid);
+        //    var document = buildcol.find(filter).first();
+        //    list<building> building = bsonserializer.deserialize<list<building>>(document.tojson());
+        //    return building;
+        //}
 
 
 
@@ -339,7 +404,7 @@ namespace DataAccessLayer
         /// <param name="endShift"></param>
         public async void UpdatePersonByGuid(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workplaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
         {
-            var collection = Database.GetCollection<BsonDocument>("Person"); // Should it be a BSON document or a collection of Citizens?
+            var collection = Database.GetCollection<BsonDocument>("Person");
             var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
             var personListData = await collection.Find(filter).ToListAsync();
             if (personListData == null || personListData.Count == 0)
@@ -388,7 +453,7 @@ namespace DataAccessLayer
         /// <param name="capacity"></param>
         public async void UpdateResidentialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity)
         {
-            var collection = Database.GetCollection<BsonDocument>("Residential"); // Should it be a BSON document or a collection of Citizens?
+            var collection = Database.GetCollection<BsonDocument>("Residential");
             var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
             var residentialListData = await collection.Find(filter).ToListAsync();
             if (residentialListData == null || residentialListData.Count == 0)
@@ -414,10 +479,216 @@ namespace DataAccessLayer
             var result = await collection.UpdateOneAsync(filter, update);
         }
 
-        public async void UpdateCommercialBuildingByGuid()
+        /// <summary>
+        /// Update one commercial building by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="xPoint"></param>
+        /// <param name="yPoint"></param>
+        /// <param name="rating"></param>
+        /// <param name="isTall"></param>
+        /// <param name="capacity"></param>
+        /// <param name="retailPrice"></param>
+        /// <param name="inventoryCount"></param>
+        public async void UpdateCommercialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
         {
+            var collection = Database.GetCollection<BsonDocument>("Commercial");
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+            var commercialListData = await collection.Find(filter).ToListAsync();
+            if (commercialListData == null || commercialListData.Count == 0)
+            {
+                Console.WriteLine("Can not update commercial building, guid is invalid.");
+                return;
+            }
 
+            Commercial commercialBuildingToUpdate = new Commercial(guid, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
+            if (!DALValidator.DALCommercialBuildingValidator(commercialBuildingToUpdate))
+            {
+                Console.WriteLine("Can not update commercial building, at least one of the input field is invalid.");
+                return;
+            }
+
+            var update = Builders<BsonDocument>.Update
+                .Set("guid", guid)
+                .Set("XPoint", xPoint)
+                .Set("YPoint", yPoint)
+                .Set("Rating", rating)
+                .Set("IsTall", isTall)
+                .Set("Capacity", capacity)
+                .Set("RetailPrice", retailPrice)
+                .Set("InventoryCount", inventoryCount);
+            var result = await collection.UpdateOneAsync(filter, update);
         }
+
+        /// <summary>
+        /// Update one industrial building by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="xPoint"></param>
+        /// <param name="yPoint"></param>
+        /// <param name="rating"></param>
+        /// <param name="isTall"></param>
+        /// <param name="capacity"></param>
+        /// <param name="inventoryCount"></param>
+        /// <param name="productionCost"></param>
+        /// <param name="wholesalePrice"></param>
+        public async void UpdateIndustrialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Industrial");
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+            var industrialListData = await collection.Find(filter).ToListAsync();
+            if (industrialListData == null || industrialListData.Count == 0)
+            {
+                Console.WriteLine("Can not update industrial building, guid is invalid.");
+                return;
+            }
+
+            Industrial industrialBuildingToUpdate = new Industrial(guid, xPoint, yPoint, rating, isTall, capacity, inventoryCount, productionCost, wholesalePrice);
+            if (!DALValidator.DALIndustrialBuildingValidator(industrialBuildingToUpdate))
+            {
+                Console.WriteLine("Can not update industrial building, at least one of the input field is invalid.");
+                return;
+            }
+
+            var update = Builders<BsonDocument>.Update
+                .Set("guid", guid)
+                .Set("XPoint", xPoint)
+                .Set("YPoint", yPoint)
+                .Set("Rating", rating)
+                .Set("IsTall", isTall)
+                .Set("Capacity", capacity)
+                .Set("InventoryCount", inventoryCount)
+                .Set("ProductionCost", productionCost)
+                .Set("WholesalePrice", wholesalePrice);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
+        /// <summary>
+        /// Update one road by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <param name="xPoint"></param>
+        /// <param name="yPoint"></param>
+        public async void UpdateRoadByGuid(Guid guid, int xPoint, int yPoint)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Road");
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+            var roadListData = await collection.Find(filter).ToListAsync();
+            if (roadListData == null || roadListData.Count == 0)
+            {
+                Console.WriteLine("Can not update road, guid is invalid.");
+                return;
+            }
+
+            Road roadToUpdate = new Road(guid, xPoint, yPoint);
+            if (!DALValidator.DALRoadValidator(roadToUpdate))
+            {
+                Console.WriteLine("Can not update road, at least one of the input field is invalid.");
+                return;
+            }
+
+            var update = Builders<BsonDocument>.Update
+                .Set("guid", guid)
+                .Set("XPoint", xPoint)
+                .Set("YPoint", yPoint);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
+        /// <summary>
+        /// Update clock
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="minutes"></param>
+        /// <param name="hours"></param>
+        /// <param name="days"></param>
+        /// <param name="years"></param>
+        public async void UpdateClock(int minutes, int hours, int days, int years)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Clock");
+            var clockData = await collection.Find(new BsonDocument()).FirstOrDefaultAsync();
+            if (clockData == null)
+            {
+                Console.WriteLine("clock collection is empty.");
+                return;
+            }
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", clockData["_id"].ToString());
+
+            Clock clockToUpdate = new Clock(minutes, hours, days, years);
+            if (!DALValidator.DALClockValidator(clockToUpdate))
+            {
+                Console.WriteLine("Can not update clock, at least one of the input field is invalid.");
+                return;
+            }
+            var update = Builders<BsonDocument>.Update
+                            .Set("NetMinutes", minutes)
+                            .Set("NetHours", hours)
+                            .Set("NetDays", days)
+                            .Set("NetYears", years);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
+        /// <summary>
+        /// update product by product name
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="globalCount"></param>
+        public async void UpdateProductByName(string name, int globalCount)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Product");
+            var filter = Builders<BsonDocument>.Filter.Eq("Name", name);
+            var roadListData = await collection.Find(filter).ToListAsync();
+            if (roadListData == null || roadListData.Count == 0)
+            {
+                Console.WriteLine("Can not product, name is invalid.");
+                return;
+            }
+
+            Product productToUpdate = new Product(name, globalCount);
+            if (!DALValidator.DALProductValidator(productToUpdate))
+            {
+                Console.WriteLine("Can not update product, at least one of the input field is invalid.");
+                return;
+            }
+
+            var update = Builders<BsonDocument>.Update
+                .Set("Name", name)
+                .Set("GlobalCount", globalCount);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
+
+        /// <summary>
+        /// update SaveState by objectId
+        /// 
+        /// Author:
+        /// Date:
+        /// </summary>
+        /// <param name="_id"></param>
+        /// <param name="saveState"></param>
+        public async void UpdateSaveStateById(ObjectId _id, SaveState saveState)
+        {
+            var collection = Database.GetCollection<BsonDocument>("SaveState");
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
+            var saveStateData = await collection.Find(filter).ToListAsync();
+
+            //TODO: implementation
+
+            return;
+        }
+
 
         /* ==================== Delete Section ==================== */
 
@@ -443,10 +714,10 @@ namespace DataAccessLayer
         /// Date: 2017-10-31
         /// </summary>
         /// <param name="_id">building id</param>
-        public async void DeleteOneResidential(Residential residential, Guid guid)
+        public async void DeleteOneResidential(Industrial residential, Guid guid)
         {
-            var collection = Database.GetCollection<Residential>("Residential");
-            var filter = Builders<Residential>.Filter.Eq("guid", guid);
+            var collection = Database.GetCollection<Industrial>("Residential");
+            var filter = Builders<Industrial>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
@@ -457,10 +728,10 @@ namespace DataAccessLayer
         /// Date: 2017-10-31
         /// </summary>
         /// <param name="_id">building id</param>
-        public async void DeleteOneCommercial(Commercial commercial, Guid guid)
+        public async void DeleteOneCommercial(Industrial commercial, Guid guid)
         {
-            var collection = Database.GetCollection<Commercial>("Commercial");
-            var filter = Builders<Commercial>.Filter.Eq("guid", guid);
+            var collection = Database.GetCollection<Industrial>("Commercial");
+            var filter = Builders<Industrial>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
