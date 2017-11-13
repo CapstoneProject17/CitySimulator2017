@@ -4,7 +4,11 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-
+using ServerForTheLogic;
+using ServerForTheLogic.DALValidator;
+using ServerForTheLogic.ClientObject.Building;
+using ServerForTheLogic.ClientObject;
+using System;
 
 namespace DataAccessLayer
 {
@@ -33,48 +37,159 @@ namespace DataAccessLayer
         /* ==================== Insert Section ==================== */
 
         /// <summary>
-        /// Insert a new Citizen into the Database
+        /// Insert a new Person into the Database
         /// </summary>
-        /// <param name="citizen"></param>
-        public void InsertCitizen(Citizens citizen) {
-            if (DALValidator.CitizenValidator(citizen))
+        /// <param name="person"></param>
+        public bool InsertPerson(Person person)
+        {
+            if (!DALValidator.DALPersonValidator(person))
             {
-                var citizensCol = Database.GetCollection<Citizens>("Citizens");
-                citizensCol.InsertOne(citizen);
+                return false;
+            } else
+            {
+                var personCol = Database.GetCollection<Person>("Person");
+                personCol.InsertOne(person);
             }
+            return true;
         }
 
         // Plural? Insert multiple citizens at once if needed...
         // Should it be a Task type with a return value?
+        // this will only insert if all entries pass validation, not just the ones that do pass.
         // https://msdn.microsoft.com/en-us/library/dd235678#Remarks
-        public Task InsertCitizens(IEnumerable<Citizens> citizens) {
-            foreach(Citizens c in citizens)
+        public Task InsertPeople(IEnumerable<Person> people)
+        {
+            foreach (Person p in people)
             {
-                if (!DALValidator.CitizenValidator(c))
+                if (!DALValidator.DALPersonValidator(p))
                 {
                     return null;
                 }
             }
-            var citizensCol = Database.GetCollection<Citizens>("Citizens");
-            return citizensCol.InsertManyAsync(citizens);
+            var personCol = Database.GetCollection<Person>("Person");
+            return personCol.InsertManyAsync(people);
         }
 
         /// <summary>
-        /// purpose: insert one building
-        /// Author: Bill
-        /// Date: 2017-10-31
-        /// 
-        /// Update:
-        /// 2017-11-01 Bill
-        ///     add validation
+        /// Individual insert methods for each type of "building" to follow: 
+        ///     - Residential
+        ///     - Commercial
+        ///     - Industrial
+        ///     - Road
         /// </summary>
+        /// Author: Steph
         /// <param name="building"></param>
-        public void InsertBuilding(Buildings building) {
-            if (DALValidator.BuildingValidator(building))
+        public bool InsertResidential(Residential residential)
+        {
+            if (!DALValidator.DALResidentialBuildingValidator(residential))
             {
-                var buildingCol = Database.GetCollection<Buildings>("Buildings");
-                buildingCol.InsertOne(building);
+                return false;
+            } else
+            {
+                var residentialCol = Database.GetCollection<Residential>("Residential");
+                residentialCol.InsertOne(residential);
             }
+            return true;
+        }
+
+        public bool InsertCommercial(Commercial commercial)
+        {
+            if (!DALValidator.DALCommercialBuildingValidator(commercial))
+            {
+                return false;
+            } else
+            {
+                var commercialCol = Database.GetCollection<Commercial>("Commercial");
+                commercialCol.InsertOne(commercial);
+            }
+            return true;
+        }
+
+        public bool InsertIndustrial(Industrial industrial)
+        {
+            if (!DALValidator.DALIndustrialBuildingValidator(industrial))
+            {
+                return false;
+            } else
+            {
+                var industrialCol = Database.GetCollection<Industrial>("Industrial");
+                industrialCol.InsertOne(industrial);
+            }
+            return true;
+        }
+
+        // is this method necessary? 
+        public bool InsertRoad(Road road)
+        {
+            if (!DALValidator.DALRoadValidator(road))
+            {
+                return false;
+            } else
+            {
+                var roadCol = Database.GetCollection<Road>("Road");
+                roadCol.InsertOne(road);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Inserts one product
+        /// Author: Steph
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public bool InsertProduct(Product product)
+        {
+            if (!DALValidator.DALProductValidator(product))
+            {
+                return false;
+            }
+            else
+            {
+                var prodCol = Database.GetCollection<Product>("Product");
+                prodCol.InsertOne(product);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// TODO: Inserts a savestate at a given timestamp.
+        /// Author:
+        /// </summary>
+        /// <param name="savestate"></param>
+        /// <returns></returns>
+        public bool InsertSaveState(SaveState savestate)
+        {
+            if (!DALValidator.DALSaveStateValidator(savestate))
+            {
+                return false;
+            }
+            else
+            {
+                //TODO
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Inserts a clock (time stamp)
+        /// Author: Steph
+        /// May or may not be used.
+        /// </summary>
+        /// <param name="clock"></param>
+        /// <returns></returns>
+        public bool InsertClock(Clock clock)
+        {
+            if (!DALValidator.DALClockValidator(clock))
+            {
+                return false;
+            }
+            else
+            {
+                var clockCol = Database.GetCollection<Clock>("Clock");
+                clockCol.InsertOne(clock);
+            }
+            return true;
         }
 
         /// <summary>
@@ -85,116 +200,148 @@ namespace DataAccessLayer
         /// Update:
         /// 2017-11-01 Bill
         ///     add validation
+        ///     
+        /// Update:
+        /// 2017-11-13 Michael
+        /// Changed method to use new validation style
         /// </summary>
         /// <param name="buildings"></param>
-        public void InsertBuildings(IEnumerable<Buildings> buildings)
-        {
-            foreach (Buildings b in buildings)
-            {
-                if (!DALValidator.BuildingValidator(b))
-                {
-                    System.Console.WriteLine("Building id: " + b.Id + " did not meet validation rules.");
+        public void InsertBuildings(IEnumerable<Building> buildings) {
+            foreach (Building b in buildings) {
+                if (!DALValidator.DALBuildingValidator(b)) {
+                    System.Console.WriteLine("Building id: " + b + " did not meet validation rules.");
                     return;
                 }
             }
-            var buildingCol = Database.GetCollection<Buildings>("Buildings");
+            var buildingCol = Database.GetCollection<Building>("Buildings");
             buildingCol.InsertMany(buildings);
         }
-        
 
-        public void InsertSaveState(SaveState save) {
-            var saveStateCol = Database.GetCollection<SaveState>("SaveState");
-            saveStateCol.InsertOne(save);
-        }
 
         /* ==================== Get Section ==================== */
 
-        // Would this work?
-        // No, I don't think it will... Would it just get one citizen? I think so...
-        public List<Citizens> GetCitizens(ObjectId objectid) {  
-            var citizensCol = Database.GetCollection<BsonDocument>("Citizens");
+
+        /// <summary>
+        /// Gets a list of Person objects
+        /// Author: Michael
+        /// Date: 2017-10-15
+        /// Update:
+        /// 2017-11-13 Michael
+        /// Changed from Citizen to Person. Method is still the same.
+        /// </summary>
+        /// <param name="objectid"></param>
+        /// <returns>Returns a list of persons as JSON documents</returns>
+        public List<Person> GetCitizens(ObjectId objectid) {
+            var citizensCol = Database.GetCollection<BsonDocument>("Person");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", objectid);
             var document = citizensCol.Find(filter).First(); // Find a citizen based on the filter, first result.
-            List<Citizens> citizen = BsonSerializer.Deserialize<List<Citizens>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
-            return citizen;
+            List<Person> person = BsonSerializer.Deserialize<List<Person>>(document.ToJson()); // Stores it in a list, deserializes the document(?)
+            return person;
         }
 
         /// <summary>
-        /// If the GetCitizens method works then this one should work. YOLO
+        /// <para>
+        /// If the GetCitizens method works then this one should work.
+        /// </para>
         /// Author: Michael
         /// Date: 2017-10-16
         /// </summary>
         /// <param name="roadId"></param>
         /// <returns></returns>
-        public List<Buildings> GetBuildings(ObjectId buildId) {
+        public List<Building> GetBuildings(ObjectId buildId) {
             var buildCol = Database.GetCollection<BsonDocument>("Buildings");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", buildId);
             var document = buildCol.Find(filter).First();
-            List<Buildings> building = BsonSerializer.Deserialize<List<Buildings>>(document.ToJson());
+            List<Building> building = BsonSerializer.Deserialize<List<Building>>(document.ToJson());
             return building;
         }
 
 
 
         /* ==================== Update Section ==================== */
-        // reference: 
-        // how to use update: https://docs.mongodb.com/getting-started/csharp/update/
-        // Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
-
         /// <summary>
-        ///  update one citizen by its Id. 
-        ///  if string field is empty string then there will be no change in the original string,
-        ///  if int field == -1 then there will be no change in the original int value.
-        ///  updated value also have to meet validation rules, otherwise there's no change to the old value.
-        ///  
-        ///  Author: Bill
-        ///  Date: 2017-10-31
-        ///  
-        /// TO-DO: add validation methods
+        /// <para>
+        /// update one citizen by its Id. 
+        /// if string field is empty string then there will be no change in the original string,
+        /// if int field == -1 then there will be no change in the original int value.
+        /// updated value also have to meet validation rules, otherwise there's no change to the old value.
+        /// </para> 
+        /// 
+        /// <para>
+        /// reference: 
+        /// how to use update: https://docs.mongodb.com/getting-started/csharp/update/
+        /// Deserialize a Collection from BSON: https://www.newtonsoft.com/json/help/html/DeserializeFromBsonCollection.htm
+        /// </para>
+        /// 
+        /// Author: Bill
+        /// Date: 2017-10-31
+        /// 
+        /// Update: 
+        /// 2017-11-13 Micahel
+        /// Updated the method to use the new DAL convention. Uses PersonValidator.
         /// </summary>
-        /// <param name="_id"></param>
-        /// <param name="newName"></param>
+        /// 
+        /// <param name="_id">The ObjectId that MongoDB automatically creates</param>
+        /// <param name="newFName">The new first name of the person</param>
+        /// <param name="newLName"></param>
         /// <param name="newSalary"></param>
-        /// <param name="newHomeAddress"></param>
-        /// <param name="newWorkAddress"></param>
+        /// <param name="newHomeID"></param>
+        /// <param name="newHomeAddressX"></param>
+        /// <param name="newHomeAddressY"></param>
+        /// <param name="newWorplaceID"></param>
+        /// <param name="newWorkAddressX"></param>
+        /// <param name="newWorkAddressY"></param>
         /// <param name="newAge"></param>
-        /// <param name="newDaysLeftToLive"></param>
-        public async void UpdateCitizenByID(ObjectId _id, string newName, int newSalary, int newHomeAddress, int newWorkAddress, int newAge, int newDaysLeftToLive)
-        {
-            var collection = Database.GetCollection<BsonDocument>("Citizens"); // Should it be a BSON document or a collection of Citizens?
+        /// <param name="newDaysLeft"></param>
+        public async void UpdatePersonByID(ObjectId _id, string newFName, string newLName, int newSalary, string newHomeID, int newHomeAddressX, int newHomeAddressY, string newWorplaceID, int newWorkAddressX, int newWorkAddressY, int newAge, int newDaysLeft) {
+            var collection = Database.GetCollection<BsonDocument>("Person"); // Should it be a BSON document or a collection of Citizens?
             var filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
-            var citizenListData = await collection.Find(filter).ToListAsync();
-            if (citizenListData == null || citizenListData.Count == 0)
-            {
-                throw new System.Exception("Can not update citizen, _id is invalid.");
+            var personListData = await collection.Find(filter).ToListAsync();
+            if (personListData == null || personListData.Count == 0) {
+                throw new System.Exception("Can not update person, _id is invalid.");
             }
-            
-            var citizenBSON = citizenListData[0];
+
+            var personBSON = personListData[0];
 
             //get the current fields on the citizen
-            string oldName = citizenBSON[1].ToString();
-            int oldSalary = System.Convert.ToInt32(citizenBSON[2].ToString());
-            int oldHomeAddress = System.Convert.ToInt32(citizenBSON[3].ToString());
-            int oldWorkAddress = System.Convert.ToInt32(citizenBSON[4].ToString());
-            int oldAge = System.Convert.ToInt32(citizenBSON[5].ToString());
-            int oldDaysLeftToLive = System.Convert.ToInt32(citizenBSON[6].ToString());
+            string oldFName = personBSON[1].ToString();
+            string oldLName = personBSON[2].ToString();
+            int oldSalary = System.Convert.ToInt32(personBSON[3].ToString());
+            string oldHomeID = personBSON[4].ToString();
+            int oldHomeAddressX = System.Convert.ToInt32(personBSON[5].ToString());
+            int oldHomeAddressY = System.Convert.ToInt32(personBSON[6].ToString());
+            string oldWorkplaceID = personBSON[7].ToString();
+            int oldWorkAddressX = System.Convert.ToInt32(personBSON[8].ToString());
+            int oldWorkAddressY = System.Convert.ToInt32(personBSON[9].ToString());
+            int oldAge = System.Convert.ToInt32(personBSON[10].ToString());
+            int oldDaysLeft = System.Convert.ToInt32(personBSON[11].ToString());
 
             //validate changes for the fields to update
-            string name = (DALValidator.isValidCitizenName(newName)) ? newName : oldName;
-            int salary = (DALValidator.isValidCitizenSalary(newSalary)) ? newSalary : oldSalary;
-            int homeAddress = (DALValidator.isValidCitizenHomeAddress(newHomeAddress)) ? newHomeAddress : oldHomeAddress;
-            int workAddress = (DALValidator.isValidCitizenWorkAddress(newWorkAddress)) ? newWorkAddress : oldWorkAddress;
-            int age = (DALValidator.isValidCitizenAge(newAge)) ? newAge : oldAge;
-            int daysLeftToLive = (DALValidator.isValidCitizenDaysLeftToLive(newDaysLeftToLive)) ? newDaysLeftToLive : oldDaysLeftToLive;
+            string fName = (PersonValidator.isValidPersonFirstName(newFName)) ? newFName : oldFName;
+            string lName = (PersonValidator.isValidPersonLastName(newFName)) ? newFName : oldFName;
+            int salary = (PersonValidator.isValidPersonMonthlyIncome(newSalary)) ? newSalary : oldSalary;
+            string homeID = (PersonValidator.isValidPersonHomeID(newHomeID)) ? newHomeID : oldHomeID;
+            int homeAddressX = (PersonValidator.isValidPersonHomeX(newHomeAddressX)) ? newHomeAddressX : oldHomeAddressX;
+            int homeAddressY = (PersonValidator.isValidPersonHomeY(newHomeAddressY)) ? newHomeAddressY : oldHomeAddressY;
+            string workplaceID = (PersonValidator.isValidPersonWorkplaceID(newWorplaceID)) ? newWorplaceID : oldWorkplaceID;
+            int workAddressX = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressX)) ? newWorkAddressX : oldWorkAddressX;
+            int workAddressY = (PersonValidator.isValidPersonWorkplaceX(newWorkAddressY)) ? newWorkAddressY : oldWorkAddressY;
+            int age = (PersonValidator.isValidPersonAge(newAge)) ? newAge : oldAge;
+            int daysLeft = (PersonValidator.isValidPersonDaysLeft(newDaysLeft)) ? newDaysLeft : oldDaysLeft;
 
             //update changes
             var update = Builders<BsonDocument>.Update
-                .Set("Name", name)
+                .Set("First Name", fName)
+                .Set("Last Name", lName)
                 .Set("Salary", salary)
-                .Set("HomeAddress", homeAddress)
-                .Set("WorkAddress", workAddress)
+                .Set("HomeID", homeID)
+                .Set("HomeAddressX", homeAddressX)
+                .Set("HomeAddressY", homeAddressY)
+                .Set("WorkplaceID", workplaceID)
+                .Set("WorkAddressX", workAddressX)
+                .Set("WorkAddressY", workAddressY)
                 .Set("Age", age)
-                .Set("DaysLeftToLive", daysLeftToLive);
+                .Set("DaysLeft", daysLeft);
             var result = await collection.UpdateOneAsync(filter, update);
         }
 
@@ -272,50 +419,126 @@ namespace DataAccessLayer
         /* ==================== Delete Section ==================== */
 
         /// <summary>
-        /// Delete one citizen from the collection.
+        /// Delete one person from the collection.
         /// Author: Michael
+        /// Updated: Steph - reflects schema changes
         /// Date: 2017-10-15
         /// </summary>
         /// <param name="_id"></param>
-        public async void DeleteOneCitizen(ObjectId _id) {
-            var collection = Database.GetCollection<Citizens>("Citizens");
-            var filter = Builders<Citizens>.Filter.Eq("_id", _id);
+        public async void DeleteOnePerson(Guid guid) {
+            var collection = Database.GetCollection<Person>("Person");
+            //what to do here?
+            var filter = Builders<Person>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
         /// <summary>
         /// Delete one building from the collection by its id
         /// Author: Bill
+        /// Updated: Steph - reflects schema changes 
         /// Date: 2017-10-31
         /// </summary>
         /// <param name="_id">building id</param>
-        public async void DeleteOneBuilding(ObjectId _id)
+        public async void DeleteOneResidential(Residential residential, Guid guid)
         {
-            var collection = Database.GetCollection<Buildings>("Buildings");
-            var filter = Builders<Buildings>.Filter.Eq("_id", _id);
+            var collection = Database.GetCollection<Residential>("Residential");
+            var filter = Builders<Residential>.Filter.Eq("guid", guid);
+            await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete one building from the collection by its id
+        /// Author: Bill
+        /// Updated: Steph - reflects schema changes
+        /// Date: 2017-10-31
+        /// </summary>
+        /// <param name="_id">building id</param>
+        public async void DeleteOneCommercial(Commercial commercial, Guid guid)
+        {
+            var collection = Database.GetCollection<Commercial>("Commercial");
+            var filter = Builders<Commercial>.Filter.Eq("guid", guid);
+            await collection.DeleteOneAsync(filter);
+        }
+
+        /// <summary>
+        /// Delete one building from the collection by its id
+        /// Author: Bill
+        /// Updated: Steph - reflects schema changes
+        /// Date: 2017-10-31
+        /// </summary>
+        /// <param name="_id">building id</param>
+        public async void DeleteOneIndustrial(Industrial industrial, Guid guid)
+        {
+            var collection = Database.GetCollection<Industrial>("Industrial");
+            var filter = Builders<Industrial>.Filter.Eq("guid", guid);
             await collection.DeleteOneAsync(filter);
         }
 
         /// <summary>
         /// Delete all citizens (drop then recreate table)
         /// Author: Bill
+        /// Updated: Steph - reflects schema changes
         /// Date: 2017-10-31
         /// </summary>
         public void DeleteAllCitizens()
         {
-            Database.DropCollection("Citizens");
-            Database.CreateCollection("Citizens");
+            Database.DropCollection("Person");
+            Database.CreateCollection("Person");
         }
 
         /// <summary>
-        /// Delete all buildings (drop then recreate table)
-        /// Author: Bill
-        /// Date: 2017-10-31
+        /// Delete all residential type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
         /// </summary>
-        public void DeleteAllBuildings()
+        public void DeleteAllResidential()
         {
-            Database.DropCollection("Buildings");
-            Database.CreateCollection("Buildings");
+            Database.DropCollection("Residential");
+            Database.CreateCollection("Residential");
+        }
+
+        /// <summary>
+        /// Delete all commercial type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllCommercial()
+        {
+            Database.DropCollection("Commercial");
+            Database.CreateCollection("Commercial");
+        }
+
+        /// <summary>
+        /// Delete all industrial type buildings (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllIndustrial()
+        {
+            Database.DropCollection("Industrial");
+            Database.CreateCollection("Industrial");
+        }
+
+        /// <summary>
+        /// Delete all roads (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllRoads()
+        {
+            Database.DropCollection("Road");
+            Database.CreateCollection("Road");
+        }
+
+        /// <summary>
+        /// Delete all products (drop then recreate table)
+        /// Author: Steph
+        /// Date: 
+        /// </summary>
+        public void DeleteAllProducts()
+        {
+            Database.DropCollection("Product");
+            Database.CreateCollection("Product");
         }
     }
 }

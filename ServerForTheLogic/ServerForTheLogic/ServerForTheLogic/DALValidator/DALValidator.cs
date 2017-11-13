@@ -1,15 +1,10 @@
 ﻿using ServerForTheLogic;
+using ServerForTheLogic.ClientObject;
 using ServerForTheLogic.ClientObject.Building;
-using ServerForTheLogic.ClientObject.GridObjects;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.DALValidator.ValidationHelper;
 using ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -46,7 +41,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        public static Boolean DALPersonValidator(Person person)
+        public static Boolean DALPersonValidator(ServerForTheLogic.ClientObject.Person person)
         {
             if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
