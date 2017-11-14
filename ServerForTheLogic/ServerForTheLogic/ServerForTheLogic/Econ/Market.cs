@@ -44,7 +44,7 @@ namespace ServerForTheLogic.Econ
         {
             int quantityOrdered = order.Amount;
             ICustomer buyer = order.Sender;
-            Console.WriteLine("Businesses available " + SellerList.Count);
+            //Console.WriteLine("Businesses available " + SellerList.Count);
             int transfer;
             for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
             {
