@@ -41,37 +41,18 @@ namespace ServerForTheLogic
                 city = new City();
                 //fill 3 blocks
 
-                // city.addRoads(city.BlockMap[city.BlockMap.GetLength(1)/2, city.BlockMap.GetLength(0) / 2]);
+               
                 city.initialBlockAdd();
 
-                //Commented out Creating a Person
-                //Person me;
-                //me = creator.createPerson(city);
-                //city.AllPeople.Add(me);
-
-            }
-            //sets the adjacent blocks of the specified block
-            foreach (Block block in city.BlockMap)
-            {
-                city.setAdjacents(block);
-            }
-
-          
-
-            //for (int i = 0; i < city.BlockMap.GetLength(0); i++)
-            //{
-            //   // city.expandCity();
-            //}
-
+             
             
-            foreach (Block block in city.BlockMap)
-                if (block.Adjacents.Count > 8)
-                    Console.WriteLine("Too many:" + block.ToString());
+            }
+          
             //city.printBlockMapTypes();
-            //printCity();
+            city.printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
-            foo();
+            //foo();
             bar();
             while (true) {
                 Console.WriteLine("Enter Command:");
@@ -111,7 +92,7 @@ namespace ServerForTheLogic
                 }
 
                 if (cmd.Equals("print city", StringComparison.CurrentCultureIgnoreCase)) {
-                    printCity();
+                    city.printCity();
                 }
             }
         }
@@ -140,41 +121,20 @@ namespace ServerForTheLogic
             }
         }
 
-        /// <summary>
-        /// Prints the city represented as symbols/letters in a neatly formatted manner
-        /// <para/> Last editted:  2017-10-02
-        /// </summary>
-        public static void printCity()
-        {
-            for (int i = 0; i < City.CITY_WIDTH; ++i)
-            {
-                for (int j = 0; j < City.CITY_LENGTH; ++j)
-                {
-                    if (city.Map[i, j] != null)
-                    {
-                        Console.Write(city.Map[i, j].Type);
-                    }
-                    else
-                    {
-                        Console.Write(".");
-                    }
-                }
-                Console.WriteLine();
-            }
-        }
+        
         private static void foo()
         {
-            //Console.WriteLine("FOO");
-            Person p = new Person("go", "an", city);
-            //Console.WriteLine(p.Funds);
+            Console.WriteLine("FOO");
+            Person p = city.createPerson();
+            Console.WriteLine("funds before " + p.Funds);
             p.BuyThings();
-            //Console.WriteLine(p.Funds);
+            Console.WriteLine("funds after " + p.Funds);
         }
         private static void bar()
         {
-            //Console.WriteLine("BAR");
-            Commercial b = new Commercial("fuck", 10);
-            //Console.WriteLine("funds before "  + b.Funds);
+            Console.WriteLine("BAR");
+            Commercial b = new Commercial("fuck", 10,true);
+            Console.WriteLine("funds before "  + b.Funds);
             b.FillInventory();
             //Console.WriteLine("funds after " + b.Funds);
         }
