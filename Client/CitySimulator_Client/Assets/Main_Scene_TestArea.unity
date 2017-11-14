@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43668893, g: 0.4842832, b: 0.56452656, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 17867333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
@@ -1631,8 +1631,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31db78e09720944c4863c963b751e892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 400148, guid: 47b7673708c854b7bbc25aa4b887fc56, type: 3}
-  industryBuilding: {fileID: 400000, guid: 42a095b98435f44d49b168ebd22d529a, type: 3}
+  building: {fileID: 4336750966570756, guid: f669c13f653e34b02822d0eaf07add93, type: 2}
+  industryBuilding: {fileID: 4892344128806462, guid: cb154c4bb035143e78256202f61ee4a5,
+    type: 2}
   buildingManager: {fileID: 0}
 --- !u!4 &1857592183
 Transform:
