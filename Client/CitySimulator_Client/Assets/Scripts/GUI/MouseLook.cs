@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Mouse look.
-/// Purspose: Controls the camera's direction using Mouse coordinates.
-/// Source: http://answers.unity3d.com/questions/29741/mouse-look-script.html
-/// Author:  AndyP-123
-/// Date: 01.31.16.
-/// Updated By: Lancelei Herradura
-/// Updated At: 09.26.17.
+/// Module: Mouse look.
+/// Team: Client
+/// Description: Controls the camera's direction using Mouse coordinates.
+/// Author:
+///	 Name: Lancelei Herradura    Date: 01.31.17.
+/// Modified by:	
+///	 Name: Dongwon(Shawn) Kim   Change:	addin multi key for roatiting  Date: 2017-10-17
+/// Based on:
+///  http://answers.unity3d.com/questions/29741/mouse-look-script.html
 /// </summary>
 public class MouseLook : MonoBehaviour {
 
-	public float mouseSensitivity = 50.0f;
+	//sensitivity of mouse
+	public float mouseSensitivity = 40.0f;
+	//clamp angle for viewport
 	public float clampAngle = 80.0f;
-
-	private float rotY = 0.0f; // rotation around the up/y axis
-	private float rotX = 0.0f; // rotation around the right/x axis
+ 	
+ 	// rotation around the up/y axis
+	private float rotY = 0.0f;
+	// rotation around the right/x axis
+	private float rotX = 0.0f;
 
 	void Start ()
 	{
@@ -28,15 +34,17 @@ public class MouseLook : MonoBehaviour {
 
 	void Update ()
 	{
-		float mouseX = Input.GetAxis("Mouse X");
-		float mouseY = -Input.GetAxis("Mouse Y");
+		if(Input.GetKey(KeyCode.LeftControl)){
+			float mouseX = Input.GetAxis("Mouse X");
+			float mouseY = -Input.GetAxis("Mouse Y");
 
-		rotY += mouseX * mouseSensitivity * Time.deltaTime;
-		rotX += mouseY * mouseSensitivity * Time.deltaTime;
+			rotY += mouseX * mouseSensitivity * Time.deltaTime;
+			rotX += mouseY * mouseSensitivity * Time.deltaTime;
 
-		rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+			rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
 
-		Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-		transform.rotation = localRotation;
+			Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+			transform.rotation = localRotation;
+		}
 	}
 }
