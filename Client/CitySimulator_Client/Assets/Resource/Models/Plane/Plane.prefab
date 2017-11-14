@@ -280,7 +280,11 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1930450449753398}
+<<<<<<< HEAD
+  m_Text: 0
+=======
   m_Text: 3
+>>>>>>> 80f0fd2b4094c72cb64386f7c1d2870358f5734d
   m_OffsetZ: 0
   m_CharacterSize: 2.5
   m_LineSpacing: 1
@@ -307,10 +311,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rend: {fileID: 0}
 <<<<<<< HEAD
+  colorIndex: 0
+=======
+<<<<<<< HEAD
   colorIndex: 2
 =======
   colorIndex: 3
 >>>>>>> 85dbfff7aae31d164d0279cdcc4f230327cc13ca
+>>>>>>> 80f0fd2b4094c72cb64386f7c1d2870358f5734d
   colors:
   - serializedVersion: 2
     rgba: 4286545791
