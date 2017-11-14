@@ -17,6 +17,8 @@ using UnityEngine;
 /// </summary>
 public class CityDataManager : MonoBehaviour {
 
+	public bool turnOnTest;
+
 	// population of the city
 	private int population = 1000;
 
@@ -100,7 +102,12 @@ public class CityDataManager : MonoBehaviour {
 
 	// Awake this instance.
 	void Awake () {
-		initiateGrid ();
+		if(turnOnTest){
+			initiateGridForTest();
+		} else {
+			initiateGrid ();
+		}
+		
 	}
 
 	/// <summary>
@@ -116,10 +123,14 @@ public class CityDataManager : MonoBehaviour {
 	public void initiateGrid(){
 		grid = new int[size_x][];
 
+		// initalize 2d array
 		for (int x = 0; x < grid.Length; x++) {
 			grid [x] = new int[size_z]; 
 		}
 
+
+
+		// iterates grid and assign the zone
 		for(int x = 0; x < size_x; x++){
 			for (int z = size_z -1; z >= 0; z--) {
 				if (x.Equals (3) && z.Equals (4))
@@ -130,6 +141,68 @@ public class CityDataManager : MonoBehaviour {
 		}
 	}
 
+
+	/// <summary>
+	/// Initiate grid for test
+	/// </summary>
+	public void initiateGridForTest(){		
+	   	int[] arr1 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr2 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr3 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr4 	 = 	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr5 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr6 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr7 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr8 	 = 	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr9 	 = 	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr10	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr11	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr12	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr13	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr14	 =	new [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr15	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr16	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr17	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr18	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr19	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr20	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr21	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr22	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr23	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr24	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
+		int[] arr25	 =	new [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
+
+		grid = new[] {
+			arr1,
+			arr2,
+			arr3,
+			arr4,
+			arr5,
+			arr6,
+			arr7,
+			arr8,
+			arr9,
+			arr10,
+			arr11,
+			arr12,
+			arr13,
+			arr14,
+			arr15,
+			arr16,
+			arr17,
+			arr18,
+			arr19,
+			arr20,
+			arr21,
+			arr22,
+			arr23,
+			arr24,
+			arr25
+		};
+		size_x = grid.GetLength(0);
+		size_z = grid[0].GetLength(0);
+
+	}
 
 	/// <summary>
 	/// Gets the index of X.
@@ -145,5 +218,4 @@ public class CityDataManager : MonoBehaviour {
 
 		return grid[x][z];
 	}
-
 }

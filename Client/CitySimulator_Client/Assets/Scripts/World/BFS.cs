@@ -4,25 +4,36 @@ using UnityEngine;
 
 public class BFS {
 
-	private int x_dest;
-	private int z_dest;
+	private int x_dest = 0;
+	private int z_dest = 0;
 	private IDictionary<GameObject, GameObject> nodeParents = new Dictionary<GameObject, GameObject>();
 	private static GameObject[] planes;
 	private IList<GameObject> path;
+	private int pathIndex;
 	private GameObject currentPlane;
+	private GameObject originalPlane;
 	private GameObject goal;
+	private bool moving;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		planes = GameObject.FindGameObjectsWithTag("plane");
-		path = getShortestPath (currentPlane, goal);
+		originalPlane = findPlane (0, 0);
+		goal = findPlane(x_dest, z_dest);
+		path = getShortestPath (originalPlane, goal);
+		Debug.Log ("PATH COUNT: " + path.Count);
+		pathIndex = path.Count - 1;
+		moving = pathIndex > 0 ? true : false;
+//		Debug.Log ("MOVING: " + moving);
+
+
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+//	// Update is called once per frame
+//	void Update () {
+//		
+//	}
 
 	public int X_DEST {
 		get {
@@ -43,10 +54,20 @@ public class BFS {
 		}
 	}
 
+	public GameObject OriginalPlane {
+		get {
+			return originalPlane;
+		}
+		set {
+			originalPlane = value;
+		}
+	}
+
 	public GameObject CurrentPlane {
 		get {
 			return currentPlane;
 		}
+
 		set {
 			currentPlane = value;
 		}
@@ -69,6 +90,32 @@ public class BFS {
 		set {
 			path = value;
 		}
+	}
+
+	public bool Moving {
+		get {
+			return moving;
+		}
+		set {
+			moving = value;
+		}
+	}
+
+	public int PathIndex {
+		get {
+			return pathIndex;
+		}
+		set {
+			pathIndex = value;
+		}
+	}
+		
+	public void reverseArray() {
+		
+	}
+
+	public void Move() {
+		currentPlane = path [pathIndex];
 	}
 
 	IList<GameObject> getShortestPath(GameObject start, GameObject destination) {
@@ -163,7 +210,7 @@ public class BFS {
 
 	}
 
-	static GameObject findPlane(int x, int z) {
+	GameObject findPlane(int x, int z) {
 		string goalPlaneText = "(" + x + ", " + z + ")";
 		foreach (GameObject plane in planes) {
 			Transform grid = plane.transform;

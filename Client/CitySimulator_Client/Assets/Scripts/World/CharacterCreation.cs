@@ -40,14 +40,14 @@ public class CharacterCreation : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		
-		CreateCharacter();
+		createCharacter();
 
 	}
 
 	/// <summary>
 	/// Creates the character.
 	/// </summary>
-	void CreateCharacter(){
+	void createCharacter(){
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
 		foreach (GameObject road in planes) {
