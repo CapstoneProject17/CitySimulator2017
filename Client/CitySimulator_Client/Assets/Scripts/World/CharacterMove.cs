@@ -22,7 +22,7 @@ public class CharacterMove : MonoBehaviour {
 	// Plane on which character is on
 	private GameObject originalPlane;
 	// Movement speed
-	private static float speed = 10f;
+	private static float speed = 30f;
 	// access all BFS functions
 	private BFS bfs;
 
@@ -36,7 +36,6 @@ public class CharacterMove : MonoBehaviour {
 		// Destination hard coded for now
 		x_dest = 24;
 		z_dest = 13;
-
 		bfs.OriginalPlane = findCurrentPlane();
 		bfs.X_DEST = x_dest;
 		bfs.Z_DEST = z_dest;
@@ -51,7 +50,7 @@ public class CharacterMove : MonoBehaviour {
 	/// </summary>
 	void Update() {
 		
-		if (bfs.To) {
+		if (bfs.To && bfs.Valid) {
 			bfs.Move ();
 			float step = Time.deltaTime * speed;
 			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
@@ -62,7 +61,7 @@ public class CharacterMove : MonoBehaviour {
 				bfs.To = false;
 				bfs.PathIndex = 0;
 			}
-		} else {
+		} else if(!bfs.To && bfs.Valid) {
 			bfs.Move ();
 			float step = Time.deltaTime * speed;
 			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);

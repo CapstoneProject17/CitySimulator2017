@@ -35,6 +35,8 @@ public class BFS {
 	private GameObject goal;
 	// Going to location
 	private bool to;
+	// solution has been found
+	private bool valid;
 
 	/// <summary>
 	/// Start this instance.
@@ -44,7 +46,8 @@ public class BFS {
 		goal = findPlane(x_dest, z_dest);
 		path = getShortestPath (originalPlane, goal);
 		pathIndex = path.Count - 1;
-		to = pathIndex > 0 ? true : false;
+		to = true;
+		valid = pathIndex >= 0 ? true : false;
 
 	}
 
@@ -139,6 +142,19 @@ public class BFS {
 		}
 		set {
 			to = value;
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets a value indicating whether solution is found.
+	/// </summary>
+	/// <value><c>true</c> if valid; otherwise, <c>false</c>.</value>
+	public bool Valid {
+		get {
+			return valid;
+		}
+		set {
+			valid = value;
 		}
 	}
 
