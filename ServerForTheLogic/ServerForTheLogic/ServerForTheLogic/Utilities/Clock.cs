@@ -108,6 +108,8 @@ namespace ServerForTheLogic.Utilities
             }
 
             Console.WriteLine("Population = " + city.AllPeople.Count);
+
+
             Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
             //error
@@ -120,6 +122,7 @@ namespace ServerForTheLogic.Utilities
                 tickDay();
             }
         }
+
 
         /// <summary>
         /// Updates netDays.
