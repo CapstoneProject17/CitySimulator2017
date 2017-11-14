@@ -13,17 +13,16 @@ In-Main menu
 - Exit: terminates simulation
 
 
-In-simulation
+In-simulation Control manual
 - ASWD keys: move camera
     - A: Left
     - W: Forward
     - S: Back
     - D: Right
-- Mouse moving: change camera direction
+- Left CTRL + Mouse moving: change camera direction
 - Reload button: reload entire scene
 - quit Button: back to main menu
 
 Issues & Bugs
--  Windows build
-    - WASD deosn't work properly
-- GUI Overlapped by world objects when zoom in too much
+-  Performance issue, low frame rate
+
