@@ -92,9 +92,9 @@ namespace ServerForTheLogic
             isDead = false;
             Id = Guid.NewGuid();
             setDeathAge();
-            Funds = new Random().Next(500, 10000);
+            Funds = new Randomizer().Number(500, 10000);
 
-            TimeToGoToWork = new Random().Next(0, 24);
+            TimeToGoToWork = new Randomizer().Number(0, 24);
             TimeToGoToHome = (TimeToGoToWork + 8) % 24;
         }
 
@@ -108,11 +108,9 @@ namespace ServerForTheLogic
             //int months = random.Next(1, 13);
             //int days = random.Next(1, 30);
 
-            Random rand = new Random();
-
             //generates a random number of years left to live
-            double u1 = 1.0 - rand.NextDouble(); //uniform(0,1] random doubles
-            double u2 = 1.0 - rand.NextDouble();
+            double u1 = 1.0 - new Randomizer().Double(0, 1);//uniform(0,1] random doubles
+            double u2 = 1.0 - new Randomizer().Double(0, 1);
             double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
             double randNormal = MEAN_DEATH_AGE + STANDARD_DEVIATION_DEATH * randStdNormal; //random normal(mean,stdDev^2)
 
