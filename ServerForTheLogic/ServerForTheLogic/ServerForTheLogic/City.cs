@@ -129,8 +129,6 @@ namespace ServerForTheLogic
                         j * (Block.BLOCK_LENGTH - 1))
                     );
 
-                     
-
                 }
             }
 
@@ -190,7 +188,7 @@ namespace ServerForTheLogic
 
         }
 
-        public void expandCity(BlockType type)
+        public Building expandCity(BlockType type)
         {
             
             List<Block> empties = new List<Block>();
@@ -233,12 +231,13 @@ namespace ServerForTheLogic
                        
                 }
                 //for (int i = 0; i < 12; i++)
-                createBuilding( BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                return createBuilding( BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
                                 empties[randIndex].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
             else
             {
                 Console.WriteLine("NO EMPTY BLOXX");
+                return null;
             }
         }
 
@@ -330,44 +329,44 @@ namespace ServerForTheLogic
 
             if (availablePoints.Count == 0)
             {
+
                 switch (block.Type)
                 {
                     case BlockType.Commercial:
                         CommercialBlocksToFill.Dequeue();
                         if (CommercialBlocksToFill.Count == 0)
                         {
-                            expandCity(BlockType.Commercial);
+                            return expandCity(BlockType.Commercial);
+
                         }
                         else
                         {
                             return createBuilding(CommercialBlocksToFill.Peek());
                         }
-                        break;
                     case BlockType.Industrial:
                         IndustrialBlocksToFill.Dequeue();
                         if (IndustrialBlocksToFill.Count == 0)
                         {
-                            expandCity(BlockType.Industrial);
+                            return expandCity(BlockType.Industrial);
                         }
                         else
                         {
                            return createBuilding(IndustrialBlocksToFill.Peek());
                         }
-                        break;
                     case BlockType.Residential:
                         ResidentialBlocksToFill.Dequeue();
                         if (ResidentialBlocksToFill.Count == 0)
                         {
-                            expandCity(BlockType.Residential);
+                           return expandCity(BlockType.Residential);
                         }
                         else
                         {
                            return createBuilding(ResidentialBlocksToFill.Peek());
                         }
-                        break;
 
                 }
             }
+
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].x;
             int z = availablePoints[rand].z;

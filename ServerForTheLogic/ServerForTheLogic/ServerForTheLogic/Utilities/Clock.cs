@@ -85,6 +85,10 @@ namespace ServerForTheLogic.Utilities
         {
             netMinutes++;
             //Console.WriteLine("Mins:\t" + netMinutes);
+            for (int i = 0; i < 5; ++i)
+            {
+                city.createPerson();
+            }
 
             if (netMinutes / 30 > netHours)
             {
@@ -102,11 +106,7 @@ namespace ServerForTheLogic.Utilities
             Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            for(int i = 0; i < 50; ++i)
-            {
-                city.createPerson();
-            }
-
+            
             Console.WriteLine("Population = " + city.AllPeople.Count);
 
 
