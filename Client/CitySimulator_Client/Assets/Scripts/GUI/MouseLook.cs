@@ -36,15 +36,15 @@ public class MouseLook : MonoBehaviour {
 	}
 
 	void Update () {
-		// if(Input.GetKey(KeyCode.C)){
-		// 	if(cClicked){
-		// 		cClicked = false;	
-		// 	} else {
-		// 		cClicked = true;
-		// 	}
-		// } 
+		if(Input.GetKey(KeyCode.C)){
+			if(cClicked){
+				cClicked = false;	
+			} else {
+				cClicked = true;
+			}
+		} 
 
-		// if(cClicked) {
+		if(cClicked) {
 			float mouseX =  Input.GetAxis("Mouse X");
 			float mouseY = -Input.GetAxis("Mouse Y");
 
@@ -55,6 +55,6 @@ public class MouseLook : MonoBehaviour {
 
 			Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
 			transform.rotation = localRotation;
-		// }
+		}
 	}
 }

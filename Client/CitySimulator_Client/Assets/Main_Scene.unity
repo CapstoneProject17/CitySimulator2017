@@ -266,7 +266,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 17867333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
@@ -699,7 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnTestGrid: 1
+  turnOnTestGrid: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,8 +2013,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31db78e09720944c4863c963b751e892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 4336750966570756, guid: f669c13f653e34b02822d0eaf07add93, type: 2}
-  industryBuilding: {fileID: 4892344128806462, guid: cb154c4bb035143e78256202f61ee4a5,
+  building: {fileID: 4906256200200658, guid: 0d70668ef06bf40c1886402313c5f456, type: 2}
+  industryBuilding: {fileID: 4545862356813768, guid: 6d920932fde504b0f8635fbc05ab629f,
     type: 2}
   buildingManager: {fileID: 0}
 --- !u!4 &1857592183
