@@ -12,6 +12,7 @@ using UnityEngine;
 /// Modified by:	
 ///	 Name: Dongwon(Shawn) Kim   Change:	Start to use		 Date: 2017-10-17
 ///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
+///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
 ///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 Date: 2017-11-13
 /// Based on:  N/A
 /// </summary>
@@ -85,6 +86,22 @@ public class CityDataManager : MonoBehaviour {
 		}
 	}
 
+	// grid map of the walkable path
+	private bool[][] path;
+
+	/// <summary>
+	/// Gets or sets the path.
+	/// </summary>
+	/// <value>The path.</value>
+	public bool [][] Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
+
 	// Awake this instance.
 	void Awake () {
 
@@ -125,6 +142,7 @@ public class CityDataManager : MonoBehaviour {
 			}
 		}
 	}
+
 
 	/// <summary>
 	/// Initiate grid for test

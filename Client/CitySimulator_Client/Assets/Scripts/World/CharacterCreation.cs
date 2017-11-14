@@ -30,7 +30,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		population = 10;
+		population = 1;
 		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
@@ -43,6 +43,7 @@ public class CharacterCreation : MonoBehaviour {
 		createCharacter();
 
 	}
+
 	/// <summary>
 	/// Creates the character.
 	/// </summary>
@@ -55,14 +56,20 @@ public class CharacterCreation : MonoBehaviour {
 			}
 
 			if (road.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0") {
+				Transform human = 
+					Instantiate (character,
+						new Vector3 (road.transform.position.x, 0, road.transform.position.z),
+						Quaternion.identity,characterManager.transform) as Transform;
 
-				Instantiate(character,
-					new Vector3(road.transform.position.x,
-						0,
-						road.transform.position.z),
-					Quaternion.identity,
-					characterManager.transform);
+//				Instantiate(character,
+//					new Vector3(road.transform.position.x,
+//						0,
+//						road.transform.position.z),
+//					Quaternion.identity,
+//					characterManager.transform);
 				population--;
+				Debug.Log ("Name of Character: " + character.name);
+				human.gameObject.AddComponent<CharacterMove> ();
 			}
 
 		}
