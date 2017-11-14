@@ -68,21 +68,47 @@ namespace ServerForTheLogic
                 if (block.Adjacents.Count > 8)
                     Console.WriteLine("Too many:" + block.ToString());
             //city.printBlockMapTypes();
-            printCity();
+            //printCity();
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
             foo();
             bar();
-            KeepOpen();
+            while (true) {
+                Console.WriteLine("Enter Command:");
+                String cmd = Console.ReadLine();
+                //Console.WriteLine(cmd);
+                String []commands = cmd.Split(null);
+
+                if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase)) {
+                    int number = Int32.Parse(commands[1]);
+                    //Console.WriteLine(number);
+                    for(int i=0; i < number; i++) {
+                        city.createPerson();
+                        
+                    }
+                    city.AllPeople.Dump();
+                }
+                if(commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.Workplaces.Dump();
+                }
+
+                if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.Homes.Dump();
+                }
+
+                if (cmd.Equals("print city", StringComparison.CurrentCultureIgnoreCase)) {
+                    printCity();
+                }
+            }
         }
         /// <summary>
         /// Keeps the program running 
         /// <para/> Last editted:  2017-10-02
         /// </summary>
-        public static void KeepOpen()
-        {
-            while (true) ;
-        }
+        //public static void KeepOpen()
+        //{
+        //    while (true) ;
+        //}
 
         /// <summary>
         /// Prints a block represented as symbols/letters in a neatly formatted manner
@@ -132,7 +158,7 @@ namespace ServerForTheLogic
         }
         private static void foo()
         {
-            Console.WriteLine("FOO");
+            //Console.WriteLine("FOO");
             Person p = new Person("go", "an", city);
             Console.WriteLine("Buy things before" + p.Funds);
             p.BuyThings();
@@ -145,11 +171,11 @@ namespace ServerForTheLogic
         }
         private static void bar()
         {
-            Console.WriteLine("BAR");
+            //Console.WriteLine("BAR");
             Commercial b = new Commercial("fuck", 10);
-            Console.WriteLine("funds before "  + b.Funds);
+            //Console.WriteLine("funds before "  + b.Funds);
             b.FillInventory();
-            Console.WriteLine("funds after " + b.Funds);
+            //Console.WriteLine("funds after " + b.Funds);
         }
 
     }

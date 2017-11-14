@@ -36,7 +36,7 @@ namespace ServerForTheLogic.Json
             //Queue q = new Queue();
             JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
             //Console.WriteLine(dataToSend.ToString());
-            Console.WriteLine(dataToSend.ToString().Length);
+            //Console.WriteLine(dataToSend.ToString().Length);
             //q.enqueue(dataToSend);
         }
     }
