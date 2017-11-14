@@ -14,7 +14,7 @@ namespace ServerForTheLogic.Infrastructure
             this.Type = "C";
             FillInventory();
         }
-        public Commercial(string Name, int capacity) : base(Name, capacity)
+        public Commercial(string Name, int capacity,Boolean isTall) : base(Name, capacity,isTall)
         {
             this.Type = "C";
             FillInventory();

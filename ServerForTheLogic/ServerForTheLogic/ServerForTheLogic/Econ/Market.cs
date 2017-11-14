@@ -67,16 +67,18 @@ namespace ServerForTheLogic.Econ
                     {
                         transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);
                         seller.inventory[order.OrderProduct] -= quantityOrdered;
-                    
                         quantityOrdered = 0;
                         //b.inventory[order.OrderProduct] -= amountAvailable;
                         seller.Funds += transfer;
                         buyer.Funds -= transfer;
+
 
                     }
                 }
             }
                      
         }
+
+        
     }
 }

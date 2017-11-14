@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using ConsoleDump;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -83,7 +84,11 @@ namespace ServerForTheLogic.Utilities
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
             netMinutes++;
-            Console.WriteLine("Mins:\t" + netMinutes);
+            //Console.WriteLine("Mins:\t" + netMinutes);
+            for (int i = 0; i < 5; ++i)
+            {
+                city.createPerson();
+            }
 
             if (netMinutes / 10 > netHours)
             {
@@ -97,9 +102,16 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-10-02
         private void tickHour()
         {
-            netHours = netMinutes / 10;
+            netHours = netMinutes / 30;
             Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+
+            
+            Console.WriteLine("Population = " + city.AllPeople.Count);
+
+
+            Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
+
             //error
 
             for (int i = 0; i < 24; i++)
@@ -114,6 +126,7 @@ namespace ServerForTheLogic.Utilities
                 tickDay();
             }
         }
+
 
         /// <summary>
         /// Updates netDays.
