@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using ConsoleDump;
+using ServerForTheLogic.Econ;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -98,8 +99,17 @@ namespace ServerForTheLogic.Utilities
         private void tickHour()
         {
             netHours = netMinutes / 30;
-            //Console.WriteLine("Hours:\t" + netHours);
+            Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+
+            for(int i = 0; i < 50; ++i)
+            {
+                city.createPerson();
+            }
+
+            Console.WriteLine("Population = " + city.AllPeople.Count);
+            Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
+
             //error
             //updater.sendPartialUpdate(
             //    city.PartialUpdateList[(int)HourComponent], //gets all persons that have move

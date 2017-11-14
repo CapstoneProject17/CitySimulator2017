@@ -20,10 +20,18 @@ namespace ServerForTheLogic.Infrastructure
         {
             this.Type = "H";
         }
-        public Residential(int capacity) : base("Residence",capacity)
+        public Residential(int capacity,Boolean isTall) : base("Residence",capacity,isTall)
         {
 
             this.Type = "H";
+            if (isTall)
+            {
+                Capacity = CAPACITY_TALL;
+            }
+            else
+            {
+                Capacity = CAPACITY_SHORT;
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ServerForTheLogic.Infrastructure
             inventory = new Dictionary<Product, int>();
         }
 
-        public Business(string Name, int capacity) : base(Name, capacity)
+        public Business(string Name, int capacity,Boolean isTall) : base(Name, capacity,isTall)
         {
             Funds = FIXED_FUNDS;
             WageMultiplier = 0.5;
@@ -76,6 +76,7 @@ namespace ServerForTheLogic.Infrastructure
             foreach (Person w in workers)
             {
                 w.Funds += AvgWorkerSalary;
+                Funds -= AvgWorkerSalary;
             }
         }
     }
