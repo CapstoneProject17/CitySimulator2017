@@ -19,7 +19,7 @@ namespace ServerForTheLogic.Infrastructure
             Supplies = new Dictionary<Product, int>();
             CreateProducts();
         }
-        public Industrial(string Name, int capacity) : base(Name,capacity)
+        public Industrial(string Name, int capacity,Boolean isTall) : base(Name,capacity,isTall)
         {
             this.Type = "I";
             Supplies = new Dictionary<Product, int>();

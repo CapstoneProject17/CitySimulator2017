@@ -21,14 +21,14 @@ namespace ServerForTheLogic
         private Faker faker;
 
         [JsonProperty]
-        public Queue<Block> CommercialToFill { get; set; }
+        public Queue<Block> CommercialBlocksToFill { get; set; }
 
 
         [JsonProperty]
-        public Queue<Block> IndustrialToFill { get; set; }
+        public Queue<Block> IndustrialBlocksToFill { get; set; }
 
         [JsonProperty]
-        public Queue<Block> ResidentialToFill { get; set; }
+        public Queue<Block> ResidentialBlocksToFill { get; set; }
 
 
         [JsonProperty]
@@ -83,6 +83,7 @@ namespace ServerForTheLogic
         /// </summary>
         public Block[,] BlockMap { get; set; }
 
+        public List<Block> assignedBlocks { get; set; }
         [JsonProperty]
         /// <summary>
         /// Clock to keep track of the time that 
@@ -104,13 +105,13 @@ namespace ServerForTheLogic
             AllPeople = new List<Person>();
             Homes = new List<Residential>();
             Workplaces = new List<Business>();
-
+            assignedBlocks = new List<Block>();
             faker = new Faker("en");
 
 
-            CommercialToFill = new Queue<Block>();
-            IndustrialToFill = new Queue<Block>();
-            ResidentialToFill = new Queue<Block>();
+            CommercialBlocksToFill = new Queue<Block>();
+            IndustrialBlocksToFill = new Queue<Block>();
+            ResidentialBlocksToFill = new Queue<Block>();
 
             PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
             for (int i = 0; i < 24; ++i)
@@ -127,8 +128,17 @@ namespace ServerForTheLogic
                         new Point(i * (Block.BLOCK_WIDTH - 1),
                         j * (Block.BLOCK_LENGTH - 1))
                     );
+
                 }
             }
+
+            foreach(Block b in BlockMap)
+            {
+                setAdjacents(b);
+
+            }
+
+
             clock = new Clock(this);
 
             // TO DO: code to create initial state, or load from DB
@@ -159,74 +169,33 @@ namespace ServerForTheLogic
             return Map[x, z];
         }
 
-        /// <summary>
-        /// Adds references to a specified block's adjacent blocks.
-        /// </summary>
-        /// <param name="b"></param>
-        public void setAdjacents(Block b)
-        {
-            if (b.Adjacents.Count > 0)
-                return;
-            int x = b.StartPoint.x / (Block.BLOCK_WIDTH - 1);
-            int z = b.StartPoint.z / (Block.BLOCK_LENGTH - 1);
-            //Console.WriteLine(blockMap.GetLength(0) + " " + blockMap.GetLength(1));
-            for (int i = x - 1; i < x + 2; ++i)
-            {
-                //if out of bounds of the map, skip
-                if (i < 0 || i >= BlockMap.GetLength(0))
-                {
-                    //Console.WriteLine("WE OUT X: " + x + " I+X: " + i);
-                    continue;
-                }
-                for (int j = z - 1; j < z + 2; ++j)
-                {
-                    //if out of bounds of the map, or on the current block's cell, skip
-                    if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
-                    {
-                        //Console.WriteLine("WE OUT X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
-                        continue;
-                    }
-                    //checks if adjacent block is null (though it should never be null)
-                    if (BlockMap[i, j] != null)
-                    {
-                        //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
-                        BlockMap[x, z].Adjacents.Add(BlockMap[i, j]);
-                    }
-                    else
-                    {
-                        //Console.WriteLine("how?");
-                        BlockMap[x, z].Adjacents.Add(null);
-                    }
-                }
-
-            }
-        }
 
         public void initialBlockAdd()
         {
             Block initialBlock = BlockMap[BlockMap.GetLength(0) / 2, BlockMap.GetLength(1) / 2];
-            setAdjacents(initialBlock);
             addRoads(initialBlock);
+            setAdjacents(initialBlock);
             initialBlock.Type = BlockType.Industrial;
-            IndustrialToFill.Enqueue(initialBlock);
+            IndustrialBlocksToFill.Enqueue(initialBlock);
+            assignedBlocks.Add(initialBlock);
+
             createBuilding(initialBlock);
+
             expandCity(BlockType.Commercial);
             expandCity(BlockType.Residential);
+
+            
+
         }
 
-        public void expandCity(BlockType type)
+        public Building expandCity(BlockType type)
         {
-            List<Block> occupiedBlocks = new List<Block>();
-
-            foreach (Block b in BlockMap)
-                if (b.Type != BlockType.Empty)
-                    occupiedBlocks.Add(b);
-
+            
             List<Block> empties = new List<Block>();
             //Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
-            foreach (Block occupiedBlock in occupiedBlocks)
+            foreach (Block assignedBlock in assignedBlocks)
             {
-                foreach (Block b in occupiedBlock.Adjacents)
+                foreach (Block b in assignedBlock.Adjacents)
                 {
                     if (b.Type == BlockType.Empty)
                     {
@@ -240,31 +209,35 @@ namespace ServerForTheLogic
             if (empties.Count != 0)
             {
                 Randomizer rand = new Randomizer();
-                int index = rand.Number(0, empties.Count - 1);
+                int randIndex = rand.Number(0, empties.Count - 1);
 
-                //empties[index] = c.addRoadsToEmptyBlock(empties[index], this);
-                addRoads(empties[index]);
-                setAdjacents(empties[index]);
-                empties[index].Type = type;
-
+                addRoads(empties[randIndex]);
+                setAdjacents(empties[randIndex]);
+                empties[randIndex].Type = type;
+                assignedBlocks.Add(empties[randIndex]);
                 switch (type)
                 {
                     case BlockType.Commercial:
-                        CommercialToFill.Enqueue(empties[index]);
+                        CommercialBlocksToFill.Enqueue(empties[randIndex]);
                         break;
                     case BlockType.Residential:
-                        ResidentialToFill.Enqueue(empties[index]);
+                        ResidentialBlocksToFill.Enqueue(empties[randIndex]);
                         break;
                     case BlockType.Industrial:
-                        IndustrialToFill.Enqueue(empties[index]);
+                        IndustrialBlocksToFill.Enqueue(empties[randIndex]);
                         break;
                     default:
                         throw new Exception("pass a type in ya fuck");
                        
                 }
                 //for (int i = 0; i < 12; i++)
-                createBuilding( BlockMap[empties[index].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                                empties[index].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                return createBuilding( BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                                empties[randIndex].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+            }
+            else
+            {
+                Console.WriteLine("NO EMPTY BLOXX");
+                return null;
             }
         }
 
@@ -280,11 +253,11 @@ namespace ServerForTheLogic
         /// Generates a person with an english first and last name.
         /// </summary>
         /// <returns></returns>
-        public void createPerson()
+        public Person createPerson()
         {
             Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), this);
             Randomizer rand = new Randomizer();
-            List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0,Homes.Count)).ToList();
+            List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
             foreach (Residential r in randHomes)
             {
                 if (r.NumberOfResidents < r.Capacity)
@@ -295,27 +268,53 @@ namespace ServerForTheLogic
                     break;
                 }
             }
-
             if (temp.Home == null)
             {
+                Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
+                temp.Home = newHome;
+                newHome.NumberOfResidents++;
+                PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, newHome.Point);
+            }
+           
 
-                //MAKE NEW RESIDENTIAL BUILDING
+            if(Market.BusinessesHiring.Count == 0)
+            {
+                createBuilding(CommercialBlocksToFill.Peek());
+                createBuilding(IndustrialBlocksToFill.Peek());
+            }
+            List<Business> fullBusinesses = new List<Business>();
+            foreach(Business b in Market.BusinessesHiring)
+            {
+                if(b.workers.Count < b.Capacity)
+                {
+                    temp.Workplace = b;
+                    b.workers.Add(temp);
+                   // PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, b.Point);
+                    break;
+                }
+                else
+                {
+                    fullBusinesses.Add(b);
+                }
             }
 
-
-            //Had an error here
-            //Business business = Market.BusinessesHiring[new Random().Next(Market.BusinessesHiring.Count)];
-            //temp.Workplace = business;
-            //city.PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, business.Point);
+            foreach(Business b in fullBusinesses)
+            {
+                Market.BusinessesHiring.Remove(b);
+            }
             AllPeople.Add(temp);
+
+            return temp;
         }
 
         /// <summary>
         /// Generates a building based on the block's BlockType
         /// </summary>
         /// <returns></returns>
-        public void createBuilding(Block block)
+        public Building createBuilding(Block block)
         {
+            Console.WriteLine("Creating new " + block.Type);
+            Building building;
             List<Point> availablePoints = new List<Point>();
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
@@ -323,11 +322,48 @@ namespace ServerForTheLogic
                 {
                     if (block.LandPlot[i, j] == null)
                     {
-                        //block.LandPlot[i, j] = industrial;
-                        //city.map[block.StartPoint.x + i, block.StartPoint.z + j] = industrial;
-                        //added = true;
                         availablePoints.Add(new Point(i, j));
                     }
+                }
+            }
+
+            if (availablePoints.Count == 0)
+            {
+
+                switch (block.Type)
+                {
+                    case BlockType.Commercial:
+                        CommercialBlocksToFill.Dequeue();
+                        if (CommercialBlocksToFill.Count == 0)
+                        {
+                            return expandCity(BlockType.Commercial);
+
+                        }
+                        else
+                        {
+                            return createBuilding(CommercialBlocksToFill.Peek());
+                        }
+                    case BlockType.Industrial:
+                        IndustrialBlocksToFill.Dequeue();
+                        if (IndustrialBlocksToFill.Count == 0)
+                        {
+                            return expandCity(BlockType.Industrial);
+                        }
+                        else
+                        {
+                           return createBuilding(IndustrialBlocksToFill.Peek());
+                        }
+                    case BlockType.Residential:
+                        ResidentialBlocksToFill.Dequeue();
+                        if (ResidentialBlocksToFill.Count == 0)
+                        {
+                           return expandCity(BlockType.Residential);
+                        }
+                        else
+                        {
+                           return createBuilding(ResidentialBlocksToFill.Peek());
+                        }
+
                 }
             }
 
@@ -337,27 +373,29 @@ namespace ServerForTheLogic
 
             if (block.Type == BlockType.Commercial)
             {
-                Commercial building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
-                Market.CommercialBusinesses.Add(building);
-                Market.BusinessesHiring.Add(building);
+                building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY,true);
+                building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
+                Market.CommercialBusinesses.Add((Commercial)building);
+                Market.BusinessesHiring.Add((Commercial)building);
                 block.LandPlot[x, z] = building;
                 Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
 
             }
             else if (block.Type == BlockType.Residential)
             {
-                Residential building = new Residential(FIXED_CAPACITY);
-                Homes.Add(building);
+                building = new Residential(FIXED_CAPACITY,true);
+                building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
+                Homes.Add((Residential)building);
                 block.LandPlot[x, z] = building;
                 Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
-                if (building.IsTall)
-                    building.NumberOfResidents = Residential.CAPACITY_TALL;
+                
             }
             else if (block.Type == BlockType.Industrial)
             {
-                Industrial building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY);
-                Market.IndustrialBusinesses.Add(building);
-                Market.BusinessesHiring.Add(building);
+                building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY,true);
+                building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
+                Market.IndustrialBusinesses.Add((Industrial)building);
+                Market.BusinessesHiring.Add((Industrial)building);
                 block.LandPlot[x, z] = building;
                 Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
                 // city.Workplaces.Add(building);
@@ -366,8 +404,7 @@ namespace ServerForTheLogic
             {
                 throw new InvalidOperationException("cannot add building to empty block");
             }
-
-
+            return building;
         }
 
         /// <summary>
@@ -434,6 +471,72 @@ namespace ServerForTheLogic
 
             //city.BlockMap[xPos / width, zPos / length] = b;
             // return b;
+        }
+
+        /// <summary>
+        /// Adds references to a specified block's adjacent blocks.
+        /// </summary>
+        /// <param name="b"></param>
+        public void setAdjacents(Block b)
+        {
+            if (b.Adjacents.Count > 0)
+                return;
+            int x = b.StartPoint.x / (Block.BLOCK_WIDTH - 1);
+            int z = b.StartPoint.z / (Block.BLOCK_LENGTH - 1);
+            //Console.WriteLine(blockMap.GetLength(0) + " " + blockMap.GetLength(1));
+            for (int i = x - 1; i < x + 2; ++i)
+            {
+                //if out of bounds of the map, skip
+                if (i < 0 || i >= BlockMap.GetLength(0))
+                {
+                    //Console.WriteLine("WE OUT X: " + x + " I+X: " + i);
+                    continue;
+                }
+                for (int j = z - 1; j < z + 2; ++j)
+                {
+                    //if out of bounds of the map, or on the current block's cell, skip
+                    if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
+                    {
+                        //Console.WriteLine("WE OUT X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
+                        continue;
+                    }
+                    //checks if adjacent block is null (though it should never be null)
+                    if (BlockMap[i, j] != null)
+                    {
+                        //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
+                        BlockMap[x, z].Adjacents.Add(BlockMap[i, j]);
+                    }
+                    else
+                    {
+                        //Console.WriteLine("how?");
+                        BlockMap[x, z].Adjacents.Add(null);
+                    }
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Prints the city represented as symbols/letters in a neatly formatted manner
+        /// <para/> Last editted:  2017-10-02
+        /// </summary>
+        public void printCity()
+        {
+            for (int i = 0; i < City.CITY_WIDTH; ++i)
+            {
+                for (int j = 0; j < City.CITY_LENGTH; ++j)
+                {
+                    if (Map[i, j] != null)
+                    {
+                        Console.Write(Map[i, j].Type);
+                    }
+                    else
+                    {
+                        Console.Write(".");
+                    }
+                }
+                Console.WriteLine();
+            }
         }
 
     }
