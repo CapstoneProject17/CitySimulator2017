@@ -2,59 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour {
+public class BFS {
 
 	private int x_dest;
 	private int z_dest;
-	private GameObject[] planes;
-	private GameObject currentPlane;
-	private bool moving;
-	private int pathIndex;
-	private IList<GameObject> path;
-	private static float speed = 10f;
-
-	// For Pathfinding
 	private IDictionary<GameObject, GameObject> nodeParents = new Dictionary<GameObject, GameObject>();
+	private static GameObject[] planes;
+	private IList<GameObject> path;
+	private GameObject currentPlane;
+	private GameObject goal;
 
-	void Start() {
+	// Use this for initialization
+	void Start () {
 		planes = GameObject.FindGameObjectsWithTag("plane");
-		z_dest = 4;
-		x_dest = 3;
-
-		currentPlane = findCurrentPlane ();
-
-		// Find character plane
-		GameObject goal = findPlane(x_dest, z_dest);
-
 		path = getShortestPath (currentPlane, goal);
-
-		Debug.Log ("Number of steps: " + path.Count); 
-		pathIndex = path.Count - 1;
-		moving = pathIndex == 0 ? true : false;
-
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
 	}
 
-	void Update() {
-		if (moving) {
-			float step = Time.deltaTime * speed;
-			transform.position = Vector3.MoveTowards (transform.position, path [pathIndex].transform.position, step);
-			if (transform.position.Equals (path [pathIndex].transform.position) && pathIndex >= 0)
-				pathIndex--;
-			if (pathIndex < 0)
-				moving = false;
-
+	public int X_DEST {
+		get {
+			return x_dest;
+		}
+		set {
+			x_dest = value;
 		}
 	}
 
-	GameObject findCurrentPlane() {
-		GameObject curr = new GameObject ();
-
-		foreach (GameObject plane in planes) {
-			if (plane.transform.position.Equals (this.transform.position))
-				curr = plane;
+	public int Z_DEST {
+		get {
+			return z_dest;
 		}
 
-		return curr;
+		set {
+			z_dest = value;
+		}
+	}
+
+	public GameObject CurrentPlane {
+		get {
+			return currentPlane;
+		}
+		set {
+			currentPlane = value;
+		}
+	}
+
+	public  GameObject Goal {
+		get {
+			return goal;
+		}
+
+		set {
+			goal = value;
+		}
+	}
+
+	public IList<GameObject> Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
 	}
 
 	IList<GameObject> getShortestPath(GameObject start, GameObject destination) {
@@ -70,19 +84,6 @@ public class CharacterMove : MonoBehaviour {
 
 		return pathway;
 
-	}
-
-	GameObject findPlane(int x, int z) {
-		string goalPlaneText = "(" + x + ", " + z + ")";
-		foreach (GameObject plane in planes) {
-			Transform grid = plane.transform;
-			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
-			if (gridText.Equals (goalPlaneText)) {
-				return plane;
-			}
-		}
-
-		return null;
 	}
 
 	GameObject findShortestPathBFS(GameObject startPos, GameObject destPos) {
@@ -116,7 +117,7 @@ public class CharacterMove : MonoBehaviour {
 		IList<int> points = findNumber (textMesh);
 		int x = points [0];
 		int z = points [1];
-		
+
 		IList<GameObject> walkableNodes = new List<GameObject> ();
 
 		IList<GameObject> possibleNodes = new List<GameObject> ();
@@ -135,8 +136,8 @@ public class CharacterMove : MonoBehaviour {
 
 		foreach (GameObject node in possibleNodes) {
 			if(node != null)
-				if (node.transform.GetChild (0).GetComponent<TextMesh> ().text == "0")
-					walkableNodes.Add (node);
+			if (node.transform.GetChild (0).GetComponent<TextMesh> ().text == "0")
+				walkableNodes.Add (node);
 
 		}
 
@@ -160,6 +161,19 @@ public class CharacterMove : MonoBehaviour {
 
 		return points;
 
+	}
+
+	static GameObject findPlane(int x, int z) {
+		string goalPlaneText = "(" + x + ", " + z + ")";
+		foreach (GameObject plane in planes) {
+			Transform grid = plane.transform;
+			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
+			if (gridText.Equals (goalPlaneText)) {
+				return plane;
+			}
+		}
+
+		return null;
 	}
 
 }

@@ -12,6 +12,7 @@ using UnityEngine;
 /// Modified by:	
 ///	 Name: Dongwon(Shawn) Kim   Change:	Start to use		 Date: 2017-10-17
 ///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
+///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
 /// Based on:  N/A
 /// </summary>
 public class CityDataManager : MonoBehaviour {
@@ -81,6 +82,22 @@ public class CityDataManager : MonoBehaviour {
 		}
 	}
 
+	// grid map of the walkable path
+	private bool[][] path;
+
+	/// <summary>
+	/// Gets or sets the path.
+	/// </summary>
+	/// <value>The path.</value>
+	public bool [][] Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
+
 	// Awake this instance.
 	void Awake () {
 		initiateGrid ();
@@ -105,10 +122,14 @@ public class CityDataManager : MonoBehaviour {
 
 		for(int x = 0; x < size_x; x++){
 			for (int z = size_z -1; z >= 0; z--) {
-				grid [x][z] = Random.Range (0, 4);
+				if (x.Equals (3) && z.Equals (4))
+					grid [x] [z] = 0;
+				else
+					grid [x][z] = Random.Range (0, 4);
 			}
 		}
 	}
+
 
 	/// <summary>
 	/// Gets the index of X.
