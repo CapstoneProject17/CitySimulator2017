@@ -4,9 +4,19 @@ using Newtonsoft.Json;
 
 namespace Request.Test
 {
+    /// <summary>
+    /// Contains tests for the request handler.
+    /// </summary>
+    /// 
+    /// <author>
+    /// Francis Carreon
+    /// </author>
     [TestClass]
     public class RequestTests
     {
+        /// <summary>
+        /// Checks if the string object deserializes to a DRR object.
+        /// </summary>
         [TestMethod]
         public void DbRequestTest()
         {
@@ -17,6 +27,9 @@ namespace Request.Test
             Assert.IsInstanceOfType(request, typeof(DatabaseResourceRequest));
         }
 
+        /// <summary>
+        /// Checks if the string object deserializes to a PSUR object.
+        /// </summary>
         [TestMethod]
         public void SimPartRequestTest()
         {
@@ -27,6 +40,9 @@ namespace Request.Test
             Assert.IsInstanceOfType(request, typeof(PartialSimulationUpdateRequest));
         }
 
+        /// <summary>
+        /// Checks if the string object deserializes to an SUR object.
+        /// </summary>
         [TestMethod]
         public void SimRequestTest()
         {

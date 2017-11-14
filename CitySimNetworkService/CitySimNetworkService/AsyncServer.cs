@@ -30,11 +30,21 @@ namespace CitySimNetworkService
         private RequestHandler requestHandler;
         public ManualResetEvent allDone = new ManualResetEvent(false);
 
+        /// <summary>
+        /// Specifies main request handler.
+        /// </summary>
+        /// 
+        /// <param name="_requestHandler">
+        /// Request handler to set.
+        /// </param>
         public AsyncServer(RequestHandler _requestHandler)
         {
             requestHandler = _requestHandler;
         }
 
+        /// <summary>
+        /// Opens connection to server after initializations.
+        /// </summary>
         public void StartListening()
         {
             byte[] bytes = new Byte[1024];
@@ -68,6 +78,13 @@ namespace CitySimNetworkService
             }
         }
 
+        /// <summary>
+        /// Accepts callback with the status of an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <param name="ar"> 
+        /// Represents the status of an asynchronous operation. 
+        /// </param>
         private void AcceptCallback(IAsyncResult ar)
         {
             allDone.Set();
@@ -84,6 +101,13 @@ namespace CitySimNetworkService
                 new AsyncCallback(ReadCallback), state);
         }
 
+        /// <summary>
+        /// Executes a read with the status of an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <param name="ar">
+        /// Represents the status of an asynchronous operation.
+        /// </param>
         private void ReadCallback(IAsyncResult ar)
         {
             string content = String.Empty;
@@ -106,12 +130,30 @@ namespace CitySimNetworkService
         }
 
 
+        /// <summary>
+        /// Sends encoded data by handler.
+        /// </summary>
+        /// 
+        /// <param name="handler">
+        /// A socket.
+        /// </param>
+        /// 
+        /// <param name="data">
+        /// Data.
+        /// </param>
         private void Send(Socket handler, JsonObject data)
         {
             byte[] encodedData = Encoding.UTF8.GetBytes(data);
             handler.BeginSend(encodedData, 0, encodedData.Length, 0, new AsyncCallback(SendCallback), handler);
         }
 
+        /// <summary>
+        /// Sends callback with the status of an asynchronous operation.
+        /// </summary>
+        /// 
+        /// <param name="ar">
+        /// Represents the status of an asynchronous operation.
+        /// </param>
         private void SendCallback(IAsyncResult ar)
         {
             try

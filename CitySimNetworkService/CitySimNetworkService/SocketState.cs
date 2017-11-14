@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CitySimNetworkService
 {
+    /// <summary>
+    /// Contains socket information.
+    /// </summary>
     public class SocketState
     {
         public Socket socket = null;
