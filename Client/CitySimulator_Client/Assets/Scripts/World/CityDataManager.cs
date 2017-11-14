@@ -13,11 +13,13 @@ using UnityEngine;
 ///	 Name: Dongwon(Shawn) Kim   Change:	Start to use		 Date: 2017-10-17
 ///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
 ///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
+///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 Date: 2017-11-13
 /// Based on:  N/A
 /// </summary>
 public class CityDataManager : MonoBehaviour {
 
-	public bool turnOnTest;
+	// switch for testing
+	public bool turnOnTestGrid;
 
 	// population of the city
 	private int population = 1000;
@@ -102,9 +104,10 @@ public class CityDataManager : MonoBehaviour {
 
 	// Awake this instance.
 	void Awake () {
-		if(turnOnTest){
+
+		if(turnOnTestGrid){ // if turned on for test, initiate test grid
 			initiateGridForTest();
-		} else {
+		} else {  // else general grid
 			initiateGrid ();
 		}
 		
@@ -128,15 +131,13 @@ public class CityDataManager : MonoBehaviour {
 			grid [x] = new int[size_z]; 
 		}
 
-
-
 		// iterates grid and assign the zone
 		for(int x = 0; x < size_x; x++){
 			for (int z = size_z -1; z >= 0; z--) {
-				if (x.Equals (3) && z.Equals (4))
-					grid [x] [z] = 0;
-				else
-					grid [x][z] = Random.Range (0, 4);
+				grid [x][z] = Random.Range (0, 4);
+
+				if(grid[x][z] == 2)
+					grid[x][z] = 0;
 			}
 		}
 	}
@@ -146,6 +147,8 @@ public class CityDataManager : MonoBehaviour {
 	/// Initiate grid for test
 	/// </summary>
 	public void initiateGridForTest(){		
+
+		//hard coded grid for testing
 	   	int[] arr1 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
 		int[] arr2 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
 		int[] arr3 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
@@ -172,6 +175,8 @@ public class CityDataManager : MonoBehaviour {
 		int[] arr24	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
 		int[] arr25	 =	new [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
 
+
+		// initializing and assigning arrays
 		grid = new[] {
 			arr1,
 			arr2,
@@ -199,6 +204,8 @@ public class CityDataManager : MonoBehaviour {
 			arr24,
 			arr25
 		};
+
+		// set the size to fit into array of
 		size_x = grid.GetLength(0);
 		size_z = grid[0].GetLength(0);
 
