@@ -63,6 +63,8 @@ public class GridCreation : MonoBehaviour {
 
 				// getting random number for zone( its temporally used for prototype)
 //				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = (Random.Range (0, 4)).ToString();
+				
+				// apply text to the each plane
 				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";
 				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = cityDataManager.getIndexOfXZ(x, z).ToString();
 
@@ -74,7 +76,10 @@ public class GridCreation : MonoBehaviour {
 
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
-							new Vector3(x + (cellPrefab.localScale.x * x)*10, 0, z + (cellPrefab.localScale.z * z)*10),
+							new Vector3(
+							x + (cellPrefab.localScale.x * x)*10,
+							0,
+							z + (cellPrefab.localScale.z * z)*10),
 							Quaternion.identity,
 							parentGrid.transform);
 				
