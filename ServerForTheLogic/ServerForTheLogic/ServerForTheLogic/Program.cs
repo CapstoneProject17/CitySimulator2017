@@ -134,9 +134,14 @@ namespace ServerForTheLogic
         {
             Console.WriteLine("FOO");
             Person p = new Person("go", "an", city);
-            Console.WriteLine(p.Funds);
+            Console.WriteLine("Buy things before" + p.Funds);
             p.BuyThings();
-            Console.WriteLine(p.Funds);
+            Console.WriteLine("Buy things after" + p.Funds);
+            Dictionary<Guid, Point> temp = city.PartialUpdateList[p.TimeToGoToHome];
+            temp.Add(p.Id, new Point());
+            Console.WriteLine(p.Id + " " + new Point());
+            Console.WriteLine(temp[p.Id].ToString());
+            city.PartialUpdateList[p.TimeToGoToHome] =  temp;
         }
         private static void bar()
         {

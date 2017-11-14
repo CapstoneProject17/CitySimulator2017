@@ -152,7 +152,7 @@ namespace ServerForTheLogic
                 Order order = new Order(Market.Products[rand], 1, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                //Console.WriteLine("Bought " + order.OrderProduct.ProductName);
+                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
             }
         }
         /// <summary>

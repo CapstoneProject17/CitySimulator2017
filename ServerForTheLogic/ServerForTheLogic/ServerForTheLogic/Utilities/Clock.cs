@@ -83,9 +83,9 @@ namespace ServerForTheLogic.Utilities
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
             netMinutes++;
-            //Console.WriteLine("Mins:\t" + netMinutes);
+            Console.WriteLine("Mins:\t" + netMinutes);
 
-            if (netMinutes / 30 > netHours)
+            if (netMinutes / 10 > netHours)
             {
                 tickHour();
             }
@@ -97,14 +97,18 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-10-02
         private void tickHour()
         {
-            netHours = netMinutes / 30;
-            //Console.WriteLine("Hours:\t" + netHours);
+            netHours = netMinutes / 10;
+            Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
             //error
-            //updater.sendPartialUpdate(
-            //    city.PartialUpdateList[(int)HourComponent], //gets all persons that have move
-            //    Newtonsoft.Json.Formatting.None
-            //    );
+
+            for (int i = 0; i < 24; i++)
+            {
+                updater.sendPartialUpdate(
+                city.PartialUpdateList[i], //gets all persons that have move
+                Newtonsoft.Json.Formatting.None
+                );
+            }
             if (netHours / 24 > netDays)
             {
                 tickDay();
@@ -127,7 +131,8 @@ namespace ServerForTheLogic.Utilities
 
             netDays = netHours / 24;//send nudes
             //Console.WriteLine("Days:\t" + netDays);
-            if (netDays / 3 > netYears) {
+            if (netDays / 3 > netYears)
+            {
                 tickYear();
             }
             //Updater updater = new Updater();
@@ -138,10 +143,12 @@ namespace ServerForTheLogic.Utilities
         /// Updates netYears.
         /// </summary>
         /// <para/> Last edited:  2017-11-07
-        private void tickYear() {
+        private void tickYear()
+        {
             netYears++;
             //Console.WriteLine("Years:\t" + netYears);
-            foreach (Person p in city.AllPeople) {
+            foreach (Person p in city.AllPeople)
+            {
                 p.SetAge();
             }
         }
