@@ -63,14 +63,16 @@ public class GridCreation : MonoBehaviour {
 
 				// getting random number for zone( its temporally used for prototype)
 //				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = (Random.Range (0, 4)).ToString();
-				// cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";
+				
+				// apply text to the each plane
+				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";
 				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = cityDataManager.getIndexOfXZ(x, z).ToString();
 
 				// put the tag plane on the object
 				cellPrefab.tag = "plane";
 					
 				// set color index to GridColor to color the grid
-				// cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
+				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
 
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 

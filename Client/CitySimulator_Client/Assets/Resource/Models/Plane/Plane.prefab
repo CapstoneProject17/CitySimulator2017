@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rend: {fileID: 0}
-  colorIndex: 3
+  colorIndex: 1
   colors:
   - serializedVersion: 2
     rgba: 4286545791
