@@ -19,7 +19,7 @@ using UnityEngine;
 public class CityDataManager : MonoBehaviour {
 
 	// switch for testing
-	public bool turnOnTest;
+	public bool turnOnTestGrid;
 
 	// population of the city
 	private int population = 1000;
@@ -105,8 +105,7 @@ public class CityDataManager : MonoBehaviour {
 	// Awake this instance.
 	void Awake () {
 
-
-		if(turnOnTest){ // if turned on for test, initiate test grid
+		if(turnOnTestGrid){ // if turned on for test, initiate test grid
 			initiateGridForTest();
 		} else {  // else general grid
 			initiateGrid ();
