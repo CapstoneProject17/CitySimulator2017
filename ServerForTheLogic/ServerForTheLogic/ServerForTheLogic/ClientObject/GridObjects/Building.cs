@@ -1,5 +1,4 @@
-﻿using ServerForTheLogic.ClientObject.GridObjects;
-using System;
+﻿using System;
 
 namespace ServerForTheLogic.ClientObject.Building
 {
@@ -12,6 +11,15 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     class Building : GridObject
     {
+        /// <summary>
+        /// A building constructor. Calls base GridObject's constructor
+        /// </summary>
+        /// <param name="guid">The Guid of the building</param>
+        /// <param name="xPoint">The X coordinate of the building</param>
+        /// <param name="yPoint">The Y coordinate of the building</param>
+        /// <param name="rating">The rating of the building</param>
+        /// <param name="isTall">Boolean if the building is tall or not</param>
+        /// <param name="capacity">The capacity of the building</param>
         public Building(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint)
         {
             Rating = rating;

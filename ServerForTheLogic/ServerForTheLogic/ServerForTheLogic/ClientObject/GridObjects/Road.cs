@@ -1,7 +1,4 @@
-﻿
-
-
-using ServerForTheLogic.ClientObject;
+﻿using ServerForTheLogic.ClientObject;
 using System;
 
 namespace ServerForTheLogic
@@ -15,6 +12,12 @@ namespace ServerForTheLogic
     /// </summary>
     class Road : GridObject
     {
+        /// <summary>
+        /// The Road constructor. Calls the base GridObject constructor
+        /// </summary>
+        /// <param name="guid">Guid of the road</param>
+        /// <param name="xPoint">X coordinate of the road</param>
+        /// <param name="yPoint">Y coordinate of the road</param>
         public Road(Guid guid, int xPoint, int yPoint) : base(guid, xPoint, yPoint)
         {
         }

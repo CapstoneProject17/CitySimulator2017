@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation
 {
@@ -29,7 +25,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.
         /// Date: 2017-11-12
         /// </summary>
         /// <param name="commercialRetailPrice"></param>
-        /// <returns></returns>
+        /// <returns>Returns true if the retail price validates</returns>
         public static Boolean isValidCommercialRetailPrice(int commercialRetailPrice)
         {
             if (commercialRetailPrice == int.MaxValue || commercialRetailPrice == int.MinValue)
@@ -50,7 +46,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.
         /// Date: 2017-11-12
         /// </summary>
         /// <param name="industrialInventoryCount"></param>
-        /// <returns></returns>
+        /// <returns>True if the inventory count validates</returns>
         public static Boolean isValidCommercialInventoryCount(int commercialInventoryCount)
         {
             if (commercialInventoryCount == int.MaxValue || commercialInventoryCount == int.MinValue)

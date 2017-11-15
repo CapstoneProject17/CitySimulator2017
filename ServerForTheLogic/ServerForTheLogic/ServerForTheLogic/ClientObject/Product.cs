@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerForTheLogic.ClientObject
+﻿namespace ServerForTheLogic.ClientObject
 {
     /// <summary>
     /// MongoDAL
@@ -19,7 +13,11 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     class Product
     {
-
+        /// <summary>
+        /// Constructor of a Product object that gets stored as a Product document in the database
+        /// </summary>
+        /// <param name="name">The name of the product</param>
+        /// <param name="globalCount">The total number of this product in the simulation</param>
         public Product(string name, int globalCount)
         {
             Name = name;
