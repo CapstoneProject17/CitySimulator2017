@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServerForTheLogic.ClientObject
 {
@@ -24,22 +20,22 @@ namespace ServerForTheLogic.ClientObject
     class Person
     {
         /// <summary>
-        /// default constructor
+        /// default constructor of Person.
         /// </summary>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <param name="monthlyIncome"></param>
-        /// <param name="accountBalance"></param>
-        /// <param name="workPlaceID"></param>
-        /// <param name="workplaceX"></param>
-        /// <param name="workplaceY"></param>
-        /// <param name="homeID"></param>
-        /// <param name="homeX"></param>
-        /// <param name="homeY"></param>
-        /// <param name="daysLeft"></param>
-        /// <param name="age"></param>
-        /// <param name="startShift"></param>
-        /// <param name="endShift"></param>
+        /// <param name="firstName">The person's first name</param>
+        /// <param name="lastName">The person's last name</param>
+        /// <param name="monthlyIncome">The monthly income of the person</param>
+        /// <param name="accountBalance">The account balance of the person</param>
+        /// <param name="workPlaceID">The Guid of the person's workplace</param>
+        /// <param name="workplaceX">The X coordinate of the person's workplace</param>
+        /// <param name="workplaceY">The Y coordinate of the person's workplace</param>
+        /// <param name="homeID">The Guid of the person's home</param>
+        /// <param name="homeX">The X coordinate of the person's home</param>
+        /// <param name="homeY">The Y coordinate of the person's home</param>
+        /// <param name="daysLeft">The number of days the person has left to live</param>
+        /// <param name="age">The age of the person</param>
+        /// <param name="startShift">The time the person starts their work</param>
+        /// <param name="endShift">The time the person finishes their work</param>
         public Person(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
         {
             Guid = guid;
