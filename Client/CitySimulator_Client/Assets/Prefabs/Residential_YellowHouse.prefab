@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4906256200200658}
   - component: {fileID: 33317046816421684}
   - component: {fileID: 23454582145065772}
-  - component: {fileID: 65539749262492742}
   - component: {fileID: 114266334157528046}
   - component: {fileID: 114302139639426430}
   - component: {fileID: 114802592608690508}
+  - component: {fileID: 65419112456353158}
   m_Layer: 0
   m_Name: Residential_YellowHouse
   m_TagString: Untagged
@@ -117,11 +117,11 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1715725118583940}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_MotionVectors: 0
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_Materials:
   - {fileID: 2100000, guid: 1cc92aba77e244d95b7d905f79cd7ca1, type: 2}
   - {fileID: 2100000, guid: 0bf45df7ea10749f88a727d500ba2046, type: 2}
@@ -189,7 +189,7 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65539749262492742
+--- !u!65 &65419112456353158
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -199,8 +199,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 25, y: 25, z: 25}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1740.9883, y: 1202.6393, z: 1383.9502}
+  m_Center: {x: 37.097107, y: 604.96515, z: -21.393524}
 --- !u!114 &114266334157528046
 MonoBehaviour:
   m_ObjectHideFlags: 1

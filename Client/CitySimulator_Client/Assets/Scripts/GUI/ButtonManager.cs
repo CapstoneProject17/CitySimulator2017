@@ -34,7 +34,9 @@ public class ButtonManager : MonoBehaviour {
 		SceneManager.LoadScene(sceneToLoad);
 	}
 
-//	// Open setting panel
+//	/// <summary>
+//	/// Open setting panel
+//	/// </summary>
 //	public void settingBtn(bool clicked) {
 //		if (clicked) {
 //			gameSettings.gameObject.SetActive (clicked);
