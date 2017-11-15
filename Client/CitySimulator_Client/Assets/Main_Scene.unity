@@ -699,7 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnTestGrid: 1
+  turnOnTestGrid: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,6 +1154,7 @@ MonoBehaviour:
   mouseSensitivity: 60
   clampAngle: 80
   cClicked: 0
+  msgForLock: {fileID: 0}
 --- !u!1 &911481323
 GameObject:
   m_ObjectHideFlags: 0

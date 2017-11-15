@@ -6,7 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: "Gr\xE1tis para uso comercial, Atribui\xE7\xE3o n\xE3o requerida (80)"
+  m_Name: "Gra\u0301tis para uso comercial, Atribuic\u0327a\u0303o na\u0303o requerida
+    (80)"
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
