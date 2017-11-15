@@ -59,7 +59,7 @@ namespace ServerForTheLogic.Utilities
 
         /// <summary>
         /// Constructs a Clock object.
-        /// <para/> Last edited:  2017-10-02
+        /// <para>Written by Andrew Busto </para>
         /// </summary>
         public Clock(City city)
         {
@@ -78,7 +78,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Increments netMins.  Set as an event handler for timer.
         /// </summary>
-        /// <para/> Last edited:  2017-10-02
+        /// <para>Written by Andrew Busto </para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
         private void tickMinute(Object source, ElapsedEventArgs e)
@@ -97,9 +97,11 @@ namespace ServerForTheLogic.Utilities
         }
 
         /// <summary>
-        /// Updates netHours.
+        /// Updates netHours. Calling methods that are run every hour
+        /// <para>Written by Andrew Busto </para>
+        /// <para>Edited by Chandu Dissanayake </para>
         /// </summary>
-        /// <para/> Last edited:  2017-10-02
+        /// <para/> Last edited:  2017-11-12
         private void tickHour()
         {
             netHours = netMinutes / 30;
@@ -110,17 +112,8 @@ namespace ServerForTheLogic.Utilities
             Console.WriteLine("Population = " + city.AllPeople.Count);
 
 
-            Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
+            //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
-            //error
-
-            for (int i = 0; i < 24; i++)
-            {
-                updater.sendPartialUpdate(
-                city.PartialUpdateList[i], //gets all persons that have move
-                Newtonsoft.Json.Formatting.None
-                );
-            }
             if (netHours / 24 > netDays)
             {
                 tickDay();
@@ -131,6 +124,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netDays.
         /// </summary>
+        /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
         private void tickDay()
         {
@@ -155,6 +149,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netYears.
         /// </summary>
+        /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
         private void tickYear()
         {

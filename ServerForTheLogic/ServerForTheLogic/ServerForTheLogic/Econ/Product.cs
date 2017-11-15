@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Econ
 {
+    /// <summary>
+    /// A product that can be bought or sold
+    /// Written by Chandu Dissanayake
+    /// </summary>
     class Product
     {
         /// <summary>
