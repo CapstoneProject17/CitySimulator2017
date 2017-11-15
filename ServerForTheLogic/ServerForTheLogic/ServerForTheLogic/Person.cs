@@ -140,8 +140,9 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        /// Buys a thing (singular right now)
+        /// Buys a random thing from products (singular right now)
         /// </summary>
+        /// Written by Chandu Dissanayake
         public void BuyThings()
         {
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);

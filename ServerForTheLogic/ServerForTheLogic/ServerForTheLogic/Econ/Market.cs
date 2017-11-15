@@ -9,15 +9,21 @@ namespace ServerForTheLogic.Econ
 {
     static class Market
     {
+        //People will find a job here
         public static List<Business> BusinessesHiring { get; set; }
         //People will go here to buy products
         public static List<Business> CommercialBusinesses { get; set; }
         //Commercial will go here to buy products
         public static List<Business> IndustrialBusinesses { get; set; }
+        //All business [maybe used for GDP calc]
         public static List<Business> Businesses { get; set; }
+        //products Users would like to consume
         public static List<Product> ProductsInDemand { get; set; }
         public static List<Product> Products { get; set; }
         //public static List<Product> RawMaterials { get; set; }
+        /// <summary>
+        /// Initializing Market lists. Starting products initialized
+        /// </summary>
         static Market()
         {
             ProductsInDemand = new List<Product>();
@@ -40,6 +46,13 @@ namespace ServerForTheLogic.Econ
             //RawMaterials.Add(new Product("Plastic", 10));
         }
 
+        /// <summary>
+        /// Method used by People and Commercial stores, to purchase items
+        /// Called in Person.BuyThings() and Commercial.FillInventory()
+        /// </summary>
+        /// <para>Written by Chandu Dissanayake, Connor Goudie </para>
+        /// <param name="order">Order object created</param>
+        /// <param name="SellerList">Either list of Commercial buildings or list of Industrial buildings depending on who is purchasing</param>
         public static void ProcessOrder(Order order, List<Business> SellerList)
         {
             int quantityOrdered = order.Amount;
@@ -49,10 +62,12 @@ namespace ServerForTheLogic.Econ
             for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
             {
                 Business seller = SellerList[i];
+                //If business carries product being ordered
                 if (seller.inventory.ContainsKey(order.OrderProduct))
                 {
                     int amountAvailable = seller.inventory[order.OrderProduct];
-                    if (amountAvailable < quantityOrdered && amountAvailable != 0)
+                    //if seller does not have enough to complete order.
+                    if (amountAvailable < quantityOrdered)
                     {
                         transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
                         seller.inventory[order.OrderProduct] -= amountAvailable;
@@ -63,6 +78,7 @@ namespace ServerForTheLogic.Econ
                         seller.Funds += transfer;
                         buyer.Funds -= transfer;
                     }
+                    //if seller can complete order
                     else if (amountAvailable >= quantityOrdered)
                     {
                         transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);

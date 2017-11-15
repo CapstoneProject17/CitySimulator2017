@@ -11,6 +11,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Basic position struct for buildings and roads
         /// </summary>
+        /// <para>Written by Connor Goudie </para>
         /// <param name="x"></param>
         /// <param name="z"></param>
         public Point(int x, int z)
