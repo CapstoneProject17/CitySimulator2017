@@ -36,6 +36,10 @@ namespace DataAccessLayer {
 
         /// <summary>
         /// Insert a new Person into the Database
+        /// Author: 
+        /// Updated: 
+        /// 2017 11 12 Steph
+        ///     - Reflects schema change
         /// </summary>
         /// <param name="person">The person object being inserted into the database</param>
         /// <returns>Returns true if successful otherwise false</returns>
@@ -57,7 +61,9 @@ namespace DataAccessLayer {
         /// Inserts multiple people into the database
         /// Author: Michael
         /// Date: 2017-10-16
-        /// Updated: Steph - updated to reflect new schema
+        /// Updated:
+        /// 2017 11 12 Steph
+        ///     - Reflects schema change
         /// Date: 2017-11-12
         /// </summary>
         /// <param name="people">The list of people to be inserted into the database</param>
@@ -73,14 +79,14 @@ namespace DataAccessLayer {
         }
 
         /// <summary>
-        /// Individual insert methods for each type of "building" to follow: 
-        ///     - Residential
-        ///     - Commercial
-        ///     - Industrial
-        ///     - Road
+        /// Insertion of one Residential Building Grid Object
         /// </summary>
         /// Author: Steph
-        /// Date: 2017
+        /// Date: 2017 11 10
+        /// 
+        /// Updated:
+        /// 2017 11 10 Steph
+        ///     - reflects schema change
         /// <param name="residential">The residential building to be stored in the database</param>
         /// <returns>Returns true if stored in the database otherwise false</returns>
         public bool InsertResidential(Residential residential) {
@@ -93,6 +99,17 @@ namespace DataAccessLayer {
             return true;
         }
 
+        /// <summary>
+        /// Insertion of one Commercial Building Grid Object
+        /// </summary>
+        /// Author: Steph
+        /// Date: 2017 11 10
+        /// 
+        /// Updated:
+        /// 2017 11 10 Steph
+        ///     - reflects schema change
+        /// <param name="commercial">The commercial building to be stored in the database</param>
+        /// <returns>Returns true if stored in the database otherwise false</returns>
         public bool InsertCommercial(Commercial commercial) {
             if (!DALValidator.DALCommercialBuildingValidator(commercial)) {
                 return false;
@@ -103,6 +120,17 @@ namespace DataAccessLayer {
             return true;
         }
 
+        /// <summary>
+        /// Insertion of one Industrial Building Grid Object
+        /// </summary>
+        /// Author: Steph
+        /// Date: 2017 11 10
+        /// 
+        /// Updated:
+        /// 2017 11 10 Steph
+        ///     - reflects schema change
+        /// <param name="industrial">The industrial building to be stored in the database</param>
+        /// <returns>Returns true if stored in the database otherwise false</returns>
         public bool InsertIndustrial(Industrial industrial) {
             if (!DALValidator.DALIndustrialBuildingValidator(industrial)) {
                 return false;
@@ -113,11 +141,13 @@ namespace DataAccessLayer {
             return true;
         }
 
-        // is this method necessary? 
-        // Update: Yes
+
         /// <summary>
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017 11 10
+        /// 
+        /// Updated:
+        /// 2017 11 12 Steph
         /// </summary>
         /// <param name="road">The road object being stored in the database</param>
         /// <returns>Returns true if stored in the database otherwise false</returns>
@@ -134,7 +164,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Inserts one product
         /// Author: Steph
-        /// Date: 
+        /// Date: 2017 11 08
         /// </summary>
         /// <param name="product">Name of the product</param>
         /// <returns>Returns true if stored in the database otherwise false</returns>
@@ -150,7 +180,8 @@ namespace DataAccessLayer {
 
         /// <summary>
         /// TODO: Inserts a savestate at a given timestamp.
-        /// Author:
+        /// Author: Steph
+        /// Date: 2017 11 10
         /// </summary>
         /// <param name="savestate">The savestate object being stored in the database</param>
         /// <returns>Return true if stored in the database otherwise false</returns>
@@ -166,6 +197,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Inserts a clock (time stamp)
         /// Author: Steph
+        /// Date: 2017 11 09
         /// May or may not be used.
         /// </summary>
         /// <param name="clock">The clock object being stored in the database</param>
@@ -664,8 +696,9 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete one person from the collection.
         /// Author: Michael
-        /// Updated: Steph - reflects schema changes
-        /// Date: 2017-10-15
+        /// Updated: 
+        /// 2017-10-15 Steph
+        ///     - reflects schema changes
         /// </summary>
         /// <param name="guid">The GUID of the person being deleted from the DB</param>
         public async void DeleteOnePerson(Guid guid) {
@@ -678,10 +711,13 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete one building from the collection by its id
         /// Author: Bill
-        /// Updated: Steph - reflects schema changes 
-        /// Date: 2017-10-31
-        /// Updated: Michael - Fixed typo. Method took in wrong parameter.
-        /// Date: 2017-11-14
+        /// 
+        /// Updated: 
+        /// 2017-10-31 Steph
+        ///     - reflects schema changes 
+        /// Updated: 
+        /// 2017-11-14 Michael
+        ///  - Fixed typo. Method took in wrong parameter.
         /// </summary>
         /// <param name="residential">The Residential building object to be deleted</param>
         /// <param name="guid">The GUID of the residential building to be deleted</param>
@@ -710,10 +746,13 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete one building from the collection by its id
         /// Author: Bill
-        /// Updated: Steph - reflects schema changes
-        /// Date: 2017-10-31
-        /// Updated: Michael - Fixed typo. Method took in wrong parameter.
-        /// Date: 2017-11-14
+        /// Date:
+        /// 
+        /// Updated: 
+        /// Steph - reflects schema changes
+        ///     Date: 2017-10-31
+        /// Michael - Fixed typo. Method took in wrong parameter.
+        ///     Date: 2017-11-14
         /// </summary>
         /// <param name="industrial">The Industrial building object to be deleted</param>
         /// <param name="guid">The GUID of the Industrial building being deleted</param>
@@ -726,8 +765,9 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all citizens (drop then recreate table)
         /// Author: Bill
-        /// Updated: Steph - reflects schema changes
-        /// Date: 2017-10-31
+        /// Updated: 
+        /// Steph - reflects schema changes
+        ///     Date: 2017-10-31
         /// </summary>
         public void DeleteAllCitizens() {
             Database.DropCollection("Person");
@@ -737,7 +777,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all residential type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 2017-11-13
+        ///     Date: 2017-11-13
         /// </summary>
         public void DeleteAllResidential() {
             Database.DropCollection("Residential");
@@ -747,7 +787,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all commercial type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 2017-11-13
+        ///     Date: 2017-11-13
         /// </summary>
         public void DeleteAllCommercial() {
             Database.DropCollection("Commercial");
@@ -757,7 +797,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all industrial type buildings (drop then recreate table)
         /// Author: Steph
-        /// Date: 2017-11-13
+        ///     Date: 2017-11-13
         /// </summary>
         public void DeleteAllIndustrial() {
             Database.DropCollection("Industrial");
@@ -767,7 +807,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all roads (drop then recreate table)
         /// Author: Steph
-        /// Date: 2017-11-13
+        ///     Date: 2017-11-13
         /// </summary>
         public void DeleteAllRoads() {
             Database.DropCollection("Road");
@@ -777,7 +817,7 @@ namespace DataAccessLayer {
         /// <summary>
         /// Delete all products (drop then recreate table)
         /// Author: Steph
-        /// Date: 2017-11-13
+        ///     Date: 2017-11-13
         /// </summary>
         public void DeleteAllProducts() {
             Database.DropCollection("Product");
