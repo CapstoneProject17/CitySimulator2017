@@ -21,7 +21,7 @@ namespace ServerForTheLogic.Utilities
     {
         [JsonProperty]
         // Ticks every second to update the current time values.
-        private Timer timer;
+        public Timer timer { get; private set; }
         private City city;
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// The number of milliseconds between Clock "ticks."  In this case, 1 second.
         /// </summary>
-        public const int INTERVAL = 500;
+        public const int INTERVAL = 100;
 
         /// <summary>
         /// Constructs a Clock object.
@@ -90,7 +90,7 @@ namespace ServerForTheLogic.Utilities
                 city.createPerson();
             }
 
-            if (netMinutes / 10 > netHours)
+            if (netMinutes / 30 > netHours)
             {
                 tickHour();
             }

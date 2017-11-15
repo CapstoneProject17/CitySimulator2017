@@ -34,9 +34,9 @@ namespace ServerForTheLogic.Json
         public void sendFullUpdate(T sendableData, Formatting formatting)
         {
             //Queue q = new Queue();
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
+            //JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
             //Console.WriteLine(dataToSend.ToString());
-            Console.WriteLine("Full update string size: " + dataToSend.ToString().Length);
+            //Console.WriteLine("Full update string size: " + dataToSend.ToString().Length);
             //q.enqueue(dataToSend);
         }
     }

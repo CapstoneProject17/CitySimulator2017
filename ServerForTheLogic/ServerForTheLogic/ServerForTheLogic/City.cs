@@ -58,11 +58,11 @@ namespace ServerForTheLogic
         /// List of all homes in the city
         /// </summary>
         public List<Residential> Homes { get; set; }
-        [JsonProperty]
+        //[JsonProperty]
         /// <summary>
         /// List of all places of work in the city
         /// </summary>
-        public List<Business> Workplaces { get; set; }
+        //public List<Business> Workplaces { get; set; }
         [JsonProperty]
         /// <summary>
         /// List of all inhabitants of the city
@@ -100,7 +100,7 @@ namespace ServerForTheLogic
         /// Clock to keep track of the time that 
         /// has passed since city creation.
         /// </summary>
-        private Clock clock;
+        public Clock clock { get; private set; }
         public static int DEFAULT_RATING = 1;
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ServerForTheLogic
 
             AllPeople = new List<Person>();
             Homes = new List<Residential>();
-            Workplaces = new List<Business>();
+            //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
             faker = new Faker("en");
 
@@ -252,7 +252,7 @@ namespace ServerForTheLogic
                         IndustrialBlocksToFill.Enqueue(empties[randIndex]);
                         break;
                     default:
-                        throw new Exception("pass a type in ya fuck");
+                        throw new Exception("valid type must be passed in");
                        
                 }
                 //for (int i = 0; i < 12; i++)
@@ -262,8 +262,7 @@ namespace ServerForTheLogic
             //if there is no more room to expand.
             else
             {
-                //MAYBE CHANGE TYPE OF OTHER TYPE BLOCKS TO ALLOCATE SPACE ?
-                Console.WriteLine("NO EMPTY BLOXX");
+                Console.WriteLine("no empty blocks");
                 return null;
             }
         }
@@ -515,7 +514,7 @@ namespace ServerForTheLogic
                 //if out of bounds of the map, skip
                 if (i < 0 || i >= BlockMap.GetLength(0))
                 {
-                    //Console.WriteLine("WE OUT X: " + x + " I+X: " + i);
+                    //Console.WriteLine("continuing at X: " + x + " I+X: " + i);
                     continue;
                 }
                 for (int j = z - 1; j < z + 2; ++j)
@@ -523,7 +522,7 @@ namespace ServerForTheLogic
                     //if out of bounds of the map, or on the current block's cell, skip
                     if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
                     {
-                        //Console.WriteLine("WE OUT X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
+                        //Console.WriteLine("continuing at X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
                         continue;
                     }
                     //checks if adjacent block is null (though it should never be null)
@@ -534,7 +533,7 @@ namespace ServerForTheLogic
                     }
                     else
                     {
-                        //Console.WriteLine("how?");
+                        Console.WriteLine("invalid state in setadjacents");
                         BlockMap[x, z].Adjacents.Add(null);
                     }
                 }

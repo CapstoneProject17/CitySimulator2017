@@ -92,9 +92,9 @@ namespace ServerForTheLogic.Econ
                     }
                 }
             }
-                     
+
         }
 
-        
+
     }
 }

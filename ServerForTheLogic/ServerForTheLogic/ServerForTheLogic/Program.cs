@@ -31,10 +31,10 @@ namespace ServerForTheLogic
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-          
+
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
-           // Block b, b1, b2;
+            // Block b, b1, b2;
             if (city == null)
             {
                 //TEST DATA 
@@ -42,7 +42,7 @@ namespace ServerForTheLogic
                 //fill 3 blocks
 
             }
-          
+
             //city.printBlockMapTypes();
             city.printCity();
             Updater<City> updater = new Updater<City>();
@@ -53,28 +53,41 @@ namespace ServerForTheLogic
                 Console.WriteLine("Enter Command:");
                 String cmd = Console.ReadLine();
                 //Console.WriteLine(cmd);
-                String []commands = cmd.Split(null);
+                String[] commands = cmd.Split(null);
 
-                if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase)) {
+                if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase) && commands.Length > 1)
+                {
+
                     int number = Int32.Parse(commands[1]);
                     //Console.WriteLine(number);
-                    for(int i=0; i < number; i++) {
+                    for (int i = 0; i < number; i++)
+                    {
                         city.createPerson();
-                        
+
                     }
                     city.AllPeople.Dump();
                 }
-                if(commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase)) {
-                    city.Workplaces.Dump();
+                if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Market.IndustrialBusinesses.Dump();
+                    Market.CommercialBusinesses.Dump();
                 }
 
-                if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase)) {
+                if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase))
+                {
                     city.Homes.Dump();
                 }
 
-                if (cmd.Equals("print city", StringComparison.CurrentCultureIgnoreCase)) {
+                if (cmd.Equals("print city", StringComparison.CurrentCultureIgnoreCase))
+                {
                     city.printCity();
                 }
+
+                if (commands[0].Equals("pause", StringComparison.CurrentCultureIgnoreCase))
+                    city.clock.timer.Stop();
+
+                if (commands[0].Equals("resume", StringComparison.CurrentCultureIgnoreCase))
+                    city.clock.timer.Start();
             }
         }
         /// <summary>
