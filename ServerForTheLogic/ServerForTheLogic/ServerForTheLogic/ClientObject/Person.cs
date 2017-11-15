@@ -16,12 +16,16 @@ namespace ServerForTheLogic.ClientObject
     /// 
     /// 2017-11-12 Bill
     ///     - added summary for fields
+    ///     
+    /// 2017 11 12 Steph
+    ///     - added Guid field
     /// </summary>
     class Person
     {
         /// <summary>
         /// default constructor of Person.
         /// </summary>
+        /// <param name="guid">The person's uniquele generated ID</param>
         /// <param name="firstName">The person's first name</param>
         /// <param name="lastName">The person's last name</param>
         /// <param name="monthlyIncome">The monthly income of the person</param>
