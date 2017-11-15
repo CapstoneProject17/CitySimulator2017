@@ -23,6 +23,8 @@ namespace ServerForTheLogic.Infrastructure
         {
             this.Type = "I";
             Supplies = new Dictionary<Product, int>();
+            Market.IndustrialBusinesses.Add(this);
+            Market.BusinessesHiring.Add(this);
             CreateProducts();
         }
 
