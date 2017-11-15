@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +30,7 @@ public class MouseLook : MonoBehaviour {
 	// C clicked switch
 	public bool cClicked;
 
-	// Text Object
+	// Text Object for messge
 	public Text msgForLock;
 
 	/// <summary>
@@ -43,7 +43,10 @@ public class MouseLook : MonoBehaviour {
 		Vector3 rot = transform.localRotation.eulerAngles;
 		rotY = rot.y;
 		rotX = rot.x;
+
+		// getting GUI Text msg for lock
 		msgForLock = GameObject.Find("CameraLockMsg").GetComponent<Text>();
+		// disable GUI Text msg for lock
 		msgForLock.enabled = false;
 	}
 
@@ -57,9 +60,11 @@ public class MouseLook : MonoBehaviour {
 			//switch statement
 			if(cClicked){
 				cClicked = false;
+				// enable GUI Text msg for lock
 				msgForLock.enabled = true;
 			} else {
 				cClicked = true;
+				// disable GUI Text msg for lock
 				msgForLock.enabled = false;
 			}
 		} 
