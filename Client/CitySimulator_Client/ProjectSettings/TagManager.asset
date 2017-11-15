@@ -10,6 +10,7 @@ TagManager:
   - 3
   - 4
   - plane
+  - lockMsg
   layers:
   - Default
   - TransparentFX

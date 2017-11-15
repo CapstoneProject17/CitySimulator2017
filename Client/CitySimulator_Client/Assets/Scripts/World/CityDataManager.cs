@@ -101,8 +101,10 @@ public class CityDataManager : MonoBehaviour {
 			path = value;
 		}
 	}
-
+	
+	/// <summary>
 	// Awake this instance.
+	/// </summary>
 	void Awake () {
 
 		if(turnOnTestGrid){ // if turned on for test, initiate test grid

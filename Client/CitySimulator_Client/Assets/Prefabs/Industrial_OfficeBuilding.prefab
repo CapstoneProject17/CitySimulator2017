@@ -40,10 +40,10 @@ GameObject:
   - component: {fileID: 4545862356813768}
   - component: {fileID: 33490449476758576}
   - component: {fileID: 23472267447031390}
-  - component: {fileID: 65477333532833912}
   - component: {fileID: 114884662434204136}
   - component: {fileID: 114626711469843062}
   - component: {fileID: 114951236438601822}
+  - component: {fileID: 65056153006936592}
   m_Layer: 0
   m_Name: Industrial_OfficeBuilding
   m_TagString: Untagged
@@ -171,18 +171,18 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65477333532833912
+--- !u!65 &65056153006936592
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466464517466994}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 30, y: 30, z: 30}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1259.4828, y: 10478.797, z: 2309.6616}
+  m_Center: {x: 81.26182, y: 5238.925, z: -49.83087}
 --- !u!114 &114626711469843062
 MonoBehaviour:
   m_ObjectHideFlags: 1

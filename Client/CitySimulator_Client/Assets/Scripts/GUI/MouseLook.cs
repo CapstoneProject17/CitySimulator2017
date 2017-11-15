@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 /// <summary>
 /// Module: Mouse look.
@@ -16,7 +18,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour {
 
 	//sensitivity of mouse
-	public float mouseSensitivity = 40.0f;
+	public float mouseSensitivity = 60.0f;
 	//clamp angle for viewport
 	public float clampAngle = 80.0f;
 
@@ -28,22 +30,41 @@ public class MouseLook : MonoBehaviour {
 	// C clicked switch
 	public bool cClicked;
 
+	// Text Object
+	public Text msgForLock;
+
+	/// <summary>
+	/// Starts this instance
+	/// </summary>
 	void Start () {
+
+		//unlock the mouse(camera) look
 		cClicked = true;
 		Vector3 rot = transform.localRotation.eulerAngles;
 		rotY = rot.y;
 		rotX = rot.x;
+		msgForLock = GameObject.Find("CameraLockMsg").GetComponent<Text>();
+		msgForLock.enabled = false;
 	}
 
+	/// <summary>
+	/// Plaies the game button.
+	/// </summary>
 	void Update () {
+
+		//check the input c or C gets from keyboard 
 		if(Input.GetKey(KeyCode.C)){
+			//switch statement
 			if(cClicked){
-				cClicked = false;	
+				cClicked = false;
+				msgForLock.enabled = true;
 			} else {
 				cClicked = true;
+				msgForLock.enabled = false;
 			}
 		} 
 
+		// if c has been tunred on apply following rotation
 		if(cClicked) {
 			float mouseX =  Input.GetAxis("Mouse X");
 			float mouseY = -Input.GetAxis("Mouse Y");
