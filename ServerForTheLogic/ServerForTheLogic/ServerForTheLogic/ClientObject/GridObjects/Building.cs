@@ -6,7 +6,7 @@ namespace ServerForTheLogic.ClientObject.Building
     /// Building Class
     /// Team: DB
     /// Building class that contain general fields for all building types.
-    /// Author: Bill 
+    /// <para> Author: Bill </para>
     /// Date: 2017-11-12 
     /// </summary>
     public class Building : GridObject

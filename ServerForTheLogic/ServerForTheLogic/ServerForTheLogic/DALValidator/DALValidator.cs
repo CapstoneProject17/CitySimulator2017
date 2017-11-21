@@ -9,6 +9,7 @@ using System;
 namespace DataAccessLayer
 {
     /// <summary>
+    /// <para>
     /// MongoDAL Validator
     /// Team: DB
     /// Validator used for the MongoDAL class when insert, update is requested.
@@ -18,16 +19,19 @@ namespace DataAccessLayer
     /// Based on: http://cacodaemon.de/index.php?id=42
     ///           https://docs.mongodb.com/manual/core/document-validation/
     ///           http://www.c-sharpcorner.com/UploadFile/87b416/validating-user-input-with-regular-expressions/
-    ///           
-    /// Update:
-    /// 2017-11-01 Bill
-    ///     seperated each validation method.
-    ///     
-    /// 2017-11-11 Bill
+    /// </para>
+    /// <para>
+    /// Updated: Bill</para>
+    /// Date: 2017-11-01
+    /// <para>seperated each validation method.</para>
+    /// <para>
+    /// <para>Updated: Bill</para>  
+    /// <para>Date: 2017-11-11</para>
     ///     updated validation parameters to work for new classes
     ///     Citizens class changed to Person class
     ///     Building class changed to Industrial, Commercial and Residential classes
     ///     added new classes: Road, Product, Clock, SaveState
+    /// </para>    
     /// </summary>
     class DALValidator
     {
@@ -36,12 +40,13 @@ namespace DataAccessLayer
         /// 
         /// Check whether all the fields in person is valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill</para>
         /// Date: 2017-11-11
+        /// <para>For more information see <see cref="PersonValidator"/></para>
         /// </summary>
-        /// <param name="person"></param>
-        /// <returns></returns>
-        public static Boolean DALPersonValidator(ServerForTheLogic.ClientObject.Person person)
+        /// <param name="person">The person object being validated</param>
+        /// <returns>If all validations pass it returns true, otherwise flase</returns>
+        public static Boolean DALPersonValidator(Person person)
         {
             if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
@@ -66,13 +71,14 @@ namespace DataAccessLayer
         /// <summary>
         /// Grid Object Validator
         /// 
-        /// Checks whether all the fields in a GridObject is valid
+        /// Checks whether all the fields in a GridObject are valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill</para>
         /// Date: 2017-11-12
+        /// <para>For more information see <see cref="GridObjectValidator"/></para>
         /// </summary>
-        /// <param name="gridObject"></param>
-        /// <returns></returns>
+        /// <param name="gridObject">The GridObject being validated</param>
+        /// <returns>Returns true if everything passes</returns>
         public static Boolean DALGridObjectValidator(GridObject gridObject)
         {
             return GridObjectValidator.isValidXCoordinate(gridObject.XPoint) &&
@@ -84,10 +90,11 @@ namespace DataAccessLayer
         /// 
         /// Checks whether all the fields in a Building is valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill</para>
         /// Date: 2017-11-12
+        /// <para>For more information see <see cref="BuildingValidator"/></para>
         /// </summary>
-        /// <param name="building"></param>
+        /// <param name="building">The building object being validated</param>
         /// <returns></returns>
         public static Boolean DALBuildingValidator(Building building)
         {
@@ -101,11 +108,12 @@ namespace DataAccessLayer
         /// 
         /// Check whether all the fields in industrialBuilding is valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill</para>
         /// Date: 2017-11-12
+        /// <para>For more information see <see cref="IndustrialValidator"/></para>
         /// </summary>
-        /// <param name="industrialBuilding"></param>
-        /// <returns></returns>
+        /// <param name="industrialBuilding">The Industrial building being validated</param>
+        /// <returns>Returns true if the Industrial building validates</returns>
         public static Boolean DALIndustrialBuildingValidator(Industrial industrialBuilding)
         {
             return DALBuildingValidator(industrialBuilding) &&
@@ -115,15 +123,18 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Commercial Building Validator
-        /// 
-        /// Check whether all the fields in commercialBuilding is valid
-        /// 
+        /// <para>
+        /// Commercial Building Validator.
+        /// Checks whether all the fields in commercialBuilding is valid
+        /// </para>
+        /// <para>
         /// Author: Bill
-        /// Date: 2017-11-12 
+        /// <para>Date: 2017-11-12 </para>
+        /// </para>
+        /// <para>See <see cref="CommercialValidator"/> for more information on Commercial building validation requirments</para>
         /// </summary>
-        /// <param name="commercialBuilding"></param>
-        /// <returns></returns>
+        /// <param name="commercialBuilding">The Commercial building being validated</param>
+        /// <returns>Returns true if the building validates</returns>
         public static Boolean DALCommercialBuildingValidator(Commercial commercialBuilding)
         {
             return DALBuildingValidator(commercialBuilding) &&
@@ -132,45 +143,47 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Residential Building Validator
+        /// Residential Building Validator.
         ///  
         /// Check whether all the fields in residentialBuilding is valid
         /// 
-        /// Author: Bill
-        /// Date: 2017-11-12  
+        /// <para>Author: Bill</para>
+        /// Date: 2017-11-12
+        /// <para>For more information see <see cref="ResidentialValidator"/></para>
         /// </summary>
-        /// <param name="residentialBuilding"></param>
-        /// <returns></returns>
+        /// <param name="residentialBuilding">The Residential building being validated</param>
+        /// <returns>Returns true if the building validates</returns>
         public static Boolean DALResidentialBuildingValidator(Residential residentialBuilding)
         {
             return DALBuildingValidator(residentialBuilding);
         }
 
         /// <summary>
-        /// Road Validator
+        /// Road Validator.
         /// 
         /// Check whether all the fields in road is valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill </para>
         /// Date: 2017-11-12 
-        /// </summary>
-        /// <param name="road"></param>
-        /// <returns></returns>
+        /// <para>For more information see <see cref="GridObjectValidator"/></para>
+        /// <param name="road">The road being validated</param>
+        /// <returns>Returns true if the road validates</returns>
         public static Boolean DALRoadValidator(Road road)
         {
             return DALGridObjectValidator(road);
         }
 
         /// <summary>
-        /// Clock Validator
+        /// Clock Validator.
         /// 
         /// Check whether all the fields in clock is valid
         /// 
-        /// Author: Bill
+        /// <para>Author: Bill</para>
         /// Date: 2017-11-12 
+        /// <para>For more information see <see cref="ClockValidator"/></para>
         /// </summary>
-        /// <param name="clock"></param>
-        /// <returns></returns>
+        /// <param name="clock">The clock object being validated</param>
+        /// <returns>Returns true if the clock validates</returns>
         public static Boolean DALClockValidator(Clock clock)
         {
             return ClockValidator.isValidClockNetMinutes(clock.NetMinutes) &&
@@ -184,11 +197,12 @@ namespace DataAccessLayer
         /// 
         /// Check whether all the fields in product is valid
         /// 
-        /// Author: Bill
+        /// <para> Author: Bill </para>
         /// Date: 2017-11-12 
+        /// <para>For more information see <see cref="ProductValidator"/></para>
         /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
+        /// <param name="product">The product being validated</param>
+        /// <returns>Returns true if the product validates</returns>
         public static Boolean DALProductValidator(Product product)
         {
             return ProductValidator.isValidProductGlobalCount(product.GlobalCount) &&
