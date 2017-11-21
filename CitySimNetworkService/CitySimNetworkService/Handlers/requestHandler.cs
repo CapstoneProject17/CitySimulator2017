@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
-using System.Json;
 
 namespace CitySimNetworkService
 {
@@ -45,7 +45,7 @@ namespace CitySimNetworkService
         /// <returns> 
         /// JSON object of some type.
         /// </returns>
-        public JsonObject ParseRequest(string _request)
+        public string ParseRequest(string _request)
         {
             BaseRequest request = JsonConvert.DeserializeObject<BaseRequest>(_request, new RequestJsonConverter());
             switch (request.RequestType)
@@ -57,7 +57,7 @@ namespace CitySimNetworkService
                 default:
                     logger.Error("Invalid request made: {0}", _request);
                     //FIXME: This should return a JsonObject that contains request not valid field
-                    return new JsonObject();
+                    return "";
             }
         }
     }

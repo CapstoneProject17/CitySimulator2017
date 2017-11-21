@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Json;
 using System.Linq;
 
 namespace CitySimNetworkService
@@ -9,7 +8,7 @@ namespace CitySimNetworkService
     /// </summary>
     public class SimulationStateQueue
     {
-        ConcurrentQueue<JsonObject> queue = new ConcurrentQueue<JsonObject>();
+        ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
         private object lockObject = new object();
 
         public int StateBufferSize { get; set; }
@@ -21,7 +20,7 @@ namespace CitySimNetworkService
         /// <param name="Obj"> 
         /// JSON object to enqueue. 
         /// </param>
-        public void Enqueue(JsonObject Obj)
+        public void Enqueue(string Obj)
         {
             queue.Enqueue(Obj);
 
@@ -29,7 +28,7 @@ namespace CitySimNetworkService
             {
                 while (queue.Count > StateBufferSize)
                 {
-                    queue.TryDequeue(out JsonObject overflow);
+                    queue.TryDequeue(out string overflow);
                 }
             }
         }
@@ -45,10 +44,10 @@ namespace CitySimNetworkService
         /// <returns>
         /// JSON object containing partial state.
         /// </returns>
-        public JsonObject GetPartialStateByID(int id)
+        public string GetPartialStateByID(int id)
         {
-            var state = queue.Where((JsonObject s) => (s[id] == id)).FirstOrDefault();
-            return state;
+            //var state = queue.Where((JsonObject s) => (s[id] == id)).FirstOrDefault();
+            return "";
         }
 
         /// <summary>
@@ -58,9 +57,9 @@ namespace CitySimNetworkService
         /// <returns>
         /// JSON object from start of the ConcurrentQueue, if successful.
         /// </returns>
-        public JsonObject Peek()
+        public string Peek()
         {
-            queue.TryPeek(out JsonObject result);
+            queue.TryPeek(out string result);
             return result;
         }
     }

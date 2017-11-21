@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using System.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace CitySimNetworkService
 {
@@ -25,24 +25,34 @@ namespace CitySimNetworkService
         /// <returns> 
         /// JSON object; has Buildings/Citizens/empty information. 
         /// </returns>
-        internal JsonObject HandleRequest(DatabaseResourceRequest request)
+        internal string HandleRequest(DatabaseResourceRequest request)
         {
-            JsonObject jsonObj;
 
             switch (request.ResourceType)
             {
                 case "building":
                     List<Buildings> obj = GetBuildings(request.ResourceID);
-                    jsonObj = JsonConvert.SerializeObject(obj);
-			        return jsonObj;
+                    return JsonConvert.SerializeObject(obj);
                 case "person":
-                    List<Citizens> obj = GetCitizens(request.ResourceID);
-                    jsonObj = JsonConvert.SerializeObject(obj);
-                    return jsonObj;
+                    List<Citizens> citizenObj = GetCitizens(request.ResourceID);
+                    return JsonConvert.SerializeObject(citizenObj);
                 default:
                     //FIX ME: JSON representation of invalid request
-                    return new JsonObject();
+                    return "";
             }
+        }
+
+
+        //Stub method due to removing DAL integration
+        private List<Citizens> GetCitizens(string resourceID)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Stub method due to removing DAL integration
+        private List<Buildings> GetBuildings(string resourceID)
+        {
+            throw new NotImplementedException();
         }
     }
 }
