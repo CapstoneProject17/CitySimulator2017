@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Utilities
 {
+    /// <summary>
+    /// Basic Pair class used in project.
+    /// </summary>
+    /// <para>Written by Connor Goudie </para>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="R"></typeparam>
     class Pair<T,R>
     {
         public T First { get; set; }

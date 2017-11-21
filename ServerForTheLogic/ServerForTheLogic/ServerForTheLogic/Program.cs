@@ -41,11 +41,6 @@ namespace ServerForTheLogic
                 city = new City();
                 //fill 3 blocks
 
-               
-                city.initialBlockAdd();
-
-             
-            
             }
           
             //city.printBlockMapTypes();
@@ -53,7 +48,7 @@ namespace ServerForTheLogic
             Updater<City> updater = new Updater<City>();
             updater.sendFullUpdate(city, Formatting.Indented);
             //foo();
-            bar();
+            test2();
             while (true) {
                 Console.WriteLine("Enter Command:");
                 String cmd = Console.ReadLine();
@@ -97,43 +92,25 @@ namespace ServerForTheLogic
             }
         }
 
-        /// <summary>
-        /// Prints a block represented as symbols/letters in a neatly formatted manner
-        /// <para/> Last editted:  2017-10-02
-        /// </summary>
-        /// <param name="b"></param>
-        public static void printBlock(Block b)
-        {
-            for (int i = 0; i < Block.BLOCK_WIDTH; i++)
-            {
-                for (int j = 0; j < Block.BLOCK_LENGTH; j++)
-                {
-                    if (b.LandPlot[i, j] != null)
-                    {
-                        Console.Write(b.LandPlot[i, j].Type);
-                    }
-                    else
-                    {
-                        Console.Write(".");
-                    }
-                }
-                Console.WriteLine();
-            }
-        }
 
-        
-        private static void foo()
+        /// <summary>
+        /// Test method for Market transaction (Person)
+        /// </summary>
+        private static void test1()
         {
-            //Console.WriteLine("FOO");
+            Console.WriteLine("FOO");
             Person p = city.createPerson();
             Console.WriteLine("funds before " + p.Funds);
             p.BuyThings();
             Console.WriteLine("funds after " + p.Funds);
         }
-        private static void bar()
+        /// <summary>
+        /// Test method for Market transaction (Commercial)
+        /// </summary>
+        private static void test2()
         {
-            //Console.WriteLine("BAR");
-            Commercial b = new Commercial("fuck", 10,true);
+            Console.WriteLine("BAR");
+            Commercial b = new Commercial("new", 10,true);
             Console.WriteLine("funds before "  + b.Funds);
             b.FillInventory();
             //Console.WriteLine("funds after " + b.Funds);

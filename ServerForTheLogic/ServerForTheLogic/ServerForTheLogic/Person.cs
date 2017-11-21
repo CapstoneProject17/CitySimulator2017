@@ -140,8 +140,9 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        /// Buys a thing (singular right now)
+        /// Buys a random thing from products (singular right now)
         /// </summary>
+        /// Written by Chandu Dissanayake
         public void BuyThings()
         {
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
@@ -150,7 +151,7 @@ namespace ServerForTheLogic
                 Order order = new Order(Market.Products[rand], 1, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                //Console.WriteLine("Bought " + order.OrderProduct.ProductName);
+                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
             }
         }
         /// <summary>
