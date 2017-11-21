@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 
 namespace CitySimNetworkService
 {
-    // class set public for testing
     public class RequestJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
@@ -12,7 +11,6 @@ namespace CitySimNetworkService
             return typeof(BaseRequest).IsAssignableFrom(objectType);
         }
 
-        //TODO: Test this to make sure that it can properly handle errors 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject request = JObject.Load(reader);

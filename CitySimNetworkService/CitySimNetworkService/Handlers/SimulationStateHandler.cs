@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Json;
 
 namespace CitySimNetworkService
 {
@@ -43,7 +42,7 @@ namespace CitySimNetworkService
         /// <returns> 
         /// JSON object.
         /// </returns>
-        internal JsonObject PartialUpdateRequestHandler(PartialSimulationUpdateRequest request)
+        internal string PartialUpdateRequestHandler(PartialSimulationUpdateRequest request)
         {
             int updateId = request.LastUpdate + 1;
             return partialUpdateBuffer.GetPartialStateByID(updateId);
@@ -60,7 +59,7 @@ namespace CitySimNetworkService
         /// <returns>
         /// JSON object.
         /// </returns>
-        internal JsonObject FullUpdateRequestHandler(SimulationUpdateRequest request)
+        internal string FullUpdateRequestHandler(SimulationUpdateRequest request)
         {
             return fullUpdateBuffer.Peek();
         }
@@ -76,7 +75,7 @@ namespace CitySimNetworkService
         /// <returns>
         /// JSON object from a handler.
         /// </returns>
-        internal JsonObject HandleUpdateRequest(SimulationUpdateRequest request)
+        internal string HandleUpdateRequest(SimulationUpdateRequest request)
         {
             if (request.FullUpdate)
             {

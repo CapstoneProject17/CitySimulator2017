@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Json;
 using NLog;
 
 namespace CitySimNetworkService
@@ -122,7 +121,7 @@ namespace CitySimNetworkService
                 content = state.receivedData.ToString();
                 if (content.IndexOf("<EOF>") > -1)
                 {
-                    JsonObject response = requestHandler.ParseRequest(content);
+                    string response = requestHandler.ParseRequest(content);
                     Send(handler, response);
                 }
 
@@ -141,7 +140,7 @@ namespace CitySimNetworkService
         /// <param name="data">
         /// Data.
         /// </param>
-        private void Send(Socket handler, JsonObject data)
+        private void Send(Socket handler, string data)
         {
             byte[] encodedData = Encoding.UTF8.GetBytes(data);
             handler.BeginSend(encodedData, 0, encodedData.Length, 0, new AsyncCallback(SendCallback), handler);
