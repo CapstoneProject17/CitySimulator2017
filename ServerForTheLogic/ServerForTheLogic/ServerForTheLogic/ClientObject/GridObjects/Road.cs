@@ -10,7 +10,7 @@ namespace ServerForTheLogic
     /// Author: Stephanie 
     /// Date: 2017 11 08
     /// </summary>
-    class Road : GridObject
+    public class Road : GridObject
     {
         /// <summary>
         /// The Road constructor. Calls the base GridObject constructor

@@ -9,7 +9,7 @@ namespace ServerForTheLogic.ClientObject.Building
     /// Author: Stephanie 
     /// Date: 2017 11 08
     /// </summary>
-    class Residential : Building
+    public class Residential : Building
     {
         public Residential(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint, rating, isTall, capacity)
         {

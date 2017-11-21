@@ -11,7 +11,7 @@ namespace ServerForTheLogic.ClientObject
     /// Based on: N/A
     /// Update: N/A
     /// </summary>
-    class GridObject
+    public class GridObject
     {
         /// <summary>
         /// Default Constructor

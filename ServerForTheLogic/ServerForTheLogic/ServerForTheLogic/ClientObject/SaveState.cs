@@ -9,7 +9,7 @@ namespace DataAccessLayer {
     /// Author: Bill 
     /// Date: 2017-11-12 
     /// </summary>
-    class SaveState {
+    public class SaveState {
         public ObjectId Id { get; set; }
         public List<SaveState> BackupState { get; set; }
     }

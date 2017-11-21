@@ -12,7 +12,7 @@
     ///     - added new field 'NetYears'
     ///     - added summary for fields
     /// </summary>
-    class Clock
+    public class Clock
     {
         public Clock(int netMinutes, int netHours, int netDays, int netYears)
         {
