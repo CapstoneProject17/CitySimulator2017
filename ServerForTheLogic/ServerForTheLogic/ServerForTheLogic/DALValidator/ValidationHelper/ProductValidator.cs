@@ -12,7 +12,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
     /// Helper class for DALValidator. 
     /// This class contains all the validation rules for Product.
     /// 
-    /// Author: Bill 
+    /// <para> Author: Bill </para>
     /// Date: 2017-11-12
     /// Based on: N/A   
     /// Update: N/A
@@ -25,9 +25,8 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         /// Validation Rules:
         ///     1. product name can not be null
         ///     2. product name can not be empty
-        ///     3. product name can not be longer than 30 letters
-        ///     
-        /// Author: Bill
+        ///     3. product name can not be longer than 30 letters 
+        /// <para> Author: Bill </para>
         /// Date: 2017-11-11
         /// </summary>
         /// <param name="productName"></param>
@@ -41,14 +40,14 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
             }
             return true;
         }
-
+        
         /// <summary>
         /// Product Global Count Validator
         /// 
         /// Validation Rule:
         ///     1. productGlobalCount must be must be a valid integer
         ///     
-        /// Author: Bill
+        /// <para> Author: Bill </para>
         /// Date: 2017-11-12
         /// </summary>
         /// <param name="productGlobalCount"></param>
