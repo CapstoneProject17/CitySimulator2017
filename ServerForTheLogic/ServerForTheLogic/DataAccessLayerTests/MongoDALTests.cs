@@ -9,6 +9,14 @@ using ServerForTheLogic.ClientObject;
 
 namespace DataAccessLayer.Tests
 {
+    /// <summary>
+    /// MongoDALTests
+    /// Team: DB
+    /// Unit tests for CRUD functions to DB.
+    /// Author: Michael, Sean, Stephanie, Bill 
+    /// Date: 2017-11-21
+    /// Based on: https://msdn.microsoft.com/en-us/library/hh694602.aspx
+    /// </summary>
     [TestClass()]
     public class MongoDALTests
     {
@@ -24,8 +32,24 @@ namespace DataAccessLayer.Tests
             db.InsertPerson(testPerson);
 
             //Assert
-            Person returnedPerson = (Person) db.GetObjectByGuid(newGuid);
-            Assert.Equals(returnedPerson.Guid, newGuid);
+            Person returnedPerson = (Person)db.GetObjectByGuid(newGuid);
+            Assert.AreEqual(returnedPerson.Guid, newGuid);
+        }
+
+        [TestMethod()]
+        public void InsertProductTest()
+        {
+            //Arrange
+            MongoDAL db = new MongoDAL();
+            Product testProduct = new Product("test_product_1", 50);
+
+            //Act
+            db.InsertProduct(testProduct);
+
+            //Assert
+            Product returnedProduct = db.GetProduct("test_product_1");
+            Console.WriteLine(returnedProduct.Name);
+            Assert.AreEqual(returnedProduct.GlobalCount, 50);
         }
     }
 }
