@@ -23,6 +23,11 @@
         }
 
         /// <summary>
+        /// BSON objectId stored in the database.
+        /// </summary>
+        public MongoDB.Bson.ObjectId _id { get; set; }
+
+        /// <summary>
         /// NetMinutes must be an unsigned int between 0 - 59
         /// </summary>
         public int NetMinutes { get; set; }

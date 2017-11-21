@@ -60,6 +60,11 @@ namespace ServerForTheLogic.ClientObject
         }
 
         /// <summary>
+        /// BSON objectId stored in the database.
+        /// </summary>
+        public MongoDB.Bson.ObjectId _id { get; set; }
+
+        /// <summary>
         /// ID for the person
         /// </summary>
         public Guid Guid { get; set; }

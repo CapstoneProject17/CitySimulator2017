@@ -1,4 +1,6 @@
-﻿namespace ServerForTheLogic.ClientObject
+﻿using MongoDB.Bson;
+
+namespace ServerForTheLogic.ClientObject
 {
     /// <summary>
     /// MongoDAL
@@ -23,6 +25,12 @@
             Name = name;
             GlobalCount = globalCount;
         }
+
+        /// <summary>
+        /// BSON objectId stored in the database.
+        /// </summary>
+        public ObjectId _id { get; set; }
+
         /// <summary>
         /// 1. Name can not be null
         /// 2. Name can not be empty
