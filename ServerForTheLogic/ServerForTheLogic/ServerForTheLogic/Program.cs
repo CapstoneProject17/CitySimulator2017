@@ -56,20 +56,39 @@ namespace ServerForTheLogic
                 String []commands = cmd.Split(null);
 
                 if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase)) {
-                    int number = Int32.Parse(commands[1]);
-                    //Console.WriteLine(number);
-                    for(int i=0; i < number; i++) {
-                        city.createPerson();
-                        
+                    if (commands.Length == 2) {
+                        int number = Int32.Parse(commands[1]);
+                        //Console.WriteLine(number);
+                        for (int i = 0; i < number; i++) {
+                            city.createPerson();
+
+                        }
                     }
                     city.AllPeople.Dump();
                 }
                 if(commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase)) {
                     city.Workplaces.Dump();
                 }
-
+                if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.clock.timer.Stop();
+                }
+                if (commands[0].Equals("start", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.clock.timer.Start();
+                }
                 if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase)) {
                     city.Homes.Dump();
+                }
+                if (commands[0].Equals("expand", StringComparison.CurrentCultureIgnoreCase)) {
+                    if(commands.Length == 2) {
+                        if (commands[1].Equals("residential", StringComparison.CurrentCultureIgnoreCase))
+                            city.expandCity(BlockType.Residential);
+                        if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
+                            city.expandCity(BlockType.Commercial);
+                        if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
+                            city.expandCity(BlockType.Industrial);
+                    } else {
+                        Console.WriteLine("Specify expansion type");
+                    }
                 }
 
                 if (cmd.Equals("print city", StringComparison.CurrentCultureIgnoreCase)) {
@@ -77,14 +96,6 @@ namespace ServerForTheLogic
                 }
             }
         }
-        /// <summary>
-        /// Keeps the program running 
-        /// <para/> Last editted:  2017-10-02
-        /// </summary>
-        //public static void KeepOpen()
-        //{
-        //    while (true) ;
-        //}
 
 
         /// <summary>

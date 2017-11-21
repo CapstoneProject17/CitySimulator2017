@@ -100,7 +100,7 @@ namespace ServerForTheLogic
         /// Clock to keep track of the time that 
         /// has passed since city creation.
         /// </summary>
-        private Clock clock;
+        public Clock clock;
         public static int DEFAULT_RATING = 1;
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace ServerForTheLogic
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
-                    PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, r.Point);
+                    PartialUpdateList[temp.TimeToHome].Add(temp.Id, r.Point);
                     break;
                 }
             }
@@ -295,7 +295,7 @@ namespace ServerForTheLogic
                 Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
                 temp.Home = newHome;
                 newHome.NumberOfResidents++;
-                PartialUpdateList[temp.TimeToGoToHome].Add(temp.Id, newHome.Point);
+                PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
             }
 
             //assigns/creates jobs
@@ -311,7 +311,8 @@ namespace ServerForTheLogic
                 {
                     temp.Workplace = b;
                     b.workers.Add(temp);
-                   // PartialUpdateList[temp.TimeToGoToWork].Add(temp.Id, b.Point);
+                    temp.incomeGenerated(b);
+                   // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
                     break;
                 }
                 else

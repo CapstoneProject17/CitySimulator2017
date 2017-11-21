@@ -9,6 +9,7 @@ namespace ServerForTheLogic.Infrastructure
 {
     class Commercial : Business
     {
+        
         public Commercial() : base()
         {
             this.Type = "C";
@@ -32,7 +33,7 @@ namespace ServerForTheLogic.Infrastructure
                     productsBought.Add(p.Key, order.Amount);
                    // Console.WriteLine("Sending order to market");
                     Market.ProcessOrder(order, Market.IndustrialBusinesses);
-                    Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
+                    //Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
                 }
 
             }
