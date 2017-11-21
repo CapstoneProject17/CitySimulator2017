@@ -20,7 +20,7 @@ namespace ServerForTheLogic.ClientObject
     /// 2017 11 12 Steph
     ///     - added Guid field
     /// </summary>
-    class Person
+    public class Person
     {
         /// <summary>
         /// default constructor of Person.

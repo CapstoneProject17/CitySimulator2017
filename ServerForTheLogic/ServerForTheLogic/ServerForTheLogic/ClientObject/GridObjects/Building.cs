@@ -9,7 +9,7 @@ namespace ServerForTheLogic.ClientObject.Building
     /// Author: Bill 
     /// Date: 2017-11-12 
     /// </summary>
-    class Building : GridObject
+    public class Building : GridObject
     {
         /// <summary>
         /// A building constructor. Calls base GridObject's constructor

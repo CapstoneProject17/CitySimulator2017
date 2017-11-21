@@ -11,7 +11,7 @@
     /// 2017-11-12 Bill
     ///     - updated summary on all fields
     /// </summary>
-    class Product
+    public class Product
     {
         /// <summary>
         /// Constructor of a Product object that gets stored as a Product document in the database

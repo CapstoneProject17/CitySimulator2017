@@ -23,7 +23,7 @@ namespace DataAccessLayer {
     ///           https://docs.mongodb.com/getting-started/csharp/
     ///           http://mongodb.github.io/mongo-csharp-driver/2.2/getting_started/quick_tour/
     /// </summary>
-    partial class MongoDAL {
+    public class MongoDAL {
         private IMongoDatabase Database {
             get {
                 MongoClient client = new MongoClient();
