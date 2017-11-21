@@ -124,7 +124,7 @@ namespace ServerForTheLogic
         
         private static void foo()
         {
-            Console.WriteLine("FOO");
+            //Console.WriteLine("FOO");
             Person p = city.createPerson();
             Console.WriteLine("funds before " + p.Funds);
             p.BuyThings();
@@ -132,7 +132,7 @@ namespace ServerForTheLogic
         }
         private static void bar()
         {
-            Console.WriteLine("BAR");
+            //Console.WriteLine("BAR");
             Commercial b = new Commercial("fuck", 10,true);
             Console.WriteLine("funds before "  + b.Funds);
             b.FillInventory();

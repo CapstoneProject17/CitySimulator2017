@@ -94,7 +94,7 @@ namespace ServerForTheLogic
             setDeathAge();
             Funds = new Randomizer().Number(500, 10000);
 
-            TimeToGoToWork = new Randomizer().Number(0, 24);
+            TimeToGoToWork = new Randomizer().Number(0, 23);
             TimeToGoToHome = (TimeToGoToWork + 8) % 24;
         }
 
