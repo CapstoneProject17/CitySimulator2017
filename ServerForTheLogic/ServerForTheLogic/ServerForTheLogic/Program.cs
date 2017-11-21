@@ -69,7 +69,12 @@ namespace ServerForTheLogic
                 if(commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase)) {
                     city.Workplaces.Dump();
                 }
-
+                if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.clock.timer.Stop();
+                }
+                if (commands[0].Equals("start", StringComparison.CurrentCultureIgnoreCase)) {
+                    city.clock.timer.Start();
+                }
                 if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase)) {
                     city.Homes.Dump();
                 }
