@@ -5,54 +5,48 @@ using Newtonsoft.Json.Linq;
 
 namespace CitySimNetworkService
 {
-    /// <summary> 
-    /// Contains handler for database request. 
-    /// </summary>
-    /// 
-    /// <author> 
-    /// Harman Mahal 
-    /// </author>
-    internal class DatabaseHandler
-    {
-        /// <summary> 
-        /// Handler; returns JSON object containing Buildings/Citizens information on valid request. 
-        /// </summary>
-        /// 
-        /// <param name="request">
-        /// Contains resource type and resource id. 
-        /// </param>
-        /// 
-        /// <returns> 
-        /// JSON object; has Buildings/Citizens/empty information. 
-        /// </returns>
-        internal string HandleRequest(DatabaseResourceRequest request)
-        {
+	/// <summary> 
+	/// Contains handler for database request. 
+	/// </summary>
+	/// 
+	/// <author> 
+	/// Harman Mahal, Kevin Mitchell
+	/// </author>
+	internal class DatabaseHandler
+	{
+		/// <summary> 
+		/// Handler; returns JSON object containing Object (Buildings/Citizens) information on valid request. 
+		/// </summary>
+		/// 
+		/// <param name="request">
+		/// Contains resource type and resource id. 
+		/// </param>
+		/// 
+		/// <returns> 
+		/// JSON object; has Buildings/Citizens/empty information or error info. 
+		/// </returns>
+		internal string HandleRequest(DatabaseResourceRequest request)
+		{
 
-            switch (request.ResourceType)
-            {
-                case "building":
-                    List<Buildings> obj = GetBuildings(request.ResourceID);
-                    return JsonConvert.SerializeObject(obj);
-                case "person":
-                    List<Citizens> citizenObj = GetCitizens(request.ResourceID);
-                    return JsonConvert.SerializeObject(citizenObj);
-                default:
-                    //FIX ME: JSON representation of invalid request
-                    return "";
-            }
-        }
+			switch (request.ResourceType)
+			{
+				case "object":
+					Guid guid = new Guid(request.ResourceID);   //parse resourceID into GUID
+					Object obj = GetObjectById(guid);           //get object from database via GUID
+					return JsonConvert.SerializeObject(obj);    //serialize object as JSON and return to client
 
+				default:
+					//invalid request returns an "invalid request" JSON
+					string errorString = "{Request: 'invalid'}";
+					JObject errorJSON = JObject.Parse(errorString);
+					return "";
+			}
+		}
 
-        //Stub method due to removing DAL integration
-        private List<Citizens> GetCitizens(string resourceID)
-        {
-            throw new NotImplementedException();
-        }
-
-        //Stub method due to removing DAL integration
-        private List<Buildings> GetBuildings(string resourceID)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		//METHOD STUB TO REPLACE ON INTEGRATION
+		public Object GetObjectById(Guid guid)
+		{
+			return new object();
+		}
+	}
 }
