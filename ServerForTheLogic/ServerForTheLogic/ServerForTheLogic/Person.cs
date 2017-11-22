@@ -77,13 +77,34 @@ namespace ServerForTheLogic
         private bool isDead;
 
         /// <summary>
-        /// 0-23
+        /// Time to go to work
         /// </summary>
-        public int TimeToGoToWork { get; }
+        public int TimeToWork { get; }
+
         /// <summary>
-        /// 0-23
+        /// Time to go Home
         /// </summary>
-        public int TimeToGoToHome { get; }
+        public int TimeToHome { get; }
+
+        /// <summary>
+        /// Rate at which Food is Consumed daily
+        /// </summary>
+        public int DCR;
+
+        /// <summary>
+        /// Big Expense cost changed when bought by the person
+        /// </summary>
+        public int BExp;
+
+        /// <summary>
+        /// Yearly Salary
+        /// </summary>
+        public int Salary;
+
+        /// <summary>
+        /// Number of Products the person owns
+        /// </summary>
+        public int NumProducts;
 
         public Person(string fName, string lName,City c)
         {
@@ -92,12 +113,46 @@ namespace ServerForTheLogic
             isDead = false;
             Id = Guid.NewGuid();
             setDeathAge();
-            Funds = new Randomizer().Number(500, 10000);
-
-            TimeToGoToWork = new Randomizer().Number(0, 24);
-            TimeToGoToHome = (TimeToGoToWork + 8) % 24;
+            //consumption created
+            DailyConsumption();
+            NumProducts = 0;//ToBuy();
+            //Big expense created
+            BigExpense();
+            //Calculate Salary
+            
+            Funds = new Randomizer().Number(1000, 10000);
+            TimeToWork = new Randomizer().Number(0, 23);
+            TimeToHome = (TimeToWork + 8) % 24;
         }
 
+        /// <summary>
+        /// Changes Daily Consumption rate
+        /// </summary>
+        public void DailyConsumption() {
+            DCR = new Randomizer().Number(3, 4);
+        }
+
+        /// <summary>
+        /// Changes Big Expense value
+        /// </summary>
+        public void BigExpense() {
+            BExp = new Randomizer().Number(5000, 13000);
+        }
+
+        /// <summary>
+        /// Amount to buy
+        /// </summary>
+        public int ToBuy() {
+            return new Randomizer().Number(42, 56);
+        }
+
+        public void incomeGenerated(Business b) {
+            if (b.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
+                MonthlyIncome = new Randomizer().Number(3000, 5000);
+            else 
+                MonthlyIncome = new Randomizer().Number(4000, 6000);
+            Salary = MonthlyIncome * 12;
+        }
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
         /// guassian distribution.
@@ -148,10 +203,11 @@ namespace ServerForTheLogic
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
             if (Funds >= Market.Products[rand].RetailPrice)
             {
-                Order order = new Order(Market.Products[rand], 1, this);
+                Order order = new Order(Market.Products[rand], ToBuy(), this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                Console.WriteLine("Bought " + order.OrderProduct.ProductName);
+                Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
+                NumProducts += order.Amount;
             }
         }
         /// <summary>
@@ -160,5 +216,18 @@ namespace ServerForTheLogic
         public void SetAge() {
                 Age++;
         }
+
+        public void ConsumeProd() {
+            if (NumProducts > DCR)
+                NumProducts -= DCR;
+            else {
+                BuyThings();
+                NumProducts -= DCR;
+            }
+
+            
+        }
+
+        
     }
 }
