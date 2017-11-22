@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerForTheLogic\DataAccessLayer.csproj">
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}</Project>
       <Name>DataAccessLayer</Name>
     </ProjectReference>
