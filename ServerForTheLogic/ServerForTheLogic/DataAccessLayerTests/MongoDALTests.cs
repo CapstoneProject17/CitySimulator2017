@@ -51,5 +51,50 @@ namespace DataAccessLayer.Tests
             Console.WriteLine(returnedProduct.Name);
             Assert.AreEqual(returnedProduct.GlobalCount, 50);
         }
+
+        [TestMethod()]
+        public void InsertClockTest() {
+            // Arrange
+            MongoDAL db = new MongoDAL();
+            Clock clockTest = new Clock(22, 14, 30, 1);
+
+            // Act
+            db.InsertClock(clockTest);
+
+            // Assert
+            Clock returnedClock = db.GetClock();
+            Console.WriteLine(returnedClock.NetMinutes);
+            Assert.AreEqual(returnedClock.NetMinutes, 22);
+            Assert.AreEqual(returnedClock.NetHours, 14);
+            Assert.AreEqual(returnedClock.NetDays, 30);
+        }
+
+        [TestMethod()]
+        public void UpdateClockTest() {
+            // Arrange
+            MongoDAL db = new MongoDAL();
+            //Clock clockTest = new Clock(12, 20, 15, 2);
+
+            // Act
+            db.UpdateClock(12, 20, 15, 2);
+
+            Clock updatedClock = db.GetClock();
+            Assert.AreEqual(updatedClock.NetMinutes, 12);
+            Assert.AreEqual(updatedClock.NetHours, 20);
+            Assert.AreEqual(updatedClock.NetDays, 15);
+            Assert.AreEqual(updatedClock.NetYears, 2);
+        }
+
+        [TestMethod()]
+        public void UpdateProductTest() {
+            // Arrange
+            MongoDAL db = new MongoDAL();
+
+            // Act
+            db.UpdateProductByName("test_product_1", 60);
+
+            Product productTest = db.GetProduct("test_product_1");
+            Assert.AreEqual(productTest.GlobalCount, 60);
+        }
     }
 }
