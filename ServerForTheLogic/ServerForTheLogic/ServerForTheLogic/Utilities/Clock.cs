@@ -21,7 +21,7 @@ namespace ServerForTheLogic.Utilities
     {
         [JsonProperty]
         // Ticks every second to update the current time values.
-        public Timer timer { get; private set; }
+        public Timer timer;
         private City city;
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace ServerForTheLogic.Utilities
 
         [JsonProperty]
         /// <summary>
-        /// The number of milliseconds between Clock "ticks."  In this case, 1 second.
+        /// The number of milliseconds between Clock "ticks."  In this case, 1 second = 1000.
         /// </summary>
         public const int INTERVAL = 100;
 
@@ -73,6 +73,7 @@ namespace ServerForTheLogic.Utilities
             timer.Enabled = true;
 
             timer.Start();
+            
         }
 
         /// <summary>
@@ -83,14 +84,15 @@ namespace ServerForTheLogic.Utilities
         /// <param name="e"> Unused .</param>
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
-            netMinutes++;
-            //Console.WriteLine("Mins:\t" + netMinutes);
-            for (int i = 0; i < 5; ++i)
-            {
-                city.createPerson();
-            }
 
-            if (netMinutes / 30 > netHours)
+            netMinutes++;
+            Console.WriteLine("Mins:\t" + netMinutes);
+            /*for (int i = 0; i < 5; ++i)
+            {
+                city.CreatePerson();
+            }*/
+
+            if (netMinutes / 60 > netHours)
             {
                 tickHour();
             }
@@ -104,13 +106,15 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-11-12
         private void tickHour()
         {
-            netHours = netMinutes / 30;
+            netHours = netMinutes / 60;
             Console.WriteLine("Hours:\t" + netHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             
             Console.WriteLine("Population = " + city.AllPeople.Count);
-
+            foreach (Person p in city.AllPeople) {
+                p.ConsumeProd();
+            }
 
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
@@ -137,8 +141,8 @@ namespace ServerForTheLogic.Utilities
             }
 
             netDays = netHours / 24;//send nudes
-            //Console.WriteLine("Days:\t" + netDays);
-            if (netDays / 3 > netYears)
+            Console.WriteLine("Days:\t" + netDays);
+            if (netDays / 365 > netYears)
             {
                 tickYear();
             }
@@ -154,7 +158,7 @@ namespace ServerForTheLogic.Utilities
         private void tickYear()
         {
             netYears++;
-            //Console.WriteLine("Years:\t" + netYears);
+            Console.WriteLine("Years:\t" + netYears);
             foreach (Person p in city.AllPeople)
             {
                 p.SetAge();

@@ -142,7 +142,7 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    city.Workplaces.Dump();
+                    //city.Workplaces.Dump();
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
