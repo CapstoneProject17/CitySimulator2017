@@ -87,10 +87,10 @@ namespace ServerForTheLogic.Utilities
 
             netMinutes++;
             Console.WriteLine("Mins:\t" + netMinutes);
-            for (int i = 0; i < 5; ++i)
+            /*for (int i = 0; i < 5; ++i)
             {
-
-            }
+                city.CreatePerson();
+            }*/
 
             if (netMinutes / 60 > netHours)
             {

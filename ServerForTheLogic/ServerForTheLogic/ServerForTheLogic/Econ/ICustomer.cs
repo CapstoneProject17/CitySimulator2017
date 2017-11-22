@@ -8,11 +8,11 @@ namespace ServerForTheLogic.Econ
 {
     /// <summary>
     /// Objects that can make orders implement this interface
-    /// <para>Written by Connor Goudie </para>
+    /// <para>Written by Connor Goudie 2017-11-08</para>
     /// </summary>
     interface ICustomer
     {
+        //amount of money a customer has
         int Funds { get; set; }
-
     }
 }

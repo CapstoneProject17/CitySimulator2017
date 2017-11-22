@@ -7,21 +7,40 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Infrastructure
 {
+    /// <summary>
+    /// Business is an extension of the building object, which contains a dictionary
+    /// of products, has methods to pay employees, and maintains a list of workers.
+    /// Implements ICustomer, for transactions
+    /// <para>Written by Chandu Dissanayake, Justin McLennan, Connor Goudie 2017-11-08</para>
+    /// <para>Last modified by Connor Goudie 2017-11-14</para>
+    /// </summary>
     class Business : Building, ICustomer
     {
+        //base amount of money all businesses start with
         public static int FIXED_FUNDS = 20000;
+
+        //minum number of a single product allowed to be in inventory until more are ordered
         public const int MINIMUM_VALUE = 5;
 
+        //Multiplier that increases or decreases worker wage
         public double WageMultiplier { get; set; }
+
+        //average salary of workers
         public int AvgWorkerSalary { get; set; }
+
+        //list of all current employees
         public List<Person> workers { get; set; }
 
-        /// <summary>
-        /// Products being sold.
-        /// </summary>
+        //products currently being sold
         public Dictionary<Product, int> inventory { get; set; }
+
+        //current bank account balance
         public int Funds { get; set; }
 
+        /// <summary>
+        /// Default constructor for a Business
+        /// <para>Written by Chandu Dissanayake 2017-11-08</para>
+        /// </summary>
         public Business() : base()
         {
             Funds = FIXED_FUNDS;
@@ -30,7 +49,15 @@ namespace ServerForTheLogic.Infrastructure
             inventory = new Dictionary<Product, int>();
         }
 
-        public Business(string Name, int capacity,Boolean isTall) : base(Name, capacity,isTall)
+        /// <summary>
+        /// Overloaded construct for business
+        /// <para>Written by Chandu Dissanayake 2017-11-08</para>
+        /// <para>Last modified by Chandu Dissanayake 2017-11-14</para>
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="capacity"></param>
+        /// <param name="isTall"></param>
+        public Business(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
             Funds = FIXED_FUNDS;
             WageMultiplier = 0.5;
@@ -41,6 +68,12 @@ namespace ServerForTheLogic.Infrastructure
             AddProductToInventory();
         }
 
+        /// <summary>
+        /// Adds a product that exists in the world market, but is not currently in 
+        /// this businesses' inventory.
+        /// <para>Written by Chandu Dissanayake, Justin McLennan, Andrew Busto 2017-11-08</para>
+        /// <para>Last modified by Andrew Busto 2017-11-14</para>
+        /// </summary>
         public virtual void AddProductToInventory()
         {
             //Console.WriteLine(Market.ProductsInDemand + "  " + Market.ProductsInDemand.Count);
@@ -57,11 +90,20 @@ namespace ServerForTheLogic.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Unimplemented
+        /// </summary>
         public virtual void FillInventory()
         {
 
         }
 
+        /// <summary>
+        /// Currently unimplemted; pay employees, if the business does not have enough
+        /// funds to pay every employee, lay off a certain number
+        /// <para>Written by Chandu Dissanayake, Andrew Busto 2017-11-08</para>
+        /// <para>Last modified by Chandu Dissanayake 2017-11-13</para>
+        /// </summary>
         public void PayEmployees()
         {
             if (AvgWorkerSalary == 0)
