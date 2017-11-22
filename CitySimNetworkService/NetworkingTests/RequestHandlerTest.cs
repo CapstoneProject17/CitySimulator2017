@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CitySimNetworkService;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using CitySimNetworkService;
 
 namespace NetworkingTests
 {
@@ -24,7 +23,7 @@ namespace NetworkingTests
             [TestMethod]
             public void DbRequestTest()
             {
-                string sample = "{type:database}";
+                string sample = "{\"type\": \"database\"}";
 
                 dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
 
@@ -37,7 +36,7 @@ namespace NetworkingTests
             [TestMethod]
             public void SimPartRequestTest()
             {
-                string sample = "{type:update,FullUpdate:false}";
+                string sample = "{\"type\": \"update\", \"FullUpdate\": \"false\"}";
 
                 dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
 
@@ -50,11 +49,21 @@ namespace NetworkingTests
             [TestMethod]
             public void SimRequestTest()
             {
-                string sample = "{type:update,FullUpdate:true}";
+                string sample = "{\"type\": \"update\", \"FullUpdate\": \"true\"}";
 
                 dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
 
                 Assert.IsInstanceOfType(request, typeof(SimulationUpdateRequest));
+            }
+
+            [TestMethod]
+            public void SimRequestTestFailure()
+            {
+                string sample = "{\"type\": \"update\", \"FullUpdate\": \"true\"}";
+
+                dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
+
+                Assert.IsNotInstanceOfType(request, typeof(PartialSimulationUpdateRequest));
             }
         }
     }

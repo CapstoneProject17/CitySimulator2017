@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkService", "Ci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkingTests", "NetworkingTests\NetworkingTests.csproj", "{0FFA2F11-8730-4F80-AD29-018A65B6C1A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkingApplication", "ConsoleApp1\CitySimNetworkingApplication.csproj", "{8DC8959F-95EA-4D79-8298-406FF9067717}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0FFA2F11-8730-4F80-AD29-018A65B6C1A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FFA2F11-8730-4F80-AD29-018A65B6C1A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FFA2F11-8730-4F80-AD29-018A65B6C1A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DC8959F-95EA-4D79-8298-406FF9067717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DC8959F-95EA-4D79-8298-406FF9067717}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DC8959F-95EA-4D79-8298-406FF9067717}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DC8959F-95EA-4D79-8298-406FF9067717}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
