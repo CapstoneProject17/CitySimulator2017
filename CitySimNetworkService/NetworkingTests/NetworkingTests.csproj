@@ -59,7 +59,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleApp1\CitySimNetworkingApplication.csproj">
+    <ProjectReference Include="..\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
       <Project>{8DC8959F-95EA-4D79-8298-406FF9067717}</Project>
       <Name>CitySimNetworkingApplication</Name>
     </ProjectReference>
