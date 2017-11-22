@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkingTests", "Networki
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkingApplication", "CitySimNetworkApplication\CitySimNetworkingApplication.csproj", "{8DC8959F-95EA-4D79-8298-406FF9067717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerForTheLogic", "..\..\..\CitySimulator2017\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj", "{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerForTheLogic", "..\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj", "{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +38,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FDB12A47-BF9C-42AE-B04A-218967001DDF}
+		SolutionGuid = {843FFE9F-7749-4AE3-BCB0-059C3BE38B74}
 	EndGlobalSection
 EndGlobal
