@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using DataAccessLayer;
 
 namespace CitySimNetworkService
 {
@@ -10,10 +11,17 @@ namespace CitySimNetworkService
     /// </summary>
     /// 
     /// <author> 
-    /// Harman Mahal 
+    /// Harman Mahal, Kevin Mitchell
     /// </author>
     public class DatabaseHandler
     {
+        MongoDAL data;
+
+        public DatabaseHandler()
+        {
+            data = new MongoDAL();
+        }
+
         /// <summary> 
         /// Handler; returns JSON object containing Buildings/Citizens information on valid request. 
         /// </summary>
@@ -27,32 +35,25 @@ namespace CitySimNetworkService
         /// </returns>
         internal string HandleRequest(DatabaseResourceRequest request)
         {
-
             switch (request.ResourceType)
             {
-                case "building":
-                    List<Buildings> obj = GetBuildings(request.ResourceID);
-                    return JsonConvert.SerializeObject(obj);
-                case "person":
-                    List<Citizens> citizenObj = GetCitizens(request.ResourceID);
-                    return JsonConvert.SerializeObject(citizenObj);
+                case "object":
+                    Guid guid = new Guid(request.ResourceID);   //parse resourceID into GUID
+                    Object obj = data.GetObjectByGuid(guid);           //get object from database via GUID
+                    return JsonConvert.SerializeObject(obj);    //serialize object as JSON and return to client
+
+                case "product":
+                    Object product = data.GetProduct(request.ResourceID);
+                    return JsonConvert.SerializeObject(product);
+
+                case "clock":
+                    Object clock = data.GetClock();
+                    return JsonConvert.SerializeObject(clock);
+
                 default:
-                    //FIX ME: JSON representation of invalid request
-                    return "";
+                    string errorString = "{Request: 'invalid'}";
+                    return errorString;
             }
-        }
-
-
-        //Stub method due to removing DAL integration
-        private List<Citizens> GetCitizens(string resourceID)
-        {
-            throw new NotImplementedException();
-        }
-
-        //Stub method due to removing DAL integration
-        private List<Buildings> GetBuildings(string resourceID)
-        {
-            throw new NotImplementedException();
         }
     }
 }
