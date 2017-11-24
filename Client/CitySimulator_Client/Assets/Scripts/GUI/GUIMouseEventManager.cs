@@ -10,6 +10,7 @@ using System.Collections.Generic;
 /// Modified by:    
 ///     Name: Benjamin Hao   Change: add skip functionality to increase performance Date: 2017-10-30
 /// Based on: https://docs.unity3d.com/ScriptReference/Input.GetMouseButtonDown.html
+///           https://docs.unity3d.com/ScriptReference/Physics.Raycast.html
 /// </summary>
 
 public class GUIMouseEventManager : MonoBehaviour

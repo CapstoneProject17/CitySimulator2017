@@ -20,7 +20,7 @@ public class ButtonManager : MonoBehaviour {
 	/// <summary>
 	/// The main menu.
 	/// </summary>
-	public Transform mainMenu, gameSettings;
+	public Transform mainMenu;
 
 	/// <summary>
 	/// The scene to load.
@@ -34,7 +34,9 @@ public class ButtonManager : MonoBehaviour {
 		SceneManager.LoadScene(sceneToLoad);
 	}
 
-//	// Open setting panel
+//	/// <summary>
+//	/// Open setting panel
+//	/// </summary>
 //	public void settingBtn(bool clicked) {
 //		if (clicked) {
 //			gameSettings.gameObject.SetActive (clicked);
