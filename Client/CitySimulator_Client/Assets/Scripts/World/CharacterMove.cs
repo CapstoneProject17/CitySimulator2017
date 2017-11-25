@@ -17,8 +17,25 @@ public class CharacterMove : MonoBehaviour {
 
 	// X axis of destination
 	private int x_dest;
+	public int X_Dest {
+		get {
+			return x_dest;
+		}
+		set {
+			x_dest = value;
+		}
+	}
 	// Z axis of destination
 	private int z_dest;
+	public int Z_Dest {
+		get {
+			return z_dest;
+		}
+		set {
+			z_dest = value;
+		}
+	}
+
 	// Plane on which character is on
 	private GameObject originalPlane;
 	// Movement speed
@@ -31,17 +48,18 @@ public class CharacterMove : MonoBehaviour {
 	/// For now, retrieve information at Start.
 	/// </summary>
 	void Start() {
+		// Until we get the new humans
+		// transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
+
 		bfs = new BFS ();
 
-		// Destination hard coded for now
-		x_dest = 24;
-		z_dest = 13;
 		bfs.OriginalPlane = findCurrentPlane();
 		bfs.X_DEST = x_dest;
 		bfs.Z_DEST = z_dest;
 		bfs.Start ();
 
 	}
+
 
 	/// <summary>
 	/// Update this instance.

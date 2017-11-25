@@ -212,11 +212,12 @@ public class CityDataManager : MonoBehaviour {
 
 		systemStartedTimeStamp =  System.DateTime.Now.Minute;
 		updateTheCity = false;
-		// if(turnOnTestGrid){ // if turned on for test, initiate test grid
-		// 	initiateGridForTest();
-		// } else {  // else general grid
-		// 	initiateGrid ();
-		// }
+		if(turnOnTestGrid){ // if turned on for test, initiate test grid
+			initiateGridForTest();
+		}
+        // else {  // else general grid
+		//	initiateGrid ();
+		//}
     
         Debug.Log(cityData.GridLength);
 
