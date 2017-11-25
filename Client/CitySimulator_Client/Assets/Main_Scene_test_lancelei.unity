@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 400002, guid: 46d9ed999096b428483588d0fe170b7a, type: 3}
+  character: {fileID: 400000, guid: 4e62edda77ba54cf98ccedc8ac675372, type: 3}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -692,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aba6487982ab4be982deecf863d0e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doOnce: 1
+  doOnce: 0
   scaleVector: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!4 &218473765
 Transform:
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnTestGrid: 0
+  turnOnTestGrid: 1
 --- !u!1 &599436262
 GameObject:
   m_ObjectHideFlags: 0
