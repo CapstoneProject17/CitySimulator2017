@@ -27,6 +27,8 @@ public class GridCreation : MonoBehaviour {
 	// Size for the cell
 	public Vector3 size;
 
+	public Texture roadTexture;
+	
 // not using now
 //	public int gridWidth;
 //	public int gridHeight;
@@ -101,6 +103,10 @@ public class GridCreation : MonoBehaviour {
 		}
 	}
 
+	void createRoad(int x, int z){
+		
+	}
+
 	/// <summary>
 	/// Shows the grid.
 	/// </summary>
@@ -115,6 +121,9 @@ public class GridCreation : MonoBehaviour {
 			if(planeTransform.GetChild(0).GetComponent<TextMesh>().text != "0"){
 				MeshRenderer component = plane.GetComponent<MeshRenderer>();
 				component.enabled = on;
+			} else {
+				MeshRenderer component = plane.GetComponent<MeshRenderer>();
+				component.material.mainTexture = roadTexture;
 			}
 
 			planeTransform.GetChild (0).GetComponent<MeshRenderer>().enabled = on;
