@@ -30,7 +30,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		population = 1;
+		population = 2;
 		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
@@ -60,19 +60,50 @@ public class CharacterCreation : MonoBehaviour {
 					Instantiate (character,
 						new Vector3 (road.transform.position.x, 0, road.transform.position.z),
 						Quaternion.identity,characterManager.transform) as Transform;
-
-//				Instantiate(character,
-//					new Vector3(road.transform.position.x,
-//						0,
-//						road.transform.position.z),
-//					Quaternion.identity,
-//					characterManager.transform);
 				population--;
-				Debug.Log ("Name of Character: " + character.name);
 				human.gameObject.AddComponent<CharacterMove> ();
+				List<int> xz = setRandDest ();
+
+				// Set the destination
+				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
+				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
+
 			}
 
 		}
 
 	}
+
+	// Testing: Set Random Destination
+	List<int> setRandDest() {
+		char[] delimiterChars = { '(', ',', ' ', ')' };
+		List<int> xz = new List<int> ();
+		GameObject dest;
+		bool isRoad = false;
+		System.Random rnd = new System.Random ();
+		int check = 0;
+
+		do {
+			dest = planes[rnd.Next(planes.Length)].gameObject;
+			if (dest.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0") {
+				isRoad = true;
+				
+			}
+		} while (!isRoad);
+
+
+		string gridText = dest.transform.GetChild (1).GetComponent<TextMesh> ().text;
+		string[] words = gridText.Split (delimiterChars);
+
+		foreach (string s in words)
+		{
+			int.TryParse (s, out check);
+			xz.Add (check);
+
+		}
+
+		return xz;
+
+	}
+
 }
