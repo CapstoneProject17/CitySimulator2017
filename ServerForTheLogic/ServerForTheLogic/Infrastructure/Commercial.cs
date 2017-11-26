@@ -1,4 +1,5 @@
-﻿using ServerForTheLogic.Econ;
+﻿using Newtonsoft.Json;
+using ServerForTheLogic.Econ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Written by Chandu Dissanayake, Connor Goudie, Andrew Busto 2017-10-02</para>
     /// <para>Last modified by Andrew Busto 2017-11-14</para>
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     class Commercial : Business
     {
         /// <summary>
