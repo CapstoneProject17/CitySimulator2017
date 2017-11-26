@@ -34,11 +34,11 @@ public class BuildingManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		// disposeBuilding("TEST");
 	}
 
 	// Update builings
 	void updateBuildings (string id) {
-
 	}
 
 	// Create new building to on given grid location
@@ -141,9 +141,17 @@ public class BuildingManager : MonoBehaviour {
 
 	// Dispose building 
 	void disposeBuilding (string id) {
-		if (buildingObject.name == id) {
-			Destroy(buildingObject);
-		}
+		// float timer = 3;
+
+		GameObject building = GameObject.Find( id + "(Clone)");
+		
+		// while (building.transform.localScale.y > 0.0) {
+		// 	building.transform.localScale -= new Vector3(building.transform.localScale.x * 0.5, 
+		// 												building.transform.localScale.y * 0.5, 
+		// 												building.transform.localScale.z * 0.5);
+		// }
+
+		Destroy(building);
 	}
 
 	// initialize building models
