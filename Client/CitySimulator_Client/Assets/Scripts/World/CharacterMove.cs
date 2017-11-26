@@ -49,7 +49,7 @@ public class CharacterMove : MonoBehaviour {
 	/// </summary>
 	void Start() {
 		// Until we get the new humans
-		// transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
+		 transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
 
 		bfs = new BFS ();
 
