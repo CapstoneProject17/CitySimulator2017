@@ -1,7 +1,91 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+
+/// <summary>
+/// Module: Point
+/// Team: Client
+/// Description: Coordinate Class model for the city data from the server
+/// Author:
+///  Name: Dongwon(Shawn) Kim    Date: 2017-11-25
+/// Modified by:    
+///  Name: N/A   Change: N/A         Date: N/A
+/// Based on:  N/A
+/// </summary>
+[Serializable]
+public class Point{
+
+    // x coordinate 
+    public int x;
+
+    // z coordinate
+    public int z;
+}
+
+/// <summary>
+/// Module: NewBuilding
+/// Team: Client
+/// Description: Building Class model for the city data from the server
+/// Author:
+///  Name: Dongwon(Shawn) Kim    Date: 2017-11-25
+/// Modified by:    
+///  Name: N/A   Change: N/A         Date: N/A
+/// Based on:  N/A
+/// </summary>
+[Serializable]
+public class NewBuilding{
+
+    // unique id for the building
+    public string id;
+
+    // name of the building
+    public string Name;
+
+    // location of the building
+    public Point Point;
+
+    // type of building
+    public string Type;
+
+    // rate of the building
+    public int Rating;
+
+    // I don't know what is this, not using on the client
+    // but need to be here for deserialization
+    public bool IsTall;
+}
+
+/// <summary>
+/// Module: CityData
+/// Team: Client
+/// Description: Class model for the city data from the server
+/// Author:
+///  Name: Dongwon(Shawn) Kim    Date: 2017-11-25
+/// Modified by:    
+///  Name: N/A   Change: N/A         Date: N/A
+/// Based on:  N/A
+/// </summary>
+[Serializable]
+public class CityData{
+
+    // length of the grid for the city
+    public int GridLength;
+
+    // width of the grid for the city
+    public int GridWidth;
+    
+    // hour for the city
+    public int netHours;
+
+    // array of the points that has road
+    public Point[] NewRoads;
+
+    // array of buildings
+    public NewBuilding[] NewBuildings;
+
+}
 
 /// <summary>
 /// Module: CityDataManager
@@ -18,8 +102,25 @@ using UnityEngine;
 /// </summary>
 public class CityDataManager : MonoBehaviour {
 
-	// switch for testing
+    // JSON dummy String for testing
+    private static string jsonString = "{\"GridLength\":99,\"GridWidth\":58,\"netHours\":0,\"NewRoads\":[{\"x\":27,\"z\":49},{\"x\":27,\"z\":56},{\"x\":28,\"z\":49},{\"x\":28,\"z\":56},{\"x\":29,\"z\":49},{\"x\":29,\"z\":56},{\"x\":30,\"z\":49},{\"x\":30,\"z\":56},{\"x\":27,\"z\":50},{\"x\":30,\"z\":50},{\"x\":27,\"z\":51},{\"x\":30,\"z\":51},{\"x\":27,\"z\":52},{\"x\":30,\"z\":52},{\"x\":27,\"z\":53},{\"x\":30,\"z\":53},{\"x\":27,\"z\":54},{\"x\":30,\"z\":54},{\"x\":27,\"z\":55},{\"x\":30,\"z\":55},{\"x\":24,\"z\":56},{\"x\":24,\"z\":63},{\"x\":25,\"z\":56},{\"x\":25,\"z\":63},{\"x\":26,\"z\":56},{\"x\":26,\"z\":63},{\"x\":27,\"z\":63},{\"x\":24,\"z\":57},{\"x\":27,\"z\":57},{\"x\":24,\"z\":58},{\"x\":27,\"z\":58},{\"x\":24,\"z\":59},{\"x\":27,\"z\":59},{\"x\":24,\"z\":60},{\"x\":27,\"z\":60},{\"x\":24,\"z\":61},{\"x\":27,\"z\":61},{\"x\":24,\"z\":62},{\"x\":27,\"z\":62},{\"x\":21,\"z\":63},{\"x\":21,\"z\":70},{\"x\":22,\"z\":63},{\"x\":22,\"z\":70},{\"x\":23,\"z\":63},{\"x\":23,\"z\":70},{\"x\":24,\"z\":70},{\"x\":21,\"z\":64},{\"x\":24,\"z\":64},{\"x\":21,\"z\":65},{\"x\":24,\"z\":65},{\"x\":21,\"z\":66},{\"x\":24,\"z\":66},{\"x\":21,\"z\":67},{\"x\":24,\"z\":67},{\"x\":21,\"z\":68},{\"x\":24,\"z\":68},{\"x\":21,\"z\":69},{\"x\":24,\"z\":69}],\"NewBuildings\":[{\"id\":\"24132329-e85a-4072-b9c8-1dab463b8443\",\"Name\":\"Pacocha Inc\",\"Point\":{\"x\":28,\"z\":54},\"Type\":\"I\",\"Rating\":0,\"IsTall\":true},{\"id\":\"0a6a8518-fc33-4d7d-bf88-ef7464f72d5e\",\"Name\":\"Hilll, Kohler and Effertz\",\"Point\":{\"x\":25,\"z\":59},\"Type\":\"C\",\"Rating\":0,\"IsTall\":true},{\"id\":\"43018e9e-b03b-45d1-b214-ae7a623d5a8a\",\"Name\":\"Residence\",\"Point\":{\"x\":22,\"z\":69},\"Type\":\"H\",\"Rating\":0,\"IsTall\":true}]}";
+    
+    // deserialize json to object
+    private CityData cityData = JsonUtility.FromJson<CityData>(jsonString);
+	
+    // switch for testing
 	public bool turnOnTestGrid;
+	// update trigger
+	public bool updateTheCity;
+
+	// simulator's TimeStamp for start: hours + minute/60 + second/60
+	public double systemStartedTimeStamp;
+
+	// simualtor's TimeStampe for current: hours + minute/60 + second/60
+	public double systemCurrentTimeStamp;
+
+	// timeInHour
+	public double timeInHour;
 
 	// population of the city
 	private int population = 1000;
@@ -38,7 +139,7 @@ public class CityDataManager : MonoBehaviour {
 	}
 
 	// x number of grids in horizontal
-	private int size_x = 50;
+	private int size_x;
 
 	/// <summary>
 	/// Gets the size x.
@@ -54,7 +155,7 @@ public class CityDataManager : MonoBehaviour {
 	}
 
 	// z number of grids in vertical
-	private int size_z = 50;
+	private int size_z;
 
 	/// <summary>
 	/// Gets the size z.
@@ -68,7 +169,6 @@ public class CityDataManager : MonoBehaviour {
 			size_z = value;
 		}
 	}
-
 
 	// grid map contains the index of the zone
 	private int[][] grid;
@@ -106,13 +206,18 @@ public class CityDataManager : MonoBehaviour {
 	// Awake this instance.
 	/// </summary>
 	void Awake () {
+        initiateCityData();
 
+		systemStartedTimeStamp =  System.DateTime.Now.Minute;
+		updateTheCity = false;
 		if(turnOnTestGrid){ // if turned on for test, initiate test grid
 			initiateGridForTest();
-		} else {  // else general grid
-			initiateGrid ();
 		}
-		
+        // else {  // else general grid
+		//	initiateGrid ();
+		//}
+    
+        Debug.Log(cityData.GridLength);
 	}
 
 	/// <summary>
@@ -120,12 +225,83 @@ public class CityDataManager : MonoBehaviour {
 	/// </summary>
 	void Update(){
 		/// Will be used in the future
+		systemCurrentTimeStamp = System.DateTime.Now.Minute;
+
+		if(updateTheCity){
+
+			//call the updates
+
+			updateTheCity = false;
+		}
+
+		// Debug.Log(systemStartedTimeStamp);
+		// Debug.Log(systemCurrentTimeStamp);
 	}
+
+    public void initiateCityData(){
+        size_z = cityData.GridLength;
+        size_x = cityData.GridWidth;
+
+        grid = new int[size_x][];
+
+        // initalize 2d array
+        for (int x = 0; x < grid.Length; x++) {
+            grid [x] = new int[size_z]; 
+        }
+
+        // iterates grid and assign the zone
+        for(int x = 0; x < size_x; x++){
+            for (int z = size_z -1; z >= 0; z--) {
+                grid[x][z] = -1;
+            }
+        }
+
+        // assign road to grid        
+        foreach(Point point in cityData.NewRoads){
+            grid[point.x][point.z] = 0;
+        }
+
+        // assign building to grid
+        foreach(NewBuilding building in cityData.NewBuildings){
+
+            // Debug.Log(building);
+            // Debug.Log((string)building.Type + " "
+            //         + (string)building.Name + " "
+            //         + building.Point.x + " "
+            //         + building.Point.z + " "
+            //         + building.Rating + " "
+            //         + building.IsTall);
+
+            int type = -1;
+            switch(building.Type[0]){
+                case 'H':
+                    type = 1;
+                    // Debug.Log("Res assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
+                break;
+
+                case 'C':
+                    type = 2;
+                    // Debug.Log("Comm assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
+                break;
+
+                case 'I':
+                    type = 3;
+                    // Debug.Log("Indst assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
+                break;
+
+                default:
+                    type = -1;
+                break;
+            }
+
+            grid[building.Point.x][building.Point.z] = type;
+        }
+    }
 
 	/// <summary>
 	/// Initials the grid.
 	/// </summary>
-	public void initiateGrid(){
+	public void initiateGrid() {
 		grid = new int[size_x][];
 
 		// initalize 2d array
@@ -136,7 +312,7 @@ public class CityDataManager : MonoBehaviour {
 		// iterates grid and assign the zone
 		for(int x = 0; x < size_x; x++){
 			for (int z = size_z -1; z >= 0; z--) {
-				grid [x][z] = Random.Range (0, 4);
+				grid [x][z] = UnityEngine.Random.Range (0, 4);
 
 				if(grid[x][z] == 2)
 					grid[x][z] = 0;
@@ -150,67 +326,38 @@ public class CityDataManager : MonoBehaviour {
 	/// </summary>
 	public void initiateGridForTest(){		
 
-		//hard coded grid for testing
-	   	int[] arr1 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr2 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr3 	 = 	new [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr4 	 = 	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr5 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr6 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr7 	 = 	new [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr8 	 = 	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr9 	 = 	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr10	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr11	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr12	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr13	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr14	 =	new [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr15	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr16	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr17	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr18	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr19	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr20	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr21	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr22	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr23	 =	new [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr24	 =	new [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1};
-		int[] arr25	 =	new [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1};
-
-
 		// initializing and assigning arrays
 		grid = new[] {
-			arr1,
-			arr2,
-			arr3,
-			arr4,
-			arr5,
-			arr6,
-			arr7,
-			arr8,
-			arr9,
-			arr10,
-			arr11,
-			arr12,
-			arr13,
-			arr14,
-			arr15,
-			arr16,
-			arr17,
-			arr18,
-			arr19,
-			arr20,
-			arr21,
-			arr22,
-			arr23,
-			arr24,
-			arr25
+			new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
+			new int [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1}
 		};
 
 		// set the size to fit into array of
 		size_x = grid.GetLength(0);
 		size_z = grid[0].GetLength(0);
-
 	}
 
 	/// <summary>
@@ -226,5 +373,13 @@ public class CityDataManager : MonoBehaviour {
 		}
 
 		return grid[x][z];
+	}
+
+
+	/// <summary>
+	/// Turns on updateTheCity to update city 
+	/// </summary>
+	public void noticeUpdate(){
+		updateTheCity = true;
 	}
 }
