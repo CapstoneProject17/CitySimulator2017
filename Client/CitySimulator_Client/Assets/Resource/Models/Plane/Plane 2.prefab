@@ -39,7 +39,6 @@ GameObject:
   - component: {fileID: 4143390876923042}
   - component: {fileID: 23841800826843802}
   - component: {fileID: 33232130354958972}
-  - component: {fileID: 64697587961374026}
   - component: {fileID: 114837259411863064}
   m_Layer: 0
   m_Name: Plane 2
@@ -224,20 +223,6 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64697587961374026
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1302665231337926}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &64792805999067900
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -259,7 +244,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1585834825036688}
-  m_Text: 1
+  m_Text: -1
   m_OffsetZ: 0
   m_CharacterSize: 2.5
   m_LineSpacing: 1
@@ -280,7 +265,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112835258613984}
-  m_Text: (24, 20)
+  m_Text: (57, 98)
   m_OffsetZ: 0
   m_CharacterSize: 1.6
   m_LineSpacing: 1
@@ -306,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rend: {fileID: 0}
-  colorIndex: 1
+  colorIndex: -1
   colors:
   - serializedVersion: 2
     rgba: 4286545791
