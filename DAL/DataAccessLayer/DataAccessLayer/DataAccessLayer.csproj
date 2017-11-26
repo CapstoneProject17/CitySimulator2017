@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>CitySimNetworkService</RootNamespace>
-    <AssemblyName>CitySimNetworkService</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ProjectGuid>{14437FC5-5C8D-4302-8C0D-61565124C8A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccessLayer</RootNamespace>
+    <AssemblyName>DataAccessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -47,30 +49,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MongoDB.Bson, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.4.4\lib\net45\MongoDB.Bson.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\CitySimNetworkService\packages\MongoDB.Bson.2.4.4\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.4.4\lib\net45\MongoDB.Driver.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\CitySimNetworkService\packages\MongoDB.Driver.2.4.4\lib\net45\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver.Core, Version=2.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\..\CitySimNetworkService\packages\MongoDB.Driver.Core.2.4.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,39 +72,55 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetworkService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NetworkService.Designer.cs">
-      <DependentUpon>NetworkService.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ClientObject\GridObjects\Building.cs" />
+    <Compile Include="ClientObject\Clock.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\Commercial.cs" />
+    <Compile Include="ClientObject\GridObject.cs" />
+    <Compile Include="DALValidator\ValidationHelper\ClockValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\BuildingValidation\CommercialValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\BuildingValidation\IndustrialValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\BuildingValidation\ResidentialValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\BuildingValidator.cs" />
+    <Compile Include="DALValidator\DALValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\RoadValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\GridObjectValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\PersonValidator.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\Industrial.cs" />
+    <Compile Include="DALValidator\ValidationHelper\ProductValidator.cs" />
+    <Compile Include="DALValidator\ValidationHelper\SaveStateValidator.cs" />
+    <Compile Include="MongoDAL.cs" />
+    <Compile Include="ClientObject\Person.cs" />
+    <Compile Include="ClientObject\Product.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\Residential.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ClientObject\GridObjects\Road.cs" />
+    <Compile Include="ClientObject\SaveState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="bin\Debug\ServerForTheLogic.exe.config" />
+    <None Include="bin\Debug\ServerForTheLogic.vshost.exe.config" />
+    <None Include="bin\Debug\ServerForTheLogic.vshost.exe.manifest" />
+    <None Include="obj\Debug\DataAccessLayer.csprojResolveAssemblyReference.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
-      <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
-      <Name>CitySimNetworkingApplication</Name>
-    </ProjectReference>
+    <Content Include="bin\Debug\ServerForTheLogic.vshost.exe" />
+    <Content Include="obj\Debug\DataAccessLayer.csproj.FileListAbsolute.txt" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -125,4 +130,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
