@@ -31,13 +31,15 @@ namespace ServerForTheLogic.Json
             //q.enqueue(dataToSend);
         }
 
-        public void sendFullUpdate(T sendableData, Formatting formatting)
+        public string sendFullUpdate(T sendableData, Formatting formatting)
         {
             //Queue q = new Queue();
-            //JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
-            //Console.WriteLine(dataToSend.ToString());
-            //Console.WriteLine("Full update string size: " + dataToSend.ToString().Length);
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, settings));
+            System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
             //q.enqueue(dataToSend);
+            return dataToSend.ToString();
         }
     }
 }
