@@ -128,7 +128,7 @@ public class CharacterMove : MonoBehaviour {
 		}
 	}
 
-	bool movable
+
 
 	// Use when CityDataManager is object
 	void changedLocation() {
