@@ -98,6 +98,7 @@ public class CityData{
 ///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
 ///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
 ///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 Date: 2017-11-13
+///  Name Lancelei Herradura	Change: Add human dictionary Date: 2017-11-25
 /// Based on:  N/A
 /// </summary>
 public class CityDataManager : MonoBehaviour {
@@ -199,6 +200,21 @@ public class CityDataManager : MonoBehaviour {
 		}
 		set {
 			path = value;
+		}
+	}
+
+	// Store human references here for easy access
+	private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
+	/// <summary>
+	/// Gets or sets the humans.
+	/// </summary>
+	/// <value>The humans.</value>
+	public Dictionary<int, GameObject> Humans {
+		get {
+			return humans;
+		}
+		set {
+			humans = value;
 		}
 	}
 	

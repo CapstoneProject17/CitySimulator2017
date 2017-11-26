@@ -30,7 +30,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		population = 2;
+		population = 5;
 		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
