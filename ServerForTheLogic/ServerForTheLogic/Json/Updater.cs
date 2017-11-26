@@ -31,6 +31,12 @@ namespace ServerForTheLogic.Json
             //q.enqueue(dataToSend);
         }
 
+        /// <summary>
+        /// Send the entire state of the city to the db.
+        /// </summary>
+        /// <param name="sendableData"> The data to be serealized. </param>
+        /// <param name="formatting"> The formatting rules to be followed in serealization. </param>
+        /// <returns> The serialized Json string (for testing) </returns>
         public string sendFullUpdate(T sendableData, Formatting formatting)
         {
             //Queue q = new Queue();
