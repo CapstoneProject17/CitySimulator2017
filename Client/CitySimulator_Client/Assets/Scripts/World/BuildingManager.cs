@@ -34,11 +34,13 @@ public class BuildingManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// disposeBuilding("TEST");
 	}
 
 	// Update builings
 	void updateBuildings (string id) {
+
+		// Find the building object with the matching id
+		GameObject building = GameObject.Find( id + "(Clone)");
 	}
 
 	// Create new building to on given grid location
@@ -50,7 +52,7 @@ public class BuildingManager : MonoBehaviour {
 			// Residental 
 			case 1: 
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential_low") as GameObject; 
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential1") as GameObject; 
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -59,7 +61,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential_med") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -68,7 +70,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential_high") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -80,7 +82,7 @@ public class BuildingManager : MonoBehaviour {
 			// Commercial
 			case 2:
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commericial_low") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Commericial1") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -89,7 +91,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial_med") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -98,7 +100,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential_high") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -110,7 +112,7 @@ public class BuildingManager : MonoBehaviour {
 			// Industrial
 			case 3:
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial_low") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial1") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -119,7 +121,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial_med") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -128,7 +130,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial_high") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -141,10 +143,11 @@ public class BuildingManager : MonoBehaviour {
 
 	// Dispose building 
 	void disposeBuilding (string id) {
-		// float timer = 3;
 
 		GameObject building = GameObject.Find( id + "(Clone)");
 		
+		// Animation for destroying building
+		//
 		// while (building.transform.localScale.y > 0.0) {
 		// 	building.transform.localScale -= new Vector3(building.transform.localScale.x * 0.5, 
 		// 												building.transform.localScale.y * 0.5, 
@@ -172,7 +175,7 @@ public class BuildingManager : MonoBehaviour {
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "1") {
 //				Debug.Log ("find 1: " + grid.transform.position.x + ", " + grid.transform.position.y);
 
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential_med") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential2") as GameObject;
 				//Creating each cell of grid
 				instantiateBuilding(buildingObject, 
 									grid.transform.position.x,
@@ -184,7 +187,7 @@ public class BuildingManager : MonoBehaviour {
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "3") {
 //				Debug.Log ("find 3: " + grid.transform.position.x + ", " + grid.transform.position.y);
 				
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial_med") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial2") as GameObject;
 				instantiateBuilding(buildingObject, 
 									grid.transform.position.x,
 									grid.transform.position.y,
