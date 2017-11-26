@@ -18,6 +18,15 @@ namespace ServerForTheLogic.Infrastructure
     [JsonObject(MemberSerialization.OptIn)]
     class Block
     {
+        /// <summary>
+        /// Keeps track of all existing blocks (for deserialization)
+        /// </summary>
+        public static Dictionary<Guid, Block> blocks;
+
+        [JsonProperty]
+        //unique object id
+        public Guid id { get; set; }
+
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;
 
@@ -39,6 +48,11 @@ namespace ServerForTheLogic.Infrastructure
         [JsonProperty]
         public BlockType Type { get;  set; }
 
+        static Block()
+        {
+            blocks = new Dictionary<Guid, Block>();
+        }
+
         /// <summary>
         /// Constructs a new Block object from the passed start point
         /// </summary>
@@ -55,6 +69,8 @@ namespace ServerForTheLogic.Infrastructure
             LandPlot = new Location[BLOCK_WIDTH, BLOCK_LENGTH];
             Adjacents = new List<Block>();
             Type = BlockType.Empty;
+            id = Guid.NewGuid();
+            blocks.Add(id, this);
         }
 
         /// <summary>
