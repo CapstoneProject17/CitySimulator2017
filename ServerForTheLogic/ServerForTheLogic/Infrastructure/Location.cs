@@ -18,6 +18,8 @@ namespace ServerForTheLogic.Infrastructure
     [JsonObject(MemberSerialization.OptIn)]
     abstract class Location
     {
+        public static Dictionary<Guid, Location> locations;
+
         [JsonProperty]
         //name of the building
         public string Name { get; set; }
@@ -25,6 +27,7 @@ namespace ServerForTheLogic.Infrastructure
         [JsonProperty]
         //location of the building within the grid
         public Point Point { get; set; }
+
         [JsonProperty]
         //type of building used for console representation
         public string Type { get; set; }
@@ -32,6 +35,11 @@ namespace ServerForTheLogic.Infrastructure
         [JsonProperty]
         //unique object id
         public Guid id { get; set; }
+
+        static Location()
+        {
+            locations = new Dictionary<Guid, Location>();
+        }
 
         /// <summary>
         /// Overloaded constructor
@@ -67,7 +75,7 @@ namespace ServerForTheLogic.Infrastructure
         public Location()
         {
             id = Guid.NewGuid();
-        }
-
+            locations.Add(id, this);
+        }    
     }
 }

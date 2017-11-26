@@ -43,7 +43,6 @@ namespace ServerForTheLogic.Infrastructure
         /// <param name="isTall"></param>
         public Residential(int capacity,Boolean isTall) : base("Residence",capacity,isTall)
         {
-
             this.Type = "H";
             if (isTall)
             {

@@ -84,13 +84,8 @@ namespace ServerForTheLogic.Utilities
         /// <param name="e"> Unused .</param>
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
-
             netMinutes++;
-            Console.WriteLine("Mins:\t" + netMinutes);
-            /*for (int i = 0; i < 5; ++i)
-            {
-                city.CreatePerson();
-            }*/
+            //Console.WriteLine("Mins:\t" + netMinutes);
 
             if (netMinutes / 60 > netHours)
             {

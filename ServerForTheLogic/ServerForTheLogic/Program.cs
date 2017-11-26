@@ -83,11 +83,14 @@ namespace ServerForTheLogic
 
                 }
 
-                //city.printBlockMapTypes();
                 city.printCity();
                 Updater<City> updater = new Updater<City>();
-                updater.sendFullUpdate(city, Formatting.Indented);
-                //foo();
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.Converters.Add(new LocationConverter());
+
+                city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
+                city.printCity();
+
                 test2();
                 GetInput();
             }
