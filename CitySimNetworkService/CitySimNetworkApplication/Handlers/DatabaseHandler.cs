@@ -39,7 +39,7 @@ namespace CitySimNetworkService
 		/// <returns> 
 		/// JSON object; has Buildings/Citizens/empty information. 
 		/// </returns>
-		internal string HandleRequest(DatabaseResourceRequest request)
+		public string HandleRequest(DatabaseResourceRequest request)
 		{
 			switch (request.ResourceType)
 			{

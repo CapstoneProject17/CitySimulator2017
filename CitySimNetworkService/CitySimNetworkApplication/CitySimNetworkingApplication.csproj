@@ -54,8 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncServer.cs" />
-    <Compile Include="Handlers\Buildings.cs" />
-    <Compile Include="Handlers\Citizens.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Handlers\SimulationStateHandler.cs" />
@@ -72,6 +70,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DAL\DataAccessLayer\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{14437fc5-5c8d-4302-8c0d-61565124c8a6}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
