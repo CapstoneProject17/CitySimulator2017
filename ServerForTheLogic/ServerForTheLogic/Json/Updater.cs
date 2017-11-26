@@ -37,7 +37,7 @@ namespace ServerForTheLogic.Json
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
             JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, settings));
-            System.IO.File.WriteAllText(@"C:\bin\json.txt", dataToSend.ToString());
+            System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
             //q.enqueue(dataToSend);
             return dataToSend.ToString();
         }
