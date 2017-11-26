@@ -52,7 +52,7 @@ public class BuildingManager : MonoBehaviour {
 			// Residental 
 			case 1: 
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential1") as GameObject; 
+				buildingObject = Resources.Load("Models/Building/Completed_Models/residential1") as GameObject; 
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -61,7 +61,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential2") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -70,7 +70,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential3") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/residential3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -82,7 +82,7 @@ public class BuildingManager : MonoBehaviour {
 			// Commercial
 			case 2:
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commericial1") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/commericial1") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -91,7 +91,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial2") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/commercial2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -100,7 +100,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential3") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/commericial3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -112,7 +112,7 @@ public class BuildingManager : MonoBehaviour {
 			// Industrial
 			case 3:
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial1") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -121,7 +121,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial2") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial2") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -130,7 +130,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Industrial3") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial3") as GameObject;
 				buildingObject.name = GUID;
 				instantiateBuilding (buildingObject,
 									 x,
@@ -175,7 +175,7 @@ public class BuildingManager : MonoBehaviour {
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "1") {
 //				Debug.Log ("find 1: " + grid.transform.position.x + ", " + grid.transform.position.y);
 
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Residential2") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject;
 				//Creating each cell of grid
 				instantiateBuilding(buildingObject, 
 									grid.transform.position.x,
@@ -187,7 +187,7 @@ public class BuildingManager : MonoBehaviour {
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "3") {
 //				Debug.Log ("find 3: " + grid.transform.position.x + ", " + grid.transform.position.y);
 				
-				buildingObject = Resources.Load("Models/Building/Completed_Models/Commercial2") as GameObject;
+				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject;
 				instantiateBuilding(buildingObject, 
 									grid.transform.position.x,
 									grid.transform.position.y,
