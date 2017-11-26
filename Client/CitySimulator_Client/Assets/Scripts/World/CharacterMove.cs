@@ -78,13 +78,6 @@ public class CharacterMove : MonoBehaviour {
 	/// For now, retrieve information at Start.
 	/// </summary>
 	void Start() {
-
-		// Rotate, until we get the new humans
-		transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
-
-		// Until we get the new humans
-		// transform.rotation = Quaternion.AngleAxis(-90, Vector3.right);
-
 		bfs.OriginalPlane = findCurrentPlane();
 		bfs.Start ();
 
@@ -104,11 +97,19 @@ public class CharacterMove : MonoBehaviour {
 	void move() {
 		// use once referencing dictionary from manager is fixed
 		//		changedLocation ();
+		Vector3 targetDir;
+		Vector3 newDir;
+		float step = Time.deltaTime * speed;
+
+		bfs.Move ();
+
+		targetDir = bfs.CurrentPlane.transform.position - transform.position;
+		newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+		transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
+		transform.rotation = Quaternion.LookRotation(newDir);
 
 		if (bfs.To && bfs.Valid) {
-			bfs.Move ();
-			float step = Time.deltaTime * speed;
-			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
+			
 			if (transform.position.Equals (bfs.CurrentPlane.transform.position) && bfs.PathIndex >= 0) {
 				bfs.PathIndex--;
 			} 
@@ -117,9 +118,6 @@ public class CharacterMove : MonoBehaviour {
 				bfs.PathIndex = 0;
 			}
 		} else if(!bfs.To && bfs.Valid) {
-			bfs.Move ();
-			float step = Time.deltaTime * speed;
-			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
 			if (transform.position.Equals (bfs.CurrentPlane.transform.position) && bfs.PathIndex >= 0) {
 				bfs.PathIndex++;
 			} 
@@ -129,6 +127,8 @@ public class CharacterMove : MonoBehaviour {
 			}
 		}
 	}
+
+	bool movable
 
 	// Use when CityDataManager is object
 	void changedLocation() {
