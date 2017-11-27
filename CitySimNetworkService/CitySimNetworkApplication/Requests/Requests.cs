@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 namespace CitySimNetworkService
 {
     /// <summary>
-    /// Contains request type.
+    /// <Module>Networking Server Connection</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Different request types for the request handlers</Description>
+    /// <Author>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Setting up the request types</ChangeLog>
+    /// <Date>November 01, 2017</Date>
+    /// </Author>
     /// </summary>
     public abstract class BaseRequest 
     {

@@ -40,7 +40,7 @@ namespace ServerForTheLogic.Json
             JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
             Console.WriteLine(dataToSend.ToString());
             //Console.WriteLine(dataToSend.ToString().Length);
-            partialUpdateQueue.Enqueue(dataToSend);
+            partialUpdateQueue.Enqueue(dataToSend.ToString());
         }
 
         public string sendFullUpdate(T sendableData, Formatting formatting)
@@ -49,7 +49,7 @@ namespace ServerForTheLogic.Json
             settings.Converters.Add(new LocationConverter());
             JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, settings));
             System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
-            fullUpdateQueue.Enqueue(dataToSend);
+            fullUpdateQueue.Enqueue(dataToSend.ToString());
             return dataToSend.ToString();
         }
     }
