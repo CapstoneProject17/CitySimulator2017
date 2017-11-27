@@ -7,7 +7,14 @@ using System.ServiceProcess;
 namespace CitySimNetworkService
 {
     /// <summary>
-    /// Has application network features.
+    /// <Module>Networking Server Service</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Service initialization including server logic and networking</Description>
+    /// <Author>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Setting up libraries required for service</ChangeLog>
+    /// <Date>November 21, 2017</Date>
+    /// </Author>
     /// </summary>
     public partial class NetworkService : ServiceBase
     {
