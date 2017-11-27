@@ -107,6 +107,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj">
+      <Project>{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}</Project>
+      <Name>ServerForTheLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
       <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
       <Name>CitySimNetworkingApplication</Name>
