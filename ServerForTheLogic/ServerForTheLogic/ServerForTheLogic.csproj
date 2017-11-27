@@ -34,16 +34,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bogus, Version=20.0.2.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\CitySimNetworkService\packages\Bogus.20.0.2\lib\net40\Bogus.dll</HintPath>
+      <HintPath>packages\Bogus.20.0.2\lib\net40\Bogus.dll</HintPath>
     </Reference>
     <Reference Include="ConsoleDump, Version=0.6.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\CitySimNetworkService\packages\ConsoleDump.0.6.0.1\lib\net40-Client\ConsoleDump.dll</HintPath>
+      <HintPath>packages\ConsoleDump.0.6.0.1\lib\net40-Client\ConsoleDump.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\CitySimNetworkService\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\CitySimNetworkService\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -71,6 +71,7 @@
     <Compile Include="Infrastructure\Residential.cs" />
     <Compile Include="Infrastructure\Road.cs" />
     <Compile Include="Json\DatabaseLoader.cs" />
+    <Compile Include="Json\LocationConverter.cs" />
     <Compile Include="Json\Updater.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
