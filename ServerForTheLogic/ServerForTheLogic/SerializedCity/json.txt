@@ -16,7 +16,7 @@
   },
   "CommercialBlocksToFill": [
     {
-      "id": "4464e7cb-7081-4145-93e0-ac8ff1c15d18",
+      "id": "d96484ac-3a99-4dca-bf58-dcdaba613666",
       "StartPoint": {
         "x": 0,
         "z": 0
@@ -26,7 +26,7 @@
   ],
   "IndustrialBlocksToFill": [
     {
-      "id": "c843af29-4e15-4ca0-a130-a38fb1b7a61c",
+      "id": "ae5b950b-782f-4f5b-88c8-46c3eca8ecad",
       "StartPoint": {
         "x": 3,
         "z": 7
@@ -36,10 +36,10 @@
   ],
   "ResidentialBlocksToFill": [
     {
-      "id": "77f6be2b-0d12-44d5-b670-fbd5e76d375c",
+      "id": "2e8625d3-e5f1-4810-8e2e-04cd07c0cb40",
       "StartPoint": {
-        "x": 3,
-        "z": 0
+        "x": 0,
+        "z": 7
       },
       "Type": 0
     }
@@ -52,11 +52,11 @@
       "IsTall": true,
       "Name": "Residence",
       "Point": {
-        "x": 5,
-        "z": 6
+        "x": 1,
+        "z": 12
       },
       "Type": "H",
-      "id": "a3905409-11d1-4726-9197-006857381271"
+      "id": "c68fbaf7-499a-454c-af3a-8e7368b32cf6"
     }
   ],
   "AllPeople": [],
@@ -69,7 +69,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "abe63fb1-39d1-4225-b5bb-05ceb52fd662"
+        "id": "c748fd01-f9d7-443a-b5a4-3e1b057e7505"
       },
       {
         "Name": "",
@@ -78,7 +78,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "dba98c18-465c-4301-84a8-e846a4ec0226"
+        "id": "94230804-24b6-4fbb-9043-41cd1708ecc7"
       },
       {
         "Name": "",
@@ -87,7 +87,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "021a0975-71ce-47fc-b1f2-170debd17b1e"
+        "id": "78493608-e653-4d32-b56a-c878367327b5"
       },
       {
         "Name": "",
@@ -96,7 +96,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "7d1de93e-5aa2-481a-ab99-d28b5cf7ea24"
+        "id": "0a6ed17f-28a2-490f-a00f-1452592e64a1"
       },
       {
         "Name": "",
@@ -105,7 +105,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "443c2cab-7d7b-4606-b20c-cc151bdfeb70"
+        "id": "46bc5cca-b0a5-4699-ace3-5b7cdb0881b7"
       },
       {
         "Name": "",
@@ -114,7 +114,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "85af79ea-8193-4627-8052-cf0a85ed2144"
+        "id": "fe86cf70-4fff-457c-a4a8-409037cffec9"
       },
       {
         "Name": "",
@@ -123,7 +123,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "aa0c374d-7ad2-46c8-8b6d-1cb8e5e6d899"
+        "id": "4caf7a57-5cdc-4e41-a11a-01f812eb72c5"
       },
       {
         "Name": "",
@@ -132,102 +132,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "7c5c155f-dd5d-46c6-b729-aaacaa30a35d"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    [
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "aebe6ade-7190-4e89-8bba-e591dcc3f151"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "0ae2b311-e44a-451d-ae2c-41d2da4c7562"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    [
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "ad15b98e-4c0b-437a-9b44-51b0bb641aa8"
-      },
-      null,
-      null,
-      {
-        "Rating": 0,
-        "Capacity": 50,
-        "IsTall": true,
-        "Name": "Koelpin - Kilback",
-        "Point": {
-          "x": 2,
-          "z": 3
-        },
-        "Type": "C",
-        "id": "7f253951-2db8-4af6-b285-d30ceb7d1b7c"
-      },
-      null,
-      null,
-      null,
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "e1e283da-8c3a-4feb-8827-2adf9943a10c"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ],
-    [
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "017fe3f3-01d4-4ee0-83df-9f8b82cd89b7"
+        "id": "23eefb72-dbe5-4507-bab1-d284c232e914"
       },
       {
         "Name": "",
@@ -236,7 +141,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "05dc16df-a33a-44b1-9b50-4b717838d6bc"
+        "id": "e726370e-d7d2-4821-ab72-7cd40df19a82"
       },
       {
         "Name": "",
@@ -245,7 +150,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "281d2e4a-460c-483f-a8af-cae28dde2c7a"
+        "id": "fa0ec84a-a9ab-4374-a9b3-e3ad04258ccd"
       },
       {
         "Name": "",
@@ -254,7 +159,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "2e4c1ff1-b20a-4bf7-866b-119c983589c7"
+        "id": "9c293296-dc76-4370-904d-1a06a52140b7"
       },
       {
         "Name": "",
@@ -263,7 +168,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "05a10af7-bbf8-4fab-8eac-fb490a7ed0e0"
+        "id": "2713a4e7-6b89-410d-abd7-7538b8ed80b6"
       },
       {
         "Name": "",
@@ -272,7 +177,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "06fccfa0-8cc5-40ad-8a43-a588d0f8796d"
+        "id": "f88d59c2-74f5-479a-89bc-7406e09009fa"
       },
       {
         "Name": "",
@@ -281,7 +186,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "d3e821ed-3a21-4c8f-9467-101ac29fc379"
+        "id": "c779c679-076a-4706-acde-9d649a286fae"
       },
       {
         "Name": "",
@@ -290,70 +195,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "7f26f56a-065e-45a4-a555-ac5af2803b98"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "77fa297d-3974-4448-893c-2ee7544c4fd9"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "287c9979-de36-46d8-8712-8aa09537c013"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "173532d0-eaa0-43a4-b27b-95f992bd9cc2"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "720f0577-8e70-4996-8c38-54181d6571b5"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "816c543e-a988-4b6a-9096-96973774ab83"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "bcc6547c-ccc8-4f13-97ec-8c6b566a12ec"
-      },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "34a793e3-330e-43f9-ae91-bf96d0955f08"
+        "id": "615a0c8d-4ddd-4ec5-a429-5eb7f55629ea"
       }
     ],
     [
@@ -364,7 +206,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "8746f6a2-c76c-4e51-ad19-d464393b997b"
+        "id": "a5024399-c154-4716-8d9c-3a5d360ddf63"
       },
       null,
       null,
@@ -379,46 +221,8 @@
           "z": 0
         },
         "Type": "R",
-        "id": "4abde7df-1cb9-46a9-9d2a-1d40d741e812"
+        "id": "83d36a4c-61dc-4328-83ee-53fbfb4dec60"
       },
-      null,
-      null,
-      {
-        "Rating": 0,
-        "Capacity": 50,
-        "IsTall": true,
-        "Name": "Schaefer - Spencer",
-        "Point": {
-          "x": 4,
-          "z": 10
-        },
-        "Type": "I",
-        "id": "47e26d99-64cd-4e93-baee-3bb0aba872af"
-      },
-      null,
-      null,
-      null,
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "a4f4d004-a27a-4590-977b-32d7eb7c983d"
-      }
-    ],
-    [
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "ea85aa2d-ff1e-4c44-a24d-6cad02bb5ad8"
-      },
-      null,
       null,
       null,
       null,
@@ -430,26 +234,12 @@
         "IsTall": true,
         "Name": "Residence",
         "Point": {
-          "x": 5,
-          "z": 6
+          "x": 1,
+          "z": 12
         },
         "Type": "H",
-        "id": "a3905409-11d1-4726-9197-006857381271"
+        "id": "c68fbaf7-499a-454c-af3a-8e7368b32cf6"
       },
-      {
-        "Name": "",
-        "Point": {
-          "x": 0,
-          "z": 0
-        },
-        "Type": "R",
-        "id": "eea734c9-962c-4344-a3f9-936c449bfb11"
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
       null,
       {
         "Name": "",
@@ -458,7 +248,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "8913e94b-6415-41dd-b6f3-82a7f66353ad"
+        "id": "fcd8b92d-8e59-478c-90f2-c1e3b631ddce"
       }
     ],
     [
@@ -469,7 +259,59 @@
           "z": 0
         },
         "Type": "R",
-        "id": "2d6e0093-c4b5-4000-9e34-0863b244a865"
+        "id": "f331c962-9f73-4c3d-bec2-cc9e27f58cfe"
+      },
+      {
+        "Rating": 0,
+        "Capacity": 50,
+        "IsTall": true,
+        "Name": "Kuhn, Bednar and Nolan",
+        "Point": {
+          "x": 2,
+          "z": 1
+        },
+        "Type": "C",
+        "id": "c1dddf98-4f61-43e0-906e-f37c669f8a75"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "078eee81-592c-42de-a40f-ccc3ab83cea4"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "184b796e-a24f-48de-b2d7-37211e8bd126"
+      }
+    ],
+    [
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "00a5b273-44c9-4a4d-80b1-5dd4f2af8d31"
       },
       {
         "Name": "",
@@ -478,7 +320,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "3d67ad49-d803-419e-9cb3-391a043103fe"
+        "id": "2004eeb7-1395-486a-853e-f7945a534c34"
       },
       {
         "Name": "",
@@ -487,7 +329,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "45c82559-2380-4329-8b37-43bdc78c2a41"
+        "id": "2fd11798-6bc9-43b3-ba17-759795a8c401"
       },
       {
         "Name": "",
@@ -496,7 +338,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "3e5571a2-721f-4adb-a9e9-0b3847ed3887"
+        "id": "b4f71440-5e99-4d5b-8441-b27b24667102"
       },
       {
         "Name": "",
@@ -505,7 +347,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "a835c49b-d086-40ac-a110-001dd42633b2"
+        "id": "01bda9fe-76e3-4589-8169-0150a255dec0"
       },
       {
         "Name": "",
@@ -514,7 +356,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "4fbcfb50-3db6-428a-b5e3-c2b7a92c9286"
+        "id": "f7590844-cdd5-459c-b6f8-23e3c5d0af17"
       },
       {
         "Name": "",
@@ -523,7 +365,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "c63d1318-bb9b-4526-b277-dc5b21fda7fa"
+        "id": "d299e011-ed11-4f4a-90b8-763a64cae437"
       },
       {
         "Name": "",
@@ -532,7 +374,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "ef1fd991-5b69-4777-93ea-701caf18f1b0"
+        "id": "13a5aae1-d518-429c-a3a1-0de3457327f6"
       },
       {
         "Name": "",
@@ -541,7 +383,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "8cfa8410-3c15-4551-b303-b857199d7d5e"
+        "id": "7e2c38c7-7d87-4b69-83ad-8a8610f57f29"
       },
       {
         "Name": "",
@@ -550,7 +392,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "f9b6ef18-867d-411a-8a7c-340fef844af1"
+        "id": "e2cb35e6-6dfd-416d-a554-cd13cfa9cb84"
       },
       {
         "Name": "",
@@ -559,7 +401,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "020ac388-da4a-44fe-865c-6741060ba841"
+        "id": "26e660d9-2316-464b-a2f1-66ca978d8d6d"
       },
       {
         "Name": "",
@@ -568,7 +410,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "ce179e1e-06f1-4dcc-ae10-2642a5de76e5"
+        "id": "eb9157a3-dfc8-4499-b45f-b8614551ba55"
       },
       {
         "Name": "",
@@ -577,7 +419,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "4583b9a1-15ea-4ad3-bafb-a27268f743a5"
+        "id": "433cf64b-e92f-47e1-8044-161ea8a80b7d"
       },
       {
         "Name": "",
@@ -586,7 +428,7 @@
           "z": 0
         },
         "Type": "R",
-        "id": "61b2f039-9f3b-4153-aba7-e0d13a8b2cb3"
+        "id": "41c9f297-363d-4d2e-9e47-550269961274"
       },
       {
         "Name": "",
@@ -595,14 +437,172 @@
           "z": 0
         },
         "Type": "R",
-        "id": "b783b9b1-fe96-472b-8aaa-d33b9a66e347"
+        "id": "5d873f29-8339-4c8b-a9f4-bd7af47be949"
+      }
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "0c9727c6-093e-458b-87a4-23e623b2e6ed"
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "4e7386a0-02ad-4bc5-ae43-4d9acb5c0869"
+      }
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "d4ff8989-4d38-4d8b-a81e-6745dba1ec5d"
+      },
+      null,
+      null,
+      {
+        "Rating": 0,
+        "Capacity": 50,
+        "IsTall": true,
+        "Name": "Spinka - Schuppe",
+        "Point": {
+          "x": 5,
+          "z": 10
+        },
+        "Type": "I",
+        "id": "37f76303-5e8c-4036-bd9c-06c50c71750a"
+      },
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "d9ba52f6-d8f6-4c37-96d4-5dedb13d2d8f"
+      }
+    ],
+    [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "451c91d8-498c-4fe2-90fc-ca75ed868635"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "f68e1e81-da13-4e63-ad57-c297b768b3e0"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "f5133c71-f2e8-4c01-b477-604492e2906d"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "20e10e61-7f01-4201-889a-d96f8b6877f5"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "70a78ef3-dbee-4025-8aaf-95ef68e45888"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "78303cc0-72e8-404f-8db1-641285ed90d7"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "cbc6fd78-a6ae-4247-b8b1-895fc4c2efea"
+      },
+      {
+        "Name": "",
+        "Point": {
+          "x": 0,
+          "z": 0
+        },
+        "Type": "R",
+        "id": "ced38c2d-2098-4905-abc6-a7df3f181fe8"
       }
     ]
   ],
   "BlockMap": [
     [
       {
-        "id": "4464e7cb-7081-4145-93e0-ac8ff1c15d18",
+        "id": "d96484ac-3a99-4dca-bf58-dcdaba613666",
         "StartPoint": {
           "x": 0,
           "z": 0
@@ -610,25 +610,25 @@
         "Type": 2
       },
       {
-        "id": "4975f70e-7b63-4dbc-933c-8cd3b9e69127",
+        "id": "2e8625d3-e5f1-4810-8e2e-04cd07c0cb40",
         "StartPoint": {
           "x": 0,
           "z": 7
         },
-        "Type": 3
+        "Type": 0
       }
     ],
     [
       {
-        "id": "77f6be2b-0d12-44d5-b670-fbd5e76d375c",
+        "id": "5bc75022-b5b1-4c0a-8eaa-9306e4155981",
         "StartPoint": {
           "x": 3,
           "z": 0
         },
-        "Type": 0
+        "Type": 3
       },
       {
-        "id": "c843af29-4e15-4ca0-a130-a38fb1b7a61c",
+        "id": "ae5b950b-782f-4f5b-88c8-46c3eca8ecad",
         "StartPoint": {
           "x": 3,
           "z": 7
