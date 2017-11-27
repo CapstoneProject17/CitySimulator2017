@@ -16,7 +16,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Connor Goudie 2017-11-14</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Block
+    public class Block
     {
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;
@@ -31,7 +31,7 @@ namespace ServerForTheLogic.Infrastructure
         //blocks adjacent to the current one
         public List<Block> Adjacents { get; }
 
-        [JsonProperty]
+        //[JsonProperty]
         //2d array of cells that contain locations
         public Location[,] LandPlot;
 
@@ -51,6 +51,7 @@ namespace ServerForTheLogic.Infrastructure
                 this.StartPoint = StartPoint;
             else
                 throw new InvalidOperationException("must pass in a start point");
+
             LandPlot = new Location[BLOCK_WIDTH, BLOCK_LENGTH];
             Adjacents = new List<Block>();
             Type = BlockType.Empty;

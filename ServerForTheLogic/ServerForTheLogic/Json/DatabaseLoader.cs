@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using ServerForTheLogic.Infrastructure;
+using ServerForTheLogic.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +12,7 @@ namespace ServerForTheLogic.Json
     /// <summary>
     /// Loads the state of the city stored on the database
     /// </summary>
-    class DatabaseLoader
+    public class DatabaseLoader
     {
         /// <summary>
         /// Loads city from database

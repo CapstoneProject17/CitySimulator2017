@@ -13,7 +13,7 @@ using Bogus;
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class City
+    public class City
     {
 
         public static int FIXED_CAPACITY = 50;
@@ -42,32 +42,28 @@ namespace ServerForTheLogic
         public Queue<Block> ResidentialBlocksToFill { get; set; }
 
 
-        [JsonProperty]
         /// <summary>
         /// Max width of the city grid
         /// </summary>
-        public const int CITY_WIDTH = 58;
-        [JsonProperty]
+        public const int CITY_WIDTH = 7;//58;
+
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 99;
+        public const int CITY_LENGTH = 15;//99;
 
         [JsonProperty]
         /// <summary>
         /// List of all homes in the city
         /// </summary>
         public List<Residential> Homes { get; set; }
-        //[JsonProperty]
-        /// <summary>
-        /// List of all places of work in the city
-        /// </summary>
-        //public List<Business> Workplaces { get; set; }
+
         [JsonProperty]
         /// <summary>
         /// List of all inhabitants of the city
         /// </summary>
         public List<Person> AllPeople { get; set; }
+
         /// <summary>
         /// Every hour, send the nested dictionary to the network queue
         /// </summary>
@@ -82,10 +78,13 @@ namespace ServerForTheLogic
         /// Dictionary of all people to send to clients when they connect
         /// </summary>
         public Dictionary<Guid, Point> OnLoadPeople { get; set; }
+
+        [JsonProperty]
         /// <summary>
         /// The grid that all buildings/roads/people exist in
         /// </summary>
         public Location[,] Map { get; set; }
+
         [JsonProperty]
         /// <summary>
         /// 2D array of city blocks, this is for easier city expansion
@@ -95,6 +94,7 @@ namespace ServerForTheLogic
         public Block[,] BlockMap { get; set; }
 
         public List<Block> assignedBlocks { get; set; }
+
         [JsonProperty]
         /// <summary>
         /// Clock to keep track of the time that 
@@ -198,9 +198,6 @@ namespace ServerForTheLogic
 
             expandCity(BlockType.Commercial);
             expandCity(BlockType.Residential);
-
-
-
         }
 
         /// <summary>
@@ -591,6 +588,5 @@ namespace ServerForTheLogic
         }
 
     }
-
 
 }

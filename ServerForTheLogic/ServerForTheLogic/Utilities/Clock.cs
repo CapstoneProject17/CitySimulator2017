@@ -17,7 +17,7 @@ namespace ServerForTheLogic.Utilities
     /// Holds the current time.  Intended for use by the City.
     /// <para/> Last edited:  2017-10-02
     /// </summary>
-    class Clock
+    public class Clock
     {
         [JsonProperty]
         // Ticks every second to update the current time values.
@@ -84,13 +84,8 @@ namespace ServerForTheLogic.Utilities
         /// <param name="e"> Unused .</param>
         private void tickMinute(Object source, ElapsedEventArgs e)
         {
-
             netMinutes++;
-            Console.WriteLine("Mins:\t" + netMinutes);
-            /*for (int i = 0; i < 5; ++i)
-            {
-                city.CreatePerson();
-            }*/
+            //Console.WriteLine("Mins:\t" + netMinutes);
 
             if (netMinutes / 60 > netHours)
             {
@@ -108,7 +103,7 @@ namespace ServerForTheLogic.Utilities
         {
             netHours = netMinutes / 60;
             Console.WriteLine("Hours:\t" + netHours);
-            Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+            //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             
             Console.WriteLine("Population = " + city.AllPeople.Count);

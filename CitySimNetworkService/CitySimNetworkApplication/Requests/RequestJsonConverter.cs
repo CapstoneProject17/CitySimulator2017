@@ -4,6 +4,16 @@ using Newtonsoft.Json.Linq;
 
 namespace CitySimNetworkService
 {
+    /// <summary>
+    /// <Module>Networking Server Connection</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Json Converter to handle converting into different types of requests</Description>
+    /// <Author>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Initial creation of request coverter</ChangeLog>
+    /// <Date>November 01, 2017</Date>
+    /// </Author>
+    /// </summary>
     public class RequestJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
