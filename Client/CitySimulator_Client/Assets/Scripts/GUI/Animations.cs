@@ -10,7 +10,9 @@ using System.Collections;
 /// Modified by:
 ///     Author: Benjamin Hao Change: Change this class from Rotate to Animation, which will
 ///         handle all the animation in the future. Date: 31.10.2017
+///     Author: Benjamin Hao Change: Added facingCamera animation   Date: 2017-11-25
 /// Based on: https://docs.unity3d.com/ScriptReference/Transform.Rotate.html
+///           https://www.youtube.com/watch?v=SmG52MBWAy4
 /// </summary>
 
 public class Animations : MonoBehaviour
@@ -19,7 +21,8 @@ public class Animations : MonoBehaviour
     public enum Animation
     {
         None,
-        Rotate
+        Rotate,
+        facingCamera
     } // can add other animations later, eg. scaling
 
     public Animation Type;
@@ -34,7 +37,7 @@ public class Animations : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(Type)
+        switch (Type)
         {
             default:
             case Animation.None:
@@ -42,7 +45,10 @@ public class Animations : MonoBehaviour
             case Animation.Rotate:
                 transform.Rotate(Action * Time.deltaTime);
                 break;
-            //case Animation.Scale:
+            case Animation.facingCamera:
+                transform.LookAt(Camera.main.transform.position, Vector3.up);
+                break;
+                //case Animation.Scale:
         }
     }
 }
