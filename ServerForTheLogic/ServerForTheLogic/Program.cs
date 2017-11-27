@@ -84,11 +84,11 @@ namespace ServerForTheLogic
                 }
 
                 city.printCity();
-                Updater<City> updater = new Updater<City>();
+                //Updater<City> updater = new Updater<City>();
                 JsonSerializerSettings settings = new JsonSerializerSettings();
                 settings.Converters.Add(new LocationConverter());
 
-                city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
+                //city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
                 city.printCity();
 
                 test2();

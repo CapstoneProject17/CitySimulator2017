@@ -103,7 +103,7 @@ namespace ServerForTheLogic.Utilities
         {
             netHours = netMinutes / 60;
             Console.WriteLine("Hours:\t" + netHours);
-            Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+            //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             
             Console.WriteLine("Population = " + city.AllPeople.Count);
