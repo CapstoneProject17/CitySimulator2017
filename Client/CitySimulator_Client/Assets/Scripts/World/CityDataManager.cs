@@ -310,7 +310,11 @@ public class CityDataManager : MonoBehaviour {
                 break;
             }
 
-            grid[building.Point.x][building.Point.z] = type;
+            if(building.Point.x < size_x || building.Point.y < size_y){
+                grid[building.Point.x][building.Point.z] = type;
+            } else {
+                Debug.Log("CityDataManager: building.Point is out of bound!!");
+            }
         }
     }
 
