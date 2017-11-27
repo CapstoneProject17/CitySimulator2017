@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace CitySimNetworkService
@@ -55,8 +56,19 @@ namespace CitySimNetworkService
         /// </returns>
         public string GetPartialStateByID(int id)
         {
-            //var state = queue.Where((JsonObject s) => (s[id] == id)).FirstOrDefault();
-            return "";
+            lock (lockObject)
+            {
+                foreach (string s in queue)
+                {
+                    JObject o = JObject.Parse(s);
+                    if((int)o["id"]== id)
+                    {
+                        return s;
+                    }
+                }
+
+                return @"type: 'Error', message: 'Update not found'";
+            }
         }
 
         /// <summary>

@@ -8,7 +8,6 @@ namespace CitySimNetworkService
     /// <summary> 
     /// Contains a function to specify database and simulation handlers, and another to parse requests.
     /// </summary>
-    /// 
     /// <author>
     /// Harman Mahal
     /// </author>
