@@ -13,7 +13,7 @@ using Bogus;
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class City
+    public class City
     {
 
         public static int FIXED_CAPACITY = 50;

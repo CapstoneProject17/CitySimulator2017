@@ -14,7 +14,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Written by Chandu Dissanayake, Justin McLennan, Connor Goudie 2017-11-08</para>
     /// <para>Last modified by Connor Goudie 2017-11-14</para>
     /// </summary>
-    class Business : Building, ICustomer
+    public class Business : Building, ICustomer
     {
         //base amount of money all businesses start with
         public static int FIXED_FUNDS = 20000;

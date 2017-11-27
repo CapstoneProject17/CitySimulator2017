@@ -17,7 +17,7 @@ namespace ServerForTheLogic.Utilities
     /// Holds the current time.  Intended for use by the City.
     /// <para/> Last edited:  2017-10-02
     /// </summary>
-    class Clock
+    public class Clock
     {
         [JsonProperty]
         // Ticks every second to update the current time values.

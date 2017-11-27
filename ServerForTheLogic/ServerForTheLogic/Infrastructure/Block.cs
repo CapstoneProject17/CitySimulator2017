@@ -16,7 +16,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Connor Goudie 2017-11-14</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Block
+    public class Block
     {
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;

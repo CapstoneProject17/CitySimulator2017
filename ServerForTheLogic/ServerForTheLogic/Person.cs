@@ -15,7 +15,7 @@ using ServerForTheLogic.Econ;
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class Person : ICustomer
+    public class Person : ICustomer
     {
 
         private const int MEAN_DEATH_AGE = 80;

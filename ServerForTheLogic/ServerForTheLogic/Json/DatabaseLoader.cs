@@ -12,7 +12,7 @@ namespace ServerForTheLogic.Json
     /// <summary>
     /// Loads the state of the city stored on the database
     /// </summary>
-    class DatabaseLoader
+    public class DatabaseLoader
     {
         /// <summary>
         /// Loads city from database

@@ -38,8 +38,8 @@ namespace ServerForTheLogic
 
             //city.printBlockMapTypes();
             city.printCity();
-            Updater<City> updater = new Updater<City>();
-            updater.sendFullUpdate(city, Formatting.Indented);
+            //Updater<City> updater = new Updater<City>();
+            //updater.sendFullUpdate(city, Formatting.Indented);
             //foo();
             test2();
             GetInput();

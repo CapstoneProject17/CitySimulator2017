@@ -12,7 +12,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Written by Chandu Dissanayake, Connor Goudie 2017-10-02</para>
     /// <para>Last modified by Connor Goudie 2017-11-14</para>
     /// </summary>
-    class Building : Location
+    public class Building : Location
     {
         [JsonProperty]
         // the quality of the building 1-3, 1 being the lowest quality

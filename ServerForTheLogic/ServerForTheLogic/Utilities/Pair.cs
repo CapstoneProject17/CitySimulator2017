@@ -12,7 +12,7 @@ namespace ServerForTheLogic.Utilities
     /// <para>Written by Connor Goudie </para>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="R"></typeparam>
-    class Pair<T,R>
+    public class Pair<T,R>
     {
         public T First { get; set; }
         public R Second { get; set; }
