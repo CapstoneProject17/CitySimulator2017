@@ -57,9 +57,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\DAL\DataAccessLayer\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{14437fc5-5c8d-4302-8c0d-61565124c8a6}</Project>
       <Name>DataAccessLayer</Name>
@@ -68,6 +65,9 @@
       <Project>{8DC8959F-95EA-4D79-8298-406FF9067717}</Project>
       <Name>CitySimNetworkingApplication</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

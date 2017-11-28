@@ -156,7 +156,7 @@ namespace ServerForTheLogic
                 setAdjacents(b);
             }
             //starts clock 
-            clock = new Clock(this);
+            clock = new Clock(this, full, partial);
 
             //sets initial state
             initialBlockAdd();

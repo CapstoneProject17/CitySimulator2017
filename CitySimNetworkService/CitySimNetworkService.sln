@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkService", "CitySimNetworkService\CitySimNetworkService.csproj", "{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}"
 EndProject

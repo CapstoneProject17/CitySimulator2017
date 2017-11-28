@@ -78,9 +78,8 @@ namespace ServerForTheLogic.Json
             }
 
             //UPDATER TRY
-            Updater<ClientPacket> updater = new Updater<ClientPacket>();
-            updater.sendFullUpdate(this, Formatting.Indented);
-
+            //Updater<ClientPacket> updater = new Updater<ClientPacket>();
+            //updater.sendFullUpdate(this, Formatting.Indented);
 
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();

@@ -52,18 +52,10 @@ namespace CitySimNetworkService
 
             DatabaseLoader loader = new DatabaseLoader();
             city = loader.loadCity();
-            // Block b, b1, b2;
             if (city == null)
             {
-                //TEST DATA 
-                city = new City();
-                //fill 3 blocks
-
+                city = new City(fullUpdateQueue, partialUpdateQueue);
             }
-
-            //city.printBlockMapTypes();
-            city.printCity();
-            updater = new Updater<City>(partialUpdateQueue, fullUpdateQueue);
         }
 
         /// <summary>
@@ -76,7 +68,7 @@ namespace CitySimNetworkService
         protected override void OnStart(string[] args)
         {
             connectionHandler.StartListening();
-            updater.SendFullUpdate(city, Formatting.Indented);
+            //Call city start here 
         }
 
         /// <summary>

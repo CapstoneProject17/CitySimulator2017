@@ -151,7 +151,7 @@ namespace ServerForTheLogic.Utilities
                 TickYear();
             }
 
-            FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
+            FullUpdater.sendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
 
         /// <summary>
