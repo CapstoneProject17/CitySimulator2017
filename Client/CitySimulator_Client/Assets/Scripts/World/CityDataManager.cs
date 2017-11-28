@@ -117,7 +117,6 @@ public class CityDataManager : MonoBehaviour
     // deserialize json to object
     private CityData cityData = JsonUtility.FromJson<CityData>(jsonString);
 
-    // switch for testing
     public bool turnOnTestGrid;
     // update trigger
     public bool updateTheCity;
@@ -133,6 +132,14 @@ public class CityDataManager : MonoBehaviour
 
     // population of the city
     private int population = 1000;
+
+    public GameObject buildingManager;
+
+    public GameObject characterManager;
+
+    // Store human references here for easy access
+    private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
+    
 
     /// <summary>
     /// Gets the population.
@@ -226,8 +233,8 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-    // Store human references here for easy access
-    private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
+    bool runOnce = true;
+
     /// <summary>
     /// Gets or sets the humans.
     /// </summary>
@@ -242,11 +249,6 @@ public class CityDataManager : MonoBehaviour
         {
             humans = value;
         }
-    }
-
-    private void Start()
-    {
-        InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
     }
 
     private void GetCityUpdate()
@@ -268,12 +270,12 @@ public class CityDataManager : MonoBehaviour
     {
 
     }
+	
 
-    /// <summary>
-    // Awake this instance.
-    /// </summary>
-    void Awake()
-    {
+	/// <summary>
+	// Awake this instance.
+	/// </summary>
+	void Awake () {
 
         // TODO: Server request initial
         SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
@@ -282,12 +284,14 @@ public class CityDataManager : MonoBehaviour
             FullUpdate = true
         };
 
+        NetworkConnectionHandler.ConnectToServer();
         initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
 
         initiateCityData();
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = false;
+
         if (turnOnTestGrid)
         { // if turned on for test, initiate test grid
             initiateGridForTest();
@@ -300,27 +304,55 @@ public class CityDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update this instance.
+    // Start this instance.
     /// </summary>
-    void Update()
-    {
-        /// Will be used in the future
-        systemCurrentTimeStamp = System.DateTime.Now.Minute;
+    void Start () {
+        InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
+        buildingManager = GameObject.Find("BuildingManager");
+        characterManager = GameObject.Find("CharacterManager");
+    }
 
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
+	void Update(){
+		/// Will be used in the future
+		systemCurrentTimeStamp = System.DateTime.Now.Minute;
+
+        // TODO: request update
+
+		// if(initateCity){
+  //           if(turnOnTestGrid){ // if turned on for test, initiate test grid
+  //               initiateGridForTest();
+  //           }
+
+  //           if(buildingManager != null
+  //               && characterManager != null){
+
+  //               if(runOnce){
+  //                   buildingManager.createBuilding("TESTGUID", 1, 1, 2, 2);
+  //                   runOnce = false;
+  //               }
+  //           }
+		// }
+
+        if(runOnce){
+            buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
+            runOnce = false;
+        }
+        
         if (updateTheCity)
         {
             cityData = JsonUtility.FromJson<CityData>(partialCityState);
             lastUpdate = cityData.netHours;
             //Update the city with the latest city data
             updateTheCity = false;
+
         }
 
-        // Debug.Log(systemStartedTimeStamp);
-        // Debug.Log(systemCurrentTimeStamp);
-    }
+	}
 
-    public void initiateCityData()
-    {
+    public bool initiateCityData(){
         size_z = cityData.GridLength;
         size_x = cityData.GridWidth;
 
@@ -391,6 +423,7 @@ public class CityDataManager : MonoBehaviour
                 Debug.Log("CityDataManager: building.Point is out of bound!!");
             }
         }
+        return true;
     }
 
     /// <summary>
@@ -477,12 +510,10 @@ public class CityDataManager : MonoBehaviour
         return grid[x][z];
     }
 
-
-    /// <summary>
-    /// Turns on updateTheCity to update city 
-    /// </summary>
-    public void noticeUpdate()
-    {
-        updateTheCity = true;
-    }
+	/// <summary>
+	/// Turns on updateTheCity to update city 
+	/// </summary>
+	public void noticeUpdate(){
+		updateTheCity = true;
+	}
 }
