@@ -96,11 +96,15 @@ public class Client : MonoBehaviour
 
     private void OnIncomingData(string data)
     {	
-        if (data == "%NAME")
-        {
-            Send("&NAME| " + clientName);
-            return;
-        }
+//        if (data == "%NAME")
+//        {
+//            Send("&NAME| " + clientName);
+//            return;
+//        }
+
+		//detect data and parse into an object
+		DataManager.ToObject(data);
+
 
         GameObject go = Instantiate(messagePrefab, chatContainer.transform);
         go.GetComponentInChildren<Text>().text = data;

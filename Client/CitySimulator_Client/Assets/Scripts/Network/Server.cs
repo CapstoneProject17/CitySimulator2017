@@ -34,7 +34,6 @@ public class Server : MonoBehaviour {
 	///  Use this for initialization
 	/// </summary>
 	void Start () {
-		
 		clients = new List<ServerClient> ();
 		disconnnectList = new List<ServerClient> ();
 
