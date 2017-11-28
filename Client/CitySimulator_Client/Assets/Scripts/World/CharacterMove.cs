@@ -9,7 +9,8 @@ using UnityEngine;
 /// Author: 
 ///	 Name: Lancelei Herradura   Date: 2017-11-13
 /// Modified by:
-///  Name: Lancelei Herradura	Date: 2017-11-25 
+///  Name: Lancelei Herradura	Change:	All calls happen in update	Date: 2017-11-25
+///  Name: Lancelei Herradura	Change: Got rid of new object bug	Date: 2017-11-27
 /// Based on:  How to Do PATHFINDING: The Basics (Graphs, BFS, and DFS in Unity) 
 /// https://www.youtube.com/watch?v=WvR9voi0y2I
 /// GitHub Username: anneomcl
@@ -100,7 +101,6 @@ public class CharacterMove : MonoBehaviour {
 		Vector3 targetDir;
 		Vector3 newDir;
 		float step = Time.deltaTime * speed;
-
 		bfs.Move ();
 
 		targetDir = bfs.CurrentPlane.transform.position - transform.position;
@@ -126,8 +126,8 @@ public class CharacterMove : MonoBehaviour {
 				bfs.PathIndex = bfs.Path.Count - 1;
 			}
 		}
-	}
 
+	}
 
 
 	// Use when CityDataManager is object
@@ -155,15 +155,14 @@ public class CharacterMove : MonoBehaviour {
 	/// </summary>
 	/// <returns>The current plane.</returns>
 	GameObject findCurrentPlane() {
-		GameObject curr = new GameObject ();
 		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
 
 		foreach (GameObject plane in planes) {
 			if (plane.transform.position.Equals (this.transform.position))
-				curr = plane;
+				return plane;
 		}
 
-		return curr;
+		return null;
 
 	}
 
