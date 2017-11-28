@@ -54,5 +54,15 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public Building() : base()
         { }
+
+        public Building(Building building)
+        {
+            this.id = building.id;
+            this.Name = building.Name;
+            this.Point = building.Point;
+            this.Type = building.Type;
+            this.Rating = building.Rating;
+            this.IsTall = building.IsTall;
+        }
     }
 }
