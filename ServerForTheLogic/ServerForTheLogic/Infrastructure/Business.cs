@@ -17,25 +17,25 @@ namespace ServerForTheLogic.Infrastructure
     public class Business : Building, ICustomer
     {
         //base amount of money all businesses start with
-        public static int FIXED_FUNDS = 20000;
+        public int FIXED_FUNDS = 20000;
 
-        //minum number of a single product allowed to be in inventory until more are ordered
-        public const int MINIMUM_VALUE = 5;
+        //minum number of a single product allowed to be in Inventory until more are ordered
+        public const int MINIMUM_VALUE = 1000;
 
         //Multiplier that increases or decreases worker wage
         public double WageMultiplier { get; set; }
 
         //average salary of workers
-        public int AvgWorkerSalary { get; set; }
+        public int TotalPayout { get; set; }
 
         //list of all current employees
         public List<Person> workers { get; set; }
 
         //products currently being sold
-        public Dictionary<Product, int> inventory { get; set; }
+        public double Inventory { get; set; }
 
         //current bank account balance
-        public int Funds { get; set; }
+        public double Funds { get; set; }
 
         /// <summary>
         /// Default constructor for a Business
@@ -46,7 +46,6 @@ namespace ServerForTheLogic.Infrastructure
             Funds = FIXED_FUNDS;
             WageMultiplier = 0.5;
             workers = new List<Person>();
-            inventory = new Dictionary<Product, int>();
         }
 
         /// <summary>
@@ -62,32 +61,19 @@ namespace ServerForTheLogic.Infrastructure
             Funds = FIXED_FUNDS;
             WageMultiplier = 0.5;
             workers = new List<Person>();
-            inventory = new Dictionary<Product, int>();
 
             //ONLY RUN ONCE NOW BECAUSE ONLY ONE PRODUCT
-            AddProductToInventory();
+            //AddProductToInventory();
         }
 
         /// <summary>
-        /// Adds a product that exists in the world market, but is not currently in 
-        /// this businesses' inventory.
+        /// Adds a product that exists in the world market.
         /// <para>Written by Chandu Dissanayake, Justin McLennan, Andrew Busto 2017-11-08</para>
         /// <para>Last modified by Andrew Busto 2017-11-14</para>
         /// </summary>
-        public virtual void AddProductToInventory()
+        public void GlobalInventory()
         {
-            //Console.WriteLine(Market.ProductsInDemand + "  " + Market.ProductsInDemand.Count);
-            if (Market.ProductsInDemand != null && Market.ProductsInDemand.Count > 0)
-            {
-                foreach (Product p in Market.ProductsInDemand)
-                {
-                    if (!inventory.ContainsKey(p))
-                    {
-                        inventory.Add(p, MINIMUM_VALUE);
-                        return;
-                    }
-                }
-            }
+            
         }
 
         /// <summary>
@@ -106,20 +92,20 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public void PayEmployees()
         {
-            if (AvgWorkerSalary == 0)
-            {
-                AvgWorkerSalary = (int)((WageMultiplier) * Funds) / (workers.Count);
-                //MAYBE SET MONTHLY INCOME FOR EMPLOYEES
-            }
-            while (AvgWorkerSalary * (workers.Count) > Funds)
-            {
-                //FIRE PPL
-            }
+            int TotalPayout = 0;
+            //can't go backwards
+            //while (AvgWorkerSalary * (workers.Count) > Funds)
+            //{
+            //    //FIRE PPL
+            //}
             foreach (Person w in workers)
             {
-                w.Funds += AvgWorkerSalary;
-                Funds -= AvgWorkerSalary;
+                w.Funds += w.Salary;
+                Funds -= w.Salary;
+                TotalPayout += w.Salary;
+                
             }
+            Console.WriteLine(Name + ": Monthly Payout :" + TotalPayout);
         }
     }
 }

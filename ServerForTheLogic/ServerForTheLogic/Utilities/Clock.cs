@@ -92,7 +92,7 @@ namespace ServerForTheLogic.Utilities
         public void TickMinute(Object source, ElapsedEventArgs e)
         {
             NetMinutes++;
-            Console.WriteLine("Mins:\t" + NetMinutes);
+            //Console.WriteLine("Mins:\t" + NetMinutes);
 
             if (NetMinutes / 60 > NetHours)
             {
@@ -109,7 +109,7 @@ namespace ServerForTheLogic.Utilities
         private void TickHour()
         {
             NetHours = NetMinutes / 60;
-            Console.WriteLine("Hours:\t" + NetHours);
+            //Console.WriteLine("Hours:\t" + NetHours);
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             Console.WriteLine("Population = " + city.AllPeople.Count);

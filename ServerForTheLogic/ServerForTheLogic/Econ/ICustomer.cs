@@ -13,6 +13,8 @@ namespace ServerForTheLogic.Econ
     interface ICustomer
     {
         //amount of money a customer has
-        int Funds { get; set; }
+        double Funds { get; set; }
+        //amount of product
+        double Inventory { get; set; }
     }
 }

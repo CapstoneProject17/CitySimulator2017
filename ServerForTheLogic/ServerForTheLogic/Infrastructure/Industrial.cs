@@ -16,8 +16,6 @@ namespace ServerForTheLogic.Infrastructure
     /// </summary>
     class Industrial : Business
     {
-        //Products currently generated and sold to other businesses
-        public Dictionary<Product, int> Supplies { get; set; }
 
         /// <summary>
         /// Default constructor for industrial buildings
@@ -27,8 +25,6 @@ namespace ServerForTheLogic.Infrastructure
         public Industrial() : base()
         {
             this.Type = "I";
-            Supplies = new Dictionary<Product, int>();
-            CreateProducts();
         }
 
         /// <summary>
@@ -42,10 +38,11 @@ namespace ServerForTheLogic.Infrastructure
         public Industrial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
             this.Type = "I";
-            Supplies = new Dictionary<Product, int>();
+
             Market.IndustrialBusinesses.Add(this);
-            Market.BusinessesHiring.Add(this);
-            CreateProducts();
+
+            //this command makes them hiring
+            //Market.BusinessesHiring.Add(this);
         }
 
         /// <summary>
@@ -55,24 +52,10 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public void CreateProducts()
         {
-            int NumProductsPerDay = 0;
-            List<Product> productsNeeded = new List<Product>();
 
-            foreach (KeyValuePair<Product, int> p in inventory)
-            {
-                //if (p.Value < MINIMUM_VALUE)
-                //{
-                productsNeeded.Add(p.Key);
-                //}
+            Inventory += workers.Count * 4;
+            Market.IndStock += workers.Count * 4;
 
-            }
-
-            foreach (Product p in productsNeeded)
-            {
-                NumProductsPerDay = 10;//(int)((workers.Count / p.ManufacturingPrice) * p.WholesalePrice);
-                inventory[p] += NumProductsPerDay;
-                Funds -= (int)(NumProductsPerDay * p.ManufacturingPrice);
-            }
         }
 
         /// <summary>
@@ -82,21 +65,6 @@ namespace ServerForTheLogic.Infrastructure
         public override void FillInventory()
         {
             CreateProducts();
-        }
-
-        /// <summary>
-        /// Generate more of a sinle product, if it exists in current inventory.
-        /// <para>Written by Andrew Busto 2017-11-08</para>
-        /// </summary>
-        /// <param name="product"></param>
-        public void CreateProduct(Product product)
-        {
-            if (inventory.ContainsKey(product))
-            {
-                int NumProductsPerDay = (int)((workers.Count / product.ManufacturingPrice) * product.WholesalePrice);
-                inventory[product] += NumProductsPerDay;
-                Funds -= (int)(NumProductsPerDay * product.ManufacturingPrice);
-            }
         }
     }
 }

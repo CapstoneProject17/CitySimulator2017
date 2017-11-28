@@ -20,7 +20,11 @@ namespace ServerForTheLogic
 
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
-        public int Funds { get; set; }
+        public double Funds { get; set; }
+        /// <summary>
+        /// Number of Products the person owns
+        /// </summary>
+        public double Inventory { get; set; }
         [JsonProperty]
         /// <summary>
         /// ID for database
@@ -96,10 +100,7 @@ namespace ServerForTheLogic
         /// </summary>
         public int Salary;
 
-        /// <summary>
-        /// Number of Products the person owns
-        /// </summary>
-        public int NumProducts;
+        
 
 
         public bool isDead;
@@ -119,7 +120,7 @@ namespace ServerForTheLogic
             isDead = false;
             //consumption created
             DailyConsumption();
-            NumProducts = 0;//ToBuy();
+            Inventory = 0;//ToBuy();
             //Big expense created
             BigExpense();
             //Calculate Salary
@@ -212,14 +213,15 @@ namespace ServerForTheLogic
         /// Last modified by Justin McLennan 2017-11-21</para>
         public void BuyThings()
         {
+            int amount = ToBuy();
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
-            if (Funds >= Market.Products[rand].RetailPrice)
+            if (Funds >= Market.Products[rand].RetailPrice * amount)
             {
-                Order order = new Order(Market.Products[rand], ToBuy(), this);
+                Order order = new Order(Market.Products[rand], amount, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
                 Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
-                NumProducts += order.Amount;
+                Inventory += order.Amount;
             }
         }
         /// <summary>
@@ -234,11 +236,11 @@ namespace ServerForTheLogic
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         public void ConsumeProd() {
-            if (NumProducts > DCR)
-                NumProducts -= DCR;
+            if (Inventory > DCR)
+                Inventory -= DCR;
             else {
                 BuyThings();
-                NumProducts -= DCR;
+                Inventory -= DCR;
             }
 
             

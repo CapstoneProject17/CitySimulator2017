@@ -18,7 +18,8 @@ namespace ServerForTheLogic.Econ
         //All business [maybe used for GDP calc]
         public static List<Business> Businesses { get; set; }
         //products Users would like to consume
-        public static List<Product> ProductsInDemand { get; set; }
+        public static int ComStock { get; set; }
+        public static int IndStock { get; set; }
         public static List<Product> Products { get; set; }
         //public static List<Product> RawMaterials { get; set; }
         /// <summary>
@@ -26,24 +27,17 @@ namespace ServerForTheLogic.Econ
         /// </summary>
         static Market()
         {
-            ProductsInDemand = new List<Product>();
+
             Products = new List<Product>();
             Businesses = new List<Business>();
             IndustrialBusinesses = new List<Business>();
             BusinessesHiring = new List<Business>();
             CommercialBusinesses = new List<Business>();
-            // RawMaterials = new List<Product>();
+            Product Life = new Product("Life", 20, 30);
+            Products.Add(Life);
+            ComStock = 0;
+            IndStock = 0;
 
-            Product meme = new Product("Meme", 10, 20, 30);
-            //RawMaterials.Add(meme);
-            ProductsInDemand.Add(meme);
-            Products.Add(meme);
-
-            //RawMaterials.Add(new Product("Metal", 20));
-            //RawMaterials.Add(new Product("Cotton", 10));
-            //RawMaterials.Add(new Product("Water", 10));
-            //RawMaterials.Add(new Product("Silk", 10));
-            //RawMaterials.Add(new Product("Plastic", 10));
         }
 
         /// <summary>
@@ -55,46 +49,99 @@ namespace ServerForTheLogic.Econ
         /// <param name="SellerList">Either list of Commercial buildings or list of Industrial buildings depending on who is purchasing</param>
         public static void ProcessOrder(Order order, List<Business> SellerList)
         {
-            int quantityOrdered = order.Amount;
-            ICustomer buyer = order.Sender;
-            //Console.WriteLine("Businesses available " + SellerList.Count);
-            int transfer;
-            for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
+            int NumOrdered = order.Amount;
+            ICustomer buyer = order.Buyer;
+            int NumofSellers = SellerList.Count;
+            Business first = SellerList.First();
+            double NumPerSeller = NumOrdered / NumofSellers;
+
+
+            if (first.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
             {
-                Business seller = SellerList[i];
-                //If business carries product being ordered
-                if (seller.inventory.ContainsKey(order.OrderProduct))
+                while (Market.ComStock < NumOrdered)
                 {
-                    int amountAvailable = seller.inventory[order.OrderProduct];
-                    //if seller does not have enough to complete order.
-                    if (amountAvailable < quantityOrdered)
+                    foreach (Business b in SellerList)
                     {
-                        transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
-                        seller.inventory[order.OrderProduct] -= amountAvailable;
-                        //seller needs to order more
-                        seller.FillInventory();
-                        quantityOrdered -= amountAvailable;
-                        //b.inventory[order.OrderProduct] -= amountAvailable;
-                        seller.Funds += transfer;
-                        buyer.Funds -= transfer;
-                    }
-                    //if seller can complete order
-                    else if (amountAvailable >= quantityOrdered)
-                    {
-                        transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);
-                        seller.inventory[order.OrderProduct] -= quantityOrdered;
-                        quantityOrdered = 0;
-                        //b.inventory[order.OrderProduct] -= amountAvailable;
-                        seller.Funds += transfer;
-                        buyer.Funds -= transfer;
-
-
+                        b.FillInventory();
                     }
                 }
+                Market.ComStock -= NumOrdered;
+                buyer.Funds -= NumOrdered * order.OrderProduct.RetailPrice;
+                buyer.Inventory += NumOrdered;
+                foreach (Business b in SellerList)
+                {
+                    b.Inventory -= NumPerSeller;
+                    b.Funds += NumPerSeller * order.OrderProduct.RetailPrice;
+                }
+                
+            } else
+            {
+
             }
+            
+
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Console.WriteLine("Businesses available " + SellerList.Count);
+            //int transfer;
+            //for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
+            //{
+            //    Business seller = SellerList[i];
+            //    //If business carries product being ordered
+
+            //    int amountAvailable = seller.Inventory.Amount;
+            //    //if seller does not have enough to complete order.
+            //    if (amountAvailable < quantityOrdered)
+            //    {
+            //        transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
+            //        seller.Inventory.Amount -= amountAvailable;
+            //        //seller needs to order more
+            //        seller.FillInventory();
+            //        quantityOrdered -= amountAvailable;
+            //        //b.Inventory[order.OrderProduct] -= amountAvailable;
+            //        seller.Funds += transfer;
+            //        buyer.Funds -= transfer;
+            //    }
+            //    //if seller can complete order
+            //    else if (amountAvailable >= quantityOrdered)
+            //    {
+            //        transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);
+            //        seller.Inventory.Amount -= quantityOrdered;
+            //        quantityOrdered = 0;
+            //        //b.Inventory[order.OrderProduct] -= amountAvailable;
+            //        seller.Funds += transfer;
+            //        buyer.Funds -= transfer;
+
+
+            //    }
+
+            //}
 
         }
-
-
     }
 }
