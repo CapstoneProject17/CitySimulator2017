@@ -14,6 +14,7 @@ using UnityEngine;
 ///  Name: N/A   Change: N/A         Date: N/A
 /// Based on:  N/A
 /// </summary>
+
 [Serializable]
 public class Point{
 
@@ -98,6 +99,7 @@ public class CityData{
 ///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
 ///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
 ///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 Date: 2017-11-13
+///  Name Lancelei Herradura	Change: Add human dictionary Date: 2017-11-25
 /// Based on:  N/A
 /// </summary>
 public class CityDataManager : MonoBehaviour {
@@ -201,11 +203,29 @@ public class CityDataManager : MonoBehaviour {
 			path = value;
 		}
 	}
+
+	// Store human references here for easy access
+	private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
+	/// <summary>
+	/// Gets or sets the humans.
+	/// </summary>
+	/// <value>The humans.</value>
+	public Dictionary<int, GameObject> Humans {
+		get {
+			return humans;
+		}
+		set {
+			humans = value;
+		}
+	}
 	
 	/// <summary>
 	// Awake this instance.
 	/// </summary>
 	void Awake () {
+
+        // TODO: Server request initial
+
         initiateCityData();
 
 		systemStartedTimeStamp =  System.DateTime.Now.Minute;
@@ -226,6 +246,9 @@ public class CityDataManager : MonoBehaviour {
 	void Update(){
 		/// Will be used in the future
 		systemCurrentTimeStamp = System.DateTime.Now.Minute;
+
+        // TODO: request update
+
 
 		if(updateTheCity){
 
@@ -294,7 +317,11 @@ public class CityDataManager : MonoBehaviour {
                 break;
             }
 
-            grid[building.Point.x][building.Point.z] = type;
+            if(building.Point.x < size_x || building.Point.z < size_z){
+                grid[building.Point.x][building.Point.z] = type;
+            } else {
+                Debug.Log("CityDataManager: building.Point is out of bound!!");
+            }
         }
     }
 
