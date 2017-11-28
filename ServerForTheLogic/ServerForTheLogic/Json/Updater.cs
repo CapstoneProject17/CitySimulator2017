@@ -27,7 +27,7 @@ namespace ServerForTheLogic.Json
             partialUpdateQueue = _partial;
             fullUpdateQueue = _full;
         }
-    
+
 
         /// <summary>
         /// Send a partial update from the simulator to clients. A partial update
@@ -49,14 +49,25 @@ namespace ServerForTheLogic.Json
         /// <param name="sendableData"> The data to be serealized. </param>
         /// <param name="formatting"> The formatting rules to be followed in serealization. </param>
         /// <returns> The serialized Json string (for testing) </returns>
-        public string sendFullUpdate(T sendableData, Formatting formatting)
+        public void SendFullUpdate(T sendableData, Formatting formatting)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
-            JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, settings));
-            System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
-            fullUpdateQueue.Enqueue(dataToSend.ToString());
-            return dataToSend.ToString();
+            string dataToSend = JsonConvert.SerializeObject(sendableData, settings);
+            //System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
+            fullUpdateQueue.Enqueue(dataToSend);
+        }
+
+        /// <summary>
+        /// Saves the city state to a file, so it can be loaded from the backup later.
+        /// </summary>
+        /// <param name="sendableData"></param>
+        public void SaveCityState(T sendableData)
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+            string dataToSend = JsonConvert.SerializeObject(sendableData, settings);
+            System.IO.File.WriteAllText(@"..\..\SerializedCity\city.json", dataToSend);
         }
     }
 }

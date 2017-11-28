@@ -29,6 +29,14 @@ namespace CitySimNetworkService
         private AsyncServer connectionHandler;
         private City city;
         private Updater<City> updater;
+        SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 1
+        };
+        SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 25
+        };
 
         /// <summary>
         /// Initializes application network objects.
@@ -36,22 +44,11 @@ namespace CitySimNetworkService
         public NetworkService()
         {
             InitializeComponent();
-            SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
-            {
-                StateBufferSize = 1
-            };
-            SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
-            {
-                StateBufferSize = 25
-            };
-
             SimulationStateHandler simulationHandler = new SimulationStateHandler(partialUpdateQueue, fullUpdateQueue);
             DatabaseHandler dbHandler = new DatabaseHandler();
             RequestHandler requestHandler = new RequestHandler(dbHandler, simulationHandler);
             connectionHandler = new AsyncServer(requestHandler);
 
-            DatabaseLoader loader = new DatabaseLoader();
-            city = loader.loadCity();
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
@@ -68,7 +65,7 @@ namespace CitySimNetworkService
         protected override void OnStart(string[] args)
         {
             connectionHandler.StartListening();
-            //Call city start here 
+            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
         }
 
         /// <summary>

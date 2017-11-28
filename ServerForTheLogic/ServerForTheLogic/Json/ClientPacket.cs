@@ -29,7 +29,7 @@ namespace ServerForTheLogic.Json
         public int GridWidth { get; set; }
 
         [JsonProperty]
-        public UInt32 netHours { get; set; }
+        public UInt32 NetHours { get; set; }
         //[JsonProperty]
         //public List<Person> NewPeople { get; set; }
 
@@ -55,25 +55,22 @@ namespace ServerForTheLogic.Json
 
             NewRoads = new List<Point>();
             NewBuildings = new List<Building>();
-           
-
         }
 
 
-
-        public void ConvertPacket()
+        public string ConvertPacket()
         {
-            
-            JsonSerializer serializer = new JsonSerializer();
-
             NewRoads = city.NewRoads;
             NewBuildings = city.NewBuildings;
-            netHours = city.clock.netHours;
-            using (StreamWriter sw = new StreamWriter(@"packet.json"))
+            NetHours = city.clock.NetHours;
+
+            JsonSerializer serializer = new JsonSerializer();
+
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\packet.json"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
-
+                sw.Close();
                 // {"ExpiryDate":new Date(1230375600000),"Price":0}
             }
 
@@ -83,6 +80,8 @@ namespace ServerForTheLogic.Json
 
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();
+
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         //public void fillQuickMap(City city)
