@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CitySimNetworkService
+﻿namespace CitySimNetworkService
 {
     /// <summary>
     /// <Module>Networking Server Connection</Module>
@@ -26,7 +20,6 @@ namespace CitySimNetworkService
     /// </summary>
     public class SimulationUpdateRequest: BaseRequest
     {
-        public string UpdateType { get; set; }
         public bool FullUpdate { get; set; }
     }
 

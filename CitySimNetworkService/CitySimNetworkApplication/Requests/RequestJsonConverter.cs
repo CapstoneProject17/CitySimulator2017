@@ -24,7 +24,7 @@ namespace CitySimNetworkService
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject request = JObject.Load(reader);
-            if (request["type"].Value<string>() == "update")
+            if (request["RequestType"].Value<string>() == "update")
             {
                 if (request["FullUpdate"].Value<bool>())
                 {

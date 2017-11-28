@@ -57,7 +57,7 @@ namespace CitySimNetworkService
 					return JsonConvert.SerializeObject(clock);
 
 				default:
-					string errorString = "{Request: 'invalid'}";
+					string errorString = @"{'Request': 'invalid'}";
 					return errorString;
 			}
 		}
