@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Linq;
+using Newtonsoft.Json;
+using CitySimNetworkingApplication;
 
 namespace CitySimNetworkService
 {
@@ -52,7 +54,7 @@ namespace CitySimNetworkService
         /// </param>
         /// 
         /// <returns>
-        /// JSON object containing partial state.
+        /// JSON object containing partial state or error
         /// </returns>
         public string GetPartialStateByID(int id)
         {
@@ -66,8 +68,7 @@ namespace CitySimNetworkService
                         return s;
                     }
                 }
-
-                return @"type: 'Error', message: 'Update not found'";
+                return JsonConvert.SerializeObject(new ErrorResponse { Message = "Update not found" });
             }
         }
 
