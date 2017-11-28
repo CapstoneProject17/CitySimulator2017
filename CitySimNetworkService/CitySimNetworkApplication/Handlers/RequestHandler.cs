@@ -64,7 +64,7 @@ namespace CitySimNetworkService
             } catch(Exception e)
             {
                 logger.Error(e);
-                return "{\"type\": \"error\"}";
+                return @"{'type': 'error'}";
             }
        }
     }
