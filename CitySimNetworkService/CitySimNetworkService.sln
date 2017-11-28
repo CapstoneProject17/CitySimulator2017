@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkingTests", "NetworkingTests\NetworkingTests.csproj", "{0FFA2F11-8730-4F80-AD29-018A65B6C1A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkingApplication", "CitySimNetworkApplication\CitySimNetworkingApplication.csproj", "{8DC8959F-95EA-4D79-8298-406FF9067717}"
+	ProjectSection(ProjectDependencies) = postProject
+		{14437FC5-5C8D-4302-8C0D-61565124C8A6} = {14437FC5-5C8D-4302-8C0D-61565124C8A6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DAL\DataAccessLayer\DataAccessLayer\DataAccessLayer.csproj", "{14437FC5-5C8D-4302-8C0D-61565124C8A6}"
 EndProject

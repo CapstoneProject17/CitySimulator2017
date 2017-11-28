@@ -9,8 +9,16 @@ namespace CitySimNetworkService
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// <Module>Networking Server Connection</Module>
+        /// <Team>Networking Team</Team>
+        /// <Description>The main entry point for networking application</Description>
+        /// <Author>
+        /// <By>Harman Mahal</By>
+        /// <ChangeLog>Initial server set up</ChangeLog>
+        /// <Date>November 04, 2017</Date>
+        /// </Author>
         /// </summary>
+
         static void Main(string[] args)
         {
             SimulationStateQueue fullUpdateQueue = new SimulationStateQueue

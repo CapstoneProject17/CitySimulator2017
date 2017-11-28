@@ -9,6 +9,7 @@ using System.ServiceProcess;
 using NLog;
 using System.IO;
 using System.Threading;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic
 {
@@ -18,6 +19,16 @@ namespace ServerForTheLogic
     class Program
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 1
+        };
+
+        private static SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 25
+        };
+
         public const string ServiceName = "ServerForTheLogic";
         public static List<Person> People = new List<Person>();
         private const int MEAN_DEATH_AGE = 80;

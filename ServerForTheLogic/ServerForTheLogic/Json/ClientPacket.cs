@@ -74,6 +74,10 @@ namespace ServerForTheLogic.Json
                 // {"ExpiryDate":new Date(1230375600000),"Price":0}
             }
 
+            //UPDATER TRY
+            //Updater<ClientPacket> updater = new Updater<ClientPacket>();
+            //updater.sendFullUpdate(this, Formatting.Indented);
+
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();
 
