@@ -65,14 +65,29 @@ namespace DataAccessLayer
 		/// <returns>Returns true if successful otherwise false</returns>
 		public bool InsertPerson(Person person)
 		{
-			if (!DALValidator.DALPersonValidator(person))
+            Citizen dbPerson
+                = new Citizen(
+                    person.Id, person.FName, person.LName, 
+                    person.MonthlyIncome, person.Funds, 
+                    person.Workplace.id.ToString(),
+                    person.Workplace.Point.x,
+                    person.Workplace.Point.z,
+                    person.Home.id.ToString(),
+                    person.Home.Point.x,
+                    person.Home.Point.z,
+                    person.DaysLeft,
+                    person.Age,
+                    person.TimeToWork,
+                    person.TimeToHome
+                    );
+			if (!DALValidator.DALPersonValidator(dbPerson))
 			{
 				return false;
 			}
 			else
 			{
-				var personCol = Database.GetCollection<Person>("Person");
-				personCol.InsertOne(person);
+				var personCol = Database.GetCollection<Citizen>("Person");
+				personCol.InsertOne(dbPerson);
 			}
 			return true;
 		}
@@ -92,16 +107,16 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="people">The list of people to be inserted into the database</param>
 		/// <returns>Returns the collection if all the people are inserted otherwise null</returns>
-		public Task InsertPeople(IEnumerable<Person> people)
+		public Task InsertPeople(IEnumerable<Citizen> people)
 		{
-			foreach (Person p in people)
+			foreach (Citizen p in people)
 			{
 				if (!DALValidator.DALPersonValidator(p))
 				{
 					return null;
 				}
 			}
-			var personCol = Database.GetCollection<Person>("Person");
+			var personCol = Database.GetCollection<Citizen>("Person");
 			return personCol.InsertManyAsync(people);
 		}
 
@@ -503,7 +518,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			Person personToUpdate = new Person(guid, firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
+			Citizen personToUpdate = new Citizen(guid, firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
 			if (!DALValidator.DALPersonValidator(personToUpdate))
 			{
 				Console.WriteLine("Can not update person, at least one of the input field is invalid.");
@@ -792,9 +807,9 @@ namespace DataAccessLayer
 		/// <param name="guid">The GUID of the person being deleted from the DB</param>
 		public async void DeleteOnePerson(Guid guid)
 		{
-			var collection = Database.GetCollection<Person>("Person");
+			var collection = Database.GetCollection<Citizen>("Person");
 			//what to do here?
-			var filter = Builders<Person>.Filter.Eq("guid", guid);
+			var filter = Builders<Citizen>.Filter.Eq("guid", guid);
 			await collection.DeleteOneAsync(filter);
 		}
 

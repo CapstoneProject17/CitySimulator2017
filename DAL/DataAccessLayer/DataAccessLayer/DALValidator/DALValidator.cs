@@ -46,7 +46,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="person">The person object being validated</param>
         /// <returns>If all validations pass it returns true, otherwise flase</returns>
-        public static Boolean DALPersonValidator(Person person)
+        public static Boolean DALPersonValidator(Citizen person)
         {
             if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
