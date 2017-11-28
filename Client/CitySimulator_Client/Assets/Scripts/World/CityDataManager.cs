@@ -321,6 +321,7 @@ public class CityDataManager : MonoBehaviour
 		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
         initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
 
+        //Set the lastUpdate to the netHour value of citydata
         initiateCityData();
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
