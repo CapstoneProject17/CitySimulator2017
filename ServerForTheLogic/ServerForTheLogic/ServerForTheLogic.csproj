@@ -70,6 +70,8 @@
     <Compile Include="Infrastructure\Location.cs" />
     <Compile Include="Infrastructure\Residential.cs" />
     <Compile Include="Infrastructure\Road.cs" />
+    <Compile Include="Json\BlockConverter.cs" />
+    <Compile Include="Json\ClientPacket.cs" />
     <Compile Include="Json\DatabaseLoader.cs" />
     <Compile Include="Json\LocationConverter.cs" />
     <Compile Include="Json\Updater.cs" />

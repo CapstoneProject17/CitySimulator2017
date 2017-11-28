@@ -80,6 +80,7 @@ namespace ServerForTheLogic.Utilities
         /// Increments netMins.  Set as an event handler for timer.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
         private void tickMinute(Object source, ElapsedEventArgs e)
@@ -96,9 +97,8 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netHours. Calling methods that are run every hour
         /// <para>Written by Andrew Busto </para>
-        /// <para>Edited by Chandu Dissanayake </para>
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        /// <para/> Last edited:  2017-11-12
         private void tickHour()
         {
             netHours = netMinutes / 60;
@@ -124,7 +124,7 @@ namespace ServerForTheLogic.Utilities
         /// Updates netDays.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
-        /// <para/> Last edited:  2017-11-07
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         private void tickDay()
         {
             foreach (Person p in city.AllPeople)
@@ -149,7 +149,7 @@ namespace ServerForTheLogic.Utilities
         /// Updates netYears.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
-        /// <para/> Last edited:  2017-11-07
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         private void tickYear()
         {
             netYears++;
