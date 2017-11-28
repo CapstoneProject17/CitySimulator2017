@@ -43,7 +43,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		
-		createCharacter();
+		// createCharacter();
 
 	}
 

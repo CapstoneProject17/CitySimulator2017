@@ -57,8 +57,8 @@ public static class NetworkConnectionHandler
 	/// <summary>
 	/// Read data from the socket stream 
 	/// </summary>
-    public static string ReadFromServer()
-    {
+    public static string ReadFromServer() {
+        
         if (socketReady)
         {
             if (stream.DataAvailable)
@@ -98,7 +98,7 @@ public static class NetworkConnectionHandler
             stream.Write(dataToSend, 0, dataToSend.Length);
             stream.Flush();
         } catch(Exception e){
-            
+
         }
 
         Debug.Log("data sent");
