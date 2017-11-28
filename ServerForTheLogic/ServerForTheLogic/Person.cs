@@ -101,6 +101,8 @@ namespace ServerForTheLogic
         /// </summary>
         public int NumProducts;
 
+
+        public bool isDead;
         /// <summary>
         /// This is the Person Constructor
         /// Last modified by Justin McLennan 2017-11-21</para>
@@ -114,6 +116,7 @@ namespace ServerForTheLogic
             LName = lName;
             Id = Guid.NewGuid();
             setDeathAge();
+            isDead = false;
             //consumption created
             DailyConsumption();
             NumProducts = 0;//ToBuy();
