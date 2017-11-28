@@ -223,6 +223,8 @@ public class CityDataManager : MonoBehaviour {
 		}
 	}
 	
+    bool runOnce = true;
+
 	/// <summary>
 	// Awake this instance.
 	/// </summary>
@@ -251,17 +253,25 @@ public class CityDataManager : MonoBehaviour {
 
         // TODO: request update
 
-		if(initateCity){
-            if(turnOnTestGrid){ // if turned on for test, initiate test grid
-                initiateGridForTest();
-            }
+		// if(initateCity){
+  //           if(turnOnTestGrid){ // if turned on for test, initiate test grid
+  //               initiateGridForTest();
+  //           }
 
-            if(buildingManager != null
-                && characterManager != null){
+  //           if(buildingManager != null
+  //               && characterManager != null){
 
-                buildingManager.
-            }
-		}
+  //               if(runOnce){
+  //                   buildingManager.createBuilding("TESTGUID", 1, 1, 2, 2);
+  //                   runOnce = false;
+  //               }
+  //           }
+		// }
+
+        if(runOnce){
+                    buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
+                    runOnce = false;
+                }
 
 	}
 

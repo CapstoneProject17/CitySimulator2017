@@ -36,7 +36,7 @@ public class BuildingManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		intializeBuildings ();
+		// intializeBuildings ();
 	}
 
 	// Update builings
@@ -47,7 +47,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	void createBuilding (string GUID, int x, int z, short type, short tier) {
+	public void createBuilding (string GUID, int x, int z, short type, short tier) {
 
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
