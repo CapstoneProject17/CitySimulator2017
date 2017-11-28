@@ -11,6 +11,9 @@ using UnityEngine;
 ///	 Name: Dongwon(Shawn) Kim   Date: 2017-10-02
 /// Modified by:	
 ///	 Name: Dongwon(Shawn) Kim   Change: initiate belongs to CharacterManager Date: 2017-10-31
+///  Name: Lancelei Herradura	Change: character - CharacterMove component  Date: 2017-11-13
+///  Name: Lancelei Herradura	Change: set source and destination			 Date: 2017-11-25
+///  Name: Lancelei Herradura	Change: random destination and source		 Date: 2017-11-27 
 /// Based on:  BuildingCreation.cs
 public class CharacterCreation : MonoBehaviour {
 	// population of the city
@@ -30,7 +33,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		population = 5;
+		population = 10;
 		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
@@ -48,43 +51,70 @@ public class CharacterCreation : MonoBehaviour {
 	/// Creates the character.
 	/// </summary>
 	void createCharacter(){
+		IList<int> xz = new List<int>();
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
-		foreach (GameObject road in planes) {
-			if (population <= 0) {
-				break;
-			}
+		if (population > 0) {
+			for (int i = population; i >= 1; i--) {
+				GameObject source = setRandSource ();
 
-			if (road.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0") {
 				Transform human = 
 					Instantiate (character,
-						new Vector3 (road.transform.position.x, 0, road.transform.position.z),
+						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
 						Quaternion.identity,characterManager.transform) as Transform;
-				population--;
+				
 				human.gameObject.AddComponent<CharacterMove> ();
-				List<int> xz = setRandDest ();
-
-				// Set the destination
+				xz = setRandDest ();
 				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
 				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
-
+				int x = human.GetComponent<CharacterMove> ().X_Dest;
+				int z = human.GetComponent<CharacterMove> ().Z_Dest;
+//				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
+				xz.Clear ();
 			}
 
+			population = 0;
 		}
 
 	}
 
-	// Testing: Set Random Destination
-	List<int> setRandDest() {
-		char[] delimiterChars = { '(', ',', ' ', ')' };
-		List<int> xz = new List<int> ();
-		GameObject dest;
+	/// <summary>
+	/// Used for Testing
+	/// Sets the rand source.
+	/// </summary>
+	/// <returns>The rand source.</returns>
+	GameObject setRandSource() {
+		GameObject source;
 		bool isRoad = false;
 		System.Random rnd = new System.Random ();
+
+		do {
+			source = planes[rnd.Next(planes.Length)].gameObject;
+			if (source.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0")
+				isRoad = true;
+
+		} while (!isRoad);
+
+		return source;
+
+	}
+
+	/// <summary>
+	/// Used for Testing
+	/// Sets the rand destination.
+	/// </summary>
+	/// <returns>The rand destination.</returns>
+	IList<int> setRandDest() {
+		char[] delimiterChars = { '(', ',', ' ', ')' };
+		string gridText;
+		string[] words;
+		IList<int> xz = new List<int> ();
+		GameObject dest;
+		bool isRoad = false;
 		int check = 0;
 
 		do {
-			dest = planes[rnd.Next(planes.Length)].gameObject;
+			dest = planes[Random.Range(0, planes.Length-1)].gameObject;
 			if (dest.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0") {
 				isRoad = true;
 				
@@ -92,8 +122,8 @@ public class CharacterCreation : MonoBehaviour {
 		} while (!isRoad);
 
 
-		string gridText = dest.transform.GetChild (1).GetComponent<TextMesh> ().text;
-		string[] words = gridText.Split (delimiterChars);
+		gridText = dest.transform.GetChild (1).GetComponent<TextMesh> ().text;
+		words = gridText.Split (delimiterChars);
 
 		foreach (string s in words)
 		{
