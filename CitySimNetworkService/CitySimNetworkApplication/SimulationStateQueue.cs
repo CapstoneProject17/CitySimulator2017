@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
 using System.Linq;
+using Newtonsoft.Json;
+using CitySimNetworkingApplication;
 
 namespace CitySimNetworkService
 {
@@ -66,8 +68,7 @@ namespace CitySimNetworkService
                         return s;
                     }
                 }
-
-                return @"type: 'Error', message: 'Update not found'";
+                return JsonConvert.SerializeObject(new ErrorResponse { Message = "Update not found" });
             }
         }
 
