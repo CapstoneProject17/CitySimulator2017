@@ -12,7 +12,7 @@ using System;
 /// Modified by:
 ///     Name: Benjamin Hao   Change: modified Select() method  Date: Oct.29th, 2017
 ///     Name: Benjamin Hao   Change: Removed Thumbnails for information bubble Date: 2017-11-25
-///     Name: Benjamin Hao   Change: Added InstanceID. Date: 2017-11-28
+///     Name: Benjamin Hao   Change: Added GUID for each object. Date: 2017-11-28
 /// Based on:  N/A
 /// </summary>
 
