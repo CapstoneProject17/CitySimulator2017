@@ -145,7 +145,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Dispose building 
-	void disposeBuilding (string id) {
+	public void disposeBuilding (string id) {
 
 		GameObject building = GameObject.Find( id + "(Clone)");
 		
@@ -161,7 +161,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// initialize building models
-	void intializeBuildings () {
+	public void intializeBuildings () {
 		planes = GameObject.FindGameObjectsWithTag ("plane");
 		int x = 0;
 		int z = 0;
