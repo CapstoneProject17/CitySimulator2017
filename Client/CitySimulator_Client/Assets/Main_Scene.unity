@@ -660,9 +660,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e28a34468834452486545f83f1022b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 0}
+  cellPrefab: {fileID: 4143390876923042, guid: 7a1cbdc745d894d2381d5b1db83a443a, type: 2}
   size: {x: 0, y: 0, z: 0}
-  roadTexture: {fileID: 0}
+  roadTexture: {fileID: 2800000, guid: 4b2eda15cd8544f0e8d18d79c8fb1e45, type: 3}
+  onOffSwitch: 0
   cityDataManager: {fileID: 0}
   parentGrid: {fileID: 0}
   turnOnGrid: 0
