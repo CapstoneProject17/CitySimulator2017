@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bogus;
 using CitySimNetworkService;
+using ConsoleDump;
 
 namespace ServerForTheLogic
 {
@@ -105,7 +106,8 @@ namespace ServerForTheLogic
         /// </summary>
         public Clock clock;
         public static int DEFAULT_RATING = 1;
-
+        
+        [JsonConstructor]
         /// <summary>
         /// Constructor for a new city, creates the grid of cells,
         /// and the grid of city blocks
@@ -155,8 +157,6 @@ namespace ServerForTheLogic
             {
                 setAdjacents(b);
             }
-            //starts clock 
-            clock = new Clock(this, full, partial);
 
             //sets initial state
             initialBlockAdd();
@@ -556,10 +556,16 @@ namespace ServerForTheLogic
             }
         }
 
-        public void StartSimulation()
+        public void StartSimulation(SimulationStateQueue full, SimulationStateQueue partial)
         {
+            //starts clock 
+            clock = new Clock(this, full, partial);
+            Console.WriteLine(clock.NetMinutes);
+            for (int i =0; i < 61; i++) 
+                clock.TickMinute(this, null);
             clock.timer.Start();
             Console.WriteLine("Started simulation");
+            Console.WriteLine(clock.NetMinutes);
         }
 
         public void StopSimulation()

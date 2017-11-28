@@ -49,9 +49,7 @@ namespace CitySimNetworkService
             DatabaseHandler dbHandler = new DatabaseHandler();
             RequestHandler requestHandler = new RequestHandler(dbHandler, simulationHandler);
             connectionHandler = new AsyncServer(requestHandler);
-
-            DatabaseLoader loader = new DatabaseLoader();
-            city = loader.loadCity();
+            
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);

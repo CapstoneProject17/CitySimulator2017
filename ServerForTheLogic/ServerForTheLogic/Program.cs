@@ -63,7 +63,7 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
-
+            city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
 
@@ -72,14 +72,10 @@ namespace ServerForTheLogic
 
             if (city == null)
             {
-                Console.WriteLine("Generating new city");
-                city = new City();
+                city = new City(fullUpdateQueue, partialUpdateQueue);
             }
-            Updater<City> updater = new Updater<City>();
-            updater.SendFullUpdate(city, Formatting.Indented);
             city.printCity();
-            
-            city.StartSimulation();
+            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
             GetInput();
         }
 
@@ -116,11 +112,15 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("start", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    city.StartSimulation();
+                    city.clock.timer.Start();
                 }
                 if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase))
                 {
                     city.Homes.Dump();
+                }
+                if (commands[0].Equals("clock", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    city.clock.Dump();
                 }
                 if (cmd.Equals("print city"))
                 {
@@ -129,5 +129,6 @@ namespace ServerForTheLogic
             }
         }
     }
+
 }
 
