@@ -309,8 +309,9 @@ public class CityDataManager : MonoBehaviour
 
         if (updateTheCity)
         {
-
-            //Parse partialCityState string to json, set the update last update to the nethours field of partialcityupdate
+            cityData = JsonUtility.FromJson<CityData>(partialCityState);
+            lastUpdate = cityData.netHours;
+            //Update the city with the latest city data
             updateTheCity = false;
         }
 
