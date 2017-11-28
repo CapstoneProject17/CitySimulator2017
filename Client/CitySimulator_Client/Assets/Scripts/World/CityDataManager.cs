@@ -340,6 +340,15 @@ public class CityDataManager : MonoBehaviour
             buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
             runOnce = false;
         }
+        
+        if (updateTheCity)
+        {
+            cityData = JsonUtility.FromJson<CityData>(partialCityState);
+            lastUpdate = cityData.netHours;
+            //Update the city with the latest city data
+            updateTheCity = false;
+
+        }
 
 	}
 
