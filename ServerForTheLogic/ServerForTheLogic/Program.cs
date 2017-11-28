@@ -159,23 +159,6 @@ namespace ServerForTheLogic
                 {
                     city.Homes.Dump();
                 }
-                if (commands[0].Equals("expand", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (commands.Length == 2)
-                    {
-                        if (commands[1].Equals("residential", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Residential);
-                        if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Commercial);
-                        if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Industrial);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Specify expansion type");
-                    }
-                }
-
             }
         }
     }

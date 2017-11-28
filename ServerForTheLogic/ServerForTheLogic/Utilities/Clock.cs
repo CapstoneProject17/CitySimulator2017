@@ -86,6 +86,7 @@ namespace ServerForTheLogic.Utilities
         /// Increments netMins.  Set as an event handler for timer.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
         private void TickMinute(Object source, ElapsedEventArgs e)
@@ -102,7 +103,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netHours. Calling methods that are run every hour
         /// <para>Written by Andrew Busto </para>
-        /// <para>Edited by Chandu Dissanayake </para>
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         /// <para/> Last edited:  2017-11-12
         private void TickHour()
