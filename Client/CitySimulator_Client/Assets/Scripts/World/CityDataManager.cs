@@ -63,6 +63,27 @@ public class NewBuilding
 /// <summary>
 /// Module: CityData
 /// Team: Client
+/// Description: Class model for the people data from the server
+/// Author: Harman Mahal Date: 2017-11-28
+/// Modified by: N/A
+/// Based on: N/A
+/// </summary>
+[Serializable]
+public class PersonTravel
+{
+    //unique id for the person
+    public string Id;
+
+    //Starting point of the person
+    public Point Origin;
+
+    //Destination point of the person
+    public Point Destination;
+}
+
+/// <summary>
+/// Module: CityData
+/// Team: Client
 /// Description: Class model for the city data from the server
 /// Author:
 ///  Name: Dongwon(Shawn) Kim    Date: 2017-11-25
@@ -73,7 +94,6 @@ public class NewBuilding
 [Serializable]
 public class CityData
 {
-
     // length of the grid for the city
     public int GridLength;
 
@@ -88,6 +108,9 @@ public class CityData
 
     // array of buildings
     public NewBuilding[] NewBuildings;
+
+    // array of people
+    public PersonTravel[] People;
 
 }
 
