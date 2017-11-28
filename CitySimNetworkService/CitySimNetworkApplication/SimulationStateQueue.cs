@@ -1,10 +1,20 @@
-﻿using System.Collections.Concurrent;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace CitySimNetworkService
 {
     /// <summary>
-    /// Holds a ConcurrentQueue for JSON objects, state buffer size, and functions to manage all previous.
+    /// </summary>
+    /// <summary>
+    /// <Module>Networking Server Connection</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Holds a ConcurrentQueue for JSON objects, state buffer size, and functions to manage all previous.</Description>
+    /// <Author>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Setting up the simulation handler queue</ChangeLog>
+    /// <Date>November 01, 2017</Date>
+    /// </Author>
     /// </summary>
     public class SimulationStateQueue
     {
@@ -46,8 +56,19 @@ namespace CitySimNetworkService
         /// </returns>
         public string GetPartialStateByID(int id)
         {
-            //var state = queue.Where((JsonObject s) => (s[id] == id)).FirstOrDefault();
-            return "";
+            lock (lockObject)
+            {
+                foreach (string s in queue)
+                {
+                    JObject o = JObject.Parse(s);
+                    if((int)o["id"]== id)
+                    {
+                        return s;
+                    }
+                }
+
+                return @"type: 'Error', message: 'Update not found'";
+            }
         }
 
         /// <summary>

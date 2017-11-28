@@ -8,20 +8,15 @@ using NLog;
 namespace CitySimNetworkService
 {
     /// <summary>
-    /// <Name></Module>
-    /// <Team></Team>
-    /// <Description></Description>
-    /// <BasedOn></BasedOn>
+    /// <Module>Networking Server Connection</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Responsible for handling incoming connections and passing the data to appropriate handlers.</Description>
+    /// <BasedOn>https://docs.microsoft.com/en-us/dotnet/framework/network-programming/asynchronous-server-socket-example</BasedOn>
     /// <Author>
-    /// <By></By>
-    /// <ChangeLog></ChangeLog>
-    /// <Date></Date>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Modified the handler to add request handlers</ChangeLog>
+    /// <Date>November 04, 2017</Date>
     /// </Author>
-    /// <Modified>
-    /// <By></By>
-    /// <ChangeLog></ChangeLog>
-    /// <Date></Date>
-    /// </Modified>
     /// </summary>
     public class AsyncServer
     {

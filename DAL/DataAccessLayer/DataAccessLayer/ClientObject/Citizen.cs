@@ -20,7 +20,7 @@ namespace ServerForTheLogic.ClientObject
     /// 2017 11 12 Steph
     ///     - added Guid field
     /// </summary>
-    public class Person
+    public class Citizen
     {
         /// <summary>
         /// default constructor of Person.
@@ -40,7 +40,7 @@ namespace ServerForTheLogic.ClientObject
         /// <param name="age">The age of the person</param>
         /// <param name="startShift">The time the person starts their work</param>
         /// <param name="endShift">The time the person finishes their work</param>
-        public Person(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
+        public Citizen(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workPlaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
         {
             Guid = guid;
             FirstName = firstName;

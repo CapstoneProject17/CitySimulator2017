@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 namespace CitySimNetworkService
 {
     /// <summary>
-    /// Contains socket information.
-    /// </summary>
+    /// <Module>Networking Server Connection</Module>
+    /// <Team>Networking Team</Team>
+    /// <Description>Socket set up information</Description>
+    /// <Author>
+    /// <By>Harman Mahal</By>
+    /// <ChangeLog>Initial Socket setup</ChangeLog>
+    /// <Date>October 21, 2017</Date>
+    /// </Author>
+    /// </summary>    /// </summary>
     public class SocketState
     {
         public Socket socket = null;
