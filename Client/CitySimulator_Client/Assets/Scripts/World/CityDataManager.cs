@@ -218,11 +218,31 @@ public class CityDataManager : MonoBehaviour {
 			humans = value;
 		}
 	}
-	
-	/// <summary>
-	// Awake this instance.
-	/// </summary>
-	void Awake () {
+
+    private void Start()
+    {
+        InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
+    }
+
+    private void GetInitialCityData()
+    {
+
+    }
+
+    private void GetCityUpdate()
+    {
+
+    }
+
+    private void GetDatabaseResource()
+    {
+
+    }
+
+    /// <summary>
+    // Awake this instance.
+    /// </summary>
+    void Awake () {
 
         // TODO: Server request initial
 
