@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using ConsoleDump;
 using ServerForTheLogic.Econ;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -17,8 +18,13 @@ namespace ServerForTheLogic.Utilities
     /// Holds the current time.  Intended for use by the City.
     /// <para/> Last edited:  2017-10-02
     /// </summary>
-    class Clock
+    public class Clock
     {
+        [JsonProperty]
+        Updater<ClientPacket> FullUpdater;
+        [JsonProperty]
+        Updater<Dictionary<int, Dictionary<Guid, Point>>> PartialUpdater;
+
         [JsonProperty]
         // Ticks every second to update the current time values.
         public Timer timer;
@@ -29,27 +35,27 @@ namespace ServerForTheLogic.Utilities
         /// minutes are 0.5 seconds
         /// </summary>
         [JsonProperty]
-        public UInt32 netMinutes { get; set; }
+        public UInt32 NetMinutes { get; set; }
 
         /// <summary>
         /// The total number of hours since this Clock started.
         /// hours are 30 seconds
         /// </summary>
         [JsonProperty]
-        public UInt32 netHours { get; set; }
+        public UInt32 NetHours { get; set; }
 
         /// <summary>
         /// The total number of days since this Clock started.
         /// days are 12 min
         /// </summary>
         [JsonProperty]
-        private UInt32 netDays { get; set; }
+        private UInt32 NetDays { get; set; }
 
         /// <summary>
         /// The total number of years since this Clock started.
         /// </summary>
         [JsonProperty]
-        private UInt32 netYears { get; set; }
+        private UInt32 NetYears { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -61,19 +67,19 @@ namespace ServerForTheLogic.Utilities
         /// Constructs a Clock object.
         /// <para>Written by Andrew Busto </para>
         /// </summary>
-        public Clock(City city)
+        public Clock(City city, SimulationStateQueue full, SimulationStateQueue partial)
         {
+
             this.city = city;
             timer = new Timer();
+            PartialUpdater = new Updater<Dictionary<int, Dictionary<Guid, Point>>>(full, partial);
+            FullUpdater = new Updater<ClientPacket>(full, partial);
 
             timer.Interval = INTERVAL;
-            timer.Elapsed += tickMinute;
+            timer.Elapsed += TickMinute;
 
             timer.AutoReset = true;
-            timer.Enabled = true;
-
-            timer.Start();
-            
+            timer.Stop();
         }
 
         /// <summary>
@@ -83,14 +89,14 @@ namespace ServerForTheLogic.Utilities
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
-        private void tickMinute(Object source, ElapsedEventArgs e)
+        public void TickMinute(Object source, ElapsedEventArgs e)
         {
-            netMinutes++;
-            //Console.WriteLine("Mins:\t" + netMinutes);
+            NetMinutes++;
+            Console.WriteLine("Mins:\t" + NetMinutes);
 
-            if (netMinutes / 60 > netHours)
+            if (NetMinutes / 60 > NetHours)
             {
-                tickHour();
+                TickHour();
             }
         }
 
@@ -99,24 +105,31 @@ namespace ServerForTheLogic.Utilities
         /// <para>Written by Andrew Busto </para>
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        private void tickHour()
+        /// <para/> Last edited:  2017-11-12
+        private void TickHour()
         {
-            netHours = netMinutes / 60;
-            Console.WriteLine("Hours:\t" + netHours);
-            Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
+            NetHours = NetMinutes / 60;
+            Console.WriteLine("Hours:\t" + NetHours);
+            //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            
             Console.WriteLine("Population = " + city.AllPeople.Count);
-            foreach (Person p in city.AllPeople) {
+            foreach (Person p in city.AllPeople)
+            {
                 p.ConsumeProd();
             }
+            ClientPacket packet = new ClientPacket(city);
+            packet.ConvertPacket();
 
+            string output = packet.ConvertPacket();
+            Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
-            if (netHours / 24 > netDays)
+            if (NetHours / 24 > NetDays)
             {
-                tickDay();
+                TickDay();
             }
+
+            PartialUpdater.SendPartialUpdate(city.PartialUpdateList, Formatting.None);
         }
 
 
@@ -124,8 +137,8 @@ namespace ServerForTheLogic.Utilities
         /// Updates netDays.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
-        /// <para>Last modified by Justin McLennan 2017-11-21</para>
-        private void tickDay()
+        /// <para/> Last edited:  2017-11-07
+        private void TickDay()
         {
             foreach (Person p in city.AllPeople)
             {
@@ -134,26 +147,25 @@ namespace ServerForTheLogic.Utilities
                     city.AllPeople.Remove(p);
                 }
             }
-
-            netDays = netHours / 24;//send nudes
-            Console.WriteLine("Days:\t" + netDays);
-            if (netDays / 365 > netYears)
+            NetDays = NetHours / 24;
+            Console.WriteLine("Days:\t" + NetDays);
+            if (NetDays / 365 > NetYears)
             {
-                tickYear();
+                TickYear();
             }
-            //Updater updater = new Updater();
-            //updater.SendDailyUpdate(DATA);
+
+            FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
 
         /// <summary>
         /// Updates netYears.
         /// </summary>
         /// <para>Written by Andrew Busto </para>
-        /// <para>Last modified by Justin McLennan 2017-11-21</para>
-        private void tickYear()
+        /// <para/> Last edited:  2017-11-07
+        private void TickYear()
         {
-            netYears++;
-            Console.WriteLine("Years:\t" + netYears);
+            NetYears++;
+            Console.WriteLine("Years:\t" + NetYears);
             foreach (Person p in city.AllPeople)
             {
                 p.SetAge();

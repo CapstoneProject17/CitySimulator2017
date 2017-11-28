@@ -16,7 +16,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Connor Goudie 2017-11-14</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Block
+    public class Block
     {
         /// <summary>
         /// Keeps track of all existing blocks (for deserialization)

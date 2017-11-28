@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServerForTheLogic.Utilities
 {
-    struct Point
+    public struct Point
     {
         /// <summary>
         /// Basic position struct for buildings and roads
