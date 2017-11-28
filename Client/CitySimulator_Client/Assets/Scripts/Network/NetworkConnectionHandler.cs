@@ -94,8 +94,12 @@ public static class NetworkConnectionHandler
         }
 
         byte[] dataToSend = Encoding.ASCII.GetBytes(data);
-        stream.Write(dataToSend, 0, dataToSend.Length);
-        stream.Flush();
+        try{
+            stream.Write(dataToSend, 0, dataToSend.Length);
+            stream.Flush();
+        } catch(Exception e){
+            
+        }
 
         Debug.Log("data sent");
 

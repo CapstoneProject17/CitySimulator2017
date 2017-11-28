@@ -21,19 +21,22 @@ using UnityEngine;
 public class BuildingManager : MonoBehaviour {
 
 	public GameObject buildingManager;
+
 	private GameObject[] planes;
 	private GameObject buildingObject;
+
 	private Transform planeTransform;
 
 	// Use this for initialization
 	void Start () {
 		// planeTransform = GameObject.Find("Plane(Clone)").transform;
 		buildingManager = GameObject.Find ("BuildingManager");
-		intializeBuildings ();
+
 	}
 
 	// Update is called once per frame
 	void Update () {
+		// intializeBuildings ();
 	}
 
 	// Update builings
@@ -44,7 +47,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	void createBuilding (string GUID, int x, int z, short type, short tier) {
+	public void createBuilding (string GUID, int x, int z, short type, short tier) {
 
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
