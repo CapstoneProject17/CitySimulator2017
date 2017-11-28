@@ -22,13 +22,23 @@ public class BuildingManager : MonoBehaviour {
 
 	public GameObject buildingManager;
 	private GameObject[] planes;
-	private GameObject buildingObject;
 	private Transform planeTransform;
+
+	private GameObject residential1;
+	private GameObject residential2;
+	private GameObject residential3;
+	private GameObject commercial1;
+	private GameObject commercial2;
+	private GameObject commercial3;
+	private GameObject industrial1;
+	private GameObject industrial2;
+	private GameObject industrial3;
 
 	// Use this for initialization
 	void Start () {
 		// planeTransform = GameObject.Find("Plane(Clone)").transform;
 		buildingManager = GameObject.Find ("BuildingManager");
+		initializeBuildingObjects();
 		intializeBuildings ();
 	}
 
@@ -52,27 +62,24 @@ public class BuildingManager : MonoBehaviour {
 			// Residental 
 			case 1: 
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/residential1") as GameObject; 
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				residential1.name = GUID;
+				instantiateBuilding (residential1,
 									 x,
 									 0,
 									 z);
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				residential2.name = GUID;
+				instantiateBuilding (residential2,
 									 x,
 									 0,
 									 z);
 				}
 
-				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/residential3") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				if(tier == 3) {				
+				residential3.name = GUID;
+				instantiateBuilding (residential3,
 									 x,
 									 0,
 									 z);
@@ -82,27 +89,24 @@ public class BuildingManager : MonoBehaviour {
 			// Commercial
 			case 2:
 				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/commericial1") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				commercial1.name = GUID;
+				instantiateBuilding (commercial1,
 									 x,
 									 0,
 									 z);
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/commercial2") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				commercial2.name = GUID;
+				instantiateBuilding (commercial2,
 									 x,
 									 0,
 									 z);
 				}
 
-				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/commericial3") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				if(tier == 3) {				
+				commercial3.name = GUID;
+				instantiateBuilding (commercial3,
 									 x,
 									 0,
 									 z);
@@ -111,28 +115,25 @@ public class BuildingManager : MonoBehaviour {
 
 			// Industrial
 			case 3:
-				if(tier == 1) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				if(tier == 1) {				
+				industrial1.name = GUID;
+				instantiateBuilding (industrial1,
 									 x,
 									 0,
 									 z);
 				}
 
 				if(tier == 2) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial2") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				industrial2.name = GUID;
+				instantiateBuilding (industrial2,
 									 x,
 									 0,
 									 z);
 				}
 
 				if(tier == 3) {
-				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial3") as GameObject;
-				buildingObject.name = GUID;
-				instantiateBuilding (buildingObject,
+				industrial3.name = GUID;
+				instantiateBuilding (industrial3,
 									 x,
 									 0,
 									 z);
@@ -174,10 +175,9 @@ public class BuildingManager : MonoBehaviour {
 			// Residential building models
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "1") {
 //				Debug.Log ("find 1: " + grid.transform.position.x + ", " + grid.transform.position.y);
-
-				buildingObject = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject;
+				
 				//Creating each cell of grid
-				instantiateBuilding(buildingObject, 
+				instantiateBuilding(residential2, 
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
@@ -186,9 +186,8 @@ public class BuildingManager : MonoBehaviour {
 			//Commercial building objects
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "3") {
 //				Debug.Log ("find 3: " + grid.transform.position.x + ", " + grid.transform.position.y);
-				
-				buildingObject = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject;
-				instantiateBuilding(buildingObject, 
+								
+				instantiateBuilding(residential1, 
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
@@ -199,7 +198,25 @@ public class BuildingManager : MonoBehaviour {
 		}
 	}
 
-	void rotateBuilding(GameObject obj) {
+	// Rotate the building to face the road
+	void rotateBuilding(GameObject obj, GameObject grid) {
+
+	}
+
+	// Initializes the building objects
+	void initializeBuildingObjects() {
+
+		residential1 = Resources.Load("Models/Building/Completed_Models/residential1") as GameObject; 
+		residential2 = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject; 
+		residential3 = Resources.Load("Models/Building/Completed_Models/residential3") as GameObject; 
+
+		commercial1 = Resources.Load("Models/Building/Completed_Models/commercial1") as GameObject; 
+		commercial2 = Resources.Load("Models/Building/Completed_Models/commercial2") as GameObject; 
+		commercial3 = Resources.Load("Models/Building/Completed_Models/commercial3") as GameObject; 
+
+		industrial1 = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject; 
+		industrial2 = Resources.Load("Models/Building/Completed_Models/industrial2") as GameObject; 
+		industrial3 = Resources.Load("Models/Building/Completed_Models/industrial3") as GameObject; 
 	}
 
 

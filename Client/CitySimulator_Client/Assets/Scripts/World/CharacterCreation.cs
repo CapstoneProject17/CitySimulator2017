@@ -55,6 +55,7 @@ public class CharacterCreation : MonoBehaviour {
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
 		if (population > 0) {
+
 			for (int i = population; i >= 1; i--) {
 				GameObject source = setRandSource ();
 
@@ -67,6 +68,9 @@ public class CharacterCreation : MonoBehaviour {
 				xz = setRandDest ();
 				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
 				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
+
+                Animator animator = human.gameObject.GetComponent<Animator>();
+                animator.runtimeAnimatorController = Resources.Load("Models/Character/ACHuman") as RuntimeAnimatorController;
 				int x = human.GetComponent<CharacterMove> ().X_Dest;
 				int z = human.GetComponent<CharacterMove> ().Z_Dest;
 //				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
