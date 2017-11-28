@@ -284,13 +284,14 @@ public class CityDataManager : MonoBehaviour
             FullUpdate = true
         };
 
+        NetworkConnectionHandler.ConnectToServer();
         initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
 
         initiateCityData();
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = false;
-        
+
         if (turnOnTestGrid)
         { // if turned on for test, initiate test grid
             initiateGridForTest();
