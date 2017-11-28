@@ -14,6 +14,7 @@ using UnityEngine;
 ///  Name: N/A   Change: N/A         Date: N/A
 /// Based on:  N/A
 /// </summary>
+
 [Serializable]
 public class Point{
 
@@ -222,6 +223,9 @@ public class CityDataManager : MonoBehaviour {
 	// Awake this instance.
 	/// </summary>
 	void Awake () {
+
+        // TODO: Server request initial
+
         initiateCityData();
 
 		systemStartedTimeStamp =  System.DateTime.Now.Minute;
@@ -242,6 +246,9 @@ public class CityDataManager : MonoBehaviour {
 	void Update(){
 		/// Will be used in the future
 		systemCurrentTimeStamp = System.DateTime.Now.Minute;
+
+        // TODO: request update
+
 
 		if(updateTheCity){
 
@@ -310,7 +317,11 @@ public class CityDataManager : MonoBehaviour {
                 break;
             }
 
-            grid[building.Point.x][building.Point.z] = type;
+            if(building.Point.x < size_x || building.Point.z < size_z){
+                grid[building.Point.x][building.Point.z] = type;
+            } else {
+                Debug.Log("CityDataManager: building.Point is out of bound!!");
+            }
         }
     }
 
