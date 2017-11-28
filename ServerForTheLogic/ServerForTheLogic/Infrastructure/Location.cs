@@ -16,7 +16,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Andrew Busto 2017-11-08</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    abstract class Location
+    public abstract class Location
     {
         public static Dictionary<Guid, Location> locations;
 

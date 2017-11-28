@@ -7,6 +7,7 @@ using ServerForTheLogic.Json;
 using ServerForTheLogic.Econ;
 using System.ServiceProcess;
 using NLog;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic
 {
@@ -16,6 +17,16 @@ namespace ServerForTheLogic
     class Program
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 1
+        };
+
+        private static SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 25
+        };
+
         public const string ServiceName = "ServerForTheLogic";
         public static List<Person> People = new List<Person>();
         private const int MEAN_DEATH_AGE = 80;
@@ -31,15 +42,15 @@ namespace ServerForTheLogic
             if (city == null)
             {
                 //TEST DATA 
-                city = new City();
+                city = new City(fullUpdateQueue, partialUpdateQueue);
                 //fill 3 blocks
 
             }
 
             //city.printBlockMapTypes();
             city.printCity();
-            Updater<City> updater = new Updater<City>();
-            updater.sendFullUpdate(city, Formatting.Indented);
+            //Updater<City> updater = new Updater<City>();
+            //updater.sendFullUpdate(city, Formatting.Indented);
             //foo();
             test2();
             GetInput();
@@ -78,17 +89,17 @@ namespace ServerForTheLogic
                 if (city == null)
                 {
                     //TEST DATA 
-                    city = new City();
+                    city = new City(fullUpdateQueue, partialUpdateQueue);
                     //fill 3 blocks
 
                 }
 
                 city.printCity();
-                Updater<City> updater = new Updater<City>();
+                //Updater<City> updater = new Updater<City>();
                 JsonSerializerSettings settings = new JsonSerializerSettings();
                 settings.Converters.Add(new LocationConverter());
 
-                city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
+                //city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
                 city.printCity();
 
                 test2();

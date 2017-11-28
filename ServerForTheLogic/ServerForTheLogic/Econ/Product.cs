@@ -10,7 +10,7 @@ namespace ServerForTheLogic.Econ
     /// A product that can be bought or sold
     /// Written by Chandu Dissanayake
     /// </summary>
-    class Product
+    public class Product
     {
         /// <summary>
         /// Variables

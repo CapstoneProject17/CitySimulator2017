@@ -15,7 +15,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Andrew Busto 2017-11-08</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Residential : Building
+    public class Residential : Building
     {
         //max number of residents if building is tall
         public const int CAPACITY_TALL = 100;
