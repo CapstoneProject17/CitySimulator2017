@@ -44,7 +44,7 @@ namespace CitySimNetworkService
         /// </param>
         /// 
         /// <returns> 
-        /// JSON object of some type.
+        /// JSON object of some type (Object, Product, Citizen, Error)
         /// </returns>
         public string ParseRequest(string _request)
         {

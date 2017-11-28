@@ -54,7 +54,7 @@ namespace CitySimNetworkService
         /// </param>
         /// 
         /// <returns>
-        /// JSON object containing partial state.
+        /// JSON object containing partial state or error
         /// </returns>
         public string GetPartialStateByID(int id)
         {

@@ -48,7 +48,7 @@ namespace CitySimNetworkService
 				{
 					case "object":
 						Guid guid = new Guid(request.ResourceID);   //parse resourceID into GUID
-						Object obj = data.GetObjectByGuid(guid);           //get object from database via GUID
+						Object obj = data.GetObjectByGuid(guid);    //get object from database via GUID
 						return JsonConvert.SerializeObject(obj);    //serialize object as JSON and return to client
 
 					case "product":
