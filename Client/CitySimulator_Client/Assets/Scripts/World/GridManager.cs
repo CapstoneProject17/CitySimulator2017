@@ -29,6 +29,8 @@ public class GridManager : MonoBehaviour {
 	public Vector3 size;
 
 	public Texture roadTexture;
+
+	public bool onOffSwitch;
 	
 // not using now
 //	public int gridWidth;
@@ -105,6 +107,9 @@ public class GridManager : MonoBehaviour {
 					
 				// set color index to GridColor to color the grid
 				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
+				
+				MeshRenderer component = cellPrefab.GetComponent<MeshRenderer>();
+				component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
@@ -113,7 +118,12 @@ public class GridManager : MonoBehaviour {
 							0,
 							z + (cellPrefab.localScale.z * z)*8),
 							Quaternion.identity,
-							parentGrid.transform);	            
+							parentGrid.transform);
+
+				cellPrefab.GetChild (0).GetComponent<MeshRenderer>().enabled = onOffSwitch;
+				cellPrefab.GetChild (1).GetComponent<MeshRenderer>().enabled = onOffSwitch;
+
+
 			}
 		}
 	}
@@ -122,6 +132,8 @@ public class GridManager : MonoBehaviour {
 	/// Shows the grid.
 	/// </summary>
 	void turnEntireGrid(bool on){
+
+		this.onOffSwitch = on;
 		// important this will inactivate all grid objects, so the building and other objects will not be rendered.
 		// parentGrid.SetActive(onOff);
 		GameObject[] planes = GameObject.FindGameObjectsWithTag ("plane");

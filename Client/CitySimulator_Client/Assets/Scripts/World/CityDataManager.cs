@@ -347,7 +347,7 @@ public class CityDataManager : MonoBehaviour
         InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
         buildingManager = GameObject.Find("BuildingManager");
         characterManager = GameObject.Find("CharacterManager");
-        gridManager = GameObject.Find("GridManager");
+        gridManager = GameObject.Find("Grid");
     }
 
 	/// <summary>
@@ -384,12 +384,12 @@ public class CityDataManager : MonoBehaviour
   //           }
 		// }
 
-        if (updateTheCity) {
-            cityData = JsonUtility.FromJson<CityData>(partialCityState);
-            lastUpdate = cityData.netHours;
-            //Update the city with the latest city data
-            updateTheCity = false;
-        }
+        // if (updateTheCity) {
+        //     cityData = JsonUtility.FromJson<CityData>(partialCityState);
+        //     lastUpdate = cityData.netHours;
+        //     //Update the city with the latest city data
+        //     updateTheCity = false;
+        // }
 
 	}
 
