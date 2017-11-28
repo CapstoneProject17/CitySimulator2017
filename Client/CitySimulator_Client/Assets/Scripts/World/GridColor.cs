@@ -24,14 +24,12 @@ public class GridColor : MonoBehaviour {
 	public Renderer rend;				// renderer object for coloring
 	public int colorIndex = 0;			// index of color of itself
 
-
 	public Color32[] colors = {			// the set of color gonna be use
-		Color.grey,						// 0: Street & Path 
-		Color.red,						// 1: Residential
-		Color.yellow,					// 2: Commercial
-		Color.green						// 3: Industry
+		new Color(50,50,50,0),			// 0: Street & Path 
+		new Color(0,255,0,0),			// 1: Residential
+		new Color(255,255,0,0),			// 2: Commercial
+		new Color(255,0,255,0)			// 3: Industry
 	};
-
 
 	/**
 	 * 
@@ -51,7 +49,10 @@ public class GridColor : MonoBehaviour {
 
 	void Update(){
 
-		//update color based on the index
-		rend.material.color = colors [colorIndex];
+		if(colorIndex <= colors.Length
+			&& colorIndex >= 0){
+			//update color based on the index
+			rend.material.color = colors [colorIndex];
+		}
 	}
 }

@@ -45,9 +45,9 @@ public class MouseLook : MonoBehaviour {
 		rotX = rot.x;
 
 		// getting GUI Text msg for lock
-		msgForLock = GameObject.Find("CameraLockMsg").GetComponent<Text>();
+//		msgForLock = GameObject.Find("CameraLockMsg").GetComponent<Text>();
 		// disable GUI Text msg for lock
-		msgForLock.enabled = false;
+//		msgForLock.enabled = false;
 	}
 
 	/// <summary>

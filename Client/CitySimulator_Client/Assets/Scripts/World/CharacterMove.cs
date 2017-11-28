@@ -8,6 +8,8 @@ using UnityEngine;
 /// Description: Make human move to location and back
 /// Author: 
 ///	 Name: Lancelei Herradura   Date: 2017-11-13
+/// Modified by:
+///  Name: Lancelei Herradura	Date: 2017-11-25 
 /// Based on:  How to Do PATHFINDING: The Basics (Graphs, BFS, and DFS in Unity) 
 /// https://www.youtube.com/watch?v=WvR9voi0y2I
 /// GitHub Username: anneomcl
@@ -16,32 +18,71 @@ using UnityEngine;
 public class CharacterMove : MonoBehaviour {
 
 	// X axis of destination
-	private int x_dest;
+	private static int x_dest;
+	/// <summary>
+	/// Gets or sets the x destination.
+	/// </summary>
+	/// <value>The x destination.</value>
+	public int X_Dest {
+		get {
+			return x_dest;
+		}
+		set {
+			x_dest = value;
+			bfs.X_DEST = x_dest;
+		}
+	}
 	// Z axis of destination
-	private int z_dest;
+	private static int z_dest;
+	/// <summary>
+	/// Gets or sets the z destination.
+	/// </summary>
+	/// <value>The z destination.</value>
+	public int Z_Dest {
+		get {
+			return z_dest;
+		}
+		set {
+			z_dest = value;
+			bfs.Z_DEST = z_dest;
+		}
+	}
+
+	// Human id
+	private int id;
+	/// <summary>
+	/// Gets or sets the I.
+	/// </summary>
+	/// <value>The I.</value>
+	public int ID {
+		get {
+			return id;
+		}
+		set {
+			id = value;
+		}
+	}
+
+	// Reference for the CityDataManager class
+	public CityDataManager cityDataManager;
+
 	// Plane on which character is on
 	private GameObject originalPlane;
 	// Movement speed
 	private static float speed = 30f;
 	// access all BFS functions
-	private BFS bfs;
+	private BFS bfs = new BFS();
 
 	/// <summary>
 	/// Start this instance.
 	/// For now, retrieve information at Start.
 	/// </summary>
 	void Start() {
-		bfs = new BFS ();
-
-		// Destination hard coded for now
-		x_dest = 24;
-		z_dest = 13;
 		bfs.OriginalPlane = findCurrentPlane();
-		bfs.X_DEST = x_dest;
-		bfs.Z_DEST = z_dest;
 		bfs.Start ();
 
 	}
+
 
 	/// <summary>
 	/// Update this instance.
@@ -49,11 +90,26 @@ public class CharacterMove : MonoBehaviour {
 	/// Move to the location back and forth.
 	/// </summary>
 	void Update() {
-		
+
+		move ();
+	}
+
+	void move() {
+		// use once referencing dictionary from manager is fixed
+		//		changedLocation ();
+		Vector3 targetDir;
+		Vector3 newDir;
+		float step = Time.deltaTime * speed;
+
+		bfs.Move ();
+
+		targetDir = bfs.CurrentPlane.transform.position - transform.position;
+		newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+		transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
+		transform.rotation = Quaternion.LookRotation(newDir);
+
 		if (bfs.To && bfs.Valid) {
-			bfs.Move ();
-			float step = Time.deltaTime * speed;
-			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
+			
 			if (transform.position.Equals (bfs.CurrentPlane.transform.position) && bfs.PathIndex >= 0) {
 				bfs.PathIndex--;
 			} 
@@ -62,9 +118,6 @@ public class CharacterMove : MonoBehaviour {
 				bfs.PathIndex = 0;
 			}
 		} else if(!bfs.To && bfs.Valid) {
-			bfs.Move ();
-			float step = Time.deltaTime * speed;
-			transform.position = Vector3.MoveTowards (transform.position, bfs.CurrentPlane.transform.position, step);
 			if (transform.position.Equals (bfs.CurrentPlane.transform.position) && bfs.PathIndex >= 0) {
 				bfs.PathIndex++;
 			} 
@@ -73,6 +126,28 @@ public class CharacterMove : MonoBehaviour {
 				bfs.PathIndex = bfs.Path.Count - 1;
 			}
 		}
+	}
+
+
+
+	// Use when CityDataManager is object
+	void changedLocation() {
+		string currentDest = "(" + x_dest + ", " + z_dest + ")";
+		string possibleDest;
+		IList<int> points = new List<int>();
+		cityDataManager = this.GetComponent<CityDataManager> ();
+		Dictionary<int, GameObject> test = new Dictionary<int, GameObject>();
+		test = cityDataManager.Humans;
+		GameObject check = test[id];
+		possibleDest = check.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text;
+
+		if (!possibleDest.Equals (currentDest)) {
+			points = bfs.findNumber (possibleDest);
+			x_dest = points [0];
+			z_dest = points [1];
+
+		}
+
 	}
 
 	/// <summary>
