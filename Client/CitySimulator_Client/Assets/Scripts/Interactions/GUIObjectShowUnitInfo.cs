@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEditor;
+using System;
 
 /// <summary>
 /// Module: ShowUnitInfo
@@ -35,10 +36,12 @@ public class GUIObjectShowUnitInfo : Interaction
         //GUID = GetComponentInChildren(typeof(TextMesh)) as TextMesh;
         //info1 = GetComponentInChildren(typeof(TextMesh)) as TextMesh;
         //info2 = GetComponentInChildren(typeof(TextMesh)) as TextMesh;
-        string guid = GetInstanceID().ToString();
-        GUID.text = guid;
+        //string guid = GetInstanceID().ToString();
+        //GUID.text = guid;
         //info1.text = "test2";
         //info2.text = "test3";
+        Guid g = Guid.NewGuid();
+        GUID.text = g.ToString();
     }
 
     /// <summary>
