@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class City
     {
-
         public static int FIXED_CAPACITY = 50;
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace ServerForTheLogic
         /// Written by Connor Goudie, Justin Mclennan, Andrew Busto Chandu Dissanayake
         /// <para/> Last edited:  Chandu Dissanayake, Andrew Busto 2017-11-13
         /// </summary>
-        public City()
+        public City(SimulationStateQueue full, SimulationStateQueue partial)
         {
             Map = new Location[CITY_WIDTH, CITY_LENGTH];
             BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1), CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
@@ -148,7 +148,6 @@ namespace ServerForTheLogic
             foreach(Block b in BlockMap)
             {
                 setAdjacents(b);
-
             }
             //starts clock 
             clock = new Clock(this);

@@ -76,7 +76,7 @@ namespace CitySimNetworkService
         protected override void OnStart(string[] args)
         {
             connectionHandler.StartListening();
-            updater.sendFullUpdate(city, Formatting.Indented);
+            updater.SendFullUpdate(city, Formatting.Indented);
         }
 
         /// <summary>
