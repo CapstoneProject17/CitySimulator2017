@@ -151,7 +151,7 @@ namespace ServerForTheLogic
                 }
             }
             //sets references to each blocks neighbouring blocks
-            foreach(Block b in BlockMap)
+            foreach (Block b in BlockMap)
             {
                 setAdjacents(b);
 
@@ -205,8 +205,8 @@ namespace ServerForTheLogic
             expandCity(BlockType.Commercial);
             expandCity(BlockType.Residential);
 
-            ClientPacket packet = new ClientPacket(this);
-            packet.ConvertPacket();
+            //ClientPacket packet = new ClientPacket(this);
+            //packet.ConvertPacket();
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace ServerForTheLogic
                 }
 
             }
-            
+
             if (empties.Count != 0)
             {
                 Randomizer rand = new Randomizer();
@@ -259,10 +259,10 @@ namespace ServerForTheLogic
                         break;
                     default:
                         throw new Exception("valid type must be passed in");
-                       
+
                 }
                 //for (int i = 0; i < 12; i++)
-                return createBuilding( BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
+                return createBuilding(BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
                                 empties[randIndex].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
             }
             //if there is no more room to expand.
@@ -304,20 +304,20 @@ namespace ServerForTheLogic
             }
 
             //assigns/creates jobs
-            if(Market.BusinessesHiring.Count == 0)
+            if (Market.BusinessesHiring.Count == 0)
             {
                 createBuilding(CommercialBlocksToFill.Peek());
                 createBuilding(IndustrialBlocksToFill.Peek());
             }
             List<Business> fullBusinesses = new List<Business>();
-            foreach(Business b in Market.BusinessesHiring)
+            foreach (Business b in Market.BusinessesHiring)
             {
-                if(b.workers.Count < b.Capacity)
+                if (b.workers.Count < b.Capacity)
                 {
                     temp.Workplace = b;
                     b.workers.Add(temp);
                     temp.incomeGenerated(b);
-                   // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
+                    // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
                     break;
                 }
                 else
@@ -326,7 +326,7 @@ namespace ServerForTheLogic
                 }
             }
 
-            foreach(Business b in fullBusinesses)
+            foreach (Business b in fullBusinesses)
             {
                 Market.BusinessesHiring.Remove(b);
             }
@@ -368,17 +368,17 @@ namespace ServerForTheLogic
 
             if (block.Type == BlockType.Commercial)
             {
-                building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY,true);
+                building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
             }
             else if (block.Type == BlockType.Residential)
             {
-                building = new Residential(FIXED_CAPACITY,true);
+                building = new Residential(FIXED_CAPACITY, true);
                 Homes.Add((Residential)building);
-                               
+
             }
             else if (block.Type == BlockType.Industrial)
             {
-                building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY,true);
+                building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
             }
             else
             {
@@ -555,6 +555,18 @@ namespace ServerForTheLogic
                 }
 
             }
+        }
+
+        public void StartSimulation()
+        {
+            clock.timer.Start();
+            Console.WriteLine("Started simulation");
+        }
+
+        public void StopSimulation()
+        {
+            clock.timer.Stop();
+            Console.WriteLine("Stopped simulation");
         }
 
         /// <summary>

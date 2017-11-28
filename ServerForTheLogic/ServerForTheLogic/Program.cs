@@ -7,6 +7,8 @@ using ServerForTheLogic.Json;
 using ServerForTheLogic.Econ;
 using System.ServiceProcess;
 using NLog;
+using System.IO;
+using System.Threading;
 
 namespace ServerForTheLogic
 {
@@ -25,24 +27,7 @@ namespace ServerForTheLogic
 
         public static void Start(string[] args)
         {
-            DatabaseLoader loader = new DatabaseLoader();
-            city = loader.loadCity();
-            // Block b, b1, b2;
-            if (city == null)
-            {
-                //TEST DATA 
-                city = new City();
-                //fill 3 blocks
 
-            }
-
-            //city.printBlockMapTypes();
-            city.printCity();
-            Updater<City> updater = new Updater<City>();
-            updater.sendFullUpdate(city, Formatting.Indented);
-            //foo();
-            test2();
-            GetInput();
         }
 
         public static void Stop()
@@ -57,67 +42,34 @@ namespace ServerForTheLogic
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            logger.Info("its a bug");
-            logger.Info("its a bug");
-            logger.Info("its a bug");
-            logger.Info("its a bug");
-            if (!Environment.UserInteractive)
+            string path = @"..\..\SerializedCity\city.json";
+
+            // This text is added only once to the file.
+            if (!File.Exists(path))
             {
-                Console.WriteLine("service");
-                // running as service
-                using (var service = new Service())
-                    ServiceBase.Run(service);
+                File.WriteAllText(path, "");
             }
-            else
+
+            // Open the file to read from.
+            string readText = File.ReadAllText(path);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+
+            JsonSerializer serializer = new JsonSerializer();
+            city = JsonConvert.DeserializeObject<City>(readText, settings);
+
+            if (city == null)
             {
-                // running as console app
-                Console.WriteLine("console");
-                DatabaseLoader loader = new DatabaseLoader();
-                city = loader.loadCity();
-                // Block b, b1, b2;
-                if (city == null)
-                {
-                    //TEST DATA 
-                    city = new City();
-                    //fill 3 blocks
-
-                }
-
-                city.printCity();
-                Updater<City> updater = new Updater<City>();
-                JsonSerializerSettings settings = new JsonSerializerSettings();
-                settings.Converters.Add(new LocationConverter());
-
-                city = JsonConvert.DeserializeObject<City>(updater.sendFullUpdate(city, Formatting.Indented), settings);
-                city.printCity();
-
-                test2();
-                GetInput();
+                Console.WriteLine("Generating new city");
+                city = new City();
             }
-        }
-
-
-        /// <summary>
-        /// Test method for Market transaction (Person)
-        /// </summary>
-        private static void test1()
-        {
-            Console.WriteLine("FOO");
-            Person p = city.createPerson();
-            Console.WriteLine("funds before " + p.Funds);
-            p.BuyThings();
-            Console.WriteLine("funds after " + p.Funds);
-        }
-        /// <summary>
-        /// Test method for Market transaction (Commercial)
-        /// </summary>
-        private static void test2()
-        {
-            Console.WriteLine("BAR");
-            Commercial b = new Commercial("new", 10, true);
-            Console.WriteLine("funds before " + b.Funds);
-            b.FillInventory();
-            //Console.WriteLine("funds after " + b.Funds);
+            Updater<City> updater = new Updater<City>();
+            updater.SendFullUpdate(city, Formatting.Indented);
+            city.printCity();
+            
+            city.StartSimulation();
+            GetInput();
         }
 
         private static void GetInput()
@@ -149,15 +101,19 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    city.clock.timer.Stop();
+                    city.StopSimulation();
                 }
                 if (commands[0].Equals("start", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    city.clock.timer.Start();
+                    city.StartSimulation();
                 }
                 if (commands[0].Equals("homes", StringComparison.CurrentCultureIgnoreCase))
                 {
                     city.Homes.Dump();
+                }
+                if (cmd.Equals("print city"))
+                {
+                    city.printCity();
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace ServerForTheLogic.Utilities
         /// hours are 30 seconds
         /// </summary>
         [JsonProperty]
-        public UInt32 netHours { get; set; }
+        public UInt32 NetHours { get; set; }
 
         /// <summary>
         /// The total number of days since this Clock started.
@@ -71,9 +71,6 @@ namespace ServerForTheLogic.Utilities
 
             timer.AutoReset = true;
             timer.Enabled = true;
-
-            timer.Start();
-            
         }
 
         /// <summary>
@@ -88,7 +85,7 @@ namespace ServerForTheLogic.Utilities
             netMinutes++;
             //Console.WriteLine("Mins:\t" + netMinutes);
 
-            if (netMinutes / 60 > netHours)
+            if (netMinutes / 60 > NetHours)
             {
                 tickHour();
             }
@@ -101,8 +98,8 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         private void tickHour()
         {
-            netHours = netMinutes / 60;
-            Console.WriteLine("Hours:\t" + netHours);
+            NetHours = netMinutes / 60;
+            Console.WriteLine("Hours:\t" + NetHours);
             Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             
@@ -110,10 +107,13 @@ namespace ServerForTheLogic.Utilities
             foreach (Person p in city.AllPeople) {
                 p.ConsumeProd();
             }
+            ClientPacket packet = new ClientPacket(city);
 
+            string output = packet.ConvertPacket();
+            Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
-            if (netHours / 24 > netDays)
+            if (NetHours / 24 > netDays)
             {
                 tickDay();
             }
@@ -135,7 +135,7 @@ namespace ServerForTheLogic.Utilities
                 }
             }
 
-            netDays = netHours / 24;//send nudes
+            netDays = NetHours / 24;//send nudes
             Console.WriteLine("Days:\t" + netDays);
             if (netDays / 365 > netYears)
             {
