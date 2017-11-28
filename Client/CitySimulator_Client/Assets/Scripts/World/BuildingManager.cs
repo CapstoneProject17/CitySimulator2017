@@ -21,19 +21,22 @@ using UnityEngine;
 public class BuildingManager : MonoBehaviour {
 
 	public GameObject buildingManager;
+
 	private GameObject[] planes;
 	private GameObject buildingObject;
+
 	private Transform planeTransform;
 
 	// Use this for initialization
 	void Start () {
 		// planeTransform = GameObject.Find("Plane(Clone)").transform;
 		buildingManager = GameObject.Find ("BuildingManager");
-		intializeBuildings ();
+
 	}
 
 	// Update is called once per frame
 	void Update () {
+		intializeBuildings ();
 	}
 
 	// Update builings

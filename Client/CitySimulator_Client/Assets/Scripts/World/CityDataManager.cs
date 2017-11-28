@@ -127,6 +127,10 @@ public class CityDataManager : MonoBehaviour {
 	// population of the city
 	private int population = 1000;
 
+    public GameObject buildingManager;
+
+    public GameObject characterManager;
+
 	/// <summary>
 	/// Gets the population.
 	/// </summary>
@@ -226,19 +230,17 @@ public class CityDataManager : MonoBehaviour {
 
         // TODO: Server request initial
 
-        initiateCityData();
-
-		systemStartedTimeStamp =  System.DateTime.Now.Minute;
-		updateTheCity = false;
-		if(turnOnTestGrid){ // if turned on for test, initiate test grid
-			initiateGridForTest();
-		}
-        // else {  // else general grid
-		//	initiateGrid ();
-		//}
     
         Debug.Log(cityData.GridLength);
 	}
+
+    /// <summary>
+    // Start this instance.
+    /// </summary>
+    void Start () {
+        buildingManager = GameObject.Find("BuildingManager");
+        characterManager = GameObject.Find("CharacterManager");
+    }
 
 	/// <summary>
 	/// Update this instance.
@@ -249,19 +251,21 @@ public class CityDataManager : MonoBehaviour {
 
         // TODO: request update
 
+		if(initateCity){
+            if(turnOnTestGrid){ // if turned on for test, initiate test grid
+                initiateGridForTest();
+            }
 
-		if(updateTheCity){
+            if(buildingManager != null
+                && characterManager != null){
 
-			//call the updates
-
-			updateTheCity = false;
+                buildingManager.
+            }
 		}
 
-		// Debug.Log(systemStartedTimeStamp);
-		// Debug.Log(systemCurrentTimeStamp);
 	}
 
-    public void initiateCityData(){
+    public bool initiateCityData(){
         size_z = cityData.GridLength;
         size_x = cityData.GridWidth;
 
@@ -323,30 +327,9 @@ public class CityDataManager : MonoBehaviour {
                 Debug.Log("CityDataManager: building.Point is out of bound!!");
             }
         }
+
+        return true;
     }
-
-	/// <summary>
-	/// Initials the grid.
-	/// </summary>
-	public void initiateGrid() {
-		grid = new int[size_x][];
-
-		// initalize 2d array
-		for (int x = 0; x < grid.Length; x++) {
-			grid [x] = new int[size_z]; 
-		}
-
-		// iterates grid and assign the zone
-		for(int x = 0; x < size_x; x++){
-			for (int z = size_z -1; z >= 0; z--) {
-				grid [x][z] = UnityEngine.Random.Range (0, 4);
-
-				if(grid[x][z] == 2)
-					grid[x][z] = 0;
-			}
-		}
-	}
-
 
 	/// <summary>
 	/// Initiate grid for test
