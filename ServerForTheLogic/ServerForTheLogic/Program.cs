@@ -7,6 +7,7 @@ using ServerForTheLogic.Json;
 using ServerForTheLogic.Econ;
 using System.ServiceProcess;
 using NLog;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic
 {
@@ -16,6 +17,16 @@ namespace ServerForTheLogic
     class Program
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 1
+        };
+
+        private static SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
+        {
+            StateBufferSize = 25
+        };
+
         public const string ServiceName = "ServerForTheLogic";
         public static List<Person> People = new List<Person>();
         private const int MEAN_DEATH_AGE = 80;
@@ -31,7 +42,7 @@ namespace ServerForTheLogic
             if (city == null)
             {
                 //TEST DATA 
-                city = new City();
+                city = new City(fullUpdateQueue, partialUpdateQueue);
                 //fill 3 blocks
 
             }
@@ -78,7 +89,7 @@ namespace ServerForTheLogic
                 if (city == null)
                 {
                     //TEST DATA 
-                    city = new City();
+                    city = new City(fullUpdateQueue, partialUpdateQueue);
                     //fill 3 blocks
 
                 }
@@ -159,23 +170,6 @@ namespace ServerForTheLogic
                 {
                     city.Homes.Dump();
                 }
-                if (commands[0].Equals("expand", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (commands.Length == 2)
-                    {
-                        if (commands[1].Equals("residential", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Residential);
-                        if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Commercial);
-                        if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
-                            city.expandCity(BlockType.Industrial);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Specify expansion type");
-                    }
-                }
-
             }
         }
     }

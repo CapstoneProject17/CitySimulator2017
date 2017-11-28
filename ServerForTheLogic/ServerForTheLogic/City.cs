@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
+using CitySimNetworkService;
 
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class City
     {
-
         public static int FIXED_CAPACITY = 50;
 
         /// <summary>
@@ -41,6 +41,9 @@ namespace ServerForTheLogic
         [JsonProperty]
         public Queue<Block> ResidentialBlocksToFill { get; set; }
 
+        public List<Point> NewRoads { get; set; }
+
+        public List<Building> NewBuildings { get; set; }
 
         /// <summary>
         /// Max width of the city grid
@@ -110,7 +113,7 @@ namespace ServerForTheLogic
         /// Written by Connor Goudie, Justin Mclennan, Andrew Busto Chandu Dissanayake
         /// <para/> Last edited:  Chandu Dissanayake, Andrew Busto 2017-11-13
         /// </summary>
-        public City()
+        public City(SimulationStateQueue full, SimulationStateQueue partial)
         {
             Map = new Location[CITY_WIDTH, CITY_LENGTH];
             BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1), CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
@@ -120,6 +123,9 @@ namespace ServerForTheLogic
             //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
             faker = new Faker("en");
+
+            NewRoads = new List<Point>();
+            NewBuildings = new List<Building>();
 
             CommercialBlocksToFill = new Queue<Block>();
             IndustrialBlocksToFill = new Queue<Block>();
@@ -148,10 +154,9 @@ namespace ServerForTheLogic
             foreach(Block b in BlockMap)
             {
                 setAdjacents(b);
-
             }
             //starts clock 
-            clock = new Clock(this);
+            clock = new Clock(this, full, partial);
 
             //sets initial state
             initialBlockAdd();
@@ -198,6 +203,9 @@ namespace ServerForTheLogic
 
             expandCity(BlockType.Commercial);
             expandCity(BlockType.Residential);
+
+            ClientPacket packet = new ClientPacket(this);
+            packet.ConvertPacket();
         }
 
         /// <summary>
@@ -378,6 +386,7 @@ namespace ServerForTheLogic
             building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
             block.LandPlot[x, z] = building;
             Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+            NewBuildings.Add(new Building(building));
             return building;
         }
 
@@ -436,9 +445,10 @@ namespace ServerForTheLogic
         /// </summary>
         /// <param name="b">Block that is getting roads</param>
         /// <returns></returns>
-        /// Updated on: 18-10-2017
-        /// Updated by: Connor Goudie
-        /// Changes: Refactored for readability (no functionality changes)
+        /// Written by : Connor Goudie
+        /// Updated on: 27-11-2017
+        /// Updated by: Chandu Dissanayake
+        /// Changes: Adds new roads to List that will be serialized into Json for client
         public void addRoads(Block b)
         {
             int xPos = b.StartPoint.x;
@@ -456,6 +466,7 @@ namespace ServerForTheLogic
                 {
                     b.LandPlot[i, 0] = new Road("");
                     Map[i + xPos, zPos] = b.LandPlot[i, 0];
+                    NewRoads.Add(new Point(i + xPos, zPos));
                 }
 
                 if (GetLocationAt(i + xPos, zPos + length) != null)
@@ -466,6 +477,8 @@ namespace ServerForTheLogic
                 {
                     b.LandPlot[i, length] = new Road("");
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
+                    NewRoads.Add(new Point(i + xPos, zPos + length));
+
                 }
             }
             //adds roads to the left and right borders of the block grid
@@ -479,6 +492,8 @@ namespace ServerForTheLogic
                 {
                     b.LandPlot[0, i] = new Road("");
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
+                    NewRoads.Add(new Point(xPos, i + zPos));
+
                 }
                 if (GetLocationAt(xPos + width, i + zPos) != null)
                 {
@@ -488,9 +503,11 @@ namespace ServerForTheLogic
                 {
                     b.LandPlot[width, i] = new Road("");
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
+                    NewRoads.Add(new Point(xPos + width, i + zPos));
+
                 }
             }
-           // b.setBlockType();
+            // b.setBlockType();
 
             //city.BlockMap[xPos / width, zPos / length] = b;
             // return b;

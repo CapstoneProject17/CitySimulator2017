@@ -72,11 +72,6 @@ namespace ServerForTheLogic
         public int Age;
 
         /// <summary>
-        /// Current Age in years
-        /// </summary>
-        private bool isDead;
-
-        /// <summary>
         /// Time to go to work
         /// </summary>
         public int TimeToWork { get; }
@@ -106,13 +101,22 @@ namespace ServerForTheLogic
         /// </summary>
         public int NumProducts;
 
+
+        public bool isDead;
+        /// <summary>
+        /// This is the Person Constructor
+        /// Last modified by Justin McLennan 2017-11-21</para>
+        /// </summary>
+        /// <param name="fName"></param>
+        /// <param name="lName"></param>
+        /// <param name="c"></param>
         public Person(string fName, string lName,City c)
         {
             FName = fName;
             LName = lName;
-            isDead = false;
             Id = Guid.NewGuid();
             setDeathAge();
+            isDead = false;
             //consumption created
             DailyConsumption();
             NumProducts = 0;//ToBuy();
@@ -127,6 +131,7 @@ namespace ServerForTheLogic
 
         /// <summary>
         /// Changes Daily Consumption rate
+        /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         public void DailyConsumption() {
             DCR = new Randomizer().Number(3, 4);
@@ -134,6 +139,7 @@ namespace ServerForTheLogic
 
         /// <summary>
         /// Changes Big Expense value
+        /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         public void BigExpense() {
             BExp = new Randomizer().Number(5000, 13000);
@@ -141,11 +147,16 @@ namespace ServerForTheLogic
 
         /// <summary>
         /// Amount to buy
+        /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         public int ToBuy() {
             return new Randomizer().Number(42, 56);
         }
-
+        /// <summary>
+        /// This will generate income based off the type of company they work for.
+        /// Last modified by Justin McLennan 2017-11-21</para>
+        /// </summary>
+        /// <param name="b"></param>
         public void incomeGenerated(Business b) {
             if (b.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
                 MonthlyIncome = new Randomizer().Number(3000, 5000);
@@ -198,6 +209,7 @@ namespace ServerForTheLogic
         /// Buys a random thing from products (singular right now)
         /// </summary>
         /// Written by Chandu Dissanayake
+        /// Last modified by Justin McLennan 2017-11-21</para>
         public void BuyThings()
         {
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
@@ -212,11 +224,15 @@ namespace ServerForTheLogic
         }
         /// <summary>
         /// Sets Age of Person
+        /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         public void SetAge() {
                 Age++;
         }
-
+        /// <summary>
+        /// This will consume and buy new products if they run out
+        /// Last modified by Justin McLennan 2017-11-21</para>
+        /// </summary>
         public void ConsumeProd() {
             if (NumProducts > DCR)
                 NumProducts -= DCR;

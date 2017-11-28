@@ -22,7 +22,7 @@ namespace ServerForTheLogic.Json
         private SimulationStateQueue partialUpdateQueue;
         private SimulationStateQueue fullUpdateQueue;
 
-        public Updater(SimulationStateQueue _partial, SimulationStateQueue _full)
+        public Updater(SimulationStateQueue _full, SimulationStateQueue _partial)
         {
             partialUpdateQueue = _partial;
             fullUpdateQueue = _full;
@@ -35,14 +35,20 @@ namespace ServerForTheLogic.Json
         /// </summary>
         /// <param name="sendableData"></param>
         /// <param name="formatting"></param>
-        public void sendPartialUpdate(T sendableData, Formatting formatting)
+        public void SendPartialUpdate(T sendableData, Formatting formatting)
         {
             JObject dataToSend = JObject.Parse(JsonConvert.SerializeObject(sendableData, formatting));
-            Console.WriteLine(dataToSend.ToString());
+            //Console.WriteLine(dataToSend.ToString());
             //Console.WriteLine(dataToSend.ToString().Length);
             partialUpdateQueue.Enqueue(dataToSend.ToString());
         }
 
+        /// <summary>
+        /// Send the entire state of the city to the db.
+        /// </summary>
+        /// <param name="sendableData"> The data to be serealized. </param>
+        /// <param name="formatting"> The formatting rules to be followed in serealization. </param>
+        /// <returns> The serialized Json string (for testing) </returns>
         public string sendFullUpdate(T sendableData, Formatting formatting)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
