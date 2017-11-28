@@ -63,6 +63,27 @@ public class NewBuilding
 /// <summary>
 /// Module: CityData
 /// Team: Client
+/// Description: Class model for the people data from the server
+/// Author: Harman Mahal Date: 2017-11-28
+/// Modified by: N/A
+/// Based on: N/A
+/// </summary>
+[Serializable]
+public class PersonTravel
+{
+    //unique id for the person
+    public string Id;
+
+    //Starting point of the person
+    public Point Origin;
+
+    //Destination point of the person
+    public Point Destination;
+}
+
+/// <summary>
+/// Module: CityData
+/// Team: Client
 /// Description: Class model for the city data from the server
 /// Author:
 ///  Name: Dongwon(Shawn) Kim    Date: 2017-11-25
@@ -73,7 +94,6 @@ public class NewBuilding
 [Serializable]
 public class CityData
 {
-
     // length of the grid for the city
     public int GridLength;
 
@@ -89,6 +109,9 @@ public class CityData
     // array of buildings
     public NewBuilding[] NewBuildings;
 
+    // array of people
+    public PersonTravel[] People;
+
 }
 
 /// <summary>
@@ -98,11 +121,13 @@ public class CityData
 /// Author:
 ///	 Name: Dongwon(Shawn) Kim    Date: 2017-09-11
 /// Modified by:	
-///	 Name: Dongwon(Shawn) Kim   Change:	Start to use		 Date: 2017-10-17
-///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 Date: 2017-10-18
-///  Name: Lancelei Herradura	Change: Adding walkable path Date: 2017-10-31
-///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 Date: 2017-11-13
-///  Name Lancelei Herradura	Change: Add human dictionary Date: 2017-11-25
+///	 Name: Dongwon(Shawn) Kim   Change:	Start to use		 									Date: 2017-10-17
+///	 Name: Dongwon(Shawn) Kim   Change:	bug fix		 		 									Date: 2017-10-18
+///  Name: Lancelei Herradura	Change: Adding walkable path 									Date: 2017-10-31
+///	 Name: Dongwon(Shawn) Kim   Change:	gridforTest	 		 									Date: 2017-11-13
+///  Name Lancelei Herradura	Change: Add human dictionary 									Date: 2017-11-25
+///  Name Harman Mahal			Change: integrate network connection and reqeust enable 		Date: 2017-11-28
+///  Name Gisu Kim				Change: integrate network connection and reqeust enable 		Date: 2017-11-28
 /// Based on:  N/A
 /// </summary>
 public class CityDataManager : MonoBehaviour
@@ -110,8 +135,12 @@ public class CityDataManager : MonoBehaviour
 
     // JSON dummy String for testing
     private static string jsonString = "{\"GridLength\":99,\"GridWidth\":58,\"netHours\":0,\"NewRoads\":[{\"x\":27,\"z\":49},{\"x\":27,\"z\":56},{\"x\":28,\"z\":49},{\"x\":28,\"z\":56},{\"x\":29,\"z\":49},{\"x\":29,\"z\":56},{\"x\":30,\"z\":49},{\"x\":30,\"z\":56},{\"x\":27,\"z\":50},{\"x\":30,\"z\":50},{\"x\":27,\"z\":51},{\"x\":30,\"z\":51},{\"x\":27,\"z\":52},{\"x\":30,\"z\":52},{\"x\":27,\"z\":53},{\"x\":30,\"z\":53},{\"x\":27,\"z\":54},{\"x\":30,\"z\":54},{\"x\":27,\"z\":55},{\"x\":30,\"z\":55},{\"x\":24,\"z\":56},{\"x\":24,\"z\":63},{\"x\":25,\"z\":56},{\"x\":25,\"z\":63},{\"x\":26,\"z\":56},{\"x\":26,\"z\":63},{\"x\":27,\"z\":63},{\"x\":24,\"z\":57},{\"x\":27,\"z\":57},{\"x\":24,\"z\":58},{\"x\":27,\"z\":58},{\"x\":24,\"z\":59},{\"x\":27,\"z\":59},{\"x\":24,\"z\":60},{\"x\":27,\"z\":60},{\"x\":24,\"z\":61},{\"x\":27,\"z\":61},{\"x\":24,\"z\":62},{\"x\":27,\"z\":62},{\"x\":21,\"z\":63},{\"x\":21,\"z\":70},{\"x\":22,\"z\":63},{\"x\":22,\"z\":70},{\"x\":23,\"z\":63},{\"x\":23,\"z\":70},{\"x\":24,\"z\":70},{\"x\":21,\"z\":64},{\"x\":24,\"z\":64},{\"x\":21,\"z\":65},{\"x\":24,\"z\":65},{\"x\":21,\"z\":66},{\"x\":24,\"z\":66},{\"x\":21,\"z\":67},{\"x\":24,\"z\":67},{\"x\":21,\"z\":68},{\"x\":24,\"z\":68},{\"x\":21,\"z\":69},{\"x\":24,\"z\":69}],\"NewBuildings\":[{\"id\":\"24132329-e85a-4072-b9c8-1dab463b8443\",\"Name\":\"Pacocha Inc\",\"Point\":{\"x\":28,\"z\":54},\"Type\":\"I\",\"Rating\":0,\"IsTall\":true},{\"id\":\"0a6a8518-fc33-4d7d-bf88-ef7464f72d5e\",\"Name\":\"Hilll, Kohler and Effertz\",\"Point\":{\"x\":25,\"z\":59},\"Type\":\"C\",\"Rating\":0,\"IsTall\":true},{\"id\":\"43018e9e-b03b-45d1-b214-ae7a623d5a8a\",\"Name\":\"Residence\",\"Point\":{\"x\":22,\"z\":69},\"Type\":\"H\",\"Rating\":0,\"IsTall\":true}]}";
-    private string initialCityState;
+
+	// measure (full or partial) of a update type.
+	private string initialCityState;
     private string partialCityState;
+
+	// detect whether there was the last update.
     private int? lastUpdate;
 
     // deserialize json to object
@@ -251,6 +280,18 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
+	/// <summary>
+	/// Invoke a update is triggered every minute
+	/// </summary>
+    private void Start()
+    {
+        InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
+    }
+
+
+	/// <summary>
+	/// Make a request for partial update and request to the server 
+	/// </summary>
     private void GetCityUpdate()
     {
         int lastPartialUpdate = lastUpdate ?? -1;
@@ -277,16 +318,17 @@ public class CityDataManager : MonoBehaviour
 	/// </summary>
 	void Awake () {
 
-        // TODO: Server request initial
+        // Server request initial
         SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
         {
             RequestType = "update",
             FullUpdate = true
         };
 
-        NetworkConnectionHandler.ConnectToServer();
+		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
         initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
 
+        //Set the lastUpdate to the netHour value of citydata
         initiateCityData();
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;

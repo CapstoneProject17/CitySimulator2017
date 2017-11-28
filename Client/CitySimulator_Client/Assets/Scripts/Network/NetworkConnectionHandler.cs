@@ -19,7 +19,6 @@ using System.Text;
 /// Updated by: 2017-11-03
 /// What the superviosr should know: N/A
 /// </summary>
-/// 
 public static class NetworkConnectionHandler
 {
     public static bool socketReady = false;
@@ -30,6 +29,10 @@ public static class NetworkConnectionHandler
     public static string host = "127.0.0.1";
     public static int port = 13456;
 
+
+	/// <summary>
+	/// Initialize a socket and stream for each client
+	/// </summary>
     public static void ConnectToServer()
     {
         if (socketReady)
@@ -37,22 +40,7 @@ public static class NetworkConnectionHandler
             return;
         }
 
-        //default host / port values
-        string host = "127.0.0.1";
-        int port = 13456;
-
-        //		//overwrite default host / port values, if there is something in thoese boxes
-        //		string h;
-        //		int p;
-        //
-        //		if (h != "")
-        //			host = h;
-        //		if (p != 0)
-        //		{
-        //			port = p;
-        //		}
-
-        //cresate the socket
+        //cresate a socket and stream 
         try
         {
             socket = new TcpClient(host, port);
@@ -66,6 +54,9 @@ public static class NetworkConnectionHandler
     }
 
 
+	/// <summary>
+	/// Read data from the socket stream 
+	/// </summary>
     public static string ReadFromServer()
     {
         if (socketReady)
@@ -90,6 +81,9 @@ public static class NetworkConnectionHandler
         return json;
     }
 
+	/// <summary>
+	/// write data for the socket stream 
+	/// </summary>
     public static string WriteForServer(string data)
     {
         if (!socketReady)
@@ -98,6 +92,7 @@ public static class NetworkConnectionHandler
             Console.WriteLine("Socket not ready");
             ConnectToServer();
         }
+
         byte[] dataToSend = Encoding.ASCII.GetBytes(data);
         try{
             stream.Write(dataToSend, 0, dataToSend.Length);
@@ -110,22 +105,7 @@ public static class NetworkConnectionHandler
 
         return ReadFromServer();
     }
-
-
-    private static void OnIncomingData(string data)
-    {
-        //        if (data == "%NAME")
-        //        {
-        //            Send("&NAME| " + clientName);
-        //            return;
-        //        }
-
-        //detect data and parse into an object
-        DataManager.ToObject(data);
-
-
-    }
-
+		
     /// <summary>
     ///  check whether or not a client is connected
     /// </summary>
