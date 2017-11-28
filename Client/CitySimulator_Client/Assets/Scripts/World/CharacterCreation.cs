@@ -33,7 +33,7 @@ public class CharacterCreation : MonoBehaviour {
 	/// Start this instance.
 	/// </summary>
 	void Start () {
-		population = 10;
+		population = 1;
 		characterManager = GameObject.Find ("CharacterManager");
 		
 	}
@@ -43,40 +43,89 @@ public class CharacterCreation : MonoBehaviour {
 	/// </summary>
 	void Update () {
 		
-		createCharacter();
+		createCharacter("test", 0,0, 24,13);
 
 	}
 
 	/// <summary>
 	/// Creates the character.
 	/// </summary>
-	void createCharacter(){
-		IList<int> xz = new List<int>();
+	public void createCharacter(string guid, int src_x, int src_z, int dest_x, int dest_z){
+		IList<int> xz = new List<int> ();
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
-		if (population > 0) {
-			for (int i = population; i >= 1; i--) {
-				GameObject source = setRandSource ();
+		GameObject source = findPlane (src_x, src_z);
+		GameObject dest = findPlane (dest_x, dest_z);
 
-				Transform human = 
-					Instantiate (character,
-						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
-						Quaternion.identity,characterManager.transform) as Transform;
-				
-				human.gameObject.AddComponent<CharacterMove> ();
-				xz = setRandDest ();
-				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
-				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
-				int x = human.GetComponent<CharacterMove> ().X_Dest;
-				int z = human.GetComponent<CharacterMove> ().Z_Dest;
-//				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
-				xz.Clear ();
-			}
 
-			population = 0;
-		}
+		Transform human = 
+			Instantiate (character,
+				new Vector3 (source.transform.position.x, 0, source.transform.position.z),
+				Quaternion.identity,characterManager.transform) as Transform;
+		
+		human.gameObject.AddComponent<CharacterMove> ();
+		human.GetComponent<CharacterMove> ().X_Dest = (int)source.transform.position.x;
+		human.GetComponent<CharacterMove> ().Z_Dest = (int)source.transform.position.z;
+		human.name = guid;
+		
+		// testing
+//		IList<int> xz = new List<int>();
+//		planes = GameObject.FindGameObjectsWithTag("plane");
+//
+//		if (population > 0) {
+//			for (int i = population; i >= 1; i--) {
+//				GameObject source = setRandSource ();
+//
+//				Transform human = 
+//					Instantiate (character,
+//						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
+//						Quaternion.identity,characterManager.transform) as Transform;
+//				
+//				human.gameObject.AddComponent<CharacterMove> ();
+//				xz = setRandDest ();
+//				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
+//				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
+//				int x = human.GetComponent<CharacterMove> ().X_Dest;
+//				int z = human.GetComponent<CharacterMove> ().Z_Dest;
+////				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
+//				xz.Clear ();
+//			}
+//
+//			population = 0;
+//		}
 
 	}
+
+
+	public void destroyCharacter(string guid) {
+		
+	}
+
+	/// <summary>
+	/// Finds the plane that has certain x and z axis.
+	/// </summary>
+	/// <returns>The plane.</returns>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="z">The z coordinate.</param>
+	GameObject findPlane(int x, int z) {
+		string goalPlaneText = "(" + x + ", " + z + ")";
+		foreach (GameObject plane in planes) {
+			Transform grid = plane.transform;
+			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
+			if (gridText.Equals (goalPlaneText)) {
+				return plane;
+			}
+		}
+
+		return null;
+	}
+
+
+
+
+
+
+
 
 	/// <summary>
 	/// Used for Testing

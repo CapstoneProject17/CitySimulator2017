@@ -98,6 +98,7 @@ public class CharacterMove : MonoBehaviour {
 	void move() {
 		// use once referencing dictionary from manager is fixed
 		//		changedLocation ();
+		
 		Vector3 targetDir;
 		Vector3 newDir;
 		float step = Time.deltaTime * speed;
