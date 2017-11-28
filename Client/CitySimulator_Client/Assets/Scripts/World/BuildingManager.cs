@@ -199,6 +199,10 @@ public class BuildingManager : MonoBehaviour {
 		}
 	}
 
+	void rotateBuilding(GameObject obj) {
+	}
+
+
 	// Instantiates the building object
 	void instantiateBuilding (GameObject obj, float x, float y, float z) {
 
