@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
+/// /// <summary>
+/// Team: Network
+/// Description: request will be an object type everytime communication between server and client
+/// Author:
+///  Name: Harman Mahal    	Date: 2017-11-28
+///  Name: Gisu Kim    		Date: 2017-11-28
+///  Name: N/A   Change: N/A         Date: N/A
+/// Based on:  N/A
+/// </summary>
+
+
+/// <summary>
+/// Contains update type.
+/// </summary>
 public class BaseRequest
 {
     public string RequestType { get; set; }
