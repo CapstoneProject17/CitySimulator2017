@@ -8,6 +8,7 @@ using CitySimNetworkService;
 using DBInterface.Infrastructure;
 using DBInterface;
 using DBInterface.Econ;
+using ServerForTheLogic.Json.LiteObjects;
 
 namespace ServerForTheLogic
 {

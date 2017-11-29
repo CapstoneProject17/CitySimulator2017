@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.IO;
 using DBInterface.Infrastructure;
 using DBInterface;
+using ServerForTheLogic.Json.LiteObjects;
 
 namespace ServerForTheLogic.Json
 {

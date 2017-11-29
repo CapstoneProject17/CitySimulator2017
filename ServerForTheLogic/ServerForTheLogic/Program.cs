@@ -7,6 +7,8 @@ using NLog;
 using System.IO;
 using CitySimNetworkService;
 using DBInterface;
+using DBInterface.Econ;
+using DBInterface.Infrastructure;
 
 namespace ServerForTheLogic
 {
@@ -147,8 +149,8 @@ namespace ServerForTheLogic
                 }
                 if (cmd.Equals("blocks"))
                 {
-                    foreach (Block b in city.BlockMap)
-                        City.printBlock(b);
+                    foreach (Block b in city.BlockMap) { }
+                        //City.printBlock(b);
                 }
 
             }
