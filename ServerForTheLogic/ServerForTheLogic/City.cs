@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using CitySimNetworkService;
+using ServerForTheLogic.Json.LiteObjects;
 using DBInterface.Infrastructure;
 using DBInterface;
 using DBInterface.Econ;
@@ -49,12 +50,12 @@ namespace ServerForTheLogic
         /// <summary>
         /// Max width of the city grid
         /// </summary>
-        public const int CITY_WIDTH = 7; // 7;//58;
+        public const int CITY_WIDTH = 49; // 7;//58;
 
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 15;//15;//99;
+        public const int CITY_LENGTH = 50;//15;//99;
 
         [JsonProperty]
         /// <summary>
