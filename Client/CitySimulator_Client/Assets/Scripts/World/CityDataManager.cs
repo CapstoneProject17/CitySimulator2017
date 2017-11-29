@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 /// <summary>
 /// Module: Point
@@ -140,7 +140,7 @@ public class CityDataManager : MonoBehaviour
 	private string initialCityState;
     private string partialCityState;
 
-	// detect whether there was the last update.
+	// detect whether there was the last update.(In hours)
     private int? lastUpdate;
 
     // deserialize json to object
@@ -157,7 +157,7 @@ public class CityDataManager : MonoBehaviour
     public double systemCurrentTimeStamp;
 
     // timeInHour
-    public double timeInHour;
+    public int timeInHour;
 
     // population of the city
     private int population = 1000;
@@ -168,6 +168,7 @@ public class CityDataManager : MonoBehaviour
 
     public GameObject gridManager;
 
+    public float nextTime;
 
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
@@ -338,6 +339,8 @@ public class CityDataManager : MonoBehaviour
         //}
 
         // Debug.Log(cityData.GridLength);
+        timeInHour = 0;
+        nextTime = 0;
     }
 
     /// <summary>
@@ -381,15 +384,25 @@ public class CityDataManager : MonoBehaviour
                     buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
                     runOnce = false;
                 }
+
+                if (Time.time >= nextTime) {
+                    nextTime += 1; 
+                    updateClock((int)nextTime);
+                }
+
   //           }
 		// }
 
-        // if (updateTheCity) {
-        //     cityData = JsonUtility.FromJson<CityData>(partialCityState);
-        //     lastUpdate = cityData.netHours;
-        //     //Update the city with the latest city data
-        //     updateTheCity = false;
-        // }
+        if (updateTheCity) {
+            cityData = JsonUtility.FromJson<CityData>(partialCityState);
+            lastUpdate = cityData.netHours;
+            //Update the city with the latest city data
+
+
+            // TODO :Client team 
+            
+            updateTheCity = false;
+        }
 
 	}
 
@@ -562,4 +575,23 @@ public class CityDataManager : MonoBehaviour
 	public void noticeUpdate(){
 		updateTheCity = true;
 	}
+
+    /// <summary>
+    /// update the clock's time
+    /// </summary>
+    public void updateClock(int entireHours){
+        Text clock = GameObject.Find("Clock").transform.GetChild(0).GetComponent<Text>(); 
+        Debug.Log(clock);
+        int days = entireHours/24;
+        int hours = entireHours%24;
+        string textForHour = "";
+        
+        if(days < 1){
+            textForHour = hours + " Hours";
+        } else {
+            textForHour = days + " Days " + hours + " Hours";
+        }
+
+        clock.text = textForHour;
+    }
 }

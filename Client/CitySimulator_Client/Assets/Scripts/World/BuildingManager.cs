@@ -14,9 +14,9 @@ using UnityEngine;
 ///	 Name: Andrew Lam   Change: create, update, destroy building funtions added 	Date: 2017-11-25
 ///	 Name: Shawn  Kim   Change: Append objects to parent 							Date: 2017-10-20
 /// Based on:  N/A
-/// https://docs.unity3d.com/ScriptReference/Material-color.html
-/// https://docs.unity3d.com/ScriptReference/GameObject.html
-/// https://docs.unity3d.com/ScriptReference/Resources.Load.html
+///  https://docs.unity3d.com/ScriptReference/Material-color.html
+///  https://docs.unity3d.com/ScriptReference/GameObject.html
+///  https://docs.unity3d.com/ScriptReference/Resources.Load.html
 /// </summary>
 public class BuildingManager : MonoBehaviour {
 
@@ -31,7 +31,6 @@ public class BuildingManager : MonoBehaviour {
 	void Start () {
 		// planeTransform = GameObject.Find("Plane(Clone)").transform;
 		buildingManager = GameObject.Find ("BuildingManager");
-
 	}
 
 	// Update is called once per frame
