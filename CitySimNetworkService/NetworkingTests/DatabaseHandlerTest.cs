@@ -8,7 +8,8 @@ namespace NetworkingTests
 {
     /// <summary>
     /// Test class for DatabaseHandler - needs to be updated when server is running
-    /// </summary>
+	/// to request existing GUIDs for tests
+	/// </summary>
     /// <author>
     /// Kevin
     /// </author>
@@ -45,7 +46,7 @@ namespace NetworkingTests
         public void DbHandlerGridObjectTest()
         {
             string guid = new Guid().ToString();
-            string sample = "{\"type\": \"database\", \"resourceID\": " + guid + "\"}";
+            string sample = "{\"RequestType\": \"Database\", \"ResourceID\": " + guid + "\"}";
 
             dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
             dynamic obj = dbHandler.HandleRequest(jsonObj);
@@ -53,37 +54,46 @@ namespace NetworkingTests
             Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.GridObject));
         }
 
+		/// <summary>
+		/// Tests for a Citizen object in DB, needs GUID
+		/// </summary>
         [TestMethod]
         public void DbHandlerPersonTest()
         {
             string guid = new Guid().ToString();
-            string sample = "{\"type\": \"database\", \"resourceID\": " + guid + "\"}";
+            string sample = "{\"RequestType\": \"Database\", \"ResourceID\": " + guid + "\"}";
 
             dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
             dynamic obj = dbHandler.HandleRequest(jsonObj);
 
-            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.Person));
+            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.PersonDB));
         }
 
-        [TestMethod]
+		/// <summary>
+		/// Tests for a Product in DB, needs ResourceID(name)
+		/// </summary>
+		[TestMethod]
         public void DbHandlerProductTest()
         {
             string guid = new Guid().ToString();
-            string sample = "{\"type\": \"database\", \"resourceID\": " + guid + "\"}";
+			string sample = "{\"RequestType\": \"Database\", \"ResourceID\": " + guid + "\"}";
 
-            dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
+			dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
             dynamic obj = dbHandler.HandleRequest(jsonObj);
 
-            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.Product));
+            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.ProductDB));
         }
 
+		/// <summary>
+		/// Tests for a PartialSimulationUpdateRequest: should fail
+		/// </summary>
         [TestMethod]
         public void DbHandlertTestFailure()
         {
             string guid = new Guid().ToString();
-            string sample = "{\"type\": \"database\", \"resourceID\": " + guid + "\"}";
+			string sample = "{\"RequestType\": \"Database\", \"ResourceID\": " + guid + "\"}";
 
-            dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
+			dynamic request = JsonConvert.DeserializeObject<BaseRequest>(sample, new RequestJsonConverter());
 
             Assert.IsNotInstanceOfType(request, typeof(PartialSimulationUpdateRequest));
         }

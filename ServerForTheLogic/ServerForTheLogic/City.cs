@@ -1,17 +1,13 @@
 ﻿using Newtonsoft.Json;
-using ServerForTheLogic.Infrastructure;
-using ServerForTheLogic.Json;
 using ServerForTheLogic.Utilities;
-using ServerForTheLogic.Econ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Bogus;
 using CitySimNetworkService;
-using ConsoleDump;
-using ServerForTheLogic.Json.LiteObjects;
+using DBInterface.Infrastructure;
+using DBInterface;
+using DBInterface.Econ;
 
 namespace ServerForTheLogic
 {
@@ -69,7 +65,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// List of all inhabitants of the city
         /// </summary>
-        public List<Person> AllPeople { get; set; }
+        public List<DBInterface.Person> AllPeople { get; set; }
 
         /// <summary>
         /// Every hour, send the nested dictionary to the network queue
@@ -123,7 +119,7 @@ namespace ServerForTheLogic
             Map = new Location[CITY_WIDTH, CITY_LENGTH];
             BlockMap = new Block[CITY_WIDTH / (Block.BLOCK_WIDTH - 1), CITY_LENGTH / (Block.BLOCK_LENGTH - 1)];
 
-            AllPeople = new List<Person>();
+            AllPeople = new List<DBInterface.Person>();
             Homes = new List<Residential>();
             //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
@@ -286,9 +282,9 @@ namespace ServerForTheLogic
         /// </summary>
         /// <para>Written by Chandu Dissanayake,Connor Goudie, Justin Mclennan</para>
         /// <returns>Person created</returns>
-        public Person createPerson()
+        public DBInterface.Person createPerson()
         {
-            Person temp = new Person(faker.Name.FirstName(), faker.Name.LastName(), this);
+            DBInterface.Person temp = new DBInterface.Person(faker.Name.FirstName(), faker.Name.LastName());
             Randomizer rand = new Randomizer();
             List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
             //assigns/creates Home

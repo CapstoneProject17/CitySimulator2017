@@ -1,19 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using DataAccessLayer;
+using CitySimNetworkingApplication;
 
 namespace CitySimNetworkService
 {
-	/// <summary> 
-	/// Contains handler for database request. 
-	/// </summary>
-	/// 
-	/// <author> 
-	/// Harman Mahal, Kevin Mitchell
-	/// </author>
-	public class DatabaseHandler
+    /// <summary> 
+    /// Contains handler for database request. 
+    /// </summary>
+    /// 
+    /// <author> 
+    /// Harman Mahal, Kevin Mitchell
+    /// </author>
+    public class DatabaseHandler
 	{
 		/// <summary>
 		/// MongoDAL used to call Database methods
@@ -41,24 +40,31 @@ namespace CitySimNetworkService
 		/// </returns>
 		public string HandleRequest(DatabaseResourceRequest request)
 		{
-			switch (request.ResourceType)
+			try
 			{
-				case "object":
-					Guid guid = new Guid(request.ResourceID);   //parse resourceID into GUID
-					Object obj = data.GetObjectByGuid(guid);           //get object from database via GUID
-					return JsonConvert.SerializeObject(obj);    //serialize object as JSON and return to client
+				switch (request.ResourceType)
+				{
+					case "object":
+						Guid guid = new Guid(request.ResourceID);   //parse resourceID into GUID
+						Object obj = data.GetObjectByGuid(guid);    //get object from database via GUID
+						return JsonConvert.SerializeObject(obj);    //serialize object as JSON and return to client
 
-				case "product":
-					Object product = data.GetProduct(request.ResourceID);
-					return JsonConvert.SerializeObject(product);
+					case "product":
+						Object product = data.GetProduct(request.ResourceID);
+						return JsonConvert.SerializeObject(product);
 
-				case "clock":
-					Object clock = data.GetClock();
-					return JsonConvert.SerializeObject(clock);
+					case "clock":
+						Object clock = data.GetClock();
+						return JsonConvert.SerializeObject(clock);
 
-				default:
-					string errorString = "{Request: 'invalid'}";
-					return errorString;
+					default:
+						ErrorResponse error = new ErrorResponse { Message = "Invalid Database Request: invalid database request type" };
+						return JsonConvert.SerializeObject(error);
+				}
+			} catch (Exception)
+			{
+				ErrorResponse error = new ErrorResponse { Message = "Invalid Database Request: GUID not found" };
+				return JsonConvert.SerializeObject(error);
 			}
 		}
 	}

@@ -50,6 +50,7 @@ namespace CitySimNetworkService
             //TODO: The port should be specified in App.Config
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 13456);
 
+			//create socket for to listen for clients with specified port
             Socket listener = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream, ProtocolType.Tcp);
 
@@ -108,15 +109,17 @@ namespace CitySimNetworkService
             SocketState state = (SocketState)ar.AsyncState;
             Socket handler = state.socket;
 
+			//read bytes from socket
             int bytesRead = handler.EndReceive(ar);
 
             if (bytesRead > 0)
             {
+				//convert to string format
                 state.receivedData.Append(Encoding.UTF8.GetString(state.buffer, 0, bytesRead));
                 content = state.receivedData.ToString();
                 if (content.IndexOf("<EOF>") > -1)
                 {
-                    string response = requestHandler.ParseRequest(content);
+                    string response = requestHandler.ParseRequest(content); //convert to JSON format
                     Send(handler, response);
                 }
 

@@ -43,6 +43,10 @@
     <Reference Include="ConsoleDump, Version=0.6.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\CitySimNetworkService\packages\ConsoleDump.0.6.0.1\lib\net40-Client\ConsoleDump.dll</HintPath>
     </Reference>
+    <Reference Include="DataAccessLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DAL\DataAccessLayer\DataAccessLayer\bin\Debug\DataAccessLayer.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\CitySimNetworkService\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -61,25 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Econ\ICustomer.cs" />
-    <Compile Include="Econ\Market.cs" />
-    <Compile Include="Econ\Order.cs" />
-    <Compile Include="Econ\Product.cs" />
-    <Compile Include="Infrastructure\Block.cs" />
-    <Compile Include="Infrastructure\Building.cs" />
     <Compile Include="City.cs" />
-    <Compile Include="Infrastructure\Business.cs" />
-    <Compile Include="Infrastructure\Commercial.cs" />
-    <Compile Include="Infrastructure\Industrial.cs" />
-    <Compile Include="Infrastructure\Location.cs" />
-    <Compile Include="Infrastructure\Residential.cs" />
-    <Compile Include="Infrastructure\Road.cs" />
     <Compile Include="Json\BlockConverter.cs" />
     <Compile Include="Json\ClientPacket.cs" />
     <Compile Include="Json\LiteObjects\PersonTravel.cs" />
     <Compile Include="Json\LocationConverter.cs" />
     <Compile Include="Json\Updater.cs" />
-    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFiles\Service.cs">
@@ -90,7 +81,6 @@
     </Compile>
     <Compile Include="Utilities\Clock.cs" />
     <Compile Include="Utilities\Pair.cs" />
-    <Compile Include="Utilities\Point.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -105,9 +95,13 @@
       <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
       <Name>CitySimNetworkingApplication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\CitySimNetworkService\DBInterface\DBInterface.csproj">
+      <Project>{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}</Project>
+      <Name>DBInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Logs\output.txt" />
+    <Folder Include="Logs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
