@@ -15,7 +15,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Andrew Busto 2017-11-14</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Commercial : Business
+    public class Commercial : Business
     {
         /// <summary>
         /// Default constructor for commercial buildings, fills inventory after initialization

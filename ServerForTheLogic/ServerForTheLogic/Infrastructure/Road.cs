@@ -11,7 +11,7 @@ namespace ServerForTheLogic.Infrastructure
     /// no other purpose.
     /// <para>Written by Connor Goudie 2017-10-02</para>
     /// </summary>
-    class Road : Location
+    public class Road : Location
     {
         /// <summary>
         /// Default constructor for road

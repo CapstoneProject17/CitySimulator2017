@@ -464,7 +464,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, 0] = new Road("");
+                    b.LandPlot[i, 0] = new Infrastructure.Road("");
                     Map[i + xPos, zPos] = b.LandPlot[i, 0];
                     NewRoads.Add(new Point(i + xPos, zPos));
                 }
@@ -475,7 +475,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, length] = new Road("");
+                    b.LandPlot[i, length] = new Infrastructure.Road("");
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
                     NewRoads.Add(new Point(i + xPos, zPos + length));
 
@@ -490,7 +490,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[0, i] = new Road("");
+                    b.LandPlot[0, i] = new Infrastructure.Road("");
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
                     NewRoads.Add(new Point(xPos, i + zPos));
 
@@ -501,7 +501,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[width, i] = new Road("");
+                    b.LandPlot[width, i] = new Infrastructure.Road("");
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
                     NewRoads.Add(new Point(xPos + width, i + zPos));
 

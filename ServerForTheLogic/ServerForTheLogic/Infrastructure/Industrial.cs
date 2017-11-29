@@ -14,7 +14,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Written by Justin McLennan, Connor Goudie, Chandu Dissanayake, Andrew Busto 2017-10-02</para>
     /// <para>Last modified by Justin McLennan 2017-11-14</para>
     /// </summary>
-    class Industrial : Business
+    public class Industrial : Business
     {
         //Products currently generated and sold to other businesses
         public Dictionary<Product, int> Supplies { get; set; }

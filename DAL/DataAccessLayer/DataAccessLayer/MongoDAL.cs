@@ -8,6 +8,9 @@ using ServerForTheLogic;
 using ServerForTheLogic.ClientObject.Building;
 using ServerForTheLogic.ClientObject;
 using System;
+using ServerForTheLogic.Infrastructure;
+using ServerForTheLogic.Utilities;
+using ServerForTheLogic.Econ;
 
 namespace DataAccessLayer
 {
@@ -47,7 +50,7 @@ namespace DataAccessLayer
 		{
 			get
 			{
-				var database = client.GetDatabase("Prototype");
+				var database = client.GetDatabase("default");
 				return database;
 			}
 		}
@@ -65,29 +68,14 @@ namespace DataAccessLayer
 		/// <returns>Returns true if successful otherwise false</returns>
 		public bool InsertPerson(Person person)
 		{
-            Citizen dbPerson
-                = new Citizen(
-                    person.Id, person.FName, person.LName, 
-                    person.MonthlyIncome, person.Funds, 
-                    person.Workplace.id.ToString(),
-                    person.Workplace.Point.x,
-                    person.Workplace.Point.z,
-                    person.Home.id.ToString(),
-                    person.Home.Point.x,
-                    person.Home.Point.z,
-                    person.DaysLeft,
-                    person.Age,
-                    person.TimeToWork,
-                    person.TimeToHome
-                    );
-			if (!DALValidator.DALPersonValidator(dbPerson))
+			if (!DALValidator.DALPersonValidator(person))
 			{
 				return false;
 			}
 			else
 			{
-				var personCol = Database.GetCollection<Citizen>("Person");
-				personCol.InsertOne(dbPerson);
+				var personCol = Database.GetCollection<Person>("Person");
+				personCol.InsertOne(person);
 			}
 			return true;
 		}
@@ -107,16 +95,16 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="people">The list of people to be inserted into the database</param>
 		/// <returns>Returns the collection if all the people are inserted otherwise null</returns>
-		public Task InsertPeople(IEnumerable<Citizen> people)
+		public Task InsertPeople(IEnumerable<Person> people)
 		{
-			foreach (Citizen p in people)
+			foreach (Person p in people)
 			{
 				if (!DALValidator.DALPersonValidator(p))
 				{
 					return null;
 				}
 			}
-			var personCol = Database.GetCollection<Citizen>("Person");
+			var personCol = Database.GetCollection<Person>("Person");
 			return personCol.InsertManyAsync(people);
 		}
 
@@ -302,7 +290,7 @@ namespace DataAccessLayer
 			{
 				if (!DALValidator.DALBuildingValidator(b))
 				{
-					System.Console.WriteLine("Building id: " + b.Guid.ToString() + " did not meet validation rules.");
+					//System.Console.WriteLine("Building id: " + b.Guid.ToString() + " did not meet validation rules.");
 					return;
 				}
 			}
@@ -402,7 +390,7 @@ namespace DataAccessLayer
 			var saveStateData = collection.Find(new BsonDocument()).FirstOrDefault();
 			if (saveStateData != null)
 			{
-				SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
+                SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
 				return mySaveState;
 			}
 			Console.WriteLine("SaveState collection is empty.");
@@ -509,6 +497,7 @@ namespace DataAccessLayer
 		/// <param name="endShift">The ending time of when the person's work ends</param>
 		public async void UpdatePersonByGuid(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workplaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Person");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
 			var personListData = await collection.Find(filter).ToListAsync();
@@ -558,6 +547,7 @@ namespace DataAccessLayer
 		/// <param name="capacity">The capacity of the Residential building</param>
 		public async void UpdateResidentialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity)
 		{
+            //michael got this
 			var collection = Database.GetCollection<BsonDocument>("Residential");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
 			var residentialListData = await collection.Find(filter).ToListAsync();
@@ -600,6 +590,7 @@ namespace DataAccessLayer
 		/// <param name="inventoryCount">The inventory count of the Commercial building</param>
 		public async void UpdateCommercialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Commercial");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
 			var commercialListData = await collection.Find(filter).ToListAsync();
@@ -609,7 +600,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			Commercial commercialBuildingToUpdate = new Commercial(guid, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
+			CommercialDB commercialBuildingToUpdate = new CommercialDB(guid, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
 			if (!DALValidator.DALCommercialBuildingValidator(commercialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update commercial building, at least one of the input field is invalid.");
@@ -645,6 +636,8 @@ namespace DataAccessLayer
 		/// <param name="wholesalePrice">The price the building sells its product to another building</param>
 		public async void UpdateIndustrialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
 		{
+            //WHITECHAEL IS GONNA FIX THIS
+
 			var collection = Database.GetCollection<BsonDocument>("Industrial");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
 			var industrialListData = await collection.Find(filter).ToListAsync();
@@ -685,6 +678,7 @@ namespace DataAccessLayer
 		/// <param name="yPoint">The Y coordinate of the road being updated</param>
 		public async void UpdateRoadByGuid(Guid guid, int xPoint, int yPoint)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Road");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
 			var roadListData = await collection.Find(filter).ToListAsync();
@@ -720,6 +714,7 @@ namespace DataAccessLayer
 		/// <param name="years">The years of the clock</param>
 		public async void UpdateClock(int minutes, int hours, int days, int years)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Clock");
 			var clockData = await collection.Find(new BsonDocument()).FirstOrDefaultAsync();
 			if (clockData == null)
@@ -729,7 +724,7 @@ namespace DataAccessLayer
 			}
 			var filter = Builders<BsonDocument>.Filter.Eq("_id", clockData["_id"].ToString());
 
-			Clock clockToUpdate = new Clock(minutes, hours, days, years);
+			ClockDB clockToUpdate = new ClockDB(minutes, hours, days, years);
 			if (!DALValidator.DALClockValidator(clockToUpdate))
 			{
 				Console.WriteLine("Can not update clock, at least one of the input field is invalid.");
