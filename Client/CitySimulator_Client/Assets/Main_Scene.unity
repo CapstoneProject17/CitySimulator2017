@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427147, b: 0.56452364, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnTestGrid: 0
+  turnOnTestGrid: 1
   updateTheCity: 0
   systemStartedTimeStamp: 0
   systemCurrentTimeStamp: 0
@@ -1626,10 +1626,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcdb4073001e641bbad4282e2b45e207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProfilePic: {fileID: 1203797822}
-  Line1: {fileID: 1296765964}
-  Line2: {fileID: 1619327304}
-  Line3: {fileID: 946238333}
+  Line1: {fileID: 0}
+  Line2: {fileID: 0}
+  Line3: {fileID: 0}
 --- !u!114 &1278615831
 MonoBehaviour:
   m_ObjectHideFlags: 0
