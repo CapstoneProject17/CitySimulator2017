@@ -23,6 +23,8 @@ public class BuildingManager : MonoBehaviour {
 	public GameObject buildingManager;
 	private GameObject[] planes;
 	private Transform planeTransform;
+	// private IList<GameObject> testplanes = new List<GameObject>();
+	// private IList<GameObject> testbuildings = new List<GameObject>();
 
 	private GameObject residential1;
 	private GameObject residential2;
@@ -181,13 +183,15 @@ public class BuildingManager : MonoBehaviour {
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
+				
+				// rotateBuilding(residential2, grid);
 			}
 
 			//Commercial building objects
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "3") {
 //				Debug.Log ("find 3: " + grid.transform.position.x + ", " + grid.transform.position.y);
 								
-				instantiateBuilding(residential1, 
+				instantiateBuilding(commercial1, 
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
@@ -200,7 +204,25 @@ public class BuildingManager : MonoBehaviour {
 
 	// Rotate the building to face the road
 	void rotateBuilding(GameObject obj, GameObject grid) {
+		IList<GameObject> possibleNodes = new List<GameObject> ();
 
+		possibleNodes = GetWalkableNodes(grid);
+
+		//Debug.Log(possibleNodes.Count);
+		//Debug.Log(possibleNodes[0].transform.GetChild(1).GetComponent<TextMesh>().text);
+		
+		if(possibleNodes.Count != 0) {
+			// float smooth = 2.0F;
+	    	// float tiltAngle = 90.0F;
+	     //    float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
+	     //    float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
+	     //    Quaternion target = Quaternion.Euler(tiltAroundX, 90, tiltAroundZ);
+	        // transform.localRotation = Quaternion.Euler(tiltAroundX, 90, tiltAroundZ);
+	        // transform.localRotation(Vector3.up * 90, Space.Self);
+	        // transform.Translate(new Vector3(transform.position.z, transform.position.y, transform.position.x));
+	        transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
+
+		}
 	}
 
 	// Initializes the building objects
@@ -230,5 +252,83 @@ public class BuildingManager : MonoBehaviour {
 						 z),
 						 Quaternion.identity,
 						 buildingManager.transform);
+	}
+
+	/// <summary>
+	/// Gets the walkable nodes.
+	/// </summary>
+	/// <returns>The walkable nodes.</returns>
+	/// <param name="current">Current.</param>
+	IList<GameObject> GetWalkableNodes(GameObject current) {
+		IList<GameObject> walkableNodes = new List<GameObject> ();
+		IList<GameObject> possibleNodes = new List<GameObject> ();
+		GameObject up, down, left, right;
+		string textMesh = current.transform.GetChild(1).GetComponent<TextMesh> ().text;
+		IList<int> points = findNumber (textMesh);
+		int x = points [0];
+		int z = points [1];
+
+		up = findPlane (x, z + 1);
+		down = findPlane (x, z - 1);
+		left = findPlane (x - 1, z);
+		right = findPlane (x + 1, z);
+
+		possibleNodes.Add (up);
+		possibleNodes.Add (down);
+		possibleNodes.Add (left);
+		possibleNodes.Add (right);
+
+		// Only get nodes that are roads
+		foreach (GameObject node in possibleNodes) {
+			if(node != null)
+			if (node.transform.GetChild (0).GetComponent<TextMesh> ().text == "0")
+				walkableNodes.Add (node);
+
+		}
+
+		return walkableNodes;
+
+	}
+
+	/// <summary>
+	/// Finds the axis inside plane textmesh.
+	/// </summary>
+	/// <returns>The number.</returns>
+	/// <param name="textMesh">Text mesh.</param>
+	public IList<int> findNumber(string textMesh) {
+		IList<int> points = new List<int> ();
+		char[] delimiterChars = { '{', ',', ' ' , '(', ')' };
+
+		string[] words = textMesh.Split (delimiterChars);
+		int temp;
+
+		// Format is (x, z)
+		foreach (string s in words) {
+			if (int.TryParse (s, out temp))
+				points.Add (temp);
+
+		}
+
+		return points;
+
+	}
+
+	/// <summary>
+	/// Finds the plane that has certain x and z axis.
+	/// </summary>
+	/// <returns>The plane.</returns>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="z">The z coordinate.</param>
+	GameObject findPlane(int x, int z) {
+		string goalPlaneText = "(" + x + ", " + z + ")";
+		foreach (GameObject plane in planes) {
+			Transform grid = plane.transform;
+			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
+			if (gridText.Equals (goalPlaneText)) {
+				return plane;
+			}
+		}
+
+		return null;
 	}
 }
