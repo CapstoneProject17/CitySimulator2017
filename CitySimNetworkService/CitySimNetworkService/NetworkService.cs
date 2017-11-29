@@ -19,7 +19,7 @@ namespace CitySimNetworkService
     public partial class NetworkService : ServiceBase
     {
         public const int FULL_QUEUE_SIZE = 1;
-        public const int PARTIAL_UPDATE_QUEUE_SIZE = 25;
+        public const int PARTIAL_UPDATE_QUEUE_SIZE = 50;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private const int MEAN_DEATH_AGE = 80;
 
