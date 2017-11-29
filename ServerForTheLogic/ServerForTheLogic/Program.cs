@@ -62,19 +62,11 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
-            city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
             settings.Converters.Add(new BlockConverter());
             //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
-            int count = 0;
-            foreach (object o in city.Map)
-            {
-                if (o == null)
-                    count++;
-                Console.WriteLine(count);
-            }
 
             if (city == null)
             {
