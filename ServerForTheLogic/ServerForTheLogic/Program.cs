@@ -126,6 +126,12 @@ namespace ServerForTheLogic
                 {
                     city.printCity();
                 }
+                if (cmd.Equals("blocks"))
+                {
+                    foreach (Block b in city.BlockMap)
+                        City.printBlock(b);
+                }
+
             }
         }
     }
