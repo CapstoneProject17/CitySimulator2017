@@ -80,6 +80,7 @@
     <Compile Include="Infrastructure\Road.cs" />
     <Compile Include="Json\BlockConverter.cs" />
     <Compile Include="Json\ClientPacket.cs" />
+    <Compile Include="Json\LiteObjects\PersonTravel.cs" />
     <Compile Include="Json\LocationConverter.cs" />
     <Compile Include="Json\Updater.cs" />
     <Compile Include="Person.cs" />

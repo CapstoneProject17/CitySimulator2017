@@ -68,8 +68,8 @@ namespace ServerForTheLogic
             city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
-
-            JsonSerializer serializer = new JsonSerializer();
+            settings.Converters.Add(new BlockConverter());
+            //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
 
             if (city == null)
