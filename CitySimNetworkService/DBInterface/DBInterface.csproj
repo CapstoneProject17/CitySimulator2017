@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Econ\ICustomer.cs" />
     <Compile Include="Econ\Market.cs" />
     <Compile Include="Econ\Order.cs" />
