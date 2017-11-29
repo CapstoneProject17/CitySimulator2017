@@ -1,20 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using DataAccessLayer;
 using CitySimNetworkingApplication;
 
 namespace CitySimNetworkService
 {
-	/// <summary> 
-	/// Contains handler for database request. 
-	/// </summary>
-	/// 
-	/// <author> 
-	/// Harman Mahal, Kevin Mitchell
-	/// </author>
-	public class DatabaseHandler
+    /// <summary> 
+    /// Contains handler for database request. 
+    /// </summary>
+    /// 
+    /// <author> 
+    /// Harman Mahal, Kevin Mitchell
+    /// </author>
+    public class DatabaseHandler
 	{
 		/// <summary>
 		/// MongoDAL used to call Database methods

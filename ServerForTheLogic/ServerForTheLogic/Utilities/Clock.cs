@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using CitySimNetworkService;
-using DALInterface;
+using ServerForTheLogic.ClientObject;
+using DBInterface;
+using System.IO;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -15,10 +17,10 @@ namespace ServerForTheLogic.Utilities
     /// </summary>
     public class Clock : IClock
     {
-        [JsonProperty]
-        Updater<ClientPacket> FullUpdater;
-        [JsonProperty]
-        Updater<Dictionary<int, Dictionary<Guid, Point>>> PartialUpdater;
+        //[JsonProperty]
+        //Updater<ClientPacket> FullUpdater;
+        //[JsonProperty]
+        //Updater<Dictionary<int, Dictionary<Guid, Point>>> PartialUpdater;
 
         [JsonProperty]
         // Ticks every second to update the current time values.
@@ -58,6 +60,9 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         public const int INTERVAL = 100;
 
+        private SimulationStateQueue FullUpdate;
+
+        private SimulationStateQueue PartialUpdate;
         /// <summary>
         /// Constructs a Clock object.
         /// <para>Written by Andrew Busto </para>
@@ -65,10 +70,12 @@ namespace ServerForTheLogic.Utilities
         public Clock(City city, SimulationStateQueue full, SimulationStateQueue partial)
         {
 
+            FullUpdate = full;
+            PartialUpdate = partial;
+             
             this.city = city;
             timer = new Timer();
-            PartialUpdater = new Updater<Dictionary<int, Dictionary<Guid, Point>>>(full, partial);
-            FullUpdater = new Updater<ClientPacket>(full, partial);
+           
 
             timer.Interval = INTERVAL;
             timer.Elapsed += TickMinute;
@@ -87,7 +94,7 @@ namespace ServerForTheLogic.Utilities
         public void TickMinute(Object source, ElapsedEventArgs e)
         {
             NetMinutes++;
-            Console.WriteLine("Mins:\t" + NetMinutes);
+           // Console.WriteLine("Mins:\t" + NetMinutes);
 
             if (NetMinutes / 60 > NetHours)
             {
@@ -113,9 +120,12 @@ namespace ServerForTheLogic.Utilities
                 p.ConsumeProd();
             }
             ClientPacket packet = new ClientPacket(city);
-            packet.ConvertPacket();
+            //packet.ConvertPacket();
 
-            string output = packet.ConvertPacket();
+            string output = packet.ConvertPartialPacket();
+
+            PartialUpdate.Enqueue(output);
+            
             Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
@@ -124,7 +134,7 @@ namespace ServerForTheLogic.Utilities
                 TickDay();
             }
 
-            PartialUpdater.SendPartialUpdate(city.PartialUpdateList, Formatting.None);
+            //PartialUpdater.SendPartialUpdate(city.PartialUpdateList, Formatting.None);
         }
 
 
@@ -144,12 +154,35 @@ namespace ServerForTheLogic.Utilities
             }
             NetDays = NetHours / 24;
             Console.WriteLine("Days:\t" + NetDays);
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+            settings.Converters.Add(new BlockConverter());
+
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, city);
+                sw.Close();
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
+
+            //string cityJson = JsonConvert.SerializeObject(city, Formatting.Indented, settings);
+            ClientPacket packet = new ClientPacket(city);
+            //packet.ConvertPacket();
+
+            string output = packet.ConvertFullPacket();
+            FullUpdate.Enqueue(output);
+
+
             if (NetDays / 365 > NetYears)
             {
                 TickYear();
             }
 
-            FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
+           // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
 
         /// <summary>
