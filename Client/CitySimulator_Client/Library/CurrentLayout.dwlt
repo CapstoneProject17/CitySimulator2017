@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -387,6 +387,7 @@ MonoBehaviour:
     m_SearchString: 
   m_ExpandedScenes:
   - Main_Scene
+  - Main_Scene_test_lancelei
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -541,7 +542,7 @@ MonoBehaviour:
     m_SelectedIDs: 
     m_LastClickedID: 0
     m_ExpandedIDs: 000000003026000032270000aa270000102800006028000062280000982800009e2a0000a02a0000a22a0000a42a0000a62a0000a82a0000aa2a0000ac2a000000ca9a3bffffff7f
-    m_RenameOverlay:
+   m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
       m_OriginalName: 
