@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using CitySimNetworkService;
+using ServerForTheLogic.Json.LiteObjects;
 using DBInterface.Infrastructure;
 using DBInterface;
 using DBInterface.Econ;
@@ -48,12 +49,12 @@ namespace ServerForTheLogic
         /// <summary>
         /// Max width of the city grid
         /// </summary>
-        public const int CITY_WIDTH = 7;//58;
+        public const int CITY_WIDTH = 49; // 7;//58;
 
         /// <summary>
         /// Max length of the city grid
         /// </summary>
-        public const int CITY_LENGTH = 15;//99;
+        public const int CITY_LENGTH = 50;//15;//99;
 
         [JsonProperty]
         /// <summary>
@@ -287,6 +288,7 @@ namespace ServerForTheLogic
             DBInterface.Person temp = new DBInterface.Person(faker.Name.FirstName(), faker.Name.LastName());
             Randomizer rand = new Randomizer();
             List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
+            List<Business> randBusinesses = Market.BusinessesHiring.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count)).ToList();
             //assigns/creates Home
             foreach (Residential r in randHomes)
             {
@@ -307,13 +309,9 @@ namespace ServerForTheLogic
             }
 
             //assigns/creates jobs
-            if (Market.BusinessesHiring.Count == 0)
-            {
-                createBuilding(CommercialBlocksToFill.Peek());
-                createBuilding(IndustrialBlocksToFill.Peek());
-            }
             List<Business> fullBusinesses = new List<Business>();
-            foreach (Business b in Market.BusinessesHiring)
+
+            foreach (Business b in randBusinesses)
             {
                 if (b.workers.Count < b.Capacity)
                 {
@@ -328,14 +326,27 @@ namespace ServerForTheLogic
                     fullBusinesses.Add(b);
                 }
             }
-
+            
             foreach (Business b in fullBusinesses)
             {
                 Market.BusinessesHiring.Remove(b);
             }
 
+            if (Market.BusinessesHiring.Count == 0)
+            {
+                createBuilding(CommercialBlocksToFill.Peek());
+                createBuilding(IndustrialBlocksToFill.Peek());
+                int index = rand.Int(0, Market.BusinessesHiring.Count-1);
+
+                temp.Workplace = Market.BusinessesHiring[index];
+                Market.BusinessesHiring[index].workers.Add(temp);
+                temp.incomeGenerated(Market.BusinessesHiring[index]);
+            }
+
             PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
             PartialUpdateList[temp.TimeToWork].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
+
+          
 
             AllPeople.Add(temp);
 
