@@ -46,7 +46,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="person">The person object being validated</param>
         /// <returns>If all validations pass it returns true, otherwise flase</returns>
-        public static Boolean DALPersonValidator(Person person)
+        public static Boolean DALPersonValidator(PersonDB person)
         {
             if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
@@ -96,7 +96,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="building">The building object being validated</param>
         /// <returns></returns>
-        public static Boolean DALBuildingValidator(Building building)
+        public static Boolean DALBuildingValidator(BuildingDB building)
         {
             return DALGridObjectValidator(building) &&
                 BuildingValidator.isValidBuildingCapacity(building.Capacity) &&
@@ -114,7 +114,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="industrialBuilding">The Industrial building being validated</param>
         /// <returns>Returns true if the Industrial building validates</returns>
-        public static Boolean DALIndustrialBuildingValidator(Industrial industrialBuilding)
+        public static Boolean DALIndustrialBuildingValidator(IndustrialDB industrialBuilding)
         {
             return DALBuildingValidator(industrialBuilding) &&
                 IndustrialValidator.isValidIndustrialInventoryCount(industrialBuilding.InventoryCount) &&
@@ -135,7 +135,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="commercialBuilding">The Commercial building being validated</param>
         /// <returns>Returns true if the building validates</returns>
-        public static Boolean DALCommercialBuildingValidator(Commercial commercialBuilding)
+        public static Boolean DALCommercialBuildingValidator(CommercialDB commercialBuilding)
         {
             return DALBuildingValidator(commercialBuilding) &&
                 CommercialValidator.isValidCommercialInventoryCount(commercialBuilding.InventoryCount) &&
@@ -153,7 +153,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="residentialBuilding">The Residential building being validated</param>
         /// <returns>Returns true if the building validates</returns>
-        public static Boolean DALResidentialBuildingValidator(Residential residentialBuilding)
+        public static Boolean DALResidentialBuildingValidator(ResidentialDB residentialBuilding)
         {
             return DALBuildingValidator(residentialBuilding);
         }
@@ -168,7 +168,7 @@ namespace DataAccessLayer
         /// <para>For more information see <see cref="GridObjectValidator"/></para>
         /// <param name="road">The road being validated</param>
         /// <returns>Returns true if the road validates</returns>
-        public static Boolean DALRoadValidator(Road road)
+        public static Boolean DALRoadValidator(RoadDB road)
         {
             return DALGridObjectValidator(road);
         }
@@ -184,7 +184,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="clock">The clock object being validated</param>
         /// <returns>Returns true if the clock validates</returns>
-        public static Boolean DALClockValidator(Clock clock)
+        public static Boolean DALClockValidator(ClockDB clock)
         {
             return ClockValidator.isValidClockNetMinutes(clock.NetMinutes) &&
                 ClockValidator.isValidClockNetHours(clock.NetHours) &&
@@ -203,7 +203,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="product">The product being validated</param>
         /// <returns>Returns true if the product validates</returns>
-        public static Boolean DALProductValidator(Product product)
+        public static Boolean DALProductValidator(ProductDB product)
         {
             return ProductValidator.isValidProductGlobalCount(product.GlobalCount) &&
                 ProductValidator.isValidProductName(product.Name);

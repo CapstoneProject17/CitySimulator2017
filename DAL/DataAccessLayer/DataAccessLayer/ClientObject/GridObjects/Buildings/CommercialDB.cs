@@ -14,9 +14,9 @@ namespace ServerForTheLogic.ClientObject.Building
     /// 2017-11-12 Bill
     ///     - updated summary for all fields
     /// </summary>
-    public class Commercial : Building
+    public class CommercialDB : BuildingDB
     {
-        public Commercial(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
+        public CommercialDB(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
             : base(guid, xPoint, yPoint, rating, isTall, capacity)
         {
             RetailPrice = retailPrice;

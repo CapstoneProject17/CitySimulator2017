@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using CitySimNetworkService;
-using DALInterface;
+using ServerForTheLogic.ClientObject;
+using DBInterface;
 
 namespace ServerForTheLogic.Utilities
 {

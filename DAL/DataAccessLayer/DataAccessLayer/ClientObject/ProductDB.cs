@@ -13,14 +13,14 @@ namespace ServerForTheLogic.ClientObject
     /// 2017-11-12 Bill
     ///     - updated summary on all fields
     /// </summary>
-    public class Product
+    public class ProductDB
     {
         /// <summary>
         /// Constructor of a Product object that gets stored as a Product document in the database
         /// </summary>
         /// <param name="name">The name of the product</param>
         /// <param name="globalCount">The total number of this product in the simulation</param>
-        public Product(string name, int globalCount)
+        public ProductDB(string name, int globalCount)
         {
             Name = name;
             GlobalCount = globalCount;
