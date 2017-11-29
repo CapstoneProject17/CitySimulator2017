@@ -11,23 +11,21 @@ using UnityEngine;
 ///	 Name: Dongwon(Shawn) Kim   Date: 2017-10-02
 /// Modified by:	
 ///	 Name: Dongwon(Shawn) Kim   Change: initiate belongs to CharacterManager Date: 2017-10-31
+///  Name: Lancelei Herradura	Change: Humans move based on Character Move  Date: 2017-11-12
 ///  Name: Lancelei Herradura	Change: character - CharacterMove component  Date: 2017-11-13
 ///  Name: Lancelei Herradura	Change: set source and destination			 Date: 2017-11-25
-///  Name: Lancelei Herradura	Change: random destination and source		 Date: 2017-11-27 
+///  Name: Lancelei Herradura	Change: Random source and destination		 Date: 2017-11-25
 /// Based on:  BuildingCreation.cs
 public class CharacterCreation : MonoBehaviour {
 	// population of the city
-	int population;
+	private int population;
 
 	// character object
 	public Transform character;
-
 	// list of the planes
 	private GameObject[] planes;
-
 	// The character manager.
 	private GameObject characterManager;
-
 
 	/// <summary>
 	/// Start this instance.
@@ -35,27 +33,81 @@ public class CharacterCreation : MonoBehaviour {
 	void Start () {
 		population = 10;
 		characterManager = GameObject.Find ("CharacterManager");
-		
+
 	}
-	
+
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
 	void Update () {
-		
-		createCharacter();
+		createCharacter("pop" + 1, 0,0, 15,3);
 
 	}
 
 	/// <summary>
 	/// Creates the character.
 	/// </summary>
-	void createCharacter(){
+	public void createCharacter(string guid, int src_x, int src_z, int dest_x, int dest_z){
+		if (population > 0) {
+			// Delete character if it already exists
+			destroyCharacter (guid);
+
+			planes = GameObject.FindGameObjectsWithTag("plane");
+			GameObject source = findPlane (src_x, src_z);
+			Transform human = 
+				Instantiate (character,
+					new Vector3 (source.transform.position.x, 0, source.transform.position.z),
+					Quaternion.identity,characterManager.transform) as Transform;
+
+			human.gameObject.AddComponent<CharacterMove> ();
+			human.GetComponent<CharacterMove> ().X_Dest = dest_x;
+			human.GetComponent<CharacterMove> ().Z_Dest = dest_z;
+			human.name = guid;
+			population--;
+
+		}
+
+		//		test();
+
+	}
+
+	/// <summary>
+	/// Destroys the character.
+	/// </summary>
+	/// <param name="guid">GUID.</param>
+	public void destroyCharacter(string guid) {
+		GameObject oldChar = GameObject.Find(guid);
+		if(!Object.ReferenceEquals(oldChar, null))
+			Destroy (oldChar);
+	}
+
+	/// <summary>
+	/// Finds the plane that has certain x and z axis.
+	/// </summary>
+	/// <returns>The plane.</returns>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="z">The z coordinate.</param>
+	GameObject findPlane(int x, int z) {
+		string goalPlaneText = "(" + x + ", " + z + ")";
+		foreach (GameObject plane in planes) {
+			Transform grid = plane.transform;
+			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
+			if (gridText.Equals (goalPlaneText)) {
+				return plane;
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Test this instance.
+	/// </summary>
+	void test() {
 		IList<int> xz = new List<int>();
 		planes = GameObject.FindGameObjectsWithTag("plane");
 
 		if (population > 0) {
-
 			for (int i = population; i >= 1; i--) {
 				GameObject source = setRandSource ();
 
@@ -63,24 +115,22 @@ public class CharacterCreation : MonoBehaviour {
 					Instantiate (character,
 						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
 						Quaternion.identity,characterManager.transform) as Transform;
-				
+
 				human.gameObject.AddComponent<CharacterMove> ();
 				xz = setRandDest ();
 				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
 				human.GetComponent<CharacterMove> ().Z_Dest = xz[3];
-
-                Animator animator = human.gameObject.GetComponent<Animator>();
-                animator.runtimeAnimatorController = Resources.Load("Models/Character/ACHuman") as RuntimeAnimatorController;
 				int x = human.GetComponent<CharacterMove> ().X_Dest;
 				int z = human.GetComponent<CharacterMove> ().Z_Dest;
-//				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
+				//				Debug.Log("Population i: " + i + "\n" +  x + ", " + z);
 				xz.Clear ();
 			}
 
 			population = 0;
 		}
-
 	}
+
+
 
 	/// <summary>
 	/// Used for Testing
@@ -103,6 +153,7 @@ public class CharacterCreation : MonoBehaviour {
 
 	}
 
+
 	/// <summary>
 	/// Used for Testing
 	/// Sets the rand destination.
@@ -121,7 +172,7 @@ public class CharacterCreation : MonoBehaviour {
 			dest = planes[Random.Range(0, planes.Length-1)].gameObject;
 			if (dest.transform.GetChild(0).gameObject.GetComponent<TextMesh>().text == "0") {
 				isRoad = true;
-				
+
 			}
 		} while (!isRoad);
 
@@ -139,5 +190,6 @@ public class CharacterCreation : MonoBehaviour {
 		return xz;
 
 	}
+
 
 }

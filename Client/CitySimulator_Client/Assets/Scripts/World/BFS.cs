@@ -8,6 +8,8 @@ using UnityEngine;
 /// Description: Finds shortest path using BFS.
 /// Author: 
 ///	 Name: Lancelei Herradura   Date: 2017-11-13
+/// Modified By:
+///  Name: Lancelei Herradura	Change: Goal is a building instead of a road	Date: 2017-11-28
 /// Based on:  How to Do PATHFINDING: The Basics (Graphs, BFS, and DFS in Unity)
 /// https://www.youtube.com/watch?v=WvR9voi0y2I
 /// GitHub Username: anneomcl
@@ -37,19 +39,6 @@ public class BFS {
 	private bool to;
 	// solution has been found
 	private bool valid;
-
-	/// <summary>
-	/// Start this instance.
-	/// </summary>
-	public void Start () {
-		planes = GameObject.FindGameObjectsWithTag("plane");
-		goal = findPlane(x_dest, z_dest);
-		path = getShortestPath (originalPlane, goal);
-		pathIndex = path.Count - 1;
-		to = true;
-		valid = pathIndex >= 0 ? true : false;
-
-	}
 
 	/// <summary>
 	/// Gets or sets the x DES.
@@ -170,7 +159,30 @@ public class BFS {
 			pathIndex = value;
 		}
 	}
-		
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	public void Start () {
+		planes = GameObject.FindGameObjectsWithTag("plane");
+		goal = findGoal(x_dest, z_dest);
+		path = getShortestPath (originalPlane, goal);
+		pathIndex = path.Count - 1;
+		to = true;
+		valid = pathIndex >= 0 ? true : false;
+
+	}
+
+	GameObject findGoal(int x_dest, int z_dest) {
+		GameObject destination = findPlane (x_dest, z_dest);
+		IList<GameObject> possibles = GetWalkableNodes (destination);
+
+		if (possibles.Count > 0)
+			return possibles [0];
+
+		return null;
+	}
+
 	/// <summary>
 	/// Move this instance.
 	/// </summary>
