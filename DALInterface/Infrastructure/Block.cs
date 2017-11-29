@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json;
-using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Block is a layer of abstraction used for city development, each

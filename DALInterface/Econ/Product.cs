@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace ServerForTheLogic.Econ
+namespace DALInterface.Econ
 {
     /// <summary>
     /// A product that can be bought or sold

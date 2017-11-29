@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus.Extensions.Canada;
 using Bogus;
-using ConsoleDump;
-using ServerForTheLogic.Utilities;
 using ServerForTheLogic.Infrastructure;
-using static Bogus.DataSets.Name;
 using Newtonsoft.Json;
 using ServerForTheLogic.Econ;
 
-namespace ServerForTheLogic
+namespace DALInterface 
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class Person : ICustomer
@@ -110,7 +102,7 @@ namespace ServerForTheLogic
         /// <param name="fName"></param>
         /// <param name="lName"></param>
         /// <param name="c"></param>
-        public Person(string fName, string lName,City c)
+        public Person(string fName, string lName)
         {
             FName = fName;
             LName = lName;

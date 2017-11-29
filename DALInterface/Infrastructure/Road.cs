@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerForTheLogic.Infrastructure
+﻿namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Roads are used as a means to get a person from 1 point to another, and serve
     /// no other purpose.
     /// <para>Written by Connor Goudie 2017-10-02</para>
     /// </summary>
-    class Road : Location
+    public class Road : Location
     {
         /// <summary>
         /// Default constructor for road
