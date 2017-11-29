@@ -18,9 +18,9 @@ namespace ServerForTheLogic.Infrastructure
     public class Residential : Building
     {
         //max number of residents if building is tall
-        public const int CAPACITY_TALL = 100;
+        public const int CAPACITY_TALL = 50;
         //max number of residents if building is not tall
-        public const int CAPACITY_SHORT = 10;
+        public const int CAPACITY_SHORT = 50;
 
         //current resident count
         [JsonProperty]

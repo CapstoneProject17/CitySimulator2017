@@ -33,7 +33,7 @@ namespace ServerForTheLogic.Econ
             IndustrialBusinesses = new List<Business>();
             BusinessesHiring = new List<Business>();
             CommercialBusinesses = new List<Business>();
-            Product Life = new Product("Life", 20, 30);
+            Product Life = new Product("Life", 30, 20);
             Products.Add(Life);
             ComStock = 0;
             IndStock = 0;
@@ -58,7 +58,7 @@ namespace ServerForTheLogic.Econ
 
             if (first.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
             {
-                while (Market.ComStock < NumOrdered)
+                if(Market.ComStock < NumOrdered)
                 {
                     foreach (Business b in SellerList)
                     {
@@ -68,15 +68,36 @@ namespace ServerForTheLogic.Econ
                 Market.ComStock -= NumOrdered;
                 buyer.Funds -= NumOrdered * order.OrderProduct.RetailPrice;
                 buyer.Inventory += NumOrdered;
+                Console.WriteLine("============================");
                 foreach (Business b in SellerList)
                 {
                     b.Inventory -= NumPerSeller;
                     b.Funds += NumPerSeller * order.OrderProduct.RetailPrice;
+                    Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
                 }
-                
-            } else
+                Console.WriteLine("============================");
+                Console.WriteLine("Market total: " + Market.ComStock);
+            } else if(first.Type.Equals("I", StringComparison.CurrentCultureIgnoreCase))
             {
-
+                if(Market.IndStock < NumOrdered)
+                {
+                    foreach (Business b in SellerList)
+                    {
+                        b.FillInventory();
+                    }
+                }
+                Market.IndStock -= NumOrdered;
+                buyer.Funds -= NumOrdered * order.OrderProduct.WholesalePrice;
+                buyer.Inventory += NumOrdered;
+                Console.WriteLine("============================");
+                foreach (Business b in SellerList)
+                {
+                    b.Inventory -= NumPerSeller;
+                    b.Funds += NumPerSeller * order.OrderProduct.WholesalePrice;
+                    Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
+                }
+                Console.WriteLine("============================");
+                Console.WriteLine("Market total: " + Market.IndStock);
             }
             
 

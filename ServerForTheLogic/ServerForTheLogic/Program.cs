@@ -69,12 +69,26 @@ namespace ServerForTheLogic
 
             JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
+            int count = 0;
+            foreach (object o in city.Map)
+            {
+                if (o == null)
+                    count++;
+                Console.WriteLine(count);
+            }
 
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
             city.printCity();
+
+            foreach (Block b in city.BlockMap)
+                city.addRoads(b);
+            
+
+            Updater<City> update = new Updater<City>(fullUpdateQueue, partialUpdateQueue);
+            update.SaveCityState(city);
             city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
             GetInput();
         }
@@ -104,7 +118,8 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    //city.Workplaces.Dump();
+                    Market.CommercialBusinesses.Dump();
+                    Market.IndustrialBusinesses.Dump();
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -121,6 +136,13 @@ namespace ServerForTheLogic
                 if (commands[0].Equals("clock", StringComparison.CurrentCultureIgnoreCase))
                 {
                     city.clock.Dump();
+                }
+                if (commands[0].Equals("roads", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    foreach (Block b in city.BlockMap)
+                    {
+                        city.printBlock(b);
+                    }
                 }
                 if (cmd.Equals("print city"))
                 {

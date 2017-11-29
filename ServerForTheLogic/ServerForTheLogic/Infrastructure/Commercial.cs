@@ -37,9 +37,11 @@ namespace ServerForTheLogic.Infrastructure
         /// <param name="isTall"></param>
         public Commercial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
+            Funds = 4000;
+            Inventory = 0;
             this.Type = "C";
             Market.CommercialBusinesses.Add(this);
-            //Market.BusinessesHiring.Add(this);
+            Market.BusinessesHiring.Add(this);
         }
 
         /// <summary>
@@ -54,11 +56,11 @@ namespace ServerForTheLogic.Infrastructure
             if (Inventory < MINIMUM_VALUE)
             {
                 Order order = new Order(Market.Products[rand], MINIMUM_VALUE, this);
-                Market.ComStock += MINIMUM_VALUE;
-                Market.IndStock -= MINIMUM_VALUE;
                 // Console.WriteLine("Sending order to market");
+                Console.WriteLine(Name + " Bought: " + order.Amount + " C");
                 Market.ProcessOrder(order, Market.IndustrialBusinesses);
-                //Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
+                Market.ComStock += MINIMUM_VALUE;
+                
             }
 
         }

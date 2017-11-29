@@ -603,7 +603,7 @@ namespace ServerForTheLogic
         /// <para/> Last editted:  2017-10-02
         /// </summary>
         /// <param name="b"></param>
-        public static void printBlock(Block b)
+        public void printBlock(Block b)
         {
             for (int i = 0; i < Block.BLOCK_WIDTH; i++)
             {

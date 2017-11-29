@@ -219,9 +219,8 @@ namespace ServerForTheLogic
             {
                 Order order = new Order(Market.Products[rand], amount, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
+                Console.WriteLine(FName + " Bought " + order.Amount + " P");
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
-                Inventory += order.Amount;
             }
         }
         /// <summary>

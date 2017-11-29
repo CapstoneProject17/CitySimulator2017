@@ -16,14 +16,9 @@ namespace ServerForTheLogic.Infrastructure
     /// </summary>
     public class Business : Building, ICustomer
     {
-        //base amount of money all businesses start with
-        public int FIXED_FUNDS = 20000;
 
         //minum number of a single product allowed to be in Inventory until more are ordered
-        public const int MINIMUM_VALUE = 1000;
-
-        //Multiplier that increases or decreases worker wage
-        public double WageMultiplier { get; set; }
+        public const int MINIMUM_VALUE = 200;
 
         //average salary of workers
         public int TotalPayout { get; set; }
@@ -43,8 +38,6 @@ namespace ServerForTheLogic.Infrastructure
         /// </summary>
         public Business() : base()
         {
-            Funds = FIXED_FUNDS;
-            WageMultiplier = 0.5;
             workers = new List<Person>();
         }
 
@@ -58,22 +51,8 @@ namespace ServerForTheLogic.Infrastructure
         /// <param name="isTall"></param>
         public Business(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
-            Funds = FIXED_FUNDS;
-            WageMultiplier = 0.5;
             workers = new List<Person>();
 
-            //ONLY RUN ONCE NOW BECAUSE ONLY ONE PRODUCT
-            //AddProductToInventory();
-        }
-
-        /// <summary>
-        /// Adds a product that exists in the world market.
-        /// <para>Written by Chandu Dissanayake, Justin McLennan, Andrew Busto 2017-11-08</para>
-        /// <para>Last modified by Andrew Busto 2017-11-14</para>
-        /// </summary>
-        public void GlobalInventory()
-        {
-            
         }
 
         /// <summary>
@@ -93,11 +72,6 @@ namespace ServerForTheLogic.Infrastructure
         public void PayEmployees()
         {
             int TotalPayout = 0;
-            //can't go backwards
-            //while (AvgWorkerSalary * (workers.Count) > Funds)
-            //{
-            //    //FIRE PPL
-            //}
             foreach (Person w in workers)
             {
                 w.Funds += w.Salary;

@@ -20,7 +20,7 @@ namespace ServerForTheLogic.Infrastructure
         /// <summary>
         /// Default constructor for industrial buildings
         /// <para>Written by Justin McLennan, Andrew Busto 2017-10-02</para>
-        /// <para>Last modified by Justin McLennan 2017-11-12</para>
+        /// <para>Last modified by Justin McLennan 2017-11-28</para>
         /// </summary>
         public Industrial() : base()
         {
@@ -31,36 +31,36 @@ namespace ServerForTheLogic.Infrastructure
         /// Overloaded constructor for industrial buildings
         /// </summary>
         /// <para>Written by Justin McLennan, Connor Goudie 2017-11-08</para>
-        /// <para>Last modified by Justin McLennan 2017-11-14</para>
+        /// <para>Last modified by Justin McLennan 2017-11-28</para>
         /// <param name="Name"></param>
         /// <param name="capacity"></param>
         /// <param name="isTall"></param>
         public Industrial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
             this.Type = "I";
-
+            Inventory = 0;
             Market.IndustrialBusinesses.Add(this);
 
             //this command makes them hiring
-            //Market.BusinessesHiring.Add(this);
+            Market.BusinessesHiring.Add(this);
         }
 
         /// <summary>
         /// Generates more products each day
         /// <para>Written by Justin McLennan, Andrew Busto 2017-11-08</para>
-        /// <para>Last modified by Justin McLennan 2017-11-14</para>
+        /// <para>Last modified by Justin McLennan 2017-11-28</para>
         /// </summary>
         public void CreateProducts()
         {
-
-            Inventory += workers.Count * 4;
-            Market.IndStock += workers.Count * 4;
-
+            Inventory += 200;
+            Market.IndStock += 200;
+            Console.WriteLine("Adding 200 Stock to IND");
         }
 
         /// <summary>
         /// Overriden method from business that calls create products
         /// <para>Written by Connor Goudie 2017-11-10</para>
+        /// <para>Last modified by Justin McLennan 2017-11-28</para>
         /// </summary>
         public override void FillInventory()
         {
