@@ -1,15 +1,10 @@
 ﻿using Newtonsoft.Json;
-using ServerForTheLogic.Infrastructure;
 using ServerForTheLogic.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
-using ConsoleDump;
-using ServerForTheLogic.Econ;
 using CitySimNetworkService;
+using DALInterface;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -18,7 +13,7 @@ namespace ServerForTheLogic.Utilities
     /// Holds the current time.  Intended for use by the City.
     /// <para/> Last edited:  2017-10-02
     /// </summary>
-    public class Clock
+    public class Clock : IClock
     {
         [JsonProperty]
         Updater<ClientPacket> FullUpdater;

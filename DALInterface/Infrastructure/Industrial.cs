@@ -1,12 +1,8 @@
-﻿using ServerForTheLogic.Econ;
+﻿using DALInterface.Econ;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Industrial buildings are businesses which produce products, and
@@ -14,7 +10,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Written by Justin McLennan, Connor Goudie, Chandu Dissanayake, Andrew Busto 2017-10-02</para>
     /// <para>Last modified by Justin McLennan 2017-11-14</para>
     /// </summary>
-    class Industrial : Business
+    public class Industrial : Business
     {
         //Products currently generated and sold to other businesses
         public Dictionary<Product, int> Supplies { get; set; }

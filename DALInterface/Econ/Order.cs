@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerForTheLogic.Econ
+﻿namespace DALInterface.Econ
 {
     /// <summary>
     /// Order class. Used in Market to handle transactions
     /// </summary>
     /// <para>Written by Chandu Dissanayake </para>
-    class Order
+    public class Order
     {
         //Product being ordered
         public Product OrderProduct { get; }

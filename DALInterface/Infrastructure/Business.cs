@@ -1,11 +1,8 @@
-﻿using ServerForTheLogic.Econ;
+﻿using DALInterface.Econ;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Business is an extension of the building object, which contains a dictionary
