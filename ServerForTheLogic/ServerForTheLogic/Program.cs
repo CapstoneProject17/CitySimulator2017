@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleDump;
-using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json;
 using ServerForTheLogic.Json;
-using ServerForTheLogic.Econ;
-using System.ServiceProcess;
 using NLog;
 using System.IO;
-using System.Threading;
 using CitySimNetworkService;
+using DBInterface;
 
 namespace ServerForTheLogic
 {
@@ -66,8 +63,8 @@ namespace ServerForTheLogic
             city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
-
-            JsonSerializer serializer = new JsonSerializer();
+            settings.Converters.Add(new BlockConverter());
+            //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
             int count = 0;
             foreach (object o in city.Map)
@@ -148,6 +145,12 @@ namespace ServerForTheLogic
                 {
                     city.printCity();
                 }
+                if (cmd.Equals("blocks"))
+                {
+                    foreach (Block b in city.BlockMap)
+                        City.printBlock(b);
+                }
+
             }
         }
     }
