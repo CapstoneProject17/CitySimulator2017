@@ -32,7 +32,7 @@ namespace ServerForTheLogic.Utilities
         /// minutes are 0.5 seconds
         /// </summary>
         [JsonProperty]
-        public UInt32 NetMinutes { get; set; }
+        public UInt32 NetMinutes {  get; set; }
 
         /// <summary>
         /// The total number of hours since this Clock started.
@@ -46,13 +46,13 @@ namespace ServerForTheLogic.Utilities
         /// days are 12 min
         /// </summary>
         [JsonProperty]
-        private UInt32 NetDays { get; set; }
+        public UInt32 NetDays { get; set; }
 
         /// <summary>
         /// The total number of years since this Clock started.
         /// </summary>
         [JsonProperty]
-        private UInt32 NetYears { get; set; }
+        public UInt32 NetYears { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -91,7 +91,7 @@ namespace ServerForTheLogic.Utilities
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
-        public void TickMinute(Object source, ElapsedEventArgs e)
+        internal void TickMinute(Object source, ElapsedEventArgs e)
         {
             NetMinutes++;
            // Console.WriteLine("Mins:\t" + NetMinutes);
@@ -108,7 +108,7 @@ namespace ServerForTheLogic.Utilities
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         /// <para/> Last edited:  2017-11-12
-        private void TickHour()
+        internal void TickHour()
         {
             NetHours = NetMinutes / 60;
             Console.WriteLine("Hours:\t" + NetHours);
@@ -143,7 +143,7 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
-        private void TickDay()
+        internal void TickDay()
         {
             foreach (Person p in city.AllPeople)
             {
@@ -190,9 +190,9 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
-        private void TickYear()
+        internal void TickYear()
         {
-            NetYears++;
+            NetYears = NetDays / 365;
             Console.WriteLine("Years:\t" + NetYears);
             foreach (Person p in city.AllPeople)
             {

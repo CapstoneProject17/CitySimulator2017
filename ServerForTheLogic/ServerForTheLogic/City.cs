@@ -106,7 +106,7 @@ namespace ServerForTheLogic
         /// </summary>
         public Clock clock;
         public static int DEFAULT_RATING = 1;
-        
+
         [JsonConstructor]
         /// <summary>
         /// Constructor for a new city, creates the grid of cells,
@@ -208,7 +208,7 @@ namespace ServerForTheLogic
             expandCity(BlockType.Residential);
 
 
-           // Console.WriteLine(new ClientPacket(this).ConvertPacket());
+            // Console.WriteLine(new ClientPacket(this).ConvertPacket());
             //ClientPacket packet = new ClientPacket(this);
             //packet.ConvertPacket();
         }
@@ -296,7 +296,7 @@ namespace ServerForTheLogic
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
-                   // PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, r.Point);
+                    // PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, r.Point);
                     break;
                 }
             }
@@ -305,7 +305,7 @@ namespace ServerForTheLogic
                 Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
                 temp.Home = newHome;
                 newHome.NumberOfResidents++;
-               // PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
+                // PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
             }
 
             //assigns/creates jobs
@@ -318,7 +318,7 @@ namespace ServerForTheLogic
                     temp.Workplace = b;
                     b.workers.Add(temp);
                     temp.incomeGenerated(b);
-                  // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
+                    // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
                     break;
                 }
                 else
@@ -326,7 +326,7 @@ namespace ServerForTheLogic
                     fullBusinesses.Add(b);
                 }
             }
-            
+
             foreach (Business b in fullBusinesses)
             {
                 Market.BusinessesHiring.Remove(b);
@@ -336,7 +336,7 @@ namespace ServerForTheLogic
             {
                 createBuilding(CommercialBlocksToFill.Peek());
                 createBuilding(IndustrialBlocksToFill.Peek());
-                int index = rand.Int(0, Market.BusinessesHiring.Count-1);
+                int index = rand.Int(0, Market.BusinessesHiring.Count - 1);
 
                 temp.Workplace = Market.BusinessesHiring[index];
                 Market.BusinessesHiring[index].workers.Add(temp);
@@ -346,7 +346,7 @@ namespace ServerForTheLogic
             PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
             PartialUpdateList[temp.TimeToWork].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
 
-          
+
 
             AllPeople.Add(temp);
 
@@ -579,18 +579,55 @@ namespace ServerForTheLogic
             }
         }
 
-        public void StartSimulation(SimulationStateQueue full, SimulationStateQueue partial)
+        public void InitSimulation(SimulationStateQueue full, SimulationStateQueue partial)
         {
             //starts clock 
             clock = new Clock(this, full, partial);
-            Console.WriteLine(clock.NetMinutes);
-            for (int i =0; i < 61; i++) 
-                clock.TickMinute(this, null);
-            clock.timer.Start();
+            //clock.timer.Start();
             Console.WriteLine("Started simulation");
-            Console.WriteLine(clock.NetMinutes);
         }
 
+        public void TickHour()
+        {
+            if (clock != null)
+            {
+                clock.NetMinutes += 60;
+                clock.TickHour();
+            }
+            Console.WriteLine("Moved time forward 1 hour");
+        }
+
+        /// <summary>
+        /// Moves time forward 1 day as fast as the cpu can process
+        /// </summary>
+        public void TickDay()
+        {
+            if (clock != null)
+                for (int i = 0; i < 24; i++)
+                {
+                    clock.TickHour();
+                    clock.NetMinutes += 60 * 24;
+                }
+            Console.WriteLine("Moved time forward 1 day");
+        }
+
+        /// <summary>
+        /// Moves time forward 1 year as fast as the cpu can process
+        /// NOTE: THIS WILL TAKE A LONG TIME
+        /// </summary>
+        public void TickYear()
+        {
+            if (clock != null)
+            {
+                for (int i = 0; i < 365 * 24; i++)
+                    clock.TickHour();
+            }
+            Console.WriteLine("Moved time forward 1 year");
+        }
+
+        /// <summary>
+        /// Pauses the simulation
+        /// </summary>
         public void StopSimulation()
         {
             clock.timer.Stop();

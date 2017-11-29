@@ -65,7 +65,7 @@ namespace CitySimNetworkService
         protected override void OnStart(string[] args)
         {
             connectionHandler.StartListening();
-            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
+            city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
         }
 
         /// <summary>

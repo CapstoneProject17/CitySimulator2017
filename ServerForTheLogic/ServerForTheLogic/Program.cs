@@ -7,6 +7,7 @@ using NLog;
 using System.IO;
 using CitySimNetworkService;
 using DBInterface;
+using DBInterface.Infrastructure;
 
 namespace ServerForTheLogic
 {
@@ -72,8 +73,25 @@ namespace ServerForTheLogic
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
             city.printCity();
-            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
+
+            city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
+
             GetInput();
+        }
+        
+        
+        /// <summary>
+        /// Saves the city state to a file, so it can be loaded from the backup later.
+        /// </summary>
+        /// <param name="sendableData"></param>
+        public void SaveCityState()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+
+            string dataToSend = JsonConvert.SerializeObject(city, settings);
+
+            File.WriteAllText(@"..\..\SerializedCity\city.json", dataToSend);
         }
 
         private static void GetInput()
@@ -122,6 +140,18 @@ namespace ServerForTheLogic
                 if (cmd.Equals("print city"))
                 {
                     city.printCity();
+                }
+                if (cmd.Equals("hour"))
+                {
+                    city.TickHour();
+                }
+                if (cmd.Equals("day"))
+                {
+                    city.TickDay();
+                }
+                if (cmd.Equals("year"))
+                {
+                    city.TickYear();
                 }
                 if (cmd.Equals("blocks"))
                 {
