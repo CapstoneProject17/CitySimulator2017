@@ -40,7 +40,9 @@ namespace ServerForTheLogic
         public Queue<Block> ResidentialBlocksToFill { get; set; }
 
         public List<Point> NewRoads { get; set; }
+        public List<Point> AllRoads { get; set; }
 
+        public List<Building> AllBuildings { get; set; }
         public List<Building> NewBuildings { get; set; }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// Every hour, send the nested dictionary to the network queue
         /// </summary>
-        public Dictionary<int, Dictionary<Guid, Point>> PartialUpdateList { get; private set; }
+        public Dictionary<int, List<PersonTravel>> PartialUpdateList { get; private set; }
 
         /// <summary>
         /// Dictionary of Locations to send to client when they connect
@@ -126,13 +128,16 @@ namespace ServerForTheLogic
             NewRoads = new List<Point>();
             NewBuildings = new List<Building>();
 
+            AllRoads = new List<Point>();
+            AllBuildings = new List<Building>();
+
             CommercialBlocksToFill = new Queue<Block>();
             IndustrialBlocksToFill = new Queue<Block>();
             ResidentialBlocksToFill = new Queue<Block>();
 
-            PartialUpdateList = new Dictionary<int, Dictionary<Guid, Point>>();
+            PartialUpdateList = new Dictionary<int, List<PersonTravel>>();
             for (int i = 0; i < 24; ++i)
-                PartialUpdateList.Add(i, new Dictionary<Guid, Point>());
+                PartialUpdateList.Add(i, new List<PersonTravel>());
 
             int width = CITY_WIDTH / (Block.BLOCK_WIDTH - 1);
             int height = CITY_LENGTH / (Block.BLOCK_LENGTH - 1);
@@ -201,6 +206,8 @@ namespace ServerForTheLogic
             expandCity(BlockType.Commercial);
             expandCity(BlockType.Residential);
 
+
+           // Console.WriteLine(new ClientPacket(this).ConvertPacket());
             //ClientPacket packet = new ClientPacket(this);
             //packet.ConvertPacket();
         }
@@ -287,7 +294,7 @@ namespace ServerForTheLogic
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
-                    PartialUpdateList[temp.TimeToHome].Add(temp.Id, r.Point);
+                   // PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, r.Point);
                     break;
                 }
             }
@@ -296,7 +303,7 @@ namespace ServerForTheLogic
                 Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
                 temp.Home = newHome;
                 newHome.NumberOfResidents++;
-                PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
+               // PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
             }
 
             //assigns/creates jobs
@@ -313,7 +320,7 @@ namespace ServerForTheLogic
                     temp.Workplace = b;
                     b.workers.Add(temp);
                     temp.incomeGenerated(b);
-                    // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
+                  // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
                     break;
                 }
                 else
@@ -326,6 +333,10 @@ namespace ServerForTheLogic
             {
                 Market.BusinessesHiring.Remove(b);
             }
+
+            PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
+            PartialUpdateList[temp.TimeToWork].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
+
             AllPeople.Add(temp);
 
             return temp;
@@ -365,6 +376,7 @@ namespace ServerForTheLogic
             if (block.Type == BlockType.Commercial)
             {
                 building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
+                Market.BusinessesHiring.Add((Business)building);
             }
             else if (block.Type == BlockType.Residential)
             {
@@ -375,6 +387,7 @@ namespace ServerForTheLogic
             else if (block.Type == BlockType.Industrial)
             {
                 building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
+                Market.BusinessesHiring.Add((Business)building);
             }
             else
             {
@@ -384,6 +397,7 @@ namespace ServerForTheLogic
             block.LandPlot[x, z] = building;
             Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
             NewBuildings.Add(new Building(building));
+            AllBuildings.Add(new Building(building));
             return building;
         }
 
@@ -464,6 +478,7 @@ namespace ServerForTheLogic
                     b.LandPlot[i, 0] = new Road("");
                     Map[i + xPos, zPos] = b.LandPlot[i, 0];
                     NewRoads.Add(new Point(i + xPos, zPos));
+                    AllRoads.Add(new Point(i + xPos, zPos));
                 }
 
                 if (GetLocationAt(i + xPos, zPos + length) != null)
@@ -475,7 +490,7 @@ namespace ServerForTheLogic
                     b.LandPlot[i, length] = new Road("");
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
                     NewRoads.Add(new Point(i + xPos, zPos + length));
-
+                    AllRoads.Add(new Point(i + xPos, zPos + length));
                 }
             }
             //adds roads to the left and right borders of the block grid
@@ -490,7 +505,7 @@ namespace ServerForTheLogic
                     b.LandPlot[0, i] = new Road("");
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
                     NewRoads.Add(new Point(xPos, i + zPos));
-
+                    AllRoads.Add(new Point(xPos, i + zPos));
                 }
                 if (GetLocationAt(xPos + width, i + zPos) != null)
                 {
@@ -501,7 +516,7 @@ namespace ServerForTheLogic
                     b.LandPlot[width, i] = new Road("");
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
                     NewRoads.Add(new Point(xPos + width, i + zPos));
-
+                    AllRoads.Add(new Point(xPos + width, i + zPos));
                 }
             }
             // b.setBlockType();
