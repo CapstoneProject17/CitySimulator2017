@@ -43,7 +43,7 @@ namespace CitySimNetworkService
         }
 
         /// <summary>
-        /// Writes to JSON.
+        /// Writes to JSON (method stub needed for derived JsonConverter).
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="value"></param>

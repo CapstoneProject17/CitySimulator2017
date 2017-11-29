@@ -32,7 +32,7 @@
     }
 
     /// <summary>
-    /// Contains resource type and resource id.
+    /// Contains resource type and resource id (corresponding to GUID in Database object)
     /// </summary>
     public class DatabaseResourceRequest: BaseRequest
     {
