@@ -4,7 +4,11 @@ using ServerForTheLogic.ClientObject.Building;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.DALValidator.ValidationHelper;
 using ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation;
+using ServerForTheLogic.Econ;
+using ServerForTheLogic.Infrastructure;
+using ServerForTheLogic.Utilities;
 using System;
+using System.Collections.Generic;
 
 namespace DataAccessLayer
 {
@@ -46,22 +50,22 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="person">The person object being validated</param>
         /// <returns>If all validations pass it returns true, otherwise flase</returns>
-        public static Boolean DALPersonValidator(Citizen person)
+        public static Boolean DALPersonValidator(Person person)
         {
-            if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
-               PersonValidator.isValidPersonLastName(person.LastName) &&
+            if(PersonValidator.isValidPersonFirstName(person.FName) &&
+               PersonValidator.isValidPersonLastName(person.LName) &&
                PersonValidator.isValidPersonMonthlyIncome(person.MonthlyIncome) &&
-               PersonValidator.isValidPersonAccountBalance(person.AccountBalance) &&
-               PersonValidator.isValidPersonWorkplaceID(person.WorkplaceID) &&
-               PersonValidator.isValidPersonWorkplaceX(person.WorkplaceX) &&
-               PersonValidator.isValidPersonWorkplaceY(person.WorkplaceY) &&
-               PersonValidator.isValidPersonHomeID(person.HomeID) &&
-               PersonValidator.isValidPersonHomeX(person.HomeX) &&
-               PersonValidator.isValidPersonHomeY(person.HomeY) &&
+               PersonValidator.isValidPersonAccountBalance(person.Funds) &&
+               PersonValidator.isValidPersonWorkplaceID(person.Workplace.id.ToString()) &&
+               PersonValidator.isValidPersonWorkplaceX(person.Workplace.Point.x) &&
+               PersonValidator.isValidPersonWorkplaceY(person.Workplace.Point.z) &&
+               PersonValidator.isValidPersonHomeID(person.Home.id.ToString()) &&
+               PersonValidator.isValidPersonHomeX(person.Home.Point.x) &&
+               PersonValidator.isValidPersonHomeY(person.Home.Point.z) &&
                PersonValidator.isValidPersonDaysLeft(person.DaysLeft) &&
                PersonValidator.isValidPersonAge(person.Age) &&
-               PersonValidator.isValidPersonStartShift(person.StartShift) &&
-               PersonValidator.isValidPersonEndShift(person.EndShift))
+               PersonValidator.isValidPersonStartShift(person.TimeToWork) &&
+               PersonValidator.isValidPersonEndShift(person.TimeToHome))
             {
                 return true;
             }
@@ -77,12 +81,12 @@ namespace DataAccessLayer
         /// Date: 2017-11-12
         /// <para>For more information see <see cref="GridObjectValidator"/></para>
         /// </summary>
-        /// <param name="gridObject">The GridObject being validated</param>
+        /// <param name="location">The GridObject being validated</param>
         /// <returns>Returns true if everything passes</returns>
-        public static Boolean DALGridObjectValidator(GridObject gridObject)
+        public static Boolean DALGridObjectValidator(Location location)
         {
-            return GridObjectValidator.isValidXCoordinate(gridObject.XPoint) &&
-                GridObjectValidator.isValidYCoordinate(gridObject.YPoint);
+            return GridObjectValidator.isValidXCoordinate(location.Point.x) &&
+                GridObjectValidator.isValidYCoordinate(location.Point.z);
         }
 
         /// <summary>
@@ -98,6 +102,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public static Boolean DALBuildingValidator(Building building)
         {
+            //connor
             return DALGridObjectValidator(building) &&
                 BuildingValidator.isValidBuildingCapacity(building.Capacity) &&
                 BuildingValidator.isValidBuildingRating(building.Rating);
@@ -116,9 +121,11 @@ namespace DataAccessLayer
         /// <returns>Returns true if the Industrial building validates</returns>
         public static Boolean DALIndustrialBuildingValidator(Industrial industrialBuilding)
         {
+            //connor will fix
             return DALBuildingValidator(industrialBuilding) &&
-                IndustrialValidator.isValidIndustrialInventoryCount(industrialBuilding.InventoryCount) &&
-                IndustrialValidator.isValidIndustrialProductionCost(industrialBuilding.ProductionCost) &&
+                IndustrialValidator.isValidIndustrialInventoryCount(industrialBuilding.inventory.Count) &&
+                //TODO: loop these
+                IndustrialValidator.isValidIndustrialProductionCost(industrialBuilding) &&
                 IndustrialValidator.isValidIndustrialWholesalePrice(industrialBuilding.WholesalePrice);
         }
 
@@ -137,9 +144,13 @@ namespace DataAccessLayer
         /// <returns>Returns true if the building validates</returns>
         public static Boolean DALCommercialBuildingValidator(Commercial commercialBuilding)
         {
-            return DALBuildingValidator(commercialBuilding) &&
-                CommercialValidator.isValidCommercialInventoryCount(commercialBuilding.InventoryCount) &&
-                CommercialValidator.isValidCommercialRetailPrice(commercialBuilding.RetailPrice);
+            foreach (KeyValuePair<Product, int> p in commercialBuilding.inventory)
+            {
+                if (!CommercialValidator.isValidCommercialInventoryCount(commercialBuilding.inventory[p.Key]) &&
+                    CommercialValidator.isValidCommercialRetailPrice(commercialBuilding.inventory[p.Key]))
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -187,9 +198,7 @@ namespace DataAccessLayer
         public static Boolean DALClockValidator(Clock clock)
         {
             return ClockValidator.isValidClockNetMinutes(clock.NetMinutes) &&
-                ClockValidator.isValidClockNetHours(clock.NetHours) &&
-                ClockValidator.isValidClockNetDays(clock.NetDays) &&
-                ClockValidator.isValidClockNetYears(clock.NetYears);
+                ClockValidator.isValidClockNetHours(clock.NetHours);
         }
 
         /// <summary>
@@ -205,8 +214,9 @@ namespace DataAccessLayer
         /// <returns>Returns true if the product validates</returns>
         public static Boolean DALProductValidator(Product product)
         {
-            return ProductValidator.isValidProductGlobalCount(product.GlobalCount) &&
-                ProductValidator.isValidProductName(product.Name);
+            //TODO: fix this
+            return ProductValidator.isValidProductGlobalCount((int)product.ManufacturingPrice) &&
+                ProductValidator.isValidProductName(product.ProductName);
         }
 
         /// <summary>

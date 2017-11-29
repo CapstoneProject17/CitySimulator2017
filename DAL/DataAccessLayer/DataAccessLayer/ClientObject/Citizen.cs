@@ -22,6 +22,7 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     public class Citizen
     {
+
         /// <summary>
         /// default constructor of Person.
         /// </summary>

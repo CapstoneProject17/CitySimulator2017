@@ -10,7 +10,7 @@ namespace ServerForTheLogic
     /// Author: Stephanie 
     /// Date: 2017 11 08
     /// </summary>
-    public class Road : GridObject
+    public class RoadDB : GridObject
     {
         /// <summary>
         /// The Road constructor. Calls the base GridObject constructor
@@ -18,7 +18,7 @@ namespace ServerForTheLogic
         /// <param name="guid">Guid of the road</param>
         /// <param name="xPoint">X coordinate of the road</param>
         /// <param name="yPoint">Y coordinate of the road</param>
-        public Road(Guid guid, int xPoint, int yPoint) : base(guid, xPoint, yPoint)
+        public RoadDB(Guid guid, int xPoint, int yPoint) : base(guid, xPoint, yPoint)
         {
         }
     }

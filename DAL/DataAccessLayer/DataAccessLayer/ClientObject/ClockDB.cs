@@ -12,9 +12,9 @@
     ///     - added new field 'NetYears'
     ///     - added summary for fields
     /// </summary>
-    public class Clock
+    public class ClockDB
     {
-        public Clock(int netMinutes, int netHours, int netDays, int netYears)
+        public ClockDB(int netMinutes, int netHours, int netDays, int netYears)
         {
             NetMinutes = netMinutes;
             NetHours = netHours;

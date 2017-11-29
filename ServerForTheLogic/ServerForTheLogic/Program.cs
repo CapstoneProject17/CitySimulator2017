@@ -10,6 +10,7 @@ using NLog;
 using System.IO;
 using System.Threading;
 using CitySimNetworkService;
+using DataAccessLayer;
 
 namespace ServerForTheLogic
 {
@@ -34,6 +35,7 @@ namespace ServerForTheLogic
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
+        private static MongoDAL db;
 
 
         public static void Start(string[] args)
@@ -66,8 +68,8 @@ namespace ServerForTheLogic
             city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
-
-            JsonSerializer serializer = new JsonSerializer();
+            settings.Converters.Add(new BlockConverter());
+            //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
 
             if (city == null)
@@ -76,6 +78,10 @@ namespace ServerForTheLogic
             }
             city.printCity();
             city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
+
+
+            db = new MongoDAL();
+            //db.InsertPerson(People[0]);
             GetInput();
         }
 
