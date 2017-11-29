@@ -14,14 +14,18 @@ using UnityEngine;
 ///	 Name: Andrew Lam   Change: create, update, destroy building funtions added 	Date: 2017-11-25
 ///	 Name: Shawn  Kim   Change: Append objects to parent 							Date: 2017-10-20
 /// Based on:  N/A
-/// https://docs.unity3d.com/ScriptReference/Material-color.html
-/// https://docs.unity3d.com/ScriptReference/GameObject.html
-/// https://docs.unity3d.com/ScriptReference/Resources.Load.html
+///  https://docs.unity3d.com/ScriptReference/Material-color.html
+///  https://docs.unity3d.com/ScriptReference/GameObject.html
+///  https://docs.unity3d.com/ScriptReference/Resources.Load.html
 /// </summary>
 public class BuildingManager : MonoBehaviour {
 
 	public GameObject buildingManager;
+
 	private GameObject[] planes;
+
+	private GameObject buildingObject;
+
 	private Transform planeTransform;
 	// private IList<GameObject> testplanes = new List<GameObject>();
 	// private IList<GameObject> testbuildings = new List<GameObject>();
@@ -46,6 +50,7 @@ public class BuildingManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		intializeBuildings ();
 	}
 
 	// Update builings
@@ -56,7 +61,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	void createBuilding (string GUID, int x, int z, short type, short tier) {
+	public void createBuilding (string GUID, int x, int z, short type, short tier) {
 
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
@@ -145,7 +150,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Dispose building 
-	void disposeBuilding (string id) {
+	public void disposeBuilding (string id) {
 
 		GameObject building = GameObject.Find( id + "(Clone)");
 		
@@ -161,7 +166,7 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// initialize building models
-	void intializeBuildings () {
+	public void intializeBuildings () {
 		planes = GameObject.FindGameObjectsWithTag ("plane");
 		int x = 0;
 		int z = 0;

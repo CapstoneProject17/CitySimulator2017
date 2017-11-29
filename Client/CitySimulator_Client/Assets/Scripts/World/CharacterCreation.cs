@@ -40,7 +40,11 @@ public class CharacterCreation : MonoBehaviour {
 	/// Update this instance.
 	/// </summary>
 	void Update () {
-		createCharacter("pop" + 1, 0,0, 15,3);
+		
+		// createCharacter();
+
+		// createCharacter("pop" + 1, 0,0, 15,3);
+
 
 	}
 

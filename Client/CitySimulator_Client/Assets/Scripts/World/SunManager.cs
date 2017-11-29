@@ -18,7 +18,7 @@ public class SunManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		timeMagnitude = 50f;
+		timeMagnitude = 15f;
 	}
 
 	// Update is called once per frame
