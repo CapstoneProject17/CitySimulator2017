@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json;
-using ServerForTheLogic.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Highest level class used in city infrastructure hierarchy, contains a name

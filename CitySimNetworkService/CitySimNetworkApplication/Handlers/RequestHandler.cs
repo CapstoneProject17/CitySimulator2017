@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CitySimNetworkingApplication;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -43,7 +44,7 @@ namespace CitySimNetworkService
         /// </param>
         /// 
         /// <returns> 
-        /// JSON object of some type.
+        /// JSON object of some type (Object, Product, Citizen, Error)
         /// </returns>
         public string ParseRequest(string _request)
         {
@@ -58,13 +59,17 @@ namespace CitySimNetworkService
                         return dbHandler.HandleRequest((DatabaseResourceRequest)request);
                     default:
                         logger.Error("Invalid request made: {0}", _request);
-                        //FIXME: This should return a JsonObject that contains request not valid field
-                        return "";
+						return JsonConvert.SerializeObject(
+							new ErrorResponse { Message = "Invalid Request: Malformed Request" });
                 }
             } catch(Exception e)
             {
                 logger.Error(e);
-                return "{\"type\": \"error\"}";
+				ErrorResponse error = new ErrorResponse
+				{
+					Message = "Invalid Request: Unhandled Exception"
+				};
+                return JsonConvert.SerializeObject(error);
             }
        }
     }

@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ServerForTheLogic.Econ;
+using DALInterface.Econ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Commercial buildings are businesses which purchase products from industrial buildings,
@@ -15,7 +15,7 @@ namespace ServerForTheLogic.Infrastructure
     /// <para>Last modified by Andrew Busto 2017-11-14</para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    class Commercial : Business
+    public class Commercial : Business
     {
         /// <summary>
         /// Default constructor for commercial buildings, fills inventory after initialization

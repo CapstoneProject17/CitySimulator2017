@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     [JsonObject(MemberSerialization.OptIn)]
     /// <summary>

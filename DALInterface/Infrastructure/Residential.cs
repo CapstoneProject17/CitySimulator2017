@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerForTheLogic.Infrastructure
+namespace DALInterface.Infrastructure
 {
     /// <summary>
     /// Residential buildings hold a number of occupants, depending on size

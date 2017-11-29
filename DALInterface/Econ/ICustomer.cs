@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerForTheLogic.Econ
+﻿namespace DALInterface.Econ
 {
     /// <summary>
     /// Objects that can make orders implement this interface
     /// <para>Written by Connor Goudie 2017-11-08</para>
     /// </summary>
-    interface ICustomer
+    public interface ICustomer
     {
         //amount of money a customer has
         int Funds { get; set; }
