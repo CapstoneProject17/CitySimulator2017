@@ -7,6 +7,8 @@ using NLog;
 using System.IO;
 using CitySimNetworkService;
 using DBInterface;
+using DBInterface.Econ;
+using DBInterface.Infrastructure;
 
 namespace ServerForTheLogic
 {
@@ -60,7 +62,6 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
-            city = null;
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
             settings.Converters.Add(new BlockConverter());
@@ -72,6 +73,13 @@ namespace ServerForTheLogic
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
             city.printCity();
+
+            foreach (Block b in city.BlockMap)
+                city.addRoads(b);
+            
+
+            Updater<City> update = new Updater<City>(fullUpdateQueue, partialUpdateQueue);
+            update.SaveCityState(city);
             city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
             GetInput();
         }
@@ -101,7 +109,8 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    //city.Workplaces.Dump();
+                    Market.CommercialBusinesses.Dump();
+                    Market.IndustrialBusinesses.Dump();
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -119,14 +128,21 @@ namespace ServerForTheLogic
                 {
                     city.clock.Dump();
                 }
+                if (commands[0].Equals("roads", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    foreach (Block b in city.BlockMap)
+                    {
+                        city.printBlock(b);
+                    }
+                }
                 if (cmd.Equals("print city"))
                 {
                     city.printCity();
                 }
                 if (cmd.Equals("blocks"))
                 {
-                    foreach (Block b in city.BlockMap)
-                        City.printBlock(b);
+                    foreach (Block b in city.BlockMap) { }
+                        //City.printBlock(b);
                 }
 
             }
