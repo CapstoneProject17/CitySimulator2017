@@ -1,10 +1,5 @@
-﻿using ServerForTheLogic.ClientObject.Buildings;
+﻿using DBInterface.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBInterface.Infrastructure;
-
 namespace ServerForTheLogic.ClientObject.Buildings
 {
     /// <summary>

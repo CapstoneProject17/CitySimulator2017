@@ -9,12 +9,28 @@ using ServerForTheLogic.Json.LiteObjects;
 using DBInterface.Infrastructure;
 using DBInterface;
 using DBInterface.Econ;
+using System.IO;
+using ServerForTheLogic.Json;
+using ConsoleDump;
 
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class City
     {
+        /// <summary>
+        /// Max width of the city grid
+        /// </summary>
+        public const int CITY_WIDTH = 49; // 7;//58;
+
+        /// <summary>
+        /// Max length of the city grid
+        /// </summary>
+        public const int CITY_LENGTH = 50;//15;//99;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static int FIXED_CAPACITY = 50;
 
         /// <summary>
@@ -41,20 +57,20 @@ namespace ServerForTheLogic
         public Queue<Block> ResidentialBlocksToFill { get; set; }
 
         public List<Point> NewRoads { get; set; }
-        public List<Point> AllRoads { get; set; }
 
-        public List<Building> AllBuildings { get; set; }
         public List<Building> NewBuildings { get; set; }
 
-        /// <summary>
-        /// Max width of the city grid
-        /// </summary>
-        public const int CITY_WIDTH = 49; // 7;//58;
+        [JsonProperty]
+        public List<Building> AllBuildings { get; set; }
 
+        [JsonProperty]
+        public List<Point> AllRoads { get; set; }
+
+        [JsonProperty]
         /// <summary>
-        /// Max length of the city grid
+        /// List of all inhabitants of the city
         /// </summary>
-        public const int CITY_LENGTH = 50;//15;//99;
+        public List<DBInterface.Person> AllPeople { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -62,11 +78,6 @@ namespace ServerForTheLogic
         /// </summary>
         public List<Residential> Homes { get; set; }
 
-        [JsonProperty]
-        /// <summary>
-        /// List of all inhabitants of the city
-        /// </summary>
-        public List<DBInterface.Person> AllPeople { get; set; }
 
         /// <summary>
         /// Every hour, send the nested dictionary to the network queue
@@ -287,8 +298,12 @@ namespace ServerForTheLogic
         {
             DBInterface.Person temp = new DBInterface.Person(faker.Name.FirstName(), faker.Name.LastName());
             Randomizer rand = new Randomizer();
-            List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
-            List<Business> randBusinesses = Market.BusinessesHiring.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count)).ToList();
+            List<Residential> randHomes = Homes.ToList();
+            List<Business> randBusinesses = Market.BusinessesHiring.ToList();
+
+            randBusinesses.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count));
+            randHomes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
+
             //assigns/creates Home
             foreach (Residential r in randHomes)
             {
@@ -407,8 +422,9 @@ namespace ServerForTheLogic
             building.Point = new Point(block.StartPoint.X + x, block.StartPoint.Z + z);
             block.LandPlot[x, z] = building;
             Map[block.StartPoint.X + x, block.StartPoint.Z + z] = building;
-            NewBuildings.Add(new Building(building));
-            AllBuildings.Add(new Building(building));
+            Building liteBuilding = new Building(building);
+            NewBuildings.Add(liteBuilding);
+            AllBuildings.Add(building);
             return building;
         }
 
@@ -486,7 +502,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, 0] = new Road("");
+                    b.LandPlot[i, 0] = new Road("", i + xPos, zPos);
                     Map[i + xPos, zPos] = b.LandPlot[i, 0];
                     NewRoads.Add(new Point(i + xPos, zPos));
                     AllRoads.Add(new Point(i + xPos, zPos));
@@ -498,7 +514,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, length] = new Road("");
+                    b.LandPlot[i, length] = new Road("", i + xPos, zPos + length);
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
                     NewRoads.Add(new Point(i + xPos, zPos + length));
                     AllRoads.Add(new Point(i + xPos, zPos + length));
@@ -513,7 +529,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[0, i] = new Road("");
+                    b.LandPlot[0, i] = new Road("", xPos, i + zPos);
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
                     NewRoads.Add(new Point(xPos, i + zPos));
                     AllRoads.Add(new Point(xPos, i + zPos));
@@ -524,7 +540,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[width, i] = new Road("");
+                    b.LandPlot[width, i] = new Road("", width + xPos, i + zPos);
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
                     NewRoads.Add(new Point(xPos + width, i + zPos));
                     AllRoads.Add(new Point(xPos + width, i + zPos));
@@ -578,6 +594,8 @@ namespace ServerForTheLogic
 
             }
         }
+
+
 
         public void InitSimulation(SimulationStateQueue full, SimulationStateQueue partial)
         {
@@ -663,6 +681,22 @@ namespace ServerForTheLogic
         }
 
 
+        public void SaveState()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+            settings.Converters.Add(new BlockConverter());
+
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, this);
+                sw.Close();
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
+        }
+
         /// <summary>
         /// Prints a block represented as symbols/letters in a neatly formatted manner
         /// <para/> Last editted:  2017-10-02
@@ -687,6 +721,21 @@ namespace ServerForTheLogic
             }
         }
 
+        public void PropertyCounts()
+        {
+            string displayString =
+                "Building count: " + AllBuildings.Count
+                + "\nPeople count: " + AllPeople.Count
+                + "\nRoads count: " + AllRoads.Count
+                + "\nNew roads count:" + NewRoads.Count
+                + "\nNew Buildings count: " + NewBuildings.Count
+                + "\nResidential blocks to fill count: " + ResidentialBlocksToFill.Count
+                + "\nCommercial blocks to fill count: " + CommercialBlocksToFill.Count
+                + "\nIndustrial blocks to fill count: " + IndustrialBlocksToFill.Count
+                + "\nMap length : " + Map.Length
+                + "\nAssigned blocks count: " + assignedBlocks.Count;
+            Console.WriteLine(displayString);
+        }
     }
 
 }

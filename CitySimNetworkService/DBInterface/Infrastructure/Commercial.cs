@@ -38,8 +38,6 @@ namespace DBInterface.Infrastructure
         public Commercial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
             this.Type = "C";
-            Market.CommercialBusinesses.Add(this);
-            Market.BusinessesHiring.Add(this);
             FillInventory();
         }
 

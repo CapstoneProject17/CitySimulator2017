@@ -16,7 +16,7 @@ namespace DataAccessLayer
     /// Has validator for citizen.
     /// Author: Sean 
     /// Date: 2017-10-31
-    /// Based on: http://cacodaemon.de/index.php?Id=42
+    /// Based on: http://cacodaemon.de/index.php?id=42
     ///           https://docs.mongodb.com/manual/core/document-validation/
     ///           http://www.c-sharpcorner.com/UploadFile/87b416/validating-user-input-with-regular-expressions/
     /// </para>
@@ -29,7 +29,7 @@ namespace DataAccessLayer
     /// <para>Date: 2017-11-11</para>
     ///     updated validation parameters to work for new classes
     ///     Citizens class changed to Person class
-    ///     Buildings class changed to Industrial, Commercial and Residential classes
+    ///     Building class changed to Industrial, Commercial and Residential classes
     ///     added new classes: Road, Product, Clock, SaveState
     /// </para>    
     /// </summary>
@@ -48,7 +48,7 @@ namespace DataAccessLayer
         /// <returns>If all validations pass it returns true, otherwise flase</returns>
         public static Boolean DALPersonValidator(PersonDB person)
         {
-            if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
+            if (PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
                PersonValidator.isValidPersonMonthlyIncome(person.MonthlyIncome) &&
                PersonValidator.isValidPersonAccountBalance(person.AccountBalance) &&
@@ -86,7 +86,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Buildings Validator
+        /// Building Validator
         /// 
         /// Checks whether all the fields in a Building is valid
         /// 
@@ -104,7 +104,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Industrial Buildings Validator
+        /// Industrial Building Validator
         /// 
         /// Check whether all the fields in industrialBuilding is valid
         /// 
@@ -124,7 +124,7 @@ namespace DataAccessLayer
 
         /// <summary>
         /// <para>
-        /// Commercial Buildings Validator.
+        /// Commercial Building Validator.
         /// Checks whether all the fields in commercialBuilding is valid
         /// </para>
         /// <para>
@@ -143,7 +143,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Residential Buildings Validator.
+        /// Residential Building Validator.
         ///  
         /// Check whether all the fields in residentialBuilding is valid
         /// 

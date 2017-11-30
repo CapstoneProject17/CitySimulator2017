@@ -50,7 +50,7 @@ namespace DataAccessLayer
 		{
 			get
 			{
-				var database = client.GetDatabase("Prototype");
+				var database = client.GetDatabase("default");
 				return database;
 			}
 		}
@@ -407,7 +407,7 @@ namespace DataAccessLayer
 			var saveStateData = collection.Find(new BsonDocument()).FirstOrDefault();
 			if (saveStateData != null)
 			{
-				SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
+                SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
 				return mySaveState;
 			}
 			Console.WriteLine("SaveState collection is empty.");
@@ -514,6 +514,7 @@ namespace DataAccessLayer
 		/// <param name="endShift">The ending time of when the person's work ends</param>
 		public async void UpdatePerson(Person person)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Person");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", person.Id);
 			var personListData = await collection.Find(filter).ToListAsync();
@@ -563,6 +564,7 @@ namespace DataAccessLayer
 		/// <param name="capacity">The capacity of the Residential building</param>
 		public async void UpdateResidentialBuilding(Residential residential)
 		{
+            //michael got this
 			var collection = Database.GetCollection<BsonDocument>("Residential");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", residential.Id);
 			var residentialListData = await collection.Find(filter).ToListAsync();
@@ -605,6 +607,7 @@ namespace DataAccessLayer
         /// <param name="inventoryCount">The inventory count of the Commercial building</param>
         public async void UpdateCommercialBuilding(Commercial commercial)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Commercial");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", commercial.Id);
 			var commercialListData = await collection.Find(filter).ToListAsync();
@@ -689,6 +692,7 @@ namespace DataAccessLayer
         /// <param name="yPoint">The Y coordinate of the road being updated</param>
         public async void UpdateRoad(Road road)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Road");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", road.Id);
 			var roadListData = await collection.Find(filter).ToListAsync();
@@ -724,6 +728,7 @@ namespace DataAccessLayer
 		/// <param name="years">The years of the clock</param>
 		public async void UpdateClock(IClock clock)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Clock");
 			var clockData = await collection.Find(new BsonDocument()).FirstOrDefaultAsync();
 			if (clockData == null)

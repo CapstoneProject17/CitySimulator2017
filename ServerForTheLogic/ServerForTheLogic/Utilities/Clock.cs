@@ -111,10 +111,10 @@ namespace ServerForTheLogic.Utilities
         internal void TickHour()
         {
             NetHours = NetMinutes / 60;
-            Console.WriteLine("Hours:\t" + NetHours);
+            //Console.WriteLine("Hours:\t" + NetHours);
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            Console.WriteLine("Population = " + city.AllPeople.Count);
+            //Console.WriteLine("Population = " + city.AllPeople.Count);
             foreach (Person p in city.AllPeople)
             {
                 p.ConsumeProd();
@@ -126,7 +126,7 @@ namespace ServerForTheLogic.Utilities
 
             PartialUpdate.Enqueue(output);
             
-            Console.WriteLine(output);
+            //Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
             if (NetHours / 24 > NetDays)

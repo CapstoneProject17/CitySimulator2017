@@ -33,6 +33,7 @@ namespace ServerForTheLogic
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
+        private static MongoDAL db;
 
 
         public static void Start(string[] args)
@@ -69,14 +70,33 @@ namespace ServerForTheLogic
             //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
 
+
+
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
-            city.Dump();
-            city.printCity();
 
+            //city.CommercialBlocksToFill.Dump();
+            //city.PartialUpdateList.Dump();
+            city.printCity();
+            int max = 0;
+            foreach (Person p in city.AllPeople)
+            {
+                if (p.DaysLeft > max)
+                    max = p.DaysLeft;
+            }
+            Console.WriteLine(max);
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
+
+            foreach (Block b in city.BlockMap)
+                city.setAdjacents(b);
+
+            db = new MongoDAL();
+            db.InsertBuildings(city.AllBuildings);
+            db.InsertClock(city.clock);
+            db.InsertPeople(city.AllPeople);
+
             GetInput();
         }
 
@@ -134,17 +154,20 @@ namespace ServerForTheLogic
                         if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
                         {
                             foreach (Building b in city.AllBuildings)
-                                Console.WriteLine(b.GetType());//if ()
-                                //    temp.Add(b);
+                                if (b is Commercial)
+                                    temp.Add(b);
                             temp.Dump();
                         }
-                        if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
+                        else if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
                         {
                             foreach (Building b in city.AllBuildings)
                                 if (b is Industrial)
                                     temp.Add(b);
                             temp.Dump();
                         }
+                    }
+                    else
+                    {
                         city.AllBuildings.Dump();
                     }
 
@@ -198,7 +221,11 @@ namespace ServerForTheLogic
                 }
                 if (cmd.Equals("save"))
                 {
-                    
+                    city.SaveState();
+                }
+                if (cmd.Equals("count"))
+                {
+                    city.PropertyCounts();
                 }
 
             }

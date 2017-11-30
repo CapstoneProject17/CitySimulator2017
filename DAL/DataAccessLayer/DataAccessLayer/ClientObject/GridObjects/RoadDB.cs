@@ -25,7 +25,7 @@ namespace ServerForTheLogic
 
         public RoadDB(Road road) : base(road)
         {
-            
+
         }
     }
 }

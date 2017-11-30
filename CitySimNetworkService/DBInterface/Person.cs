@@ -192,6 +192,7 @@ namespace DBInterface
         public bool AgeDeathTick()
         {
             DaysLeft--;
+            Age++;
             if (DaysLeft <= 0)
                 isDead = true;
             return isDead;
@@ -210,7 +211,7 @@ namespace DBInterface
                 Order order = new Order(Market.Products[rand], ToBuy(), this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
+                //Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
                 NumProducts += order.Amount;
             }
         }

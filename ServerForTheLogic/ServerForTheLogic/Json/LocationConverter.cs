@@ -51,7 +51,7 @@ namespace ServerForTheLogic.Json
             {
                 string type = jTok.Value<string>("Type");
                 Guid guid = new Guid(jTok.Value<string>("Id"));
-
+                
                 // Checks if the location has already been instantiated.
                 // If it has, return the existing object.
                 // Otherwise, instantiate an object based on it's "type."
@@ -62,6 +62,7 @@ namespace ServerForTheLogic.Json
                 else if (type.Equals("H"))
                 {
                     output = jTok.ToObject<Residential>();
+                    
                 }
                 else if (type.Equals("C"))
                 {

@@ -213,7 +213,7 @@ namespace ServerForTheLogic.DALValidator
         /// <returns></returns>
         public static Boolean isValidPersonDaysLeft(int personDaysLeft)
         {
-            if (personDaysLeft < 0 || personDaysLeft > 45000)
+            if (personDaysLeft < 0 || personDaysLeft > 50000)
             {
                 Console.WriteLine("Invalid person days left: " + personDaysLeft);
                 return false;

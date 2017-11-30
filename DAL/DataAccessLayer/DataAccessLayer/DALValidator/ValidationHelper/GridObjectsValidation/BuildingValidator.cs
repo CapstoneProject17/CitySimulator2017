@@ -28,7 +28,7 @@ namespace ServerForTheLogic.DALValidator
         /// <returns></returns>
         public static Boolean isValidBuildingRating(int buildintRating)
         {
-            if(buildintRating < 1 || buildintRating > 3)
+            if(buildintRating < 0 || buildintRating > 2)
             {
                 Console.WriteLine("Invalid building rating: " + buildintRating);
                 return false;
