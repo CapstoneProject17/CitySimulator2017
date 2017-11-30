@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using ServerForTheLogic.Json;
 using System;
-using System.Collections.Generic;
 using System.Timers;
 using CitySimNetworkService;
-using ServerForTheLogic.ClientObject;
 using DBInterface;
 using System.IO;
 
@@ -94,7 +92,6 @@ namespace ServerForTheLogic.Utilities
         internal void TickMinute(Object source, ElapsedEventArgs e)
         {
             NetMinutes++;
-           // Console.WriteLine("Mins:\t" + NetMinutes);
 
             if (NetMinutes / 60 > NetHours)
             {

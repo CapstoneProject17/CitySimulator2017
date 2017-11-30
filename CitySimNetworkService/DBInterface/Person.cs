@@ -12,7 +12,11 @@ namespace DBInterface
 
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
-        public int Funds { get; set; }
+        public double Funds { get; set; }
+        /// <summary>
+        /// Number of Products the person owns
+        /// </summary>
+        public double Inventory { get; set; }
         [JsonProperty]
         /// <summary>
         /// ID for database
@@ -50,7 +54,7 @@ namespace DBInterface
         /// Where this person lives
         /// </summary>
         public Building Home { get; set; }
-        
+
         [JsonProperty]
         /// <summary>
         /// Number of days remaining until person dies
@@ -88,10 +92,7 @@ namespace DBInterface
         /// </summary>
         public int Salary;
 
-        /// <summary>
-        /// Number of Products the person owns
-        /// </summary>
-        public int NumProducts;
+
 
 
         public bool isDead;
@@ -111,11 +112,11 @@ namespace DBInterface
             isDead = false;
             //consumption created
             DailyConsumption();
-            NumProducts = 0;//ToBuy();
+            Inventory = 0;//ToBuy();
             //Big expense created
             BigExpense();
             //Calculate Salary
-            
+
             Funds = new Randomizer().Number(1000, 10000);
             StartShift = new Randomizer().Number(0, 23);
             EndShift = (StartShift + 8) % 24;
@@ -125,7 +126,8 @@ namespace DBInterface
         /// Changes Daily Consumption rate
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        public void DailyConsumption() {
+        public void DailyConsumption()
+        {
             DCR = new Randomizer().Number(3, 4);
         }
 
@@ -133,7 +135,8 @@ namespace DBInterface
         /// Changes Big Expense value
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        public void BigExpense() {
+        public void BigExpense()
+        {
             BExp = new Randomizer().Number(5000, 13000);
         }
 
@@ -141,7 +144,8 @@ namespace DBInterface
         /// Amount to buy
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        public int ToBuy() {
+        public int ToBuy()
+        {
             return new Randomizer().Number(42, 56);
         }
         /// <summary>
@@ -149,10 +153,11 @@ namespace DBInterface
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         /// <param name="b"></param>
-        public void incomeGenerated(Business b) {
+        public void incomeGenerated(Business b)
+        {
             if (b.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
                 MonthlyIncome = new Randomizer().Number(3000, 5000);
-            else 
+            else
                 MonthlyIncome = new Randomizer().Number(4000, 6000);
             Salary = MonthlyIncome * 12;
         }
@@ -205,38 +210,41 @@ namespace DBInterface
         /// Last modified by Justin McLennan 2017-11-21</para>
         public void BuyThings()
         {
+            int amount = ToBuy();
             int rand = new Randomizer().Number(0, Market.Products.Count - 1);
-            if (Funds >= Market.Products[rand].RetailPrice)
+            if (Funds >= Market.Products[rand].RetailPrice * amount)
             {
-                Order order = new Order(Market.Products[rand], ToBuy(), this);
+                Order order = new Order(Market.Products[rand], amount, this);
                 // Funds -= (int)order.OrderProduct.RetailPrice * order.Amount;
+                Console.WriteLine(FName + " Bought " + order.Amount + " P");
                 Market.ProcessOrder(order, Market.CommercialBusinesses);
-                //Console.WriteLine("Bought " + order.OrderProduct.ProductName + " " + order.Amount);
-                NumProducts += order.Amount;
             }
         }
         /// <summary>
         /// Sets Age of Person
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        public void SetAge() {
-                Age++;
+        public void SetAge()
+        {
+            Age++;
         }
         /// <summary>
         /// This will consume and buy new products if they run out
         /// Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
-        public void ConsumeProd() {
-            if (NumProducts > DCR)
-                NumProducts -= DCR;
-            else {
+        public void ConsumeProd()
+        {
+            if (Inventory > DCR)
+                Inventory -= DCR;
+            else
+            {
                 BuyThings();
-                NumProducts -= DCR;
+                Inventory -= DCR;
             }
 
-            
+
         }
 
-        
+
     }
 }

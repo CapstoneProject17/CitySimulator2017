@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bogus;
 
 namespace DBInterface.Infrastructure
 {
@@ -18,18 +19,17 @@ namespace DBInterface.Infrastructure
     public class Commercial : Business
     {
         /// <summary>
-        /// Default constructor for commercial buildings, fills inventory after initialization
+        /// Default constructor for commercial buildings, fills Inventory after initialization
         /// <para>Written by Chandu Dissanayake, Andrew Busto 2017-10-02</para>
         /// <para>Last modified by Andrew Busto 2017-11-14</para>
         /// </summary>
         public Commercial() : base()
         {
             this.Type = "C";
-            FillInventory();
         }
 
         /// <summary>
-        /// Overloaded constructor for commercial buildings, fills inventory after initialization
+        /// Overloaded constructor for commercial buildings, fills Inventory after initialization
         /// </summary>
         /// <para>Written by Andrew Busto 2017-11-13</para>
         /// <param name="Name"></param>
@@ -37,8 +37,11 @@ namespace DBInterface.Infrastructure
         /// <param name="isTall"></param>
         public Commercial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
         {
+            Funds = 4000;
+            Inventory = 0;
             this.Type = "C";
-            FillInventory();
+            Market.CommercialBusinesses.Add(this);
+            Market.BusinessesHiring.Add(this);
         }
 
         /// <summary>
@@ -48,24 +51,18 @@ namespace DBInterface.Infrastructure
         /// </summary>
         public override void FillInventory()
         {
-            Dictionary<Product, int> productsBought = new Dictionary<Product, int>();
-            foreach (KeyValuePair<Product, int> p in inventory)
+            int rand = new Randomizer().Number(0, Market.Products.Count - 1);
+
+            if (Inventory < MINIMUM_VALUE)
             {
-                if (p.Value < MINIMUM_VALUE)
-                {
-                    Order order = new Order(p.Key, MINIMUM_VALUE, this);
-                    productsBought.Add(p.Key, order.Amount);
-                    // Console.WriteLine("Sending order to market");
-                    Market.ProcessOrder(order, Market.IndustrialBusinesses);
-                    //Console.WriteLine("Bought " + order.Amount + " " + order.OrderProduct.ProductName);
-                }
+                Order order = new Order(Market.Products[rand], MINIMUM_VALUE, this);
+                // Console.WriteLine("Sending order to market");
+                Console.WriteLine(Name + " Bought: " + order.Amount + " C");
+                Market.ProcessOrder(order, Market.IndustrialBusinesses);
+                Market.ComStock += MINIMUM_VALUE;
 
             }
 
-            foreach (KeyValuePair<Product, int> p in productsBought)
-            {
-                inventory[p.Key] += p.Value;
-            }
         }
     }
 }

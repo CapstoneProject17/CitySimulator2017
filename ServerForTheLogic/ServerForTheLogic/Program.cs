@@ -9,6 +9,7 @@ using CitySimNetworkService;
 using DBInterface;
 using DBInterface.Infrastructure;
 using DataAccessLayer;
+using DBInterface.Econ;
 
 namespace ServerForTheLogic
 {
@@ -80,6 +81,8 @@ namespace ServerForTheLogic
             //city.CommercialBlocksToFill.Dump();
             //city.PartialUpdateList.Dump();
             city.printCity();
+            foreach (Block b in city.BlockMap)
+                city.addRoads(b);
             int max = 0;
             foreach (Person p in city.AllPeople)
             {
@@ -148,29 +151,8 @@ namespace ServerForTheLogic
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (commands.Length == 2)
-                    {
-                        List<Building> temp = new List<Building>();
-                        if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            foreach (Building b in city.AllBuildings)
-                                if (b is Commercial)
-                                    temp.Add(b);
-                            temp.Dump();
-                        }
-                        else if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            foreach (Building b in city.AllBuildings)
-                                if (b is Industrial)
-                                    temp.Add(b);
-                            temp.Dump();
-                        }
-                    }
-                    else
-                    {
-                        city.AllBuildings.Dump();
-                    }
-
+                    Market.CommercialBusinesses.Dump();
+                    Market.IndustrialBusinesses.Dump();
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -187,6 +169,13 @@ namespace ServerForTheLogic
                 if (commands[0].Equals("clock", StringComparison.CurrentCultureIgnoreCase))
                 {
                     city.clock.Dump();
+                }
+                if (commands[0].Equals("roads", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    foreach (Block b in city.BlockMap)
+                    {
+                        city.printBlock(b);
+                    }
                 }
                 if (cmd.Equals("print city"))
                 {
