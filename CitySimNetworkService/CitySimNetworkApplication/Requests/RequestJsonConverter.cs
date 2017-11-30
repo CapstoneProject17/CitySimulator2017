@@ -24,7 +24,7 @@ namespace CitySimNetworkService
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject request = JObject.Load(reader);
-            if (request["type"].Value<string>() == "update")
+            if (request["RequestType"].Value<string>() == "update")
             {
                 if (request["FullUpdate"].Value<bool>())
                 {
@@ -43,7 +43,7 @@ namespace CitySimNetworkService
         }
 
         /// <summary>
-        /// Writes to JSON.
+        /// Writes to JSON (method stub needed for derived JsonConverter).
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="value"></param>
