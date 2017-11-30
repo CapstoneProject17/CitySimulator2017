@@ -9,6 +9,9 @@ using ServerForTheLogic.Json.LiteObjects;
 using DBInterface.Infrastructure;
 using DBInterface;
 using DBInterface.Econ;
+using System.IO;
+using ServerForTheLogic.Json;
+using ConsoleDump;
 using ServerForTheLogic.Json.LiteObjects;
 
 namespace ServerForTheLogic
@@ -16,6 +19,19 @@ namespace ServerForTheLogic
     [JsonObject(MemberSerialization.OptIn)]
     public class City
     {
+        /// <summary>
+        /// Max width of the city grid
+        /// </summary>
+        public const int CITY_WIDTH = 49; // 7;//58;
+
+        /// <summary>
+        /// Max length of the city grid
+        /// </summary>
+        public const int CITY_LENGTH = 50;//15;//99;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static int FIXED_CAPACITY = 50;
 
         /// <summary>
@@ -42,26 +58,14 @@ namespace ServerForTheLogic
         public Queue<Block> ResidentialBlocksToFill { get; set; }
 
         public List<Point> NewRoads { get; set; }
-        public List<Point> AllRoads { get; set; }
 
-        public List<Building> AllBuildings { get; set; }
         public List<Building> NewBuildings { get; set; }
 
-        /// <summary>
-        /// Max width of the city grid
-        /// </summary>
-        public const int CITY_WIDTH = 49; // 7;//58;
-
-        /// <summary>
-        /// Max length of the city grid
-        /// </summary>
-        public const int CITY_LENGTH = 50;//15;//99;
+        [JsonProperty]
+        public List<Building> AllBuildings { get; set; }
 
         [JsonProperty]
-        /// <summary>
-        /// List of all homes in the city
-        /// </summary>
-        public List<Residential> Homes { get; set; }
+        public List<Point> AllRoads { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -69,21 +73,18 @@ namespace ServerForTheLogic
         /// </summary>
         public List<DBInterface.Person> AllPeople { get; set; }
 
+        [JsonProperty]
+        /// <summary>
+        /// List of all homes in the city
+        /// </summary>
+        public List<Residential> Homes { get; set; }
+
+
         /// <summary>
         /// Every hour, send the nested dictionary to the network queue
         /// </summary>
         public Dictionary<int, List<PersonTravel>> PartialUpdateList { get; private set; }
-
-        /// <summary>
-        /// Dictionary of Locations to send to client when they connect
-        /// </summary>
-        public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
-
-        /// <summary>
-        /// Dictionary of all people to send to clients when they connect
-        /// </summary>
-        public Dictionary<Guid, Point> OnLoadPeople { get; set; }
-
+        
         [JsonProperty]
         /// <summary>
         /// The grid that all buildings/roads/people exist in
@@ -175,10 +176,10 @@ namespace ServerForTheLogic
         /// <returns>Location at point</returns>
         public Location GetLocationAt(Point p)
         {
-            return Map[p.x, p.z];
+            return Map[p.X, p.Z];
         }
         /// <summary>
-        /// Returns the location object at the specified x z coordinate 
+        /// Returns the location object at the specified X Z coordinate 
         /// <para/> Last editted:  2017-10-02
         /// </summary>
         /// <param name="x"></param>
@@ -209,7 +210,7 @@ namespace ServerForTheLogic
             expandCity(BlockType.Residential);
 
 
-           // Console.WriteLine(new ClientPacket(this).ConvertPacket());
+            // Console.WriteLine(new ClientPacket(this).ConvertPacket());
             //ClientPacket packet = new ClientPacket(this);
             //packet.ConvertPacket();
         }
@@ -267,8 +268,8 @@ namespace ServerForTheLogic
 
                 }
                 //for (int i = 0; i < 12; i++)
-                return createBuilding(BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                                empties[randIndex].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                return createBuilding(BlockMap[empties[randIndex].StartPoint.X / (Block.BLOCK_WIDTH - 1),
+                                empties[randIndex].StartPoint.Z / (Block.BLOCK_LENGTH - 1)]);
             }
             //if there is no more room to expand.
             else
@@ -288,8 +289,12 @@ namespace ServerForTheLogic
         {
             DBInterface.Person temp = new DBInterface.Person(faker.Name.FirstName(), faker.Name.LastName());
             Randomizer rand = new Randomizer();
-            List<Residential> randHomes = Homes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
-            List<Business> randBusinesses = Market.BusinessesHiring.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count)).ToList();
+            List<Residential> randHomes = Homes.ToList();
+            List<Business> randBusinesses = Market.BusinessesHiring.ToList();
+
+            randBusinesses.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count));
+            randHomes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
+
             //assigns/creates Home
             foreach (Residential r in randHomes)
             {
@@ -297,7 +302,7 @@ namespace ServerForTheLogic
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
-                   // PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, r.Point);
+                    // PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, r.Point);
                     break;
                 }
             }
@@ -306,7 +311,7 @@ namespace ServerForTheLogic
                 Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
                 temp.Home = newHome;
                 newHome.NumberOfResidents++;
-               // PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
+                // PartialUpdateList[temp.EndShift].Add(temp.Id, newHome.Point);
             }
 
             //assigns/creates jobs
@@ -319,7 +324,7 @@ namespace ServerForTheLogic
                     temp.Workplace = b;
                     b.workers.Add(temp);
                     temp.incomeGenerated(b);
-                  // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
+                    // PartialUpdateList[temp.StartShift].Add(temp.Id, b.Point);
                     break;
                 }
                 else
@@ -327,7 +332,7 @@ namespace ServerForTheLogic
                     fullBusinesses.Add(b);
                 }
             }
-            
+
             foreach (Business b in fullBusinesses)
             {
                 Market.BusinessesHiring.Remove(b);
@@ -337,17 +342,17 @@ namespace ServerForTheLogic
             {
                 createBuilding(CommercialBlocksToFill.Peek());
                 createBuilding(IndustrialBlocksToFill.Peek());
-                int index = rand.Int(0, Market.BusinessesHiring.Count-1);
+                int index = rand.Int(0, Market.BusinessesHiring.Count - 1);
 
                 temp.Workplace = Market.BusinessesHiring[index];
                 Market.BusinessesHiring[index].workers.Add(temp);
                 temp.incomeGenerated(Market.BusinessesHiring[index]);
             }
 
-            PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
-            PartialUpdateList[temp.TimeToWork].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
+            PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
+            PartialUpdateList[temp.StartShift].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
 
-          
+
 
             AllPeople.Add(temp);
 
@@ -382,8 +387,8 @@ namespace ServerForTheLogic
             }
 
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
+            int x = availablePoints[rand].X;
+            int z = availablePoints[rand].Z;
 
             if (block.Type == BlockType.Commercial)
             {
@@ -405,11 +410,12 @@ namespace ServerForTheLogic
             {
                 throw new InvalidOperationException("cannot add building to empty block");
             }
-            building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
+            building.Point = new Point(block.StartPoint.X + x, block.StartPoint.Z + z);
             block.LandPlot[x, z] = building;
-            Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
-            NewBuildings.Add(new Building(building));
-            AllBuildings.Add(new Building(building));
+            Map[block.StartPoint.X + x, block.StartPoint.Z + z] = building;
+            Building liteBuilding = new Building(building);
+            NewBuildings.Add(liteBuilding);
+            AllBuildings.Add(liteBuilding);
             return building;
         }
 
@@ -474,8 +480,8 @@ namespace ServerForTheLogic
         /// Changes: Adds new roads to List that will be serialized into Json for client
         public void addRoads(Block b)
         {
-            int xPos = b.StartPoint.x;
-            int zPos = b.StartPoint.z;
+            int xPos = b.StartPoint.X;
+            int zPos = b.StartPoint.Z;
             int width = Block.BLOCK_WIDTH - 1;
             int length = Block.BLOCK_LENGTH - 1;
             // Adds roads to the top and bottom borders of the block grid
@@ -487,7 +493,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, 0] = new Road("");
+                    b.LandPlot[i, 0] = new Road("", i + xPos, zPos);
                     Map[i + xPos, zPos] = b.LandPlot[i, 0];
                     NewRoads.Add(new Point(i + xPos, zPos));
                     AllRoads.Add(new Point(i + xPos, zPos));
@@ -499,7 +505,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[i, length] = new Road("");
+                    b.LandPlot[i, length] = new Road("", i + xPos, zPos + length);
                     Map[i + xPos, zPos + length] = b.LandPlot[i, length];
                     NewRoads.Add(new Point(i + xPos, zPos + length));
                     AllRoads.Add(new Point(i + xPos, zPos + length));
@@ -514,7 +520,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[0, i] = new Road("");
+                    b.LandPlot[0, i] = new Road("", xPos, i + zPos);
                     Map[xPos, i + zPos] = b.LandPlot[0, i];
                     NewRoads.Add(new Point(xPos, i + zPos));
                     AllRoads.Add(new Point(xPos, i + zPos));
@@ -525,7 +531,7 @@ namespace ServerForTheLogic
                 }
                 else
                 {
-                    b.LandPlot[width, i] = new Road("");
+                    b.LandPlot[width, i] = new Road("", width + xPos, i + zPos);
                     Map[xPos + width, i + zPos] = b.LandPlot[width, i];
                     NewRoads.Add(new Point(xPos + width, i + zPos));
                     AllRoads.Add(new Point(xPos + width, i + zPos));
@@ -545,15 +551,15 @@ namespace ServerForTheLogic
         {
             if (b.Adjacents.Count > 0)
                 return;
-            int x = b.StartPoint.x / (Block.BLOCK_WIDTH - 1);
-            int z = b.StartPoint.z / (Block.BLOCK_LENGTH - 1);
+            int x = b.StartPoint.X / (Block.BLOCK_WIDTH - 1);
+            int z = b.StartPoint.Z / (Block.BLOCK_LENGTH - 1);
             //Console.WriteLine(blockMap.GetLength(0) + " " + blockMap.GetLength(1));
             for (int i = x - 1; i < x + 2; ++i)
             {
                 //if out of bounds of the map, skip
                 if (i < 0 || i >= BlockMap.GetLength(0))
                 {
-                    //Console.WriteLine("continuing at X: " + x + " I+X: " + i);
+                    //Console.WriteLine("continuing at X: " + X + " I+X: " + i);
                     continue;
                 }
                 for (int j = z - 1; j < z + 2; ++j)
@@ -561,13 +567,13 @@ namespace ServerForTheLogic
                     //if out of bounds of the map, or on the current block's cell, skip
                     if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
                     {
-                        //Console.WriteLine("continuing at X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
+                        //Console.WriteLine("continuing at X: " + X + " Z: " + Z + " I+X: " + i + " J+Z: " + j);
                         continue;
                     }
                     //checks if adjacent block is null (though it should never be null)
                     if (BlockMap[i, j] != null)
                     {
-                        //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
+                        //Console.WriteLine("X: " + X + " Z: " + Z + " I: " + i + " J: " + j);
                         BlockMap[x, z].Adjacents.Add(BlockMap[i, j]);
                     }
                     else
@@ -580,18 +586,63 @@ namespace ServerForTheLogic
             }
         }
 
-        public void StartSimulation(SimulationStateQueue full, SimulationStateQueue partial)
+
+
+        public void InitSimulation(SimulationStateQueue full, SimulationStateQueue partial)
         {
             //starts clock 
             clock = new Clock(this, full, partial);
-            Console.WriteLine(clock.NetMinutes);
-            for (int i =0; i < 61; i++) 
-                clock.TickMinute(this, null);
-            clock.timer.Start();
+            clock.SaveInitialClientState();
+            //clock.timer.Start();
             Console.WriteLine("Started simulation");
-            Console.WriteLine(clock.NetMinutes);
         }
 
+        public void TickHour()
+        {
+            if (clock != null)
+            {
+                clock.NetMinutes += 60;
+                clock.TickHour();
+            }
+            Console.WriteLine("Moved time forward 1 hour");
+        }
+
+        /// <summary>
+        /// Moves time forward 1 day as fast as the cpu can process
+        /// </summary>
+        public void TickDay()
+        {
+            if (clock != null)
+            {
+                for (int i = 0; i < 24; i++)
+                {
+                    clock.NetMinutes += 60;
+                    clock.TickHour();
+                }
+            }
+            Console.WriteLine("Moved time forward 1 day");
+        }
+
+        /// <summary>
+        /// Moves time forward 1 year as fast as the cpu can process
+        /// NOTE: THIS WILL TAKE A LONG TIME
+        /// </summary>
+        public void TickYear()
+        {
+            if (clock != null)
+            {
+                for (int i = 0; i < 365 * 24; i++)
+                {
+                    clock.NetMinutes += 60;
+                    clock.TickHour();
+                }
+            }
+            Console.WriteLine("Moved time forward 1 year");
+        }
+
+        /// <summary>
+        /// Pauses the simulation
+        /// </summary>
         public void StopSimulation()
         {
             clock.timer.Stop();
@@ -622,6 +673,22 @@ namespace ServerForTheLogic
         }
 
 
+        public void SaveState()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Converters.Add(new LocationConverter());
+            settings.Converters.Add(new BlockConverter());
+
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, this);
+                sw.Close();
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
+        }
+
         /// <summary>
         /// Prints a block represented as symbols/letters in a neatly formatted manner
         /// <para/> Last editted:  2017-10-02
@@ -644,6 +711,22 @@ namespace ServerForTheLogic
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void PropertyCounts()
+        {
+            string displayString =
+                "Building count: " + AllBuildings.Count
+                + "\nPeople count: " + AllPeople.Count
+                + "\nRoads count: " + AllRoads.Count
+                + "\nNew roads count:" + NewRoads.Count
+                + "\nNew Buildings count: " + NewBuildings.Count
+                + "\nResidential blocks to fill count: " + ResidentialBlocksToFill.Count
+                + "\nCommercial blocks to fill count: " + CommercialBlocksToFill.Count
+                + "\nIndustrial blocks to fill count: " + IndustrialBlocksToFill.Count
+                + "\nMap length : " + Map.Length
+                + "\nAssigned blocks count: " + assignedBlocks.Count;
+            Console.WriteLine(displayString);
         }
 
     }

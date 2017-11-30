@@ -7,8 +7,9 @@ using NLog;
 using System.IO;
 using CitySimNetworkService;
 using DBInterface;
-using DBInterface.Econ;
 using DBInterface.Infrastructure;
+using DataAccessLayer;
+using DBInterface.Econ;
 
 namespace ServerForTheLogic
 {
@@ -33,6 +34,7 @@ namespace ServerForTheLogic
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
+        private static MongoDAL db;
 
 
         public static void Start(string[] args)
@@ -62,27 +64,47 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
+            //Console.WriteLine(readText);
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
             settings.Converters.Add(new BlockConverter());
             //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
 
+
+
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
+
+            //city.CommercialBlocksToFill.Dump();
+            //city.PartialUpdateList.Dump();
             city.printCity();
+            foreach (Block b in city.BlockMap)
+                if (b.Type != BlockType.Empty)
+                city.addRoads(b);
+            int max = 0;
+            foreach (Person p in city.AllPeople)
+            {
+                if (p.DaysLeft > max)
+                    max = p.DaysLeft;
+            }
+            Console.WriteLine(max);
+            city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
 
             foreach (Block b in city.BlockMap)
-                city.addRoads(b);
-            
+                city.setAdjacents(b);
 
-            Updater<City> update = new Updater<City>(fullUpdateQueue, partialUpdateQueue);
-            update.SaveCityState(city);
-            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
+            db = new MongoDAL();
+            db.InsertBuildings(city.AllBuildings);
+            db.InsertClock(city.clock);
+            db.InsertPeople(city.AllPeople);
+
             GetInput();
         }
+
+
 
         private static void GetInput()
         {
@@ -95,17 +117,25 @@ namespace ServerForTheLogic
 
                 if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    if (commands.Length == 1)
+                    {
+                        city.AllPeople.Dump();
+                    }
                     if (commands.Length == 2)
                     {
-                        int number = Int32.Parse(commands[1]);
-                        //Console.WriteLine(number);
-                        for (int i = 0; i < number; i++)
+                        try
                         {
-                            city.createPerson();
-
+                            int number = Int32.Parse(commands[1]);
+                            //Console.WriteLine(number);
+                            for (int i = 0; i < number; i++)
+                            {
+                                city.createPerson();
+                            }
+                            Console.WriteLine("Added" + number + " people");
                         }
+                        catch { }
                     }
-                    city.AllPeople.Dump();
+
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -139,10 +169,40 @@ namespace ServerForTheLogic
                 {
                     city.printCity();
                 }
+                if (cmd.Equals("hour"))
+                {
+                    city.TickHour();
+                }
+                if (cmd.Equals("day"))
+                {
+                    city.TickDay();
+                }
+                if (cmd.Equals("year"))
+                {
+                    city.TickYear();
+                }
                 if (cmd.Equals("blocks"))
                 {
-                    foreach (Block b in city.BlockMap) { }
-                        //City.printBlock(b);
+                    int count = 0;
+                    foreach (Block b in city.BlockMap)
+                    {
+                        count++;
+                        Console.WriteLine(b.Type);
+                    }
+                    Console.WriteLine(count);
+                }
+                if (cmd.Equals("insert person"))
+                {
+                    MongoDAL dal = new MongoDAL();
+                    dal.InsertPerson(city.AllPeople[0]);
+                }
+                if (cmd.Equals("save"))
+                {
+                    city.SaveState();
+                }
+                if (cmd.Equals("count"))
+                {
+                    city.PropertyCounts();
                 }
 
             }

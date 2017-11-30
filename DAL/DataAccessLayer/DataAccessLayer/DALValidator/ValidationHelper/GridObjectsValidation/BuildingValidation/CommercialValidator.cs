@@ -6,7 +6,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.
     /// Commercial Validator
     /// Team: DB
     /// Helper class for DALValidator. 
-    /// This class contains all the validation rules for Commercial Building.
+    /// This class contains all the validation rules for Commercial Buildings.
     /// 
     /// Author: Bill 
     /// Date: 2017-11-12

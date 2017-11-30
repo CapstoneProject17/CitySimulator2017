@@ -1,6 +1,6 @@
 ﻿using ServerForTheLogic;
 using ServerForTheLogic.ClientObject;
-using ServerForTheLogic.ClientObject.Building;
+using ServerForTheLogic.ClientObject.Buildings;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.DALValidator.ValidationHelper;
 using ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation;
@@ -48,7 +48,7 @@ namespace DataAccessLayer
         /// <returns>If all validations pass it returns true, otherwise flase</returns>
         public static Boolean DALPersonValidator(PersonDB person)
         {
-            if(PersonValidator.isValidPersonFirstName(person.FirstName) &&
+            if (PersonValidator.isValidPersonFirstName(person.FirstName) &&
                PersonValidator.isValidPersonLastName(person.LastName) &&
                PersonValidator.isValidPersonMonthlyIncome(person.MonthlyIncome) &&
                PersonValidator.isValidPersonAccountBalance(person.AccountBalance) &&

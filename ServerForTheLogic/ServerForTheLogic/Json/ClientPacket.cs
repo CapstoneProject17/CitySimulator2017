@@ -68,7 +68,7 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter("partialPacket.json"))
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\partialPacket.json"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
@@ -95,7 +95,7 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter("fullPacket.json"))
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\fullPacket.json"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);

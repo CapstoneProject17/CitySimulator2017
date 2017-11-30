@@ -4,7 +4,7 @@
     /// Residential Validator
     /// Team: DB
     /// Helper class for DALValidator. 
-    /// This class contains all the validation rules for Residential Building.
+    /// This class contains all the validation rules for Residential Buildings.
     /// 
     /// Author: Bill 
     /// Date: 2017-11-12
