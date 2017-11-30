@@ -61,24 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Econ\ICustomer.cs" />
-    <Compile Include="Econ\Market.cs" />
-    <Compile Include="Econ\Order.cs" />
-    <Compile Include="Econ\Product.cs" />
-    <Compile Include="Infrastructure\Block.cs" />
-    <Compile Include="Infrastructure\Building.cs" />
     <Compile Include="City.cs" />
-    <Compile Include="Infrastructure\Business.cs" />
-    <Compile Include="Infrastructure\Commercial.cs" />
-    <Compile Include="Infrastructure\Industrial.cs" />
-    <Compile Include="Infrastructure\Location.cs" />
-    <Compile Include="Infrastructure\Residential.cs" />
-    <Compile Include="Infrastructure\Road.cs" />
     <Compile Include="Json\BlockConverter.cs" />
     <Compile Include="Json\ClientPacket.cs" />
     <Compile Include="Json\LocationConverter.cs" />
     <Compile Include="Json\Updater.cs" />
-    <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFiles\Service.cs">
@@ -89,7 +76,6 @@
     </Compile>
     <Compile Include="Utilities\Clock.cs" />
     <Compile Include="Utilities\Pair.cs" />
-    <Compile Include="Utilities\Point.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -103,6 +89,10 @@
     <ProjectReference Include="..\..\CitySimNetworkService\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
       <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
       <Name>CitySimNetworkingApplication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DALInterface\DALInterface.csproj">
+      <Project>{e56aab6b-c8cc-470d-be43-2c0e3c97daf0}</Project>
+      <Name>DALInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
