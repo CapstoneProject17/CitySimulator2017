@@ -603,11 +603,13 @@ namespace ServerForTheLogic
         public void TickDay()
         {
             if (clock != null)
+            {
                 for (int i = 0; i < 24; i++)
                 {
+                    clock.NetMinutes += 60;
                     clock.TickHour();
-                    clock.NetMinutes += 60 * 24;
                 }
+            }
             Console.WriteLine("Moved time forward 1 day");
         }
 
@@ -620,7 +622,10 @@ namespace ServerForTheLogic
             if (clock != null)
             {
                 for (int i = 0; i < 365 * 24; i++)
+                {
+                    clock.NetMinutes += 60;
                     clock.TickHour();
+                }
             }
             Console.WriteLine("Moved time forward 1 year");
         }

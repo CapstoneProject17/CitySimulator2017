@@ -8,6 +8,7 @@ using System.IO;
 using CitySimNetworkService;
 using DBInterface;
 using DBInterface.Infrastructure;
+using DataAccessLayer;
 
 namespace ServerForTheLogic
 {
@@ -61,7 +62,7 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
-            Console.WriteLine(readText);
+            //Console.WriteLine(readText);
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
             settings.Converters.Add(new BlockConverter());
@@ -72,14 +73,14 @@ namespace ServerForTheLogic
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
+            city.Dump();
             city.printCity();
 
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
-
             GetInput();
         }
-        
-        
+
+
         /// <summary>
         /// Saves the city state to a file, so it can be loaded from the backup later.
         /// </summary>
@@ -105,21 +106,48 @@ namespace ServerForTheLogic
 
                 if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    if (commands.Length == 1)
+                    {
+                        city.AllPeople.Dump();
+                    }
                     if (commands.Length == 2)
                     {
-                        int number = Int32.Parse(commands[1]);
-                        //Console.WriteLine(number);
-                        for (int i = 0; i < number; i++)
+                        try
                         {
-                            city.createPerson();
-
+                            int number = Int32.Parse(commands[1]);
+                            //Console.WriteLine(number);
+                            for (int i = 0; i < number; i++)
+                            {
+                                city.createPerson();
+                            }
+                            Console.WriteLine("Added" + number + " people");
                         }
+                        catch { }
                     }
-                    city.AllPeople.Dump();
+
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    //city.Workplaces.Dump();
+                    if (commands.Length == 2)
+                    {
+                        List<Building> temp = new List<Building>();
+                        if (commands[1].Equals("commercial", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            foreach (Building b in city.AllBuildings)
+                                Console.WriteLine(b.GetType());//if ()
+                                //    temp.Add(b);
+                            temp.Dump();
+                        }
+                        if (commands[1].Equals("industrial", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            foreach (Building b in city.AllBuildings)
+                                if (b is Industrial)
+                                    temp.Add(b);
+                            temp.Dump();
+                        }
+                        city.AllBuildings.Dump();
+                    }
+
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -155,8 +183,22 @@ namespace ServerForTheLogic
                 }
                 if (cmd.Equals("blocks"))
                 {
+                    int count = 0;
                     foreach (Block b in city.BlockMap)
-                        City.printBlock(b);
+                    {
+                        count++;
+                        Console.WriteLine(b.Type);
+                    }
+                    Console.WriteLine(count);
+                }
+                if (cmd.Equals("insert person"))
+                {
+                    MongoDAL dal = new MongoDAL();
+                    dal.InsertPerson(city.AllPeople[0]);
+                }
+                if (cmd.Equals("save"))
+                {
+                    
                 }
 
             }

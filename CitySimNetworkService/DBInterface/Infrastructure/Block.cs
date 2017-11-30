@@ -21,7 +21,7 @@ namespace DBInterface.Infrastructure
 
         [JsonProperty]
         //unique object Id
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
 
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;
@@ -65,8 +65,8 @@ namespace DBInterface.Infrastructure
             LandPlot = new Location[BLOCK_WIDTH, BLOCK_LENGTH];
             Adjacents = new List<Block>();
             Type = BlockType.Empty;
-            id = Guid.NewGuid();
-            blocks.Add(id, this);
+            Id = Guid.NewGuid();
+            blocks.Add(Id, this);
         }
 
         /// <summary>

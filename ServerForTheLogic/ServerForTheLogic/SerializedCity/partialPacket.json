@@ -1,1 +1,1 @@
-{"GridLength":50,"GridWidth":49,"NetHours":96,"NewRoads":[],"NewBuildings":[],"PeopleMoving":[]}
+{"GridLength":50,"GridWidth":49,"NetHours":25,"NewRoads":[],"NewBuildings":[],"PeopleMoving":[{"Id":"597a068b-5181-451a-b181-7705923ab391","Origin":{"X":25,"Z":26},"Destination":{"X":23,"Z":24}},{"Id":"e17c29ad-c184-48c6-b356-0ca5555e712d","Origin":{"X":23,"Z":24},"Destination":{"X":29,"Z":26}}]}

@@ -48,4 +48,3 @@ namespace ServerForTheLogic.ClientObject.Buildings
         public int WholesalePrice { get; set; }
     }
 }
-\
