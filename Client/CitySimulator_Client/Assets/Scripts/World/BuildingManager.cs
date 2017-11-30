@@ -61,14 +61,14 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	public void createBuilding (string GUID, int x, int z, short type, short tier) {
+	public void createBuilding (string GUID, int x, int z, short type, int rating) {
 
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
 		{
 			// Residental 
 			case 1: 
-				if(tier == 1) {
+				if(rating == 1) {
 				residential1.name = GUID;
 				instantiateBuilding (residential1,
 									 x,
@@ -76,7 +76,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
 				residential2.name = GUID;
 				instantiateBuilding (residential2,
 									 x,
@@ -84,7 +84,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 3) {				
+				if(rating == 3) {				
 				residential3.name = GUID;
 				instantiateBuilding (residential3,
 									 x,
@@ -95,7 +95,7 @@ public class BuildingManager : MonoBehaviour {
 
 			// Commercial
 			case 2:
-				if(tier == 1) {
+				if(rating == 1) {
 				commercial1.name = GUID;
 				instantiateBuilding (commercial1,
 									 x,
@@ -103,7 +103,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
 				commercial2.name = GUID;
 				instantiateBuilding (commercial2,
 									 x,
@@ -111,7 +111,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 3) {				
+				if(rating == 3) {				
 				commercial3.name = GUID;
 				instantiateBuilding (commercial3,
 									 x,
@@ -122,7 +122,7 @@ public class BuildingManager : MonoBehaviour {
 
 			// Industrial
 			case 3:
-				if(tier == 1) {				
+				if(rating == 1) {				
 				industrial1.name = GUID;
 				instantiateBuilding (industrial1,
 									 x,
@@ -130,7 +130,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
 				industrial2.name = GUID;
 				instantiateBuilding (industrial2,
 									 x,
@@ -138,7 +138,7 @@ public class BuildingManager : MonoBehaviour {
 									 z);
 				}
 
-				if(tier == 3) {
+				if(rating == 3) {
 				industrial3.name = GUID;
 				instantiateBuilding (industrial3,
 									 x,
