@@ -452,21 +452,26 @@ public class CityDataManager : MonoBehaviour
             //         + building.Rating + " "
             //         + building.IsTall);
 
+            // update grid
             int type = -1;
             switch (building.Type[0])
             {
                 case 'H':
                     type = 1;
                     // Debug.Log("Res assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
+                    buildingManager.GetComponent<BuildingManager>().createBuilding(building.id, building.Point.x, building.Point.z, 1, building.Rating);
+
                     break;
 
                 case 'C':
                     type = 2;
+                    buildingManager.GetComponent<BuildingManager>().createBuilding(building.id, building.Point.x, building.Point.z, 2, building.Rating);
                     // Debug.Log("Comm assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
                     break;
 
                 case 'I':
                     type = 3;
+                    buildingManager.GetComponent<BuildingManager>().createBuilding(building.id, building.Point.x, building.Point.z, 3, building.Rating);
                     // Debug.Log("Indst assigned: " + building.id + " " + building.Point.x + ", " + building.Point.z);
                     break;
 
@@ -483,7 +488,24 @@ public class CityDataManager : MonoBehaviour
             {
                 Debug.Log("CityDataManager: building.Point is out of bound!!");
             }
+
+            // create buidling
         }
+
+        // new humans
+        foreach (PersonTravel person in cityData.People)
+        {
+
+            // Debug.Log(person);
+            // Debug.Log((string)person.Id + " "
+            //         + person.Origin.x + " "
+            //         + person.Origin.z + " "
+            //         + person.Destination.x + " "
+            //         + person.Destination.z + " ");
+
+            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.x, person.Origin.z, person.Destination.x, person.Destination.z);
+        }
+
         return true;
     }
 

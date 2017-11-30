@@ -617,7 +617,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 127092655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2580f7fdaae7446db4f541e054667e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b7e2b54e57484d22a1ec72777625de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 4143390876923042, guid: 7a1cbdc745d894d2381d5b1db83a443a, type: 2}
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnOnTestGrid: 1
+  turnOnTestGrid: 0
   updateTheCity: 0
   systemStartedTimeStamp: 0
   systemCurrentTimeStamp: 0
@@ -2749,6 +2749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e1c8a9dc4e04cec9c7ab490d77518b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 35
 --- !u!1 &1898423400
 GameObject:
   m_ObjectHideFlags: 0
