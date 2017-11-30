@@ -66,7 +66,7 @@ namespace NetworkingTests
             dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
             dynamic obj = dbHandler.HandleRequest(jsonObj);
 
-            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.Person));
+            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.PersonDB));
         }
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace NetworkingTests
 			dynamic jsonObj = JsonConvert.DeserializeObject<DatabaseResourceRequest>(sample, new RequestJsonConverter());
             dynamic obj = dbHandler.HandleRequest(jsonObj);
 
-            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.Product));
+            Assert.IsInstanceOfType(obj, typeof(ServerForTheLogic.ClientObject.ProductDB));
         }
 
 		/// <summary>

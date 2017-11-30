@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitySimNetworkService", "CitySimNetworkService\CitySimNetworkService.csproj", "{7F854D0B-5A7C-4105-8543-A38E8B7ACCE6}"
 EndProject
@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DAL\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerForTheLogic", "..\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj", "{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALInterface", "..\DALInterface\DALInterface.csproj", "{E56AAB6B-C8CC-470D-BE43-2C0E3C97DAF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBInterface", "DBInterface\DBInterface.csproj", "{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +44,10 @@ Global
 		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E56AAB6B-C8CC-470D-BE43-2C0E3C97DAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E56AAB6B-C8CC-470D-BE43-2C0E3C97DAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E56AAB6B-C8CC-470D-BE43-2C0E3C97DAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E56AAB6B-C8CC-470D-BE43-2C0E3C97DAF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588569A8-3967-4CD1-83E6-F72D5FEE5DCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
