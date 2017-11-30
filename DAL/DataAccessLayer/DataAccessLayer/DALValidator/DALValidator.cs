@@ -1,6 +1,6 @@
 ﻿using ServerForTheLogic;
 using ServerForTheLogic.ClientObject;
-using ServerForTheLogic.ClientObject.Building;
+using ServerForTheLogic.ClientObject.Buildings;
 using ServerForTheLogic.DALValidator;
 using ServerForTheLogic.DALValidator.ValidationHelper;
 using ServerForTheLogic.DALValidator.ValidationHelper.GridObjectsValidation.BuildingValidation;
@@ -16,7 +16,7 @@ namespace DataAccessLayer
     /// Has validator for citizen.
     /// Author: Sean 
     /// Date: 2017-10-31
-    /// Based on: http://cacodaemon.de/index.php?id=42
+    /// Based on: http://cacodaemon.de/index.php?Id=42
     ///           https://docs.mongodb.com/manual/core/document-validation/
     ///           http://www.c-sharpcorner.com/UploadFile/87b416/validating-user-input-with-regular-expressions/
     /// </para>
@@ -29,7 +29,7 @@ namespace DataAccessLayer
     /// <para>Date: 2017-11-11</para>
     ///     updated validation parameters to work for new classes
     ///     Citizens class changed to Person class
-    ///     Building class changed to Industrial, Commercial and Residential classes
+    ///     Buildings class changed to Industrial, Commercial and Residential classes
     ///     added new classes: Road, Product, Clock, SaveState
     /// </para>    
     /// </summary>
@@ -86,7 +86,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Building Validator
+        /// Buildings Validator
         /// 
         /// Checks whether all the fields in a Building is valid
         /// 
@@ -104,7 +104,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Industrial Building Validator
+        /// Industrial Buildings Validator
         /// 
         /// Check whether all the fields in industrialBuilding is valid
         /// 
@@ -124,7 +124,7 @@ namespace DataAccessLayer
 
         /// <summary>
         /// <para>
-        /// Commercial Building Validator.
+        /// Commercial Buildings Validator.
         /// Checks whether all the fields in commercialBuilding is valid
         /// </para>
         /// <para>
@@ -143,7 +143,7 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        /// Residential Building Validator.
+        /// Residential Buildings Validator.
         ///  
         /// Check whether all the fields in residentialBuilding is valid
         /// 

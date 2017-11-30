@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBInterface;
+using System;
 
 namespace ServerForTheLogic.ClientObject
 {
@@ -22,6 +23,8 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     public class PersonDB
     {
+        private string personfirstName;
+
         /// <summary>
         /// default constructor of Person.
         /// </summary>
@@ -57,6 +60,25 @@ namespace ServerForTheLogic.ClientObject
             Age = age;
             StartShift = startShift;
             EndShift = endShift;
+        }
+
+        public PersonDB(Person person)
+        {
+            Guid = person.Id;
+            FirstName = person.FName;
+            LastName = person.LName;
+            MonthlyIncome = person.MonthlyIncome;
+            AccountBalance = person.Funds;
+            WorkplaceID = person.Workplace.Id.ToString(); ;
+            WorkplaceX = person.Workplace.Point.X;
+            WorkplaceY = person.Workplace.Point.Z;
+            HomeID = person.Home.Id.ToString();
+            HomeX = person.Home.Point.X;
+            HomeY = person.Home.Point.Z;
+            DaysLeft = person.DaysLeft;
+            Age = person.Age;
+            StartShift = person.StartShift;
+            EndShift = person.EndShift;
         }
 
         /// <summary>

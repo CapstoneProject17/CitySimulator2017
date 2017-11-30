@@ -8,5 +8,7 @@ namespace DBInterface
     {
         UInt32 NetMinutes { get; set; }
         UInt32 NetHours { get;set; }
+        UInt32 NetDays { get; set; }
+        UInt32 NetYears { get; set; }
     }
 }

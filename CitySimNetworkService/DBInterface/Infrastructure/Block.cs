@@ -20,7 +20,7 @@ namespace DBInterface.Infrastructure
         public static Dictionary<Guid, Block> blocks;
 
         [JsonProperty]
-        //unique object id
+        //unique object Id
         public Guid id { get; set; }
 
         //width of the landplot array in terms of grid cells

@@ -174,10 +174,10 @@ namespace ServerForTheLogic
         /// <returns>Location at point</returns>
         public Location GetLocationAt(Point p)
         {
-            return Map[p.x, p.z];
+            return Map[p.X, p.Z];
         }
         /// <summary>
-        /// Returns the location object at the specified x z coordinate 
+        /// Returns the location object at the specified X Z coordinate 
         /// <para/> Last editted:  2017-10-02
         /// </summary>
         /// <param name="x"></param>
@@ -266,8 +266,8 @@ namespace ServerForTheLogic
 
                 }
                 //for (int i = 0; i < 12; i++)
-                return createBuilding(BlockMap[empties[randIndex].StartPoint.x / (Block.BLOCK_WIDTH - 1),
-                                empties[randIndex].StartPoint.z / (Block.BLOCK_LENGTH - 1)]);
+                return createBuilding(BlockMap[empties[randIndex].StartPoint.X / (Block.BLOCK_WIDTH - 1),
+                                empties[randIndex].StartPoint.Z / (Block.BLOCK_LENGTH - 1)]);
             }
             //if there is no more room to expand.
             else
@@ -296,7 +296,7 @@ namespace ServerForTheLogic
                 {
                     temp.Home = r;
                     r.NumberOfResidents++;
-                    // PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, r.Point);
+                    // PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, r.Point);
                     break;
                 }
             }
@@ -305,7 +305,7 @@ namespace ServerForTheLogic
                 Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
                 temp.Home = newHome;
                 newHome.NumberOfResidents++;
-                // PartialUpdateList[temp.TimeToHome].Add(temp.Id, newHome.Point);
+                // PartialUpdateList[temp.EndShift].Add(temp.Id, newHome.Point);
             }
 
             //assigns/creates jobs
@@ -318,7 +318,7 @@ namespace ServerForTheLogic
                     temp.Workplace = b;
                     b.workers.Add(temp);
                     temp.incomeGenerated(b);
-                    // PartialUpdateList[temp.TimeToWork].Add(temp.Id, b.Point);
+                    // PartialUpdateList[temp.StartShift].Add(temp.Id, b.Point);
                     break;
                 }
                 else
@@ -343,8 +343,8 @@ namespace ServerForTheLogic
                 temp.incomeGenerated(Market.BusinessesHiring[index]);
             }
 
-            PartialUpdateList[temp.TimeToHome].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
-            PartialUpdateList[temp.TimeToWork].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
+            PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
+            PartialUpdateList[temp.StartShift].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
 
 
 
@@ -381,8 +381,8 @@ namespace ServerForTheLogic
             }
 
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
-            int x = availablePoints[rand].x;
-            int z = availablePoints[rand].z;
+            int x = availablePoints[rand].X;
+            int z = availablePoints[rand].Z;
 
             if (block.Type == BlockType.Commercial)
             {
@@ -404,9 +404,9 @@ namespace ServerForTheLogic
             {
                 throw new InvalidOperationException("cannot add building to empty block");
             }
-            building.Point = new Point(block.StartPoint.x + x, block.StartPoint.z + z);
+            building.Point = new Point(block.StartPoint.X + x, block.StartPoint.Z + z);
             block.LandPlot[x, z] = building;
-            Map[block.StartPoint.x + x, block.StartPoint.z + z] = building;
+            Map[block.StartPoint.X + x, block.StartPoint.Z + z] = building;
             NewBuildings.Add(new Building(building));
             AllBuildings.Add(new Building(building));
             return building;
@@ -473,8 +473,8 @@ namespace ServerForTheLogic
         /// Changes: Adds new roads to List that will be serialized into Json for client
         public void addRoads(Block b)
         {
-            int xPos = b.StartPoint.x;
-            int zPos = b.StartPoint.z;
+            int xPos = b.StartPoint.X;
+            int zPos = b.StartPoint.Z;
             int width = Block.BLOCK_WIDTH - 1;
             int length = Block.BLOCK_LENGTH - 1;
             // Adds roads to the top and bottom borders of the block grid
@@ -544,15 +544,15 @@ namespace ServerForTheLogic
         {
             if (b.Adjacents.Count > 0)
                 return;
-            int x = b.StartPoint.x / (Block.BLOCK_WIDTH - 1);
-            int z = b.StartPoint.z / (Block.BLOCK_LENGTH - 1);
+            int x = b.StartPoint.X / (Block.BLOCK_WIDTH - 1);
+            int z = b.StartPoint.Z / (Block.BLOCK_LENGTH - 1);
             //Console.WriteLine(blockMap.GetLength(0) + " " + blockMap.GetLength(1));
             for (int i = x - 1; i < x + 2; ++i)
             {
                 //if out of bounds of the map, skip
                 if (i < 0 || i >= BlockMap.GetLength(0))
                 {
-                    //Console.WriteLine("continuing at X: " + x + " I+X: " + i);
+                    //Console.WriteLine("continuing at X: " + X + " I+X: " + i);
                     continue;
                 }
                 for (int j = z - 1; j < z + 2; ++j)
@@ -560,13 +560,13 @@ namespace ServerForTheLogic
                     //if out of bounds of the map, or on the current block's cell, skip
                     if (j < 0 || j >= BlockMap.GetLength(1) || (j == z && i == x))
                     {
-                        //Console.WriteLine("continuing at X: " + x + " Z: " + z + " I+X: " + i + " J+Z: " + j);
+                        //Console.WriteLine("continuing at X: " + X + " Z: " + Z + " I+X: " + i + " J+Z: " + j);
                         continue;
                     }
                     //checks if adjacent block is null (though it should never be null)
                     if (BlockMap[i, j] != null)
                     {
-                        //Console.WriteLine("X: " + x + " Z: " + z + " I: " + i + " J: " + j);
+                        //Console.WriteLine("X: " + X + " Z: " + Z + " I: " + i + " J: " + j);
                         BlockMap[x, z].Adjacents.Add(BlockMap[i, j]);
                     }
                     else

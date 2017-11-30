@@ -1,4 +1,6 @@
-﻿namespace ServerForTheLogic.ClientObject
+﻿using DBInterface;
+
+namespace ServerForTheLogic.ClientObject
 {
     /// <summary>
     /// MongoDAL
@@ -14,12 +16,20 @@
     /// </summary>
     public class ClockDB
     {
-        public ClockDB(int netMinutes, int netHours, int netDays, int netYears)
+        public ClockDB(uint netMinutes, uint netHours, uint netDays, uint netYears)
         {
             NetMinutes = netMinutes;
             NetHours = netHours;
             NetDays = netDays;
             NetYears = netYears;
+        }
+
+        public ClockDB(IClock clock)
+        {
+            NetMinutes = clock.NetMinutes;
+            NetHours = clock.NetHours;
+            NetDays = clock.NetDays;
+            NetYears = clock.NetYears;
         }
 
         /// <summary>
@@ -30,21 +40,21 @@
         /// <summary>
         /// NetMinutes must be an unsigned int between 0 - 59
         /// </summary>
-        public int NetMinutes { get; set; }
+        public uint NetMinutes { get; set; }
 
         /// <summary>
         /// NetHours must be an unsigned int between 0 - 23
         /// </summary>
-        public int NetHours { get; set; }
+        public uint NetHours { get; set; }
 
         /// <summary>
         /// NetDays must be an unsigned int between 0 - 365
         /// </summary>
-        public int NetDays { get; set; }
+        public uint NetDays { get; set; }
 
         /// <summary>
         /// NetYears must be an unsigned int
         /// </summary>
-        public int NetYears { get; set; }
+        public uint NetYears { get; set; }
     }
 }

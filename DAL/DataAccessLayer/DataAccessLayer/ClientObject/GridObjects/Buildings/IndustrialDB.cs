@@ -1,9 +1,11 @@
-﻿using ServerForTheLogic.ClientObject.Building;
+﻿using ServerForTheLogic.ClientObject.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-namespace ServerForTheLogic.ClientObject.Building
+using DBInterface.Infrastructure;
+
+namespace ServerForTheLogic.ClientObject.Buildings
 {
     /// <summary>
     /// MongoDAL
@@ -18,6 +20,10 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     public class IndustrialDB : BuildingDB
     {
+        public IndustrialDB(Industrial industrial) : base(industrial)
+        {
+        }
+
         public IndustrialDB(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
             : base(guid, xPoint, yPoint, rating, isTall, capacity)
         {
@@ -42,3 +48,4 @@ namespace ServerForTheLogic.ClientObject.Building
         public int WholesalePrice { get; set; }
     }
 }
+\

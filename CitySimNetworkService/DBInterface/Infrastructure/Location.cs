@@ -29,8 +29,8 @@ namespace DBInterface.Infrastructure
         public string Type { get; set; }
 
         [JsonProperty]
-        //unique object id
-        public Guid id { get; set; }
+        //unique object Id
+        public Guid Id { get; set; }
 
         static Location()
         {
@@ -45,7 +45,7 @@ namespace DBInterface.Infrastructure
         /// <param name="Name"></param>
         public Location(string Name)
         {
-            id = Guid.NewGuid();
+            Id = Guid.NewGuid();
             this.Name = Name;
         }
 
@@ -59,7 +59,7 @@ namespace DBInterface.Infrastructure
         /// <param name="z"></param>
         public Location(string Name, int x, int z)
         {
-            id = Guid.NewGuid();
+            Id = Guid.NewGuid();
             this.Name = Name;
             Point = new Point(x, z);
         }
@@ -70,8 +70,8 @@ namespace DBInterface.Infrastructure
         /// <para>Written by Andrew Busto 2017-10-02</para>
         public Location()
         {
-            id = Guid.NewGuid();
-            locations.Add(id, this);
+            Id = Guid.NewGuid();
+            locations.Add(Id, this);
         }    
     }
 }

@@ -24,7 +24,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         /// </summary>
         /// <param name="clockNetMinutes"></param>
         /// <returns></returns>
-        public static Boolean isValidClockNetMinutes(int clockNetMinutes)
+        public static Boolean isValidClockNetMinutes(uint clockNetMinutes)
         {
             if (clockNetMinutes < 0 || clockNetMinutes > 59)
             {
@@ -45,7 +45,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         /// </summary>
         /// <param name="clockNetHours"></param>
         /// <returns></returns>
-        public static Boolean isValidClockNetHours(int clockNetHours)
+        public static Boolean isValidClockNetHours(uint clockNetHours)
         {
             if (clockNetHours < 0 || clockNetHours > 23)
             {
@@ -66,7 +66,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         /// </summary>
         /// <param name="clockNetHours"></param>
         /// <returns></returns>
-        public static Boolean isValidClockNetDays(int clockNetDays)
+        public static Boolean isValidClockNetDays(uint clockNetDays)
         {
             if (clockNetDays < 0 || clockNetDays > 365)
             {
@@ -87,9 +87,9 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         /// </summary>
         /// <param name="clockNetYears"></param>
         /// <returns></returns>
-        public static Boolean isValidClockNetYears(int clockNetYears)
+        public static Boolean isValidClockNetYears(uint clockNetYears)
         {
-            if (clockNetYears < 0 || clockNetYears == int.MaxValue)
+            if (clockNetYears == uint.MaxValue)
             {
                 Console.WriteLine("Invalid clock net years: " + clockNetYears);
                 return false;
