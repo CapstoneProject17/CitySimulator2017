@@ -8,7 +8,8 @@ using System.Collections.Generic;
 /// Author: 
 ///     Name: Benjamin Hao Date: 2017-10-24
 /// Modified by:    
-///     Name: Benjamin Hao   Change: add skip functionality to increase performance Date: 2017-10-30
+///     Name: Benjamin Hao   Change: added skip functionality to increase performance Date: 2017-10-30
+///     Name: Benjamin Hao   Change: added double click functionality to focus on the object Date:2017-11-29
 /// Based on: https://docs.unity3d.com/ScriptReference/Input.GetMouseButtonDown.html
 ///           https://docs.unity3d.com/ScriptReference/Physics.Raycast.html
 /// </summary>
@@ -17,6 +18,9 @@ public class GUIMouseEventManager : MonoBehaviour
 {
 
     private List<GUIObjectInteractive> Selections = new List<GUIObjectInteractive>();  // the list of selected objects
+
+    // Following is for double click functionality
+    public float moveSpeed = 35.0f;
 
     // Update is called once per frame
     void Update()
@@ -46,8 +50,8 @@ public class GUIMouseEventManager : MonoBehaviour
         if (!Physics.Raycast(ray, out hit))  // If nothing is clicked, return
             return;
 
-        var interact = hit.transform.GetComponent<GUIObjectInteractive>(); // Check "Interactive" module, if Null, then return
-        if (interact == null)
+        var interact = hit.transform.GetComponent<GUIObjectInteractive>();
+        if (interact == null) // Check "Interactive" module, if Null, then return
             return;
 
         Selections.Add(interact);
