@@ -30,7 +30,7 @@ namespace ServerForTheLogic.Utilities
         /// minutes are 0.5 seconds
         /// </summary>
         [JsonProperty]
-        public UInt32 NetMinutes {  get; set; }
+        public UInt32 NetMinutes { get; set; }
 
         /// <summary>
         /// The total number of hours since this Clock started.
@@ -70,16 +70,25 @@ namespace ServerForTheLogic.Utilities
 
             FullUpdate = full;
             PartialUpdate = partial;
-             
+
             this.city = city;
             timer = new Timer();
-           
+
 
             timer.Interval = INTERVAL;
             timer.Elapsed += TickMinute;
 
             timer.AutoReset = true;
             timer.Stop();
+
+        }
+
+        public void SaveInitialClientState()
+        {
+            ClientPacket packet = new ClientPacket(city);
+            //packet.ConvertPacket();
+            string output = packet.ConvertFullPacket();
+            FullUpdate.Enqueue(output);
         }
 
         /// <summary>
@@ -122,7 +131,7 @@ namespace ServerForTheLogic.Utilities
             string output = packet.ConvertPartialPacket();
 
             PartialUpdate.Enqueue(output);
-            
+
             //Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
@@ -179,7 +188,7 @@ namespace ServerForTheLogic.Utilities
                 TickYear();
             }
 
-           // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
+            // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
 
         /// <summary>

@@ -113,7 +113,7 @@ namespace ServerForTheLogic.ClientObject
         /// <summary>
         /// AccountBalance can not be negative
         /// </summary>
-        public int AccountBalance { get; set; }
+        public double AccountBalance { get; set; }
 
         /// <summary>
         /// WorkplaceID must be a valid Guid

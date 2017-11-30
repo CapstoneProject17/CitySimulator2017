@@ -94,7 +94,7 @@ namespace ServerForTheLogic.DALValidator
         /// </summary>
         /// <param name="accountBalance"></param>
         /// <returns></returns>
-        public static Boolean isValidPersonAccountBalance(int accountBalance)
+        public static Boolean isValidPersonAccountBalance(double accountBalance)
         {
             if (accountBalance < 0)
             {

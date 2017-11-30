@@ -84,17 +84,7 @@ namespace ServerForTheLogic
         /// Every hour, send the nested dictionary to the network queue
         /// </summary>
         public Dictionary<int, List<PersonTravel>> PartialUpdateList { get; private set; }
-
-        /// <summary>
-        /// Dictionary of Locations to send to client when they connect
-        /// </summary>
-        public Dictionary<Guid, Pair<Point, BlockType>> OnLoadLocations { get; set; }
-
-        /// <summary>
-        /// Dictionary of all people to send to clients when they connect
-        /// </summary>
-        public Dictionary<Guid, Point> OnLoadPeople { get; set; }
-
+        
         [JsonProperty]
         /// <summary>
         /// The grid that all buildings/roads/people exist in
@@ -118,7 +108,7 @@ namespace ServerForTheLogic
         /// </summary>
         public Clock clock;
         public static int DEFAULT_RATING = 1;
-
+        
         [JsonConstructor]
         /// <summary>
         /// Constructor for a new city, creates the grid of cells,
@@ -425,7 +415,7 @@ namespace ServerForTheLogic
             Map[block.StartPoint.X + x, block.StartPoint.Z + z] = building;
             Building liteBuilding = new Building(building);
             NewBuildings.Add(liteBuilding);
-            AllBuildings.Add(building);
+            AllBuildings.Add(liteBuilding);
             return building;
         }
 
@@ -602,6 +592,7 @@ namespace ServerForTheLogic
         {
             //starts clock 
             clock = new Clock(this, full, partial);
+            clock.SaveInitialClientState();
             //clock.timer.Start();
             Console.WriteLine("Started simulation");
         }
@@ -737,6 +728,7 @@ namespace ServerForTheLogic
                 + "\nAssigned blocks count: " + assignedBlocks.Count;
             Console.WriteLine(displayString);
         }
+
     }
 
 }

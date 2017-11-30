@@ -75,6 +75,7 @@ namespace ServerForTheLogic.Json
                 else if (type.Equals("R"))
                 {
                     output = jTok.ToObject<Road>();
+                    Console.WriteLine(output.Point);
                 }
             }
 

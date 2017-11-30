@@ -82,6 +82,7 @@ namespace ServerForTheLogic
             //city.PartialUpdateList.Dump();
             city.printCity();
             foreach (Block b in city.BlockMap)
+                if (b.Type != BlockType.Empty)
                 city.addRoads(b);
             int max = 0;
             foreach (Person p in city.AllPeople)
@@ -104,19 +105,6 @@ namespace ServerForTheLogic
         }
 
 
-        /// <summary>
-        /// Saves the city state to a file, so it can be loaded from the backup later.
-        /// </summary>
-        /// <param name="sendableData"></param>
-        public void SaveCityState()
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Converters.Add(new LocationConverter());
-
-            string dataToSend = JsonConvert.SerializeObject(city, settings);
-
-            File.WriteAllText(@"..\..\SerializedCity\city.json", dataToSend);
-        }
 
         private static void GetInput()
         {
