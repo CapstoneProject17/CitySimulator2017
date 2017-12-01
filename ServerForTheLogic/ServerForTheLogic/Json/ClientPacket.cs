@@ -79,6 +79,7 @@ namespace ServerForTheLogic.Json
        
             string JsonString =  JsonConvert.SerializeObject(this, Formatting.Indented);
             //Console.WriteLine("CONVERT PACKET");
+            city.SendtoDB();
 
             //Console.WriteLine(JsonString);
             city.NewBuildings = new List<Building>();
@@ -102,7 +103,6 @@ namespace ServerForTheLogic.Json
                 sw.Close();
                 // {"ExpiryDate":new Date(1230375600000),"Price":0}
             }
-
 
             string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
             //Console.WriteLine("CONVERT PACKET");

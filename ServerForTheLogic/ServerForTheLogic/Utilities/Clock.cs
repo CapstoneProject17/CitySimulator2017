@@ -87,7 +87,10 @@ namespace ServerForTheLogic.Utilities
         {
             ClientPacket packet = new ClientPacket(city);
             //packet.ConvertPacket();
+            city.SendtoDB();
             string output = packet.ConvertFullPacket();
+            Console.WriteLine("~~~~~~FIRST FULL PACKET");
+            Console.WriteLine(output);
             FullUpdate.Enqueue(output);
         }
 
@@ -129,7 +132,8 @@ namespace ServerForTheLogic.Utilities
             //packet.ConvertPacket();
 
             string output = packet.ConvertPartialPacket();
-
+            Console.WriteLine("~~~~~~PARTIAL PACKET");
+            Console.WriteLine(output);
             PartialUpdate.Enqueue(output);
 
             //Console.WriteLine(output);
@@ -167,19 +171,21 @@ namespace ServerForTheLogic.Utilities
 
             JsonSerializer serializer = JsonSerializer.Create(settings);
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, city);
-                sw.Close();
-                // {"ExpiryDate":new Date(1230375600000),"Price":0}
-            }
+            //using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
+            //using (JsonWriter writer = new JsonTextWriter(sw))
+            //{
+            //    serializer.Serialize(writer, city);
+            //    sw.Close();
+            //    // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            //}
 
             //string cityJson = JsonConvert.SerializeObject(city, Formatting.Indented, settings);
             ClientPacket packet = new ClientPacket(city);
             //packet.ConvertPacket();
 
             string output = packet.ConvertFullPacket();
+            Console.WriteLine("~~~~~~FULL PACKET");
+            Console.WriteLine(output);
             FullUpdate.Enqueue(output);
 
 

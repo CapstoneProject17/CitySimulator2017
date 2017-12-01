@@ -34,18 +34,6 @@ namespace ServerForTheLogic
         private const int MEAN_DEATH_AGE = 80;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
-        private static MongoDAL db;
-
-
-        public static void Start(string[] args)
-        {
-
-        }
-
-        public static void Stop()
-        {
-            // onstop code here
-        }
 
         /// <summary>
         /// Entry point for the city simulator program
@@ -96,10 +84,7 @@ namespace ServerForTheLogic
             foreach (Block b in city.BlockMap)
                 city.setAdjacents(b);
 
-            db = new MongoDAL();
-            db.InsertBuildings(city.AllBuildings);
-            db.InsertClock(city.clock);
-            db.InsertPeople(city.AllPeople);
+           
 
             GetInput();
         }
