@@ -98,13 +98,19 @@ public class GridManager : MonoBehaviour {
 		return true;
 	}
 
-	public void updateEntireGrid(){
+	/// <summary>
+	/// Update the grid.
+	/// </summary>
+	public bool updateEntireGrid(){
 
 		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
+		Debug.Log("Destory: " + planes.Length);
 		foreach(GameObject plane in planes)
 			Destroy(plane);
 
 		createEntireGrid();
+		
+		return true;
 	}
 
 	/// <summary>
