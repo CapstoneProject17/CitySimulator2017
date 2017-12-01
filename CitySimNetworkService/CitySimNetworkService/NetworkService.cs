@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ServerForTheLogic;
 using ServerForTheLogic.Json;
+using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 
@@ -19,7 +20,7 @@ namespace CitySimNetworkService
     public partial class NetworkService : ServiceBase
     {
         public const int FULL_QUEUE_SIZE = 1;
-        public const int PARTIAL_UPDATE_QUEUE_SIZE = 25;
+        public const int PARTIAL_UPDATE_QUEUE_SIZE = 50;
         private const int STANDARD_DEVIATION_DEATH = 14;
         private const int MEAN_DEATH_AGE = 80;
 
@@ -64,8 +65,8 @@ namespace CitySimNetworkService
         /// </param>
         protected override void OnStart(string[] args)
         {
+            city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
             connectionHandler.StartListening();
-            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
         }
 
         /// <summary>
@@ -73,6 +74,13 @@ namespace CitySimNetworkService
         /// </summary>
         protected override void OnStop()
         {
+        }
+
+        internal void TestStartAndStop(string[] args)
+        {
+            OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
         }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConsoleDump;
-using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json;
 using ServerForTheLogic.Json;
-using ServerForTheLogic.Econ;
-using System.ServiceProcess;
 using NLog;
 using System.IO;
-using System.Threading;
 using CitySimNetworkService;
+using DBInterface;
+using DBInterface.Infrastructure;
+using DataAccessLayer;
+using DBInterface.Econ;
 
 namespace ServerForTheLogic
 {
@@ -35,17 +35,6 @@ namespace ServerForTheLogic
         private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
 
-
-        public static void Start(string[] args)
-        {
-
-        }
-
-        public static void Stop()
-        {
-            // onstop code here
-        }
-
         /// <summary>
         /// Entry point for the city simulator program
         /// <para/> Last editted:  2017-10-02
@@ -63,21 +52,44 @@ namespace ServerForTheLogic
 
             // Open the file to read from.
             string readText = File.ReadAllText(path);
-            city = null;
+            //Console.WriteLine(readText);
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
-
-            JsonSerializer serializer = new JsonSerializer();
+            settings.Converters.Add(new BlockConverter());
+            //JsonSerializer serializer = new JsonSerializer();
             city = JsonConvert.DeserializeObject<City>(readText, settings);
+
+
 
             if (city == null)
             {
                 city = new City(fullUpdateQueue, partialUpdateQueue);
             }
+
+            //city.CommercialBlocksToFill.Dump();
+            //city.PartialUpdateList.Dump();
             city.printCity();
-            city.StartSimulation(fullUpdateQueue, partialUpdateQueue);
+            foreach (Block b in city.BlockMap)
+                if (b.Type != BlockType.Empty)
+                city.addRoads(b);
+            int max = 0;
+            foreach (Person p in city.AllPeople)
+            {
+                if (p.DaysLeft > max)
+                    max = p.DaysLeft;
+            }
+            Console.WriteLine(max);
+            city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
+
+            foreach (Block b in city.BlockMap)
+                city.setAdjacents(b);
+
+           
+
             GetInput();
         }
+
+
 
         private static void GetInput()
         {
@@ -90,21 +102,30 @@ namespace ServerForTheLogic
 
                 if (commands[0].Equals("people", StringComparison.CurrentCultureIgnoreCase))
                 {
+                    if (commands.Length == 1)
+                    {
+                        city.AllPeople.Dump();
+                    }
                     if (commands.Length == 2)
                     {
-                        int number = Int32.Parse(commands[1]);
-                        //Console.WriteLine(number);
-                        for (int i = 0; i < number; i++)
+                        try
                         {
-                            city.createPerson();
-
+                            int number = Int32.Parse(commands[1]);
+                            //Console.WriteLine(number);
+                            for (int i = 0; i < number; i++)
+                            {
+                                city.createPerson();
+                            }
+                            Console.WriteLine("Added" + number + " people");
                         }
+                        catch { }
                     }
-                    city.AllPeople.Dump();
+
                 }
                 if (commands[0].Equals("workplaces", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    //city.Workplaces.Dump();
+                    Market.CommercialBusinesses.Dump();
+                    Market.IndustrialBusinesses.Dump();
                 }
                 if (commands[0].Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -122,10 +143,53 @@ namespace ServerForTheLogic
                 {
                     city.clock.Dump();
                 }
+                if (commands[0].Equals("roads", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    foreach (Block b in city.BlockMap)
+                    {
+                        city.printBlock(b);
+                    }
+                }
                 if (cmd.Equals("print city"))
                 {
                     city.printCity();
                 }
+                if (cmd.Equals("hour"))
+                {
+                    city.TickHour();
+                }
+                if (cmd.Equals("day"))
+                {
+                    city.TickDay();
+                }
+                if (cmd.Equals("year"))
+                {
+                    city.TickYear();
+                }
+                if (cmd.Equals("blocks"))
+                {
+                    int count = 0;
+                    foreach (Block b in city.BlockMap)
+                    {
+                        count++;
+                        Console.WriteLine(b.Type);
+                    }
+                    Console.WriteLine(count);
+                }
+                if (cmd.Equals("insert person"))
+                {
+                    MongoDAL dal = new MongoDAL();
+                    dal.InsertPerson(city.AllPeople[0]);
+                }
+                if (cmd.Equals("save"))
+                {
+                    city.SaveState();
+                }
+                if (cmd.Equals("count"))
+                {
+                    city.PropertyCounts();
+                }
+
             }
         }
     }

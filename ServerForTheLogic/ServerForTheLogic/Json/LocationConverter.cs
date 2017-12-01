@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using ServerForTheLogic.Infrastructure;
 using Newtonsoft.Json.Linq;
+using DBInterface.Infrastructure;
 
 namespace ServerForTheLogic.Json
 {
@@ -50,8 +50,8 @@ namespace ServerForTheLogic.Json
             if (jTok.HasValues)
             {
                 string type = jTok.Value<string>("Type");
-                Guid guid = new Guid(jTok.Value<string>("id"));
-
+                Guid guid = new Guid(jTok.Value<string>("Id"));
+                
                 // Checks if the location has already been instantiated.
                 // If it has, return the existing object.
                 // Otherwise, instantiate an object based on it's "type."
@@ -62,6 +62,7 @@ namespace ServerForTheLogic.Json
                 else if (type.Equals("H"))
                 {
                     output = jTok.ToObject<Residential>();
+                    
                 }
                 else if (type.Equals("C"))
                 {
@@ -74,6 +75,7 @@ namespace ServerForTheLogic.Json
                 else if (type.Equals("R"))
                 {
                     output = jTok.ToObject<Road>();
+                    Console.WriteLine(output.Point);
                 }
             }
 

@@ -57,17 +57,5 @@ namespace ServerForTheLogic.Json
             //System.IO.File.WriteAllText(@"..\..\SerializedCity\json.txt", dataToSend.ToString());
             fullUpdateQueue.Enqueue(dataToSend);
         }
-
-        /// <summary>
-        /// Saves the city state to a file, so it can be loaded from the backup later.
-        /// </summary>
-        /// <param name="sendableData"></param>
-        public void SaveCityState(T sendableData)
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Converters.Add(new LocationConverter());
-            string dataToSend = JsonConvert.SerializeObject(sendableData, settings);
-            System.IO.File.WriteAllText(@"..\..\SerializedCity\city.json", dataToSend);
-        }
     }
 }

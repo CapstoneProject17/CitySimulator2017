@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Concurrent;
-using System.Linq;
 using Newtonsoft.Json;
 using CitySimNetworkingApplication;
 
