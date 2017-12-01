@@ -57,7 +57,7 @@ namespace DBInterface.Infrastructure
 
         public Building(Building building)
         {
-            this.id = building.id;
+            this.Id = building.Id;
             this.Name = building.Name;
             this.Point = building.Point;
             this.Type = building.Type;

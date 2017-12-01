@@ -1,4 +1,5 @@
-﻿using ServerForTheLogic.ClientObject;
+﻿using DBInterface.Infrastructure;
+using ServerForTheLogic.ClientObject;
 using System;
 
 namespace ServerForTheLogic
@@ -20,6 +21,11 @@ namespace ServerForTheLogic
         /// <param name="yPoint">Y coordinate of the road</param>
         public RoadDB(Guid guid, int xPoint, int yPoint) : base(guid, xPoint, yPoint)
         {
+        }
+
+        public RoadDB(Road road) : base(road)
+        {
+
         }
     }
 }

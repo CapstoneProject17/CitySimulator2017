@@ -7,7 +7,10 @@ using MongoDB.Driver;
 using ServerForTheLogic;
 using System;
 using ServerForTheLogic.ClientObject;
-using ServerForTheLogic.ClientObject.Building;
+using ServerForTheLogic.ClientObject.Buildings;
+using DBInterface;
+using DBInterface.Infrastructure;
+using DBInterface.Econ;
 
 namespace DataAccessLayer
 {
@@ -47,7 +50,7 @@ namespace DataAccessLayer
 		{
 			get
 			{
-				var database = client.GetDatabase("Prototype");
+				var database = client.GetDatabase("default");
 				return database;
 			}
 		}
@@ -63,16 +66,17 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="person">The person object being inserted into the database</param>
 		/// <returns>Returns true if successful otherwise false</returns>
-		public bool InsertPerson(PersonDB person)
+		public bool InsertPerson(Person person)
 		{
-			if (!DALValidator.DALPersonValidator(person))
+            PersonDB personDB = new PersonDB(person);
+			if (!DALValidator.DALPersonValidator(personDB))
 			{
 				return false;
 			}
 			else
 			{
 				var personCol = Database.GetCollection<PersonDB>("Person");
-				personCol.InsertOne(person);
+				personCol.InsertOne(personDB);
 			}
 			return true;
 		}
@@ -92,9 +96,14 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="people">The list of people to be inserted into the database</param>
 		/// <returns>Returns the collection if all the people are inserted otherwise null</returns>
-		public Task InsertPeople(IEnumerable<PersonDB> people)
-		{
-			foreach (PersonDB p in people)
+		public Task InsertPeople(IEnumerable<Person> people)
+        {
+            List<PersonDB> peopleDB = new List<PersonDB>();
+            foreach (Person p in people)
+            {
+                peopleDB.Add(new PersonDB(p));
+            }
+                foreach (PersonDB p in peopleDB)
 			{
 				if (!DALValidator.DALPersonValidator(p))
 				{
@@ -102,7 +111,7 @@ namespace DataAccessLayer
 				}
 			}
 			var personCol = Database.GetCollection<PersonDB>("Person");
-			return personCol.InsertManyAsync(people);
+			return personCol.InsertManyAsync(peopleDB);
 		}
 
 		/// <summary>
@@ -116,16 +125,17 @@ namespace DataAccessLayer
 		///     - reflects schema change
 		/// <param name="residential">The residential building to be stored in the database</param>
 		/// <returns>Returns true if stored in the database otherwise false</returns>
-		public bool InsertResidential(ResidentialDB residential)
+		public bool InsertResidential(Residential residential)
 		{
-			if (!DALValidator.DALResidentialBuildingValidator(residential))
+            ResidentialDB residentialDB = new ResidentialDB(residential);
+			if (!DALValidator.DALResidentialBuildingValidator(residentialDB))
 			{
 				return false;
 			}
 			else
 			{
 				var residentialCol = Database.GetCollection<ResidentialDB>("Residential");
-				residentialCol.InsertOne(residential);
+				residentialCol.InsertOne(residentialDB);
 			}
 			return true;
 		}
@@ -141,16 +151,17 @@ namespace DataAccessLayer
 		///     - reflects schema change
 		/// <param name="commercial">The commercial building to be stored in the database</param>
 		/// <returns>Returns true if stored in the database otherwise false</returns>
-		public bool InsertCommercial(CommercialDB commercial)
+		public bool InsertCommercial(Commercial commercial)
 		{
-			if (!DALValidator.DALCommercialBuildingValidator(commercial))
+            CommercialDB commercialDB = new CommercialDB(commercial);
+			if (!DALValidator.DALCommercialBuildingValidator(commercialDB))
 			{
 				return false;
 			}
 			else
 			{
 				var commercialCol = Database.GetCollection<CommercialDB>("Commercial");
-				commercialCol.InsertOne(commercial);
+				commercialCol.InsertOne(commercialDB);
 			}
 			return true;
 		}
@@ -166,16 +177,17 @@ namespace DataAccessLayer
 		///     - reflects schema change
 		/// <param name="industrial">The industrial building to be stored in the database</param>
 		/// <returns>Returns true if stored in the database otherwise false</returns>
-		public bool InsertIndustrial(IndustrialDB industrial)
+		public bool InsertIndustrial(Industrial industrial)
 		{
-			if (!DALValidator.DALIndustrialBuildingValidator(industrial))
+            IndustrialDB industrialDB = new IndustrialDB(industrial);
+			if (!DALValidator.DALIndustrialBuildingValidator(industrialDB))
 			{
 				return false;
 			}
 			else
 			{
 				var industrialCol = Database.GetCollection<IndustrialDB>("Industrial");
-				industrialCol.InsertOne(industrial);
+				industrialCol.InsertOne(industrialDB);
 			}
 			return true;
 		}
@@ -190,16 +202,17 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="road">The road object being stored in the database</param>
 		/// <returns>Returns true if stored in the database otherwise false</returns>
-		public bool InsertRoad(RoadDB road)
+		public bool InsertRoad(Road road)
 		{
-			if (!DALValidator.DALRoadValidator(road))
+            RoadDB roadDB= new RoadDB(road);
+			if (!DALValidator.DALRoadValidator(roadDB))
 			{
 				return false;
 			}
 			else
 			{
 				var roadCol = Database.GetCollection<RoadDB>("Road");
-				roadCol.InsertOne(road);
+				roadCol.InsertOne(roadDB);
 			}
 			return true;
 		}
@@ -211,16 +224,17 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="product">Name of the product</param>
 		/// <returns>Returns true if stored in the database otherwise false</returns>
-		public bool InsertProduct(ProductDB product)
+		public bool InsertProduct(Product product)
 		{
-			if (!DALValidator.DALProductValidator(product))
+            ProductDB productDB= new ProductDB(product);
+			if (!DALValidator.DALProductValidator(productDB))
 			{
 				return false;
 			}
 			else
 			{
 				var prodCol = Database.GetCollection<ProductDB>("Product");
-				prodCol.InsertOne(product);
+				prodCol.InsertOne(productDB);
 			}
 			return true;
 		}
@@ -253,16 +267,17 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="clock">The clock object being stored in the database</param>
 		/// <returns>True if succesful in storing object, otherwise false.</returns>
-		public bool InsertClock(ClockDB clock)
+		public bool InsertClock(IClock clock)
 		{
-			if (!DALValidator.DALClockValidator(clock))
+            ClockDB clockDB = new ClockDB(clock);
+			if (!DALValidator.DALClockValidator(clockDB))
 			{
 				return false;
 			}
 			else
 			{
 				var clockCol = Database.GetCollection<ClockDB>("Clock");
-				clockCol.InsertOne(clock);
+				clockCol.InsertOne(clockDB);
 			}
 			return true;
 		}
@@ -281,13 +296,18 @@ namespace DataAccessLayer
 		/// Changed method to use new validation style
 		/// </summary>
 		/// <param name="buildings">A list of the buildings to be inserted into the database</param>
-		public void InsertBuildings(IEnumerable<BuildingDB> buildings)
+		public void InsertBuildings(IEnumerable<Building> buildings)
 		{
-			foreach (BuildingDB b in buildings)
+            List<BuildingDB> buildingsDB = new List<BuildingDB>();
+            foreach (Building b in buildings)
+            {
+                buildingsDB.Add(new BuildingDB(b));
+            }
+			foreach (BuildingDB b in buildingsDB)
 			{
 				if (!DALValidator.DALBuildingValidator(b))
 				{
-					System.Console.WriteLine("Building id: " + b.Guid.ToString() + " did not meet validation rules.");
+					System.Console.WriteLine("Building Id: " + b.Guid.ToString() + " did not meet validation rules.");
 					return;
 				}
 			}
@@ -387,7 +407,7 @@ namespace DataAccessLayer
 			var saveStateData = collection.Find(new BsonDocument()).FirstOrDefault();
 			if (saveStateData != null)
 			{
-				SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
+                SaveState mySaveState = BsonSerializer.Deserialize<SaveState>(saveStateData.ToJson());
 				return mySaveState;
 			}
 			Console.WriteLine("SaveState collection is empty.");
@@ -492,10 +512,11 @@ namespace DataAccessLayer
 		/// <param name="age">The current age of the person</param>
 		/// <param name="startShift">The starting time of when the person's work begins</param>
 		/// <param name="endShift">The ending time of when the person's work ends</param>
-		public async void UpdatePersonByGuid(Guid guid, string firstName, string lastName, int monthlyIncome, int accountBalance, string workplaceID, int workplaceX, int workplaceY, string homeID, int homeX, int homeY, int daysLeft, int age, int startShift, int endShift)
+		public async void UpdatePerson(Person person)
 		{
+            //michael
 			var collection = Database.GetCollection<BsonDocument>("Person");
-			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+			var filter = Builders<BsonDocument>.Filter.Eq("guid", person.Id);
 			var personListData = await collection.Find(filter).ToListAsync();
 			if (personListData == null || personListData.Count == 0)
 			{
@@ -503,7 +524,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			PersonDB personToUpdate = new PersonDB(guid, firstName, lastName, monthlyIncome, accountBalance, workplaceID, workplaceX, workplaceY, homeID, homeX, homeY, daysLeft, age, startShift, endShift);
+			PersonDB personToUpdate = new PersonDB(person);
 			if (!DALValidator.DALPersonValidator(personToUpdate))
 			{
 				Console.WriteLine("Can not update person, at least one of the input field is invalid.");
@@ -511,21 +532,21 @@ namespace DataAccessLayer
 			}
 
 			var update = Builders<BsonDocument>.Update
-				.Set("guid", guid)
-				.Set("FirstName", firstName)
-				.Set("LastName", lastName)
-				.Set("MonthlyIncome", monthlyIncome)
-				.Set("AccountBalance", accountBalance)
-				.Set("WorkplaceID", workplaceID)
-				.Set("WorkplaceX", workplaceX)
-				.Set("WorkplaceY", workplaceY)
-				.Set("HomeID", homeID)
-				.Set("HomeX", homeX)
-				.Set("HomeY", homeY)
-				.Set("DaysLeft", daysLeft)
-				.Set("Age", age)
-				.Set("StartShift", startShift)
-				.Set("EndShift", endShift);
+				.Set("guid", person.Id)
+				.Set("FirstName", person.FName)
+				.Set("LastName", person.LName)
+				.Set("MonthlyIncome", person.MonthlyIncome)
+				.Set("AccountBalance", person.Funds)
+				.Set("WorkplaceID", person.Workplace.Id)
+				.Set("WorkplaceX", person.Workplace.Point.X)
+				.Set("WorkplaceY", person.Workplace.Point.Z)
+				.Set("HomeID", person.Home.Id)
+				.Set("HomeX", person.Home.Point.X)
+				.Set("HomeY", person.Home.Point.Z)
+				.Set("DaysLeft", person.DaysLeft)
+				.Set("Age", person.Age)
+				.Set("StartShift", person.StartShift)
+				.Set("EndShift", person.EndShift);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
 
@@ -541,10 +562,12 @@ namespace DataAccessLayer
 		/// <param name="rating">The rating of the Residential building</param>
 		/// <param name="isTall">Boolean if the building is tall or not</param>
 		/// <param name="capacity">The capacity of the Residential building</param>
-		public async void UpdateResidentialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity)
+
+		public async void UpdateResidentialBuilding(Residential residential)
 		{
+            //michael got this
 			var collection = Database.GetCollection<BsonDocument>("Residential");
-			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+			var filter = Builders<BsonDocument>.Filter.Eq("guid", residential.Id);
 			var residentialListData = await collection.Find(filter).ToListAsync();
 			if (residentialListData == null || residentialListData.Count == 0)
 			{
@@ -552,7 +575,8 @@ namespace DataAccessLayer
 				return;
 			}
 
-			ResidentialDB residentialBuildingToUpdate = new ResidentialDB(guid, name, xPoint, yPoint, rating, isTall, capacity);
+			ResidentialDB residentialBuildingToUpdate = new ResidentialDB(residential);
+
 			if (!DALValidator.DALResidentialBuildingValidator(residentialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update residential building, at least one of the input field is invalid.");
@@ -560,33 +584,33 @@ namespace DataAccessLayer
 			}
 
 			var update = Builders<BsonDocument>.Update
-				.Set("guid", guid)
-				.Set("XPoint", xPoint)
-				.Set("YPoint", yPoint)
-				.Set("Rating", rating)
-				.Set("IsTall", isTall)
-				.Set("Capacity", capacity);
+				.Set("guid", residential.Id)
+				.Set("XPoint", residential.Point.X)
+				.Set("YPoint", residential.Point.Z)
+				.Set("Rating", residential.Rating)
+				.Set("IsTall", residential.IsTall)
+				.Set("Capacity", residential.Capacity);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
 
-		/// <summary>
-		/// Update one commercial building by guid
-		/// 
-		/// Author: Bill
-		/// Date: 2017-11-13
-		/// </summary>
-		/// <param name="guid">The GUID of the Commercial building</param>
-		/// <param name="xPoint">The X coordinate of the Commercial building</param>
-		/// <param name="yPoint">The Y coordinate of the Commercial building</param>
-		/// <param name="rating">The rating of the Commercial building</param>
-		/// <param name="isTall">Boolean if the building is tall or not</param>
-		/// <param name="capacity">The capacity of the Commercial building</param>
-		/// <param name="retailPrice">The retail price of the Commercial building</param>
-		/// <param name="inventoryCount">The inventory count of the Commercial building</param>
-		public async void UpdateCommercialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
+        /// <summary>
+        /// Update one commercial building by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid">The GUID of the Commercial building</param>
+        /// <param name="xPoint">The X coordinate of the Commercial building</param>
+        /// <param name="yPoint">The Y coordinate of the Commercial building</param>
+        /// <param name="rating">The rating of the Commercial building</param>
+        /// <param name="isTall">Boolean if the building is tall or not</param>
+        /// <param name="capacity">The capacity of the Commercial building</param>
+        /// <param name="retailPrice">The retail price of the Commercial building</param>
+        /// <param name="inventoryCount">The inventory count of the Commercial building</param>
+    public async void UpdateCommercialBuilding(Commercial commercial)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Commercial");
-			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
+			var filter = Builders<BsonDocument>.Filter.Eq("guid", commercial.Id);
 			var commercialListData = await collection.Find(filter).ToListAsync();
 			if (commercialListData == null || commercialListData.Count == 0)
 			{
@@ -594,104 +618,104 @@ namespace DataAccessLayer
 				return;
 			}
 
-			CommercialDB commercialBuildingToUpdate = new CommercialDB(guid, name, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
+			CommercialDB commercialBuildingToUpdate = new CommercialDB(commercial);
+
 			if (!DALValidator.DALCommercialBuildingValidator(commercialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update commercial building, at least one of the input field is invalid.");
 				return;
 			}
-
+            //TODO: fix retail price and inventory count on commercial building
 			var update = Builders<BsonDocument>.Update
-				.Set("guid", guid)
-				.Set("XPoint", xPoint)
-				.Set("YPoint", yPoint)
-				.Set("Rating", rating)
-				.Set("IsTall", isTall)
-				.Set("Capacity", capacity)
-				.Set("RetailPrice", retailPrice)
-				.Set("InventoryCount", inventoryCount);
+				.Set("guid", commercial.Id)
+				.Set("XPoint", commercial.Point.X)
+				.Set("YPoint", commercial.Point.Z)
+				.Set("Rating", commercial.Rating)
+				.Set("IsTall", commercial.IsTall)
+				.Set("Capacity", commercial.Capacity)
+				.Set("RetailPrice", 0)
+				.Set("InventoryCount", 0);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
 
-		/// <summary>
-		/// Update one industrial building by guid
-		/// 
-		/// Author: Bill
-		/// Date: 2017-11-13
-		/// </summary>
-		/// <param name="guid">The GUID of the industrial building being updated</param>
-		/// <param name="xPoint">The X coordinate of the industrial building being updated</param>
-		/// <param name="yPoint">The Y coordinate of the industrial building being updated</param>
-		/// <param name="rating">The rating of the industrial building being updated</param>
-		/// <param name="isTall">Boolean if the building is tall or not</param>
-		/// <param name="capacity">The employee capacity of the industrial building being updated</param>
-		/// <param name="inventoryCount">The inventory count of the industrial building being updated</param>
-		/// <param name="productionCost">The cost it takes the building to produce one product</param>
-		/// <param name="wholesalePrice">The price the building sells its product to another building</param>
-		public async void UpdateIndustrialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
-		{
-			var collection = Database.GetCollection<BsonDocument>("Industrial");
-			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
-			var industrialListData = await collection.Find(filter).ToListAsync();
-			if (industrialListData == null || industrialListData.Count == 0)
-			{
-				Console.WriteLine("Can not update industrial building, guid is invalid.");
-				return;
-			}
+        /// <summary>
+        /// Update one industrial building by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid">The GUID of the industrial building being updated</param>
+        /// <param name="xPoint">The X coordinate of the industrial building being updated</param>
+        /// <param name="yPoint">The Y coordinate of the industrial building being updated</param>
+        /// <param name="rating">The rating of the industrial building being updated</param>
+        /// <param name="isTall">Boolean if the building is tall or not</param>
+        /// <param name="capacity">The employee capacity of the industrial building being updated</param>
+        /// <param name="inventoryCount">The inventory count of the industrial building being updated</param>
+        /// <param name="productionCost">The cost it takes the building to produce one product</param>
+        /// <param name="wholesalePrice">The price the building sells its product to another building</param>
+        public async void UpdateIndustrialBuilding(Industrial industrial)
+        {
+            var collection = Database.GetCollection<BsonDocument>("Industrial");
+            var filter = Builders<BsonDocument>.Filter.Eq("guid", industrial.Id);
+            var commercialListData = await collection.Find(filter).ToListAsync();
+            if (commercialListData == null || commercialListData.Count == 0)
+            {
+                Console.WriteLine("Can not update commercial building, guid is invalid.");
+                return;
+            }
 
-			IndustrialDB industrialBuildingToUpdate = new IndustrialDB(guid, name, xPoint, yPoint, rating, isTall, capacity, inventoryCount, productionCost, wholesalePrice);
-			if (!DALValidator.DALIndustrialBuildingValidator(industrialBuildingToUpdate))
-			{
-				Console.WriteLine("Can not update industrial building, at least one of the input field is invalid.");
-				return;
-			}
+            IndustrialDB industrialBuildingToUpdate = new IndustrialDB(industrial);
+            if (!DALValidator.DALIndustrialBuildingValidator(industrialBuildingToUpdate))
+            {
+                Console.WriteLine("Can not update commercial building, at least one of the input field is invalid.");
+                return;
+            }
+            //TODO: fix retail price and inventory count on industrial building
+            var update = Builders<BsonDocument>.Update
+                .Set("guid", industrial.Id)
+                .Set("XPoint", industrial.Point.X)
+                .Set("YPoint", industrial.Point.Z)
+                .Set("Rating", industrial.Rating)
+                .Set("IsTall", industrial.IsTall)
+                .Set("Capacity", industrial.Capacity)
+                .Set("RetailPrice", 0)
+                .Set("InventoryCount", 0);
+            var result = await collection.UpdateOneAsync(filter, update);
+        }
 
-			var update = Builders<BsonDocument>.Update
-				.Set("guid", guid)
-				.Set("XPoint", xPoint)
-				.Set("YPoint", yPoint)
-				.Set("Rating", rating)
-				.Set("IsTall", isTall)
-				.Set("Capacity", capacity)
-				.Set("InventoryCount", inventoryCount)
-				.Set("ProductionCost", productionCost)
-				.Set("WholesalePrice", wholesalePrice);
-			var result = await collection.UpdateOneAsync(filter, update);
-		}
+        /// <summary>
+        /// Update one road by guid
+        /// 
+        /// Author: Bill
+        /// Date: 2017-11-13
+        /// </summary>
+        /// <param name="guid">The GUID of the road object being updated</param>
+        /// <param name="xPoint">The X coordinate of the road being updated</param>
+        /// <param name="yPoint">The Y coordinate of the road being updated</param>
+      public async void UpdateRoad(Road road)
+		  {
+          var collection = Database.GetCollection<BsonDocument>("Road");
+          var filter = Builders<BsonDocument>.Filter.Eq("guid", road.Id);
+          var roadListData = await collection.Find(filter).ToListAsync();
+          if (roadListData == null || roadListData.Count == 0)
+          {
+            Console.WriteLine("Can not update road, guid is invalid.");
+            return;
+          }
 
-		/// <summary>
-		/// Update one road by guid
-		/// 
-		/// Author: Bill
-		/// Date: 2017-11-13
-		/// </summary>
-		/// <param name="guid">The GUID of the road object being updated</param>
-		/// <param name="xPoint">The X coordinate of the road being updated</param>
-		/// <param name="yPoint">The Y coordinate of the road being updated</param>
-		public async void UpdateRoadByGuid(Guid guid, int xPoint, int yPoint)
-		{
-			var collection = Database.GetCollection<BsonDocument>("Road");
-			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
-			var roadListData = await collection.Find(filter).ToListAsync();
-			if (roadListData == null || roadListData.Count == 0)
-			{
-				Console.WriteLine("Can not update road, guid is invalid.");
-				return;
-			}
+          RoadDB roadToUpdate = new RoadDB(road);
+          if (!DALValidator.DALRoadValidator(roadToUpdate))
+          {
+            Console.WriteLine("Can not update road, at least one of the input field is invalid.");
+            return;
+          }
 
-			RoadDB roadToUpdate = new RoadDB(guid, xPoint, yPoint);
-			if (!DALValidator.DALRoadValidator(roadToUpdate))
-			{
-				Console.WriteLine("Can not update road, at least one of the input field is invalid.");
-				return;
-			}
-
-			var update = Builders<BsonDocument>.Update
-				.Set("guid", guid)
-				.Set("XPoint", xPoint)
-				.Set("YPoint", yPoint);
-			var result = await collection.UpdateOneAsync(filter, update);
-		}
+          var update = Builders<BsonDocument>.Update
+            .Set("guid", road.Id)
+            .Set("XPoint", road.Point.X)
+            .Set("YPoint", road.Point.Z);
+          var result = await collection.UpdateOneAsync(filter, update);
+		    }
 
 		/// <summary>
 		/// Update clock
@@ -703,7 +727,7 @@ namespace DataAccessLayer
 		/// <param name="hours">The hours of the clock</param>
 		/// <param name="days">The days of the clock</param>
 		/// <param name="years">The years of the clock</param>
-		public async void UpdateClock(int minutes, int hours, int days, int years)
+		public async void UpdateClock(IClock clock)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Clock");
 			var clockData = await collection.Find(new BsonDocument()).FirstOrDefaultAsync();
@@ -714,17 +738,17 @@ namespace DataAccessLayer
 			}
 			var filter = Builders<BsonDocument>.Filter.Eq("_id", clockData["_id"].ToString());
 
-			ClockDB clockToUpdate = new ClockDB(minutes, hours, days, years);
+			ClockDB clockToUpdate = new ClockDB(clock);
 			if (!DALValidator.DALClockValidator(clockToUpdate))
 			{
 				Console.WriteLine("Can not update clock, at least one of the input field is invalid.");
 				return;
 			}
 			var update = Builders<BsonDocument>.Update
-							.Set("NetMinutes", minutes)
-							.Set("NetHours", hours)
-							.Set("NetDays", days)
-							.Set("NetYears", years);
+							.Set("NetMinutes", clock.NetMinutes)
+							.Set("NetHours", clock.NetHours)
+							.Set("NetDays", clock.NetDays)
+							.Set("NetYears", clock.NetYears);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
 
@@ -736,10 +760,10 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="name">The name of the product to be updated</param>
 		/// <param name="globalCount">The global count of the product</param>
-		public async void UpdateProductByName(string name, int globalCount)
+		public async void UpdateProduct(Product product)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Product");
-			var filter = Builders<BsonDocument>.Filter.Eq("Name", name);
+			var filter = Builders<BsonDocument>.Filter.Eq("Name", product.ProductName);
 			var roadListData = await collection.Find(filter).ToListAsync();
 			if (roadListData == null || roadListData.Count == 0)
 			{
@@ -747,16 +771,16 @@ namespace DataAccessLayer
 				return;
 			}
 
-			ProductDB productToUpdate = new ProductDB(name, globalCount);
+			ProductDB productToUpdate = new ProductDB(product);
 			if (!DALValidator.DALProductValidator(productToUpdate))
 			{
 				Console.WriteLine("Can not update product, at least one of the input field is invalid.");
 				return;
 			}
-
+            //TODO: fix this so products have a global count
 			var update = Builders<BsonDocument>.Update
-				.Set("Name", name)
-				.Set("GlobalCount", globalCount);
+				.Set("Name", product.ProductName)
+				.Set("GlobalCount", 0);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
 
@@ -790,16 +814,16 @@ namespace DataAccessLayer
 		///     - reflects schema changes
 		/// </summary>
 		/// <param name="guid">The GUID of the person being deleted from the DB</param>
-		public async void DeleteOnePerson(Guid guid)
+		public async void DeleteOnePerson(Person person)
 		{
 			var collection = Database.GetCollection<PersonDB>("Person");
 			//what to do here?
-			var filter = Builders<PersonDB>.Filter.Eq("guid", guid);
+			var filter = Builders<PersonDB>.Filter.Eq("guid", person.Id);
 			await collection.DeleteOneAsync(filter);
 		}
 
 		/// <summary>
-		/// Delete one building from the collection by its id
+		/// Delete one building from the collection by its Id
 		/// Author: Bill
 		/// 
 		/// Updated: 
@@ -811,15 +835,15 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="residential">The Residential building object to be deleted</param>
 		/// <param name="guid">The GUID of the residential building to be deleted</param>
-		public async void DeleteOneResidential(ResidentialDB residential, Guid guid)
+		public async void DeleteOneResidential(Residential residential)
 		{
 			var collection = Database.GetCollection<ResidentialDB>("Residential");
-			var filter = Builders<ResidentialDB>.Filter.Eq("guid", guid);
+			var filter = Builders<ResidentialDB>.Filter.Eq("guid", residential.Id);
 			await collection.DeleteOneAsync(filter);
 		}
 
 		/// <summary>
-		/// Delete one building from the collection by its id
+		/// Delete one building from the collection by its Id
 		/// Author: Bill
 		/// Updated: Steph - reflects schema changes
 		/// Date: 2017-10-31
@@ -828,15 +852,15 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="commercial">The Commercial building object to be deleted</param>
 		/// <param name="guid">The GUID of the Commercial buidling object being deleted</param>
-		public async void DeleteOneCommercial(CommercialDB commercial, Guid guid)
+		public async void DeleteOneCommercial(Commercial commercial)
 		{
 			var collection = Database.GetCollection<CommercialDB>("Commercial");
-			var filter = Builders<CommercialDB>.Filter.Eq("guid", guid);
+			var filter = Builders<CommercialDB>.Filter.Eq("guid", commercial.Id);
 			await collection.DeleteOneAsync(filter);
 		}
 
 		/// <summary>
-		/// Delete one building from the collection by its id
+		/// Delete one building from the collection by its Id
 		/// Author: Bill
 		/// Date:
 		/// 
@@ -848,10 +872,10 @@ namespace DataAccessLayer
 		/// </summary>
 		/// <param name="industrial">The Industrial building object to be deleted</param>
 		/// <param name="guid">The GUID of the Industrial building being deleted</param>
-		public async void DeleteOneIndustrial(IndustrialDB industrial, Guid guid)
+		public async void DeleteOneIndustrial(Industrial industrial)
 		{
 			var collection = Database.GetCollection<IndustrialDB>("Industrial");
-			var filter = Builders<IndustrialDB>.Filter.Eq("guid", guid);
+			var filter = Builders<IndustrialDB>.Filter.Eq("guid", industrial.Id);
 			await collection.DeleteOneAsync(filter);
 		}
 

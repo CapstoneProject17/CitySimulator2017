@@ -1,6 +1,7 @@
-﻿using ServerForTheLogic.ClientObject.Building;
+﻿using DBInterface.Infrastructure;
+using ServerForTheLogic.ClientObject.Buildings;
 using System;
-namespace ServerForTheLogic.ClientObject.Building
+namespace ServerForTheLogic.ClientObject.Buildings
 
 {
     /// <summary>
@@ -23,6 +24,11 @@ namespace ServerForTheLogic.ClientObject.Building
             InventoryCount = inventoryCount;
         }
 
+
+        public CommercialDB(Commercial commercial) : base(commercial)
+        {
+
+        }
         /// <summary>
         /// RetailPrice must be a valid integer
         /// </summary>

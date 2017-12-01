@@ -94,7 +94,7 @@ namespace ServerForTheLogic.DALValidator
         /// </summary>
         /// <param name="accountBalance"></param>
         /// <returns></returns>
-        public static Boolean isValidPersonAccountBalance(int accountBalance)
+        public static Boolean isValidPersonAccountBalance(double accountBalance)
         {
             if (accountBalance < 0)
             {
@@ -213,7 +213,7 @@ namespace ServerForTheLogic.DALValidator
         /// <returns></returns>
         public static Boolean isValidPersonDaysLeft(int personDaysLeft)
         {
-            if (personDaysLeft < 0 || personDaysLeft > 125)
+            if (personDaysLeft < 0 || personDaysLeft > 50000)
             {
                 Console.WriteLine("Invalid person days left: " + personDaysLeft);
                 return false;

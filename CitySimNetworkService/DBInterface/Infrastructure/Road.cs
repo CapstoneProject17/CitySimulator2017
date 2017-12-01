@@ -24,5 +24,15 @@
         {
             this.Type = "R";
         }
+
+        /// <summary>
+        /// Overloaded constructor for road
+        /// <para>Written by Connor Goudie 2017-10-02</para>
+        /// </summary>
+        public Road(string Name, int x, int z) : base(Name)
+        {
+            this.Type = "R";
+            Point = new Point(x, z);
+        }
     }
 }

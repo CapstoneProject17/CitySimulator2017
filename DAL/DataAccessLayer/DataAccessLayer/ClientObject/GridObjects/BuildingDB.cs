@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DBInterface.Infrastructure;
+using System;
 
-namespace ServerForTheLogic.ClientObject.Building
+namespace ServerForTheLogic.ClientObject.Buildings
 {
     /// <summary>
-    /// Building Class
+    /// Buildings Class
     /// Team: DB
     /// Building class that contain general fields for all building types.
     /// <para> Author: Bill </para>
@@ -28,12 +29,18 @@ namespace ServerForTheLogic.ClientObject.Building
             Capacity = capacity;
         }
 
+        public BuildingDB(Building building) : base(building)
+        {
+        Name = building.Name;
+            Rating = building.Rating;
+            IsTall = building.IsTall;
+            Capacity = building.Capacity;
+        }
         ///<summary
         ///
         ///</summary>
         public string Name { get; set; }
 
-           
         /// <summary>
         /// Rating is an int between 1 - 3
         /// </summary>            

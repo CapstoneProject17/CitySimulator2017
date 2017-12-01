@@ -68,7 +68,7 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter("partialPacket.json"))
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\partialPacket.json"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
@@ -79,6 +79,7 @@ namespace ServerForTheLogic.Json
        
             string JsonString =  JsonConvert.SerializeObject(this, Formatting.Indented);
             //Console.WriteLine("CONVERT PACKET");
+            city.SendtoDB();
 
             //Console.WriteLine(JsonString);
             city.NewBuildings = new List<Building>();
@@ -95,14 +96,13 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter("fullPacket.json"))
+            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\fullPacket.json"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
                 sw.Close();
                 // {"ExpiryDate":new Date(1230375600000),"Price":0}
             }
-
 
             string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
             //Console.WriteLine("CONVERT PACKET");

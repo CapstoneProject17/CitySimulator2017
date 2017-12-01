@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DBInterface.Infrastructure;
+using System;
 
 namespace ServerForTheLogic.ClientObject
 {
@@ -24,6 +25,13 @@ namespace ServerForTheLogic.ClientObject
             Guid = guid;
             XPoint = xPoint;
             YPoint = yPoint;
+        }
+
+        public GridObject(Location location)
+        {
+            Guid = location.Id;
+            XPoint = location.Point.X;
+            XPoint = location.Point.Z;
         }
 
         /// <summary>
