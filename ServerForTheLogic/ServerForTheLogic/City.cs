@@ -12,13 +12,15 @@ using DBInterface.Econ;
 using System.IO;
 using ServerForTheLogic.Json;
 using ConsoleDump;
-using ServerForTheLogic.Json.LiteObjects;
+using DataAccessLayer;
 
 namespace ServerForTheLogic
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class City
     {
+
+        private MongoDAL db;
         /// <summary>
         /// Max width of the city grid
         /// </summary>
@@ -101,6 +103,8 @@ namespace ServerForTheLogic
 
         public List<Block> assignedBlocks { get; set; }
 
+        public List<DBInterface.Person> NewPeople { get; set; }
+
         [JsonProperty]
         /// <summary>
         /// Clock to keep track of the time that 
@@ -127,7 +131,7 @@ namespace ServerForTheLogic
             //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
             faker = new Faker("en");
-
+            db = new MongoDAL();
             NewRoads = new List<Point>();
             NewBuildings = new List<Building>();
 
@@ -206,8 +210,8 @@ namespace ServerForTheLogic
             assignedBlocks.Add(initialBlock);
             createBuilding(initialBlock);
 
-            expandCity(BlockType.Commercial);
-            expandCity(BlockType.Residential);
+            ExpandCity(BlockType.Commercial);
+            ExpandCity(BlockType.Residential);
 
 
             // Console.WriteLine(new ClientPacket(this).ConvertPacket());
@@ -225,9 +229,8 @@ namespace ServerForTheLogic
         /// Last edited by Andrew Busto, Chandu Dissanayake
         /// <param name="type">Type of block being assigned</param>
         /// <returns>the one building on the new block</returns>
-        public Building expandCity(BlockType type)
+        public Building ExpandCity(BlockType type)
         {
-            Console.WriteLine("***CREATING NEW " + type + " BLOCK");
 
             List<Block> empties = new List<Block>();
             //Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
@@ -413,10 +416,18 @@ namespace ServerForTheLogic
             building.Point = new Point(block.StartPoint.X + x, block.StartPoint.Z + z);
             block.LandPlot[x, z] = building;
             Map[block.StartPoint.X + x, block.StartPoint.Z + z] = building;
-            Building liteBuilding = new Building(building);
-            NewBuildings.Add(liteBuilding);
-            AllBuildings.Add(liteBuilding);
+            //Building liteBuilding = new Building(building);
+            NewBuildings.Add(new Building(building));
+            AllBuildings.Add(new Building(building));
             return building;
+        }
+
+        public void SendtoDB()
+        {
+            
+            db.InsertBuildings(NewBuildings);
+            db.InsertClock(clock);
+            db.InsertPeople(AllPeople);
         }
 
         /// <summary>
@@ -436,7 +447,7 @@ namespace ServerForTheLogic
                     CommercialBlocksToFill.Dequeue();
                     if (CommercialBlocksToFill.Count == 0)
                     {
-                        return expandCity(BlockType.Commercial);
+                        return ExpandCity(BlockType.Commercial);
                     }
                     else
                     {
@@ -446,7 +457,7 @@ namespace ServerForTheLogic
                     IndustrialBlocksToFill.Dequeue();
                     if (IndustrialBlocksToFill.Count == 0)
                     {
-                        return expandCity(BlockType.Industrial);
+                        return ExpandCity(BlockType.Industrial);
                     }
                     else
                     {
@@ -456,7 +467,7 @@ namespace ServerForTheLogic
                     ResidentialBlocksToFill.Dequeue();
                     if (ResidentialBlocksToFill.Count == 0)
                     {
-                        return expandCity(BlockType.Residential);
+                        return ExpandCity(BlockType.Residential);
                     }
                     else
                     {
@@ -593,7 +604,7 @@ namespace ServerForTheLogic
             //starts clock 
             clock = new Clock(this, full, partial);
             clock.SaveInitialClientState();
-            //clock.timer.Start();
+            clock.timer.Start();
             Console.WriteLine("Started simulation");
         }
 
