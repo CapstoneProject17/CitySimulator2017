@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 400022, guid: 494a1d970820f467297e204d753e1989, type: 3}
+  character: {fileID: 400000, guid: 44931af28ca6c48b5aa3511ca2f7baa7, type: 3}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -624,8 +624,8 @@ MonoBehaviour:
   size: {x: 0, y: 0, z: 0}
   roadTexture: {fileID: 2800000, guid: a4d1dcfb2222b41aba7162a5db220bc2, type: 3}
   onOffSwitch: 0
-  cityDataManager: {fileID: 0}
-  parentGrid: {fileID: 0}
+  cityDataManager: {fileID: 127092658}
+  parentGrid: {fileID: 127092655}
   turnOnGrid: 0
   turnOffGrid: 0
 --- !u!114 &127092658
@@ -644,12 +644,11 @@ MonoBehaviour:
   systemStartedTimeStamp: 0
   systemCurrentTimeStamp: 0
   timeInHour: 0
-  buildingManager: {fileID: 0}
-  characterManager: {fileID: 0}
-  gridManager: {fileID: 0}
+  buildingManager: {fileID: 1857592181}
+  characterManager: {fileID: 17867333}
+  gridManager: {fileID: 127092655}
   nextTime: 0
   runOnce: 0
-  runOnce2: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,7 +2712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d068f5b6073545079b06b570e1484da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingManager: {fileID: 0}
+  buildingManager: {fileID: 1857592181}
 --- !u!4 &1857592183
 Transform:
   m_ObjectHideFlags: 0

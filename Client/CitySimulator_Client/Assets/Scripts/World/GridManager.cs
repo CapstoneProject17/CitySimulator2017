@@ -91,7 +91,7 @@ public class GridManager : MonoBehaviour {
 	/// <summary>
 	/// Creates the grid.
 	/// </summary>
-	void createEntireGrid(){
+	public bool createEntireGrid(){
 		size.x = cityDataManager.Size_x;
 		size.z = cityDataManager.Size_z;
 
@@ -109,7 +109,7 @@ public class GridManager : MonoBehaviour {
 				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
 				
 				MeshRenderer component = cellPrefab.GetComponent<MeshRenderer>();
-				component.material.mainTexture = roadTexture;
+				//component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
@@ -126,6 +126,7 @@ public class GridManager : MonoBehaviour {
 
 			}
 		}
+        return true;
 	}
 
 	/// <summary>
