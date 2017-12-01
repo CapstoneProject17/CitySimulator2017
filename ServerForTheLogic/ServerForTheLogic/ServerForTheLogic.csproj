@@ -73,12 +73,6 @@
     <Compile Include="Json\Updater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceFiles\Service.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ServiceFiles\MyServiceInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utilities\Clock.cs" />
     <Compile Include="Utilities\Pair.cs" />
   </ItemGroup>

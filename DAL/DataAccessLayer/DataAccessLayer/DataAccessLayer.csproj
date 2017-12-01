@@ -96,7 +96,6 @@
     <Compile Include="ClientObject\GridObjects\Buildings\IndustrialDB.cs" />
     <Compile Include="DALValidator\ValidationHelper\ProductValidator.cs" />
     <Compile Include="DALValidator\ValidationHelper\SaveStateValidator.cs" />
-    <Compile Include="IClock.cs" />
     <Compile Include="MongoDAL.cs" />
     <Compile Include="ClientObject\PersonDB.cs" />
     <Compile Include="ClientObject\GridObjects\Buildings\ResidentialDB.cs" />
