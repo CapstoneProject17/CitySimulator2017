@@ -314,14 +314,10 @@ public class CityDataManager : MonoBehaviour
         gridManager = GameObject.Find("Grid");
 
         // Server request initial
-        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
-        {
-            RequestType = "update",
-            FullUpdate = true
-        };
+        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest ("update", true);
 
 		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
-        initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
+        initialCityState = AsynchronousClient.StartClient(JsonUtility.ToJson(fullRequest));
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = false;
