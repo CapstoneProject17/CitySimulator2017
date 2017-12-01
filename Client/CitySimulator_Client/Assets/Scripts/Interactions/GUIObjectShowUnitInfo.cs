@@ -29,6 +29,8 @@ public class GUIObjectShowUnitInfo : Interaction
 
         // TODO: interact with database
         objectGUID = this.gameObject.name;
+        //get the data here
+
         Information.text = objectGUID;
     }
 

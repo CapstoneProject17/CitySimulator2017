@@ -132,15 +132,15 @@ public class CityData
 /// </summary>
 public class CityDataManager : MonoBehaviour
 {
-	// switch for testing
+    // switch for testing
     // JSON dummy String for testing
     private static string jsonString = "{\"GridLength\":99,\"GridWidth\":58,\"netHours\":0,\"NewRoads\":[{\"x\":27,\"z\":49},{\"x\":27,\"z\":56},{\"x\":28,\"z\":49},{\"x\":28,\"z\":56},{\"x\":29,\"z\":49},{\"x\":29,\"z\":56},{\"x\":30,\"z\":49},{\"x\":30,\"z\":56},{\"x\":27,\"z\":50},{\"x\":30,\"z\":50},{\"x\":27,\"z\":51},{\"x\":30,\"z\":51},{\"x\":27,\"z\":52},{\"x\":30,\"z\":52},{\"x\":27,\"z\":53},{\"x\":30,\"z\":53},{\"x\":27,\"z\":54},{\"x\":30,\"z\":54},{\"x\":27,\"z\":55},{\"x\":30,\"z\":55},{\"x\":24,\"z\":56},{\"x\":24,\"z\":63},{\"x\":25,\"z\":56},{\"x\":25,\"z\":63},{\"x\":26,\"z\":56},{\"x\":26,\"z\":63},{\"x\":27,\"z\":63},{\"x\":24,\"z\":57},{\"x\":27,\"z\":57},{\"x\":24,\"z\":58},{\"x\":27,\"z\":58},{\"x\":24,\"z\":59},{\"x\":27,\"z\":59},{\"x\":24,\"z\":60},{\"x\":27,\"z\":60},{\"x\":24,\"z\":61},{\"x\":27,\"z\":61},{\"x\":24,\"z\":62},{\"x\":27,\"z\":62},{\"x\":21,\"z\":63},{\"x\":21,\"z\":70},{\"x\":22,\"z\":63},{\"x\":22,\"z\":70},{\"x\":23,\"z\":63},{\"x\":23,\"z\":70},{\"x\":24,\"z\":70},{\"x\":21,\"z\":64},{\"x\":24,\"z\":64},{\"x\":21,\"z\":65},{\"x\":24,\"z\":65},{\"x\":21,\"z\":66},{\"x\":24,\"z\":66},{\"x\":21,\"z\":67},{\"x\":24,\"z\":67},{\"x\":21,\"z\":68},{\"x\":24,\"z\":68},{\"x\":21,\"z\":69},{\"x\":24,\"z\":69}],\"NewBuildings\":[{\"id\":\"24132329-e85a-4072-b9c8-1dab463b8443\",\"Name\":\"Pacocha Inc\",\"Point\":{\"x\":28,\"z\":54},\"Type\":\"I\",\"Rating\":0,\"IsTall\":true},{\"id\":\"0a6a8518-fc33-4d7d-bf88-ef7464f72d5e\",\"Name\":\"Hilll, Kohler and Effertz\",\"Point\":{\"x\":25,\"z\":59},\"Type\":\"C\",\"Rating\":0,\"IsTall\":true},{\"id\":\"43018e9e-b03b-45d1-b214-ae7a623d5a8a\",\"Name\":\"Residence\",\"Point\":{\"x\":22,\"z\":69},\"Type\":\"H\",\"Rating\":0,\"IsTall\":true}]}";
 
-	// measure (full or partial) of a update type.
-	private string initialCityState;
+    // measure (full or partial) of a update type.
+    private string initialCityState;
     private string partialCityState;
 
-	// detect whether there was the last update.(In hours)
+    // detect whether there was the last update.(In hours)
     private int? lastUpdate;
 
     // deserialize json to object
@@ -172,7 +172,7 @@ public class CityDataManager : MonoBehaviour
 
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
-    
+
 
     /// <summary>
     /// Gets the population.
@@ -285,21 +285,16 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-	/// <summary>
-	/// Make a request for partial update and request to the server 
-	/// </summary>
+    /// <summary>
+    /// Make a request for partial update and request to the server 
+    /// </summary>
     private void GetCityUpdate()
     {
         int lastPartialUpdate = lastUpdate ?? -1;
 
-        PartialSimulationUpdateRequest partialUpdate = new PartialSimulationUpdateRequest
-        {
-            RequestType = "update",
-            FullUpdate = false,
-            LastUpdate = lastPartialUpdate
-        };
+        PartialSimulationUpdateRequest partialUpdate = new PartialSimulationUpdateRequest("update", false, lastPartialUpdate);
 
-        partialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(partialUpdate));
+        partialCityState = AsynchronousClient.StartClient(JsonUtility.ToJson(partialUpdate));
         updateTheCity = true;
     }
 
@@ -308,22 +303,23 @@ public class CityDataManager : MonoBehaviour
 
     }
 
-	/// <summary>
-	// Awake this instance.
-	/// </summary>
-	void Awake () {
+    /// <summary>
+    // Awake this instance.
+    /// </summary>
+    void Awake()
+    {
 
         // Server request initial
-        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
+        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest("update", true);
+
+        string jsonRequest = JsonUtility.ToJson(fullRequest);
+
+        //send a initial reqeust to the server and expect data for an initial update for the application back from the server
+        initialCityState = AsynchronousClient.StartClient(jsonRequest);
+        Debug.Log(initialCityState);
+
+        if (tryParseInitialCityData())
         {
-            RequestType = "update",
-            FullUpdate = true
-        };
-
-		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
-        initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
-
-        if(tryParseInitialCityData()){
             initiateCityData();
         }
 
@@ -334,8 +330,9 @@ public class CityDataManager : MonoBehaviour
         { // if turned on for test, initiate test grid
             initiateGridForTest();
         }
-        else {  // else general grid
-        	initiateGrid ();
+        else
+        {  // else general grid
+            initiateGrid();
         }
 
         // Debug.Log(cityData.GridLength);
@@ -346,74 +343,83 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     // Start this instance.
     /// </summary>
-    void Start () {
+    void Start()
+    {
         InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
         buildingManager = GameObject.Find("BuildingManager");
         characterManager = GameObject.Find("CharacterManager");
         gridManager = GameObject.Find("Grid");
     }
 
-	/// <summary>
-	/// Update this instance.
-	/// </summary>
-	void Update(){
-		/// Will be used in the future
-		systemCurrentTimeStamp = System.DateTime.Now.Minute;
+    /// <summary>
+    /// Update this instance.
+    /// </summary>
+    void Update()
+    {
+        /// Will be used in the future
+        systemCurrentTimeStamp = System.DateTime.Now.Minute;
 
         // TODO: request update
 
-		// if(initateCity){
-            // if(turnOnTestGrid){ // if turned on for test, initiate test grid
-            //     initiateGridForTest();
-            // }
+        // if(initateCity){
+        // if(turnOnTestGrid){ // if turned on for test, initiate test grid
+        //     initiateGridForTest();
+        // }
 
-  //           if(buildingManager != null
-  //               && characterManager != null){
+        //           if(buildingManager != null
+        //               && characterManager != null){
 
-                if(runOnce){
-                    buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
-                    runOnce = false;
-                    gridManager.GetComponent<GridManager>().createRoad(1, 2);
-                    gridManager.GetComponent<GridManager>().createRoad(2, 2);
-                    gridManager.GetComponent<GridManager>().createRoad(3, 2);
-                    gridManager.GetComponent<GridManager>().createRoad(4, 2);
+        if (runOnce)
+        {
+            buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
+            runOnce = false;
+            gridManager.GetComponent<GridManager>().createRoad(1, 2);
+            gridManager.GetComponent<GridManager>().createRoad(2, 2);
+            gridManager.GetComponent<GridManager>().createRoad(3, 2);
+            gridManager.GetComponent<GridManager>().createRoad(4, 2);
 
-                }
+        }
 
-                if(runOnce2){
-                    buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
-                    runOnce = false;
-                }
+        if (runOnce2)
+        {
+            buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
+            runOnce = false;
+        }
 
-                if (Time.time >= nextTime) {
-                    nextTime += 1; 
-                    updateClock((int)nextTime);
-                }
+        if (Time.time >= nextTime)
+        {
+            nextTime += 1;
+            updateClock((int)nextTime);
+        }
 
-  //           }
-		// }
+        //           }
+        // }
 
-        if (updateTheCity) {
+        if (updateTheCity)
+        {
             cityData = JsonUtility.FromJson<CityData>(partialCityState);
             lastUpdate = cityData.netHours;
             //Update the city with the latest city data
 
 
             // TODO :Client team 
-            
+
             updateTheCity = false;
         }
 
-	}
-
-    public bool tryParseInitialCityData(){
-        
-        cityData= JsonUtility.FromJson<CityData>(initialCityState);
-        Debug.Log(cityData);
-        return cityData != null ? true:false;
     }
 
-    public bool initiateCityData(){
+    public bool tryParseInitialCityData()
+    {
+
+        cityData = JsonUtility.FromJson<CityData>(initialCityState);
+        lastUpdate = cityData.netHours;
+        Debug.Log(cityData);
+        return cityData != null ? true : false;
+    }
+
+    public bool initiateCityData()
+    {
         size_z = cityData.GridLength;
         size_x = cityData.GridWidth;
 
@@ -512,7 +518,8 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     /// Initials the grid.
     /// </summary>
-    public void initiateGrid() {
+    public void initiateGrid()
+    {
         grid = new int[size_x][];
 
         // initalize 2d array
@@ -538,7 +545,8 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     /// Initiate grid for test
     /// </summary>
-    public void initiateGridForTest() {
+    public void initiateGridForTest()
+    {
 
         // initializing and assigning arrays
         grid = new[] {
@@ -591,26 +599,31 @@ public class CityDataManager : MonoBehaviour
         return grid[x][z];
     }
 
-	/// <summary>
-	/// Turns on updateTheCity to update city 
-	/// </summary>
-	public void noticeUpdate(){
-		updateTheCity = true;
-	}
+    /// <summary>
+    /// Turns on updateTheCity to update city 
+    /// </summary>
+    public void noticeUpdate()
+    {
+        updateTheCity = true;
+    }
 
     /// <summary>
     /// update the clock's time
     /// </summary>
-    public void updateClock(int entireHours){
-        Text clock = GameObject.Find("Clock").transform.GetChild(0).GetComponent<Text>(); 
+    public void updateClock(int entireHours)
+    {
+        Text clock = GameObject.Find("Clock").transform.GetChild(0).GetComponent<Text>();
         Debug.Log(clock);
-        int days = entireHours/24;
-        int hours = entireHours%24;
+        int days = entireHours / 24;
+        int hours = entireHours % 24;
         string textForHour = "";
-        
-        if(days < 1){
+
+        if (days < 1)
+        {
             textForHour = hours + " Hours";
-        } else {
+        }
+        else
+        {
             textForHour = days + " Days " + hours + " Hours";
         }
 

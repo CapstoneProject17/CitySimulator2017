@@ -18,32 +18,57 @@ using System.Text;
 /// <summary>
 /// Contains update type.
 /// </summary>
+[Serializable]
 public class BaseRequest
 {
-    public string RequestType { get; set; }
+    public string RequestType;
+
+    public BaseRequest(string requestType)
+    {
+        RequestType = requestType;
+    }
 }
 
 /// <summary>
 /// Contains update type and update measure (full or partial).
 /// </summary>
+[Serializable]
 public class SimulationUpdateRequest : BaseRequest
 {
-    public bool FullUpdate { get; set; }
+    public bool FullUpdate;
+
+    public SimulationUpdateRequest(string requestType, bool fullUpdate): base(requestType)
+    {
+        FullUpdate = fullUpdate;
+    }
 }
 
 /// <summary>
 /// Contains last update information.
 /// </summary>
+[Serializable]
 public class PartialSimulationUpdateRequest : SimulationUpdateRequest
 {
-    public int LastUpdate { get; set; }
+    public int LastUpdate; 
+
+    public PartialSimulationUpdateRequest(string requestType, bool fullUpdate, int lastUpdate): base(requestType, fullUpdate)
+    {
+        LastUpdate = lastUpdate;
+    }
 }
 
 /// <summary>
 /// Contains resource type and resource id.
 /// </summary>
+[Serializable]
 public class DatabaseResourceRequest : BaseRequest
 {
-    public string ResourceType { get; set; }
-    public string ResourceID { get; set; }
+    public string ResourceType;
+    public string ResourceID;
+
+    public DatabaseResourceRequest(string requestType, string resourceType, string resourceId): base(requestType)
+    {
+        ResourceType = resourceType;
+        ResourceID = resourceId;
+    }
 }
