@@ -24,34 +24,19 @@ public class BuildingManager : MonoBehaviour {
 
 	private GameObject[] planes;
 
-	private GameObject buildingObject;
-
 	private Transform planeTransform;
 	// private IList<GameObject> testplanes = new List<GameObject>();
 	// private IList<GameObject> testbuildings = new List<GameObject>();
 
-	private GameObject residential1;
-	private GameObject residential2;
-	private GameObject residential3;
-	private GameObject commercial1;
-	private GameObject commercial2;
-	private GameObject commercial3;
-	private GameObject industrial1;
-	private GameObject industrial2;
-	private GameObject industrial3;
-
-	// Use this for initialization
-	void Start () {
-		// planeTransform = GameObject.Find("Plane(Clone)").transform;
-		buildingManager = GameObject.Find ("BuildingManager");
-		initializeBuildingObjects();
-		intializeBuildings ();
-	}
-
-	// Update is called once per frame
-	void Update () {
-		intializeBuildings ();
-	}
+	public GameObject residential1;
+	public GameObject residential2;
+	public GameObject residential3;
+	public GameObject commercial1;
+	public GameObject commercial2;
+	public GameObject commercial3;
+	public GameObject industrial1;
+	public GameObject industrial2;
+	public GameObject industrial3;
 
 	// Update builings
 	void updateBuildings (string id) {
@@ -61,8 +46,9 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	public void createBuilding (string GUID, int x, int z, short type, int rating) {
+	public void createBuilding (string GUID, int x, int z, int type, int rating) {
 
+		Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
 		{
@@ -104,7 +90,7 @@ public class BuildingManager : MonoBehaviour {
 				}
 
 				if(rating == 2) {
-				commercial2.name = GUID;
+				// commercial2.name = GUID;
 				instantiateBuilding (commercial2,
 									 x,
 									 0,
