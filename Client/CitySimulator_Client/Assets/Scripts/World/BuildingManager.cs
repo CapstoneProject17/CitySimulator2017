@@ -48,6 +48,9 @@ public class BuildingManager : MonoBehaviour {
 	// Create new building to on given grid location
 	public void createBuilding (string GUID, int x, int z, int type, int rating) {
 
+		planes = GameObject.FindGameObjectsWithTag ("plane");
+		GameObject go = findPlane(x,z);
+
 		Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
 		
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
@@ -58,11 +61,12 @@ public class BuildingManager : MonoBehaviour {
 			Debug.Log("1");
 				if(rating == 1) {
 					Debug.Log("res1");
+
 				residential1.name = GUID;
 				instantiateBuilding (residential1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
                	residential1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR1") as RuntimeAnimatorController;
 				}
 
@@ -70,9 +74,9 @@ public class BuildingManager : MonoBehaviour {
 					Debug.Log("res2");
 				residential2.name = GUID;
 				instantiateBuilding (residential2,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				residential2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR2") as RuntimeAnimatorController;
 				}
 
@@ -80,9 +84,9 @@ public class BuildingManager : MonoBehaviour {
 				Debug.Log("res3");			
 				residential3.name = GUID;
 				instantiateBuilding (residential3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				residential3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR3") as RuntimeAnimatorController;
 				}
 			break; 
@@ -94,9 +98,9 @@ public class BuildingManager : MonoBehaviour {
 					Debug.Log("com1");
 				commercial1.name = GUID;
 				instantiateBuilding (commercial1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				commercial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC1") as RuntimeAnimatorController;
 				}
 
@@ -104,9 +108,9 @@ public class BuildingManager : MonoBehaviour {
 					Debug.Log("com2");
 				commercial2.name = GUID;
 				instantiateBuilding (commercial2,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				commercial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC2") as RuntimeAnimatorController;
 				}
 
@@ -114,9 +118,9 @@ public class BuildingManager : MonoBehaviour {
 				Debug.Log("com3");
 				commercial3.name = GUID;
 				instantiateBuilding (commercial3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				commercial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC3") as RuntimeAnimatorController;
 				}
 			break;
@@ -128,9 +132,9 @@ public class BuildingManager : MonoBehaviour {
 				Debug.Log("ind1");				
 				industrial1.name = GUID;
 				instantiateBuilding (industrial1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				industrial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI1") as RuntimeAnimatorController;
 				}
 
@@ -138,9 +142,9 @@ public class BuildingManager : MonoBehaviour {
 					Debug.Log("ind2");
 				industrial2.name = GUID;
 				instantiateBuilding (industrial2,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				industrial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI2") as RuntimeAnimatorController;
 				}
 
@@ -148,9 +152,9 @@ public class BuildingManager : MonoBehaviour {
 					Debug.Log("ind3");
 				industrial3.name = GUID;
 				instantiateBuilding (industrial3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
+									 go.transform.localPosition.z);
 				industrial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI3") as RuntimeAnimatorController;
 				}
 			break;
