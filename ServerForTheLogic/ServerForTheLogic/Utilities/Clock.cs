@@ -15,11 +15,6 @@ namespace ServerForTheLogic.Utilities
     /// </summary>
     public class Clock : IClock
     {
-        //[JsonProperty]
-        //Updater<ClientPacket> FullUpdater;
-        //[JsonProperty]
-        //Updater<Dictionary<int, Dictionary<Guid, Point>>> PartialUpdater;
-
         [JsonProperty]
         // Ticks every second to update the current time values.
         public Timer timer;
@@ -86,7 +81,6 @@ namespace ServerForTheLogic.Utilities
         public void SaveInitialClientState()
         {
             ClientPacket packet = new ClientPacket(city);
-            //packet.ConvertPacket();
             city.SendtoDB();
             string output = packet.ConvertFullPacket();
             Console.WriteLine("~~~~~~FIRST FULL PACKET");
