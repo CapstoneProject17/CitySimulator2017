@@ -75,9 +75,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientObject\GridObjects\Building.cs" />
-    <Compile Include="ClientObject\Clock.cs" />
-    <Compile Include="ClientObject\GridObjects\Buildings\Commercial.cs" />
+    <Compile Include="ClientObject\GridObjects\BuildingDB.cs" />
+    <Compile Include="ClientObject\ClockDB.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\CommercialDB.cs" />
     <Compile Include="ClientObject\GridObject.cs" />
     <Compile Include="DALValidator\ValidationHelper\ClockValidator.cs" />
     <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\BuildingValidation\CommercialValidator.cs" />
@@ -88,16 +88,16 @@
     <Compile Include="DALValidator\ValidationHelper\GridObjectsValidation\RoadValidator.cs" />
     <Compile Include="DALValidator\ValidationHelper\GridObjectValidator.cs" />
     <Compile Include="DALValidator\ValidationHelper\PersonValidator.cs" />
-    <Compile Include="ClientObject\GridObjects\Buildings\Industrial.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\IndustrialDB.cs" />
     <Compile Include="DALValidator\ValidationHelper\ProductValidator.cs" />
     <Compile Include="DALValidator\ValidationHelper\SaveStateValidator.cs" />
+    <Compile Include="IClock.cs" />
     <Compile Include="MongoDAL.cs" />
-    <Compile Include="ClientObject\Person.cs" />
-    <Compile Include="ClientObject\Product.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ClientObject\GridObjects\Buildings\Residential.cs" />
+    <Compile Include="ClientObject\PersonDB.cs" />
+    <Compile Include="ClientObject\ProductDB.cs" />
+    <Compile Include="ClientObject\GridObjects\Buildings\ResidentialDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ClientObject\GridObjects\Road.cs" />
+    <Compile Include="ClientObject\GridObjects\RoadDB.cs" />
     <Compile Include="ClientObject\SaveState.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,10 @@ namespace ServerForTheLogic.ClientObject.Building
     /// 2017-11-12 Bill
     ///     - updated summary for all fields
     /// </summary>
-    public class Industrial : Building
+    public class IndustrialDB : BuildingDB
     {
-        public Industrial(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
-            : base(guid, xPoint, yPoint, rating, isTall, capacity)
+        public IndustrialDB(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
+            : base(guid, name, xPoint, yPoint, rating, isTall, capacity)
         {
             InventoryCount = inventoryCount;
             ProductionCost = productionCost;

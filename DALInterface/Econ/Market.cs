@@ -1,4 +1,4 @@
-﻿using ServerForTheLogic.Infrastructure;
+﻿using DALInterface.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DALInterface.Econ
 {
-    static class Market
+    public static class Market
     {
         //People will find a job here
         public static List<Business> BusinessesHiring { get; set; }

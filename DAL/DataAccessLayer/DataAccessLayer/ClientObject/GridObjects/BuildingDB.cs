@@ -9,7 +9,7 @@ namespace ServerForTheLogic.ClientObject.Building
     /// <para> Author: Bill </para>
     /// Date: 2017-11-12 
     /// </summary>
-    public class Building : GridObject
+    public class BuildingDB : GridObject
     {
         /// <summary>
         /// A building constructor. Calls base GridObject's constructor
@@ -20,13 +20,20 @@ namespace ServerForTheLogic.ClientObject.Building
         /// <param name="rating">The rating of the building</param>
         /// <param name="isTall">Boolean if the building is tall or not</param>
         /// <param name="capacity">The capacity of the building</param>
-        public Building(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint)
+        public BuildingDB(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint)
         {
+            Name = name;
             Rating = rating;
             IsTall = isTall;
             Capacity = capacity;
         }
 
+        ///<summary
+        ///
+        ///</summary>
+        public string Name { get; set; }
+
+           
         /// <summary>
         /// Rating is an int between 1 - 3
         /// </summary>            
