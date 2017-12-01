@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using DBInterface.Econ;
+using MongoDB.Bson;
 
 namespace ServerForTheLogic.ClientObject
 {
@@ -26,6 +27,11 @@ namespace ServerForTheLogic.ClientObject
             GlobalCount = globalCount;
         }
 
+        public ProductDB(Product product)
+        {
+            Name = product.ProductName;
+            GlobalCount = 0;
+        }
         /// <summary>
         /// BSON objectId stored in the database.
         /// </summary>

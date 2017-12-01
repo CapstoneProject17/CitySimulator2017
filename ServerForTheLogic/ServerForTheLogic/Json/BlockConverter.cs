@@ -49,7 +49,7 @@ namespace ServerForTheLogic.Json
             // Checks to make sure the JToken loaded doesn't represent a null value.
             if (jTok.HasValues)
             {
-                Guid guid = new Guid(jTok.Value<string>("id"));
+                Guid guid = new Guid(jTok.Value<string>("Id"));
 
                 // Checks if the Block has already been instantiated.
                 // If it has, return the existing object.

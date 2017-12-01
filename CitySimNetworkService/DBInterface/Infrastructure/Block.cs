@@ -20,8 +20,8 @@ namespace DBInterface.Infrastructure
         public static Dictionary<Guid, Block> blocks;
 
         [JsonProperty]
-        //unique object id
-        public Guid id { get; set; }
+        //unique object Id
+        public Guid Id { get; set; }
 
         //width of the landplot array in terms of grid cells
         public const int BLOCK_WIDTH = 4;
@@ -65,8 +65,8 @@ namespace DBInterface.Infrastructure
             LandPlot = new Location[BLOCK_WIDTH, BLOCK_LENGTH];
             Adjacents = new List<Block>();
             Type = BlockType.Empty;
-            id = Guid.NewGuid();
-            blocks.Add(id, this);
+            Id = Guid.NewGuid();
+            blocks.Add(Id, this);
         }
 
         /// <summary>

@@ -44,13 +44,13 @@ namespace ServerForTheLogic.Utilities
         /// days are 12 min
         /// </summary>
         [JsonProperty]
-        private UInt32 NetDays { get; set; }
+        public UInt32 NetDays { get; set; }
 
         /// <summary>
         /// The total number of years since this Clock started.
         /// </summary>
         [JsonProperty]
-        private UInt32 NetYears { get; set; }
+        public UInt32 NetYears { get; set; }
 
         [JsonProperty]
         /// <summary>
@@ -70,16 +70,28 @@ namespace ServerForTheLogic.Utilities
 
             FullUpdate = full;
             PartialUpdate = partial;
-             
+
             this.city = city;
             timer = new Timer();
-           
+
 
             timer.Interval = INTERVAL;
             timer.Elapsed += TickMinute;
 
             timer.AutoReset = true;
             timer.Stop();
+
+        }
+
+        public void SaveInitialClientState()
+        {
+            ClientPacket packet = new ClientPacket(city);
+            //packet.ConvertPacket();
+            city.SendtoDB();
+            string output = packet.ConvertFullPacket();
+            Console.WriteLine("~~~~~~FIRST FULL PACKET");
+            Console.WriteLine(output);
+            FullUpdate.Enqueue(output);
         }
 
         /// <summary>
@@ -89,7 +101,7 @@ namespace ServerForTheLogic.Utilities
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// <param name="source"> Unused. </param>
         /// <param name="e"> Unused .</param>
-        public void TickMinute(Object source, ElapsedEventArgs e)
+        internal void TickMinute(Object source, ElapsedEventArgs e)
         {
             NetMinutes++;
 
@@ -105,13 +117,13 @@ namespace ServerForTheLogic.Utilities
         /// <para>Last modified by Justin McLennan 2017-11-21</para>
         /// </summary>
         /// <para/> Last edited:  2017-11-12
-        private void TickHour()
+        internal void TickHour()
         {
             NetHours = NetMinutes / 60;
             //Console.WriteLine("Hours:\t" + NetHours);
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            Console.WriteLine("Population = " + city.AllPeople.Count);
+            //Console.WriteLine("Population = " + city.AllPeople.Count);
             foreach (Person p in city.AllPeople)
             {
                 p.ConsumeProd();
@@ -120,10 +132,11 @@ namespace ServerForTheLogic.Utilities
             //packet.ConvertPacket();
 
             string output = packet.ConvertPartialPacket();
-
-            PartialUpdate.Enqueue(output);
-            
+            Console.WriteLine("~~~~~~PARTIAL PACKET");
             Console.WriteLine(output);
+            PartialUpdate.Enqueue(output);
+
+            //Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
             if (NetHours / 24 > NetDays)
@@ -140,7 +153,7 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
-        private void TickDay()
+        internal void TickDay()
         {
             foreach (Person p in city.AllPeople)
             {
@@ -158,19 +171,21 @@ namespace ServerForTheLogic.Utilities
 
             JsonSerializer serializer = JsonSerializer.Create(settings);
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, city);
-                sw.Close();
-                // {"ExpiryDate":new Date(1230375600000),"Price":0}
-            }
+            //using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\city.json"))
+            //using (JsonWriter writer = new JsonTextWriter(sw))
+            //{
+            //    serializer.Serialize(writer, city);
+            //    sw.Close();
+            //    // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            //}
 
             //string cityJson = JsonConvert.SerializeObject(city, Formatting.Indented, settings);
             ClientPacket packet = new ClientPacket(city);
             //packet.ConvertPacket();
 
             string output = packet.ConvertFullPacket();
+            Console.WriteLine("~~~~~~FULL PACKET");
+            Console.WriteLine(output);
             FullUpdate.Enqueue(output);
 
 
@@ -179,7 +194,7 @@ namespace ServerForTheLogic.Utilities
                 TickYear();
             }
 
-           // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
+            // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
 
         /// <summary>
@@ -187,9 +202,9 @@ namespace ServerForTheLogic.Utilities
         /// </summary>
         /// <para>Written by Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
-        private void TickYear()
+        internal void TickYear()
         {
-            NetYears++;
+            NetYears = NetDays / 365;
             Console.WriteLine("Years:\t" + NetYears);
             foreach (Person p in city.AllPeople)
             {

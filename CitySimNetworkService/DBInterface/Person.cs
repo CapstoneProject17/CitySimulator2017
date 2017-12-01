@@ -70,12 +70,12 @@ namespace DBInterface
         /// <summary>
         /// Time to go to work
         /// </summary>
-        public int TimeToWork { get; }
+        public int StartShift { get; }
 
         /// <summary>
         /// Time to go Home
         /// </summary>
-        public int TimeToHome { get; }
+        public int EndShift { get; }
 
         /// <summary>
         /// Rate at which Food is Consumed daily
@@ -118,8 +118,8 @@ namespace DBInterface
             //Calculate Salary
 
             Funds = new Randomizer().Number(1000, 10000);
-            TimeToWork = new Randomizer().Number(0, 23);
-            TimeToHome = (TimeToWork + 8) % 24;
+            StartShift = new Randomizer().Number(0, 23);
+            EndShift = (StartShift + 8) % 24;
         }
 
         /// <summary>
@@ -197,6 +197,7 @@ namespace DBInterface
         public bool AgeDeathTick()
         {
             DaysLeft--;
+            Age++;
             if (DaysLeft <= 0)
                 isDead = true;
             return isDead;

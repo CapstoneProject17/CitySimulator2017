@@ -10,16 +10,16 @@
         /// <param name="z"></param>
         public Point(int x, int z)
         {
-            this.x = x;
-            this.z = z;
+            this.X = x;
+            this.Z = z;
         }
 
-        public int x { get; }
-        public int z { get; }
+        public int X { get; }
+        public int Z { get; }
 
         public override string ToString()
         {
-            return "X: " + x + " Z: " + z;
+            return "X: " + X + " Z: " + Z;
         }
     }
 }
