@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427147, b: 0.56452364, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 400032, guid: 30e9b345bb66b4edda662342eb984b73, type: 3}
+  characterManager: {fileID: 17867333}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -623,11 +624,10 @@ MonoBehaviour:
   cellPrefab: {fileID: 4143390876923042, guid: 7a1cbdc745d894d2381d5b1db83a443a, type: 2}
   size: {x: 0, y: 0, z: 0}
   roadTexture: {fileID: 2800000, guid: a4d1dcfb2222b41aba7162a5db220bc2, type: 3}
-  onOffSwitch: 0
-  cityDataManager: {fileID: 0}
-  parentGrid: {fileID: 0}
   turnOnGrid: 0
   turnOffGrid: 0
+  cityDataManager: {fileID: 127092658}
+  parentGrid: {fileID: 127092655}
 --- !u!114 &127092658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2713,24 +2713,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d068f5b6073545079b06b570e1484da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingManager: {fileID: 0}
-  residential1: {fileID: 1584187718163576, guid: 5d725b20dcd434edcb014bc482bedefc,
+  buildingManager: {fileID: 1857592181}
+  residential1: {fileID: 1056641790476886, guid: 238b714ee23b7413b8fc4e6f0b92319a,
     type: 2}
-  residential2: {fileID: 1601140144005222, guid: 44b68154ab1404691aa1652cbf62d82b,
+  residential2: {fileID: 1519847380221910, guid: 6c28dd7165891468bbabc62bf5d65a2c,
     type: 2}
-  residential3: {fileID: 1005903105797776, guid: bb5372eaa1e9b4fbeae0efdd85fb9c20,
+  residential3: {fileID: 1820120386455652, guid: 59dd8205f94874d17a6d8e56d16f8fca,
     type: 2}
-  commercial1: {fileID: 1292991448919594, guid: aafb56af203cd4394b975958832443d0,
+  commercial1: {fileID: 1134223571499180, guid: da6274ef7778e470a888dfdef4b70d49,
     type: 2}
-  commercial2: {fileID: 1701901802644816, guid: a43edb408366e40f2be7b93907b2ea11,
+  commercial2: {fileID: 1662130287229594, guid: dc304550d7abd4252ac41511a7e6cb06,
     type: 2}
-  commercial3: {fileID: 1803008691484076, guid: 2b0f8f7e6749240b5abf062b11f70dd6,
+  commercial3: {fileID: 1367884608666102, guid: 9107b1b04945249df87e0001352197bc,
     type: 2}
-  industrial1: {fileID: 1466271320598484, guid: 5b2dc72b2d95442c28b5817b00c51026,
+  industrial1: {fileID: 1962621831253164, guid: be51e9cfdb19a49499a07e08ba408865,
     type: 2}
-  industrial2: {fileID: 1951652561853310, guid: 9c08681803dda48a8b4920874e62496d,
+  industrial2: {fileID: 1044826462618652, guid: 876a678b0e67d453e8f358b8f68a870b,
     type: 2}
-  industrial3: {fileID: 1926836989916964, guid: f79bd5f3ba20440dfae99fa196e2157b,
+  industrial3: {fileID: 1122977556802630, guid: 70e4290f8c543408a8d6d399c52340e7,
     type: 2}
 --- !u!4 &1857592183
 Transform:
