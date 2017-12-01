@@ -270,8 +270,8 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-    public bool runOnce;
-    public bool runOnce2;
+    public bool runOnce = false;
+    public bool runOnce2 = false;
 
     /// <summary>
     /// Gets or sets the humans.
@@ -468,9 +468,10 @@ public class CityDataManager : MonoBehaviour
     public bool updateCityData(){
 
         // assign road
-        foreach (Point point in cityData.NewRoads)
-        {
-            grid[point.x][point.z] = 0;
+        foreach (Point point in cityData.NewRoads) {
+            if(grid[point.x][point.z] != null) {
+                grid[point.x][point.z] = 0;
+            }
         }
 
         // assign building
