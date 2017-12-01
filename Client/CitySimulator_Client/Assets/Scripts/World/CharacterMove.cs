@@ -19,6 +19,8 @@ using UnityEngine;
 /// </summary>
 public class CharacterMove : MonoBehaviour {
 
+	public bool StartMove = false;
+	public bool StartBFS = false;
 	// X axis of destination
 	private static int x_dest;
 	/// <summary>
@@ -65,8 +67,6 @@ public class CharacterMove : MonoBehaviour {
 	/// For now, retrieve information at Start.
 	/// </summary>
 	void Start() {
-		bfs.OriginalPlane = findCurrentPlane();
-		bfs.Start ();
 
 	}
 
@@ -77,7 +77,18 @@ public class CharacterMove : MonoBehaviour {
 	/// Move to the location back and forth.
 	/// </summary>
 	void Update() {
-		move ();
+
+		if(StartBFS){
+			bfs.OriginalPlane = findCurrentPlane();
+			bfs.Start ();
+			StartBFS = false;
+			StartMove = true;
+		}
+
+		if(StartMove){
+			move ();
+		}
+
 	}
 
 	/// <summary>

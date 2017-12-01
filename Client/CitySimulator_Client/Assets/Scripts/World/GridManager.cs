@@ -28,9 +28,13 @@ public class GridManager : MonoBehaviour {
 	// Size for the cell
 	public Vector3 size;
 
+	// texture for road
 	public Texture roadTexture;
+	
+	// grid system switch
+	public bool turnOnGrid = true;
+	public bool turnOffGrid;
 
-	public bool onOffSwitch;
 	
 // not using now
 //	public int gridWidth;
@@ -41,21 +45,11 @@ public class GridManager : MonoBehaviour {
 	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
-	public bool turnOnGrid;
-	public bool turnOffGrid;
-
-	// Use this for initialization
-	void Start () {
-		parentGrid = GameObject.Find ("Grid");
-		cityDataManager = this.GetComponent<CityDataManager> ();
-		//ShowGrid (false);
-	}
-
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
 	void Update(){
-
+		//ShowGrid (false);
 		if(turnOnGrid){
 			turnEntireGrid(true);
 			turnOnGrid=false;
@@ -63,30 +57,7 @@ public class GridManager : MonoBehaviour {
 			turnEntireGrid(false);
 			turnOffGrid=false;
 		}
-
 	}
-
-	public void createRoad(int x, int z){
-		Debug.Log("Grid created at " + x + " " + z);
-		cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = "0";
-		cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";	
-
-		// put the tag plane on the object
-		cellPrefab.tag = "plane";
-			
-		// set color index to GridColor to color the grid
-		cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
-
-		// creates each cell of the grid
-	 	Instantiate(cellPrefab, 
-					new Vector3(
-					x + (cellPrefab.localScale.x * x)*8,
-					0,
-					z + (cellPrefab.localScale.z * z)*8),
-					Quaternion.identity,
-					parentGrid.transform);	            			
-	}
-
 
 	/// <summary>
 	/// Creates the grid.
@@ -97,19 +68,19 @@ public class GridManager : MonoBehaviour {
 
 		for(int x = 0; x < size.x; x++){
 			for(int z = 0; z < size.z; z++){
-				
+				string type = cityDataManager.getIndexOfXZ(x, z).ToString();
+
 				// apply text to the each plane
-				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = cityDataManager.getIndexOfXZ(x, z).ToString();
+				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = type;
 				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";				
 
 				// put the tag plane on the object
 				cellPrefab.tag = "plane";
-					
 				// set color index to GridColor to color the grid
-				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
+				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(type);
 				
 				MeshRenderer component = cellPrefab.GetComponent<MeshRenderer>();
-				//component.material.mainTexture = roadTexture;
+				// component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
@@ -119,37 +90,51 @@ public class GridManager : MonoBehaviour {
 							z + (cellPrefab.localScale.z * z)*8),
 							Quaternion.identity,
 							parentGrid.transform);
-
-				cellPrefab.GetChild (0).GetComponent<MeshRenderer>().enabled = onOffSwitch;
-				cellPrefab.GetChild (1).GetComponent<MeshRenderer>().enabled = onOffSwitch;
-
-
 			}
 		}
-        return true;
+
+		turnEntireGrid(true);
+
+		return true;
+	}
+
+	/// <summary>
+	/// Update the grid.
+	/// </summary>
+	public bool updateEntireGrid(){
+
+		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
+		Debug.Log("Destory: " + planes.Length);
+		foreach(GameObject plane in planes)
+			Destroy(plane);
+
+		createEntireGrid();
+		
+		return true;
 	}
 
 	/// <summary>
 	/// Shows the grid.
 	/// </summary>
-	void turnEntireGrid(bool on){
+	public void turnEntireGrid(bool on){
 
-		this.onOffSwitch = on;
 		// important this will inactivate all grid objects, so the building and other objects will not be rendered.
 		// parentGrid.SetActive(onOff);
 		GameObject[] planes = GameObject.FindGameObjectsWithTag ("plane");
 
 		foreach (GameObject plane in planes) {
 			Transform planeTransform = plane.transform;
+			string type = planeTransform.GetChild(0).GetComponent<TextMesh>().text;
 
-			if(planeTransform.GetChild(0).GetComponent<TextMesh>().text != "0"){
-				MeshRenderer component = plane.GetComponent<MeshRenderer>();
-				component.enabled = on;
-			} else {
+
+			if(type == "0"){
 				MeshRenderer component = plane.GetComponent<MeshRenderer>();
 				component.material.mainTexture = roadTexture;
-			}
-
+				component.enabled = true;
+			} else if ( type != "0"){
+				MeshRenderer component = plane.GetComponent<MeshRenderer>();
+				component.enabled = on;
+			} 
 			planeTransform.GetChild (0).GetComponent<MeshRenderer>().enabled = on;
 			planeTransform.GetChild (1).GetComponent<MeshRenderer>().enabled = on;
 

@@ -137,10 +137,10 @@ public class CityDataManager : MonoBehaviour
 {
     // switch for testing
     // JSON dummy String for testing
-    private static string jsonString = "{\"GridLength\":50,\"GridWidth\":49,\"NetHours\":0,\"NewRoads\":[{\"x\":24,\"z\":21},{\"x\":24,\"z\":28},{\"x\":25,\"z\":21},{\"x\":25,\"z\":28},{\"x\":26,\"z\":21},{\"x\":26,\"z\":28},{\"x\":27,\"z\":21},{\"x\":27,\"z\":28},{\"x\":24,\"z\":22},{\"x\":27,\"z\":22},{\"x\":24,\"z\":23},{\"x\":27,\"z\":23},{\"x\":24,\"z\":24},{\"x\":27,\"z\":24},{\"x\":24,\"z\":25},{\"x\":27,\"z\":25},{\"x\":24,\"z\":26},{\"x\":27,\"z\":26},{\"x\":24,\"z\":27},{\"x\":27,\"z\":27},{\"x\":21,\"z\":14},{\"x\":21,\"z\":21},{\"x\":22,\"z\":14},{\"x\":22,\"z\":21},{\"x\":23,\"z\":14},{\"x\":23,\"z\":21},{\"x\":24,\"z\":14},{\"x\":21,\"z\":15},{\"x\":24,\"z\":15},{\"x\":21,\"z\":16},{\"x\":24,\"z\":16},{\"x\":21,\"z\":17},{\"x\":24,\"z\":17},{\"x\":21,\"z\":18},{\"x\":24,\"z\":18},{\"x\":21,\"z\":19},{\"x\":24,\"z\":19},{\"x\":21,\"z\":20},{\"x\":24,\"z\":20},{\"x\":21,\"z\":7},{\"x\":22,\"z\":7},{\"x\":23,\"z\":7},{\"x\":24,\"z\":7},{\"x\":21,\"z\":8},{\"x\":24,\"z\":8},{\"x\":21,\"z\":9},{\"x\":24,\"z\":9},{\"x\":21,\"z\":10},{\"x\":24,\"z\":10},{\"x\":21,\"z\":11},{\"x\":24,\"z\":11},{\"x\":21,\"z\":12},{\"x\":24,\"z\":12},{\"x\":21,\"z\":13},{\"x\":24,\"z\":13}],\"NewBuildings\":[{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Mohr - Cole\",\"Point\":{\"x\":26,\"z\":22},\"Type\":\"I\",\"id\":\"bf6057e8-01f5-4527-8267-b646e2a26549\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Schmitt, Anderson and Ankunding\",\"Point\":{\"x\":22,\"z\":15},\"Type\":\"C\",\"id\":\"fded6fc8-c17a-461d-a3bf-ff7c5d3dd7dd\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"x\":23,\"z\":11},\"Type\":\"H\",\"id\":\"eb787b72-09cb-4449-af75-becce92431a3\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"x\":27,\"z\":14},\"Type\":\"H\",\"id\":\"cbd444ed-8478-4bb3-b24a-28d8d5aa97ed\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Haag, Beahan and Schmidt\",\"Point\":{\"x\":27,\"z\":28},\"Type\":\"C\",\"id\":\"355acd8d-37e7-4dca-ac85-5a368394126d\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Legros - Nikolaus\",\"Point\":{\"x\":24,\"z\":26},\"Type\":\"I\",\"id\":\"90d5132d-8181-437b-97ea-c3b2c93eeff0\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"x\":30,\"z\":18},\"Type\":\"H\",\"id\":\"6172a91b-7fe5-4bb0-9335-d9dd3c6a3cab\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Greenfelder and Sons\",\"Point\":{\"x\":29,\"z\":27},\"Type\":\"C\",\"id\":\"8f11a6a4-b4c8-4707-b54b-0101be8f8476\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Reichert - Nolan\",\"Point\":{\"x\":27,\"z\":24},\"Type\":\"I\",\"id\":\"bf0eb97e-b38d-42f0-b5c8-dd89b2daca1f\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"x\":28,\"z\":19},\"Type\":\"H\",\"id\":\"7d3b5b35-257c-4a44-96e1-bbf7ee604559\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Yundt, Collier and Vandervort\",\"Point\":{\"x\":29,\"z\":22},\"Type\":\"C\",\"id\":\"2dc6ec06-7623-43e3-bb32-16d3abc16495\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Jacobi, Rutherford and McCullough\",\"Point\":{\"x\":27,\"z\":28},\"Type\":\"I\",\"id\":\"b2f37a5e-f899-4f4a-9fdd-e8d022f173c5\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"x\":30,\"z\":21},\"Type\":\"H\",\"id\":\"731ae43c-7eba-46a4-8a05-d5877a517f60\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Heaney LLC\",\"Point\":{\"x\":29,\"z\":24},\"Type\":\"C\",\"id\":\"03504da5-1ec8-4623-857f-43b60a5db873\"},{\"Rating\":0,\"Capacity\":0,\"IsTall\":true,\"Name\":\"Heaney - Bogan\",\"Point\":{\"x\":25,\"z\":22},\"Type\":\"I\",\"id\":\"d7a2382b-9dd6-486f-821d-43825fa5c8c5\"}],\"PeopleMoving\":[{\"Id\":\"0fc0e5db-024a-417f-9ef2-394dbe637949\",\"Origin\":{\"x\":29,\"z\":18},\"Destination\":{\"x\":26,\"z\":22}},{\"Id\":\"4eafb343-70a1-4051-a4b1-6767de1d1303\",\"Origin\":{\"x\":26,\"z\":22},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"ab137598-309e-4277-82f4-a5f190c117ee\",\"Origin\":{\"x\":29,\"z\":18},\"Destination\":{\"x\":26,\"z\":22}},{\"Id\":\"c9eaf622-de1c-47bf-9b60-2bffa5f0e6d1\",\"Origin\":{\"x\":22,\"z\":15},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"5ab5bffc-f91c-49c0-921c-106d537f89dd\",\"Origin\":{\"x\":22,\"z\":15},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"a0e92f5a-5d52-4d59-8add-897115758b58\",\"Origin\":{\"x\":22,\"z\":15},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"d72ed02f-7047-4dbe-b62c-b3fbd4e90dea\",\"Origin\":{\"x\":22,\"z\":15},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"19a1d838-1575-4396-8741-31e1c351c7fd\",\"Origin\":{\"x\":29,\"z\":18},\"Destination\":{\"x\":26,\"z\":22}},{\"Id\":\"7fb3c484-8c19-4ae1-9aa7-378d2e36114f\",\"Origin\":{\"x\":29,\"z\":18},\"Destination\":{\"x\":26,\"z\":22}},{\"Id\":\"3414daf1-0e52-4120-9615-93ceece6cc27\",\"Origin\":{\"x\":29,\"z\":18},\"Destination\":{\"x\":22,\"z\":15}},{\"Id\":\"1452ef64-c61d-49ee-88b5-af9db9dd6b20\",\"Origin\":{\"x\":22,\"z\":15},\"Destination\":{\"x\":29,\"z\":18}},{\"Id\":\"9fd1c6c5-d5e4-47f0-bbc3-9c00e9e7b12a\",\"Origin\":{\"x\":27,\"z\":14},\"Destination\":{\"x\":27,\"z\":28}},{\"Id\":\"9651aefd-e5c0-48b6-b372-1da02adcdd40\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":27,\"z\":14}},{\"Id\":\"ad00871c-e04a-4c6a-b5ef-0158d070ec15\",\"Origin\":{\"x\":24,\"z\":26},\"Destination\":{\"x\":27,\"z\":14}},{\"Id\":\"6b973e86-4388-47fc-b5f4-ba60e83260bd\",\"Origin\":{\"x\":30,\"z\":18},\"Destination\":{\"x\":29,\"z\":27}},{\"Id\":\"a036659b-25b4-444a-b651-713a4f5fb841\",\"Origin\":{\"x\":30,\"z\":18},\"Destination\":{\"x\":29,\"z\":27}},{\"Id\":\"1bb12952-6c52-4ba1-87ae-bbfcc058dc40\",\"Origin\":{\"x\":30,\"z\":18},\"Destination\":{\"x\":27,\"z\":24}},{\"Id\":\"8783c972-0a90-409f-9588-663ed1e7696d\",\"Origin\":{\"x\":30,\"z\":18},\"Destination\":{\"x\":27,\"z\":24}},{\"Id\":\"1c558b2b-3de4-4d9c-acfb-273a17cae0ce\",\"Origin\":{\"x\":29,\"z\":27},\"Destination\":{\"x\":30,\"z\":18}},{\"Id\":\"546cdd01-d5dd-4b84-af2b-b61e8401de99\",\"Origin\":{\"x\":30,\"z\":18},\"Destination\":{\"x\":29,\"z\":27}},{\"Id\":\"0bd3bcd2-3242-4d01-916e-c9d6b6f027b8\",\"Origin\":{\"x\":29,\"z\":27},\"Destination\":{\"x\":30,\"z\":18}},{\"Id\":\"0dba873c-bef7-4b9a-8581-82671485e193\",\"Origin\":{\"x\":29,\"z\":27},\"Destination\":{\"x\":30,\"z\":18}},{\"Id\":\"3fba05e1-233b-4d6c-b5e6-b5af578175a9\",\"Origin\":{\"x\":27,\"z\":24},\"Destination\":{\"x\":30,\"z\":18}},{\"Id\":\"b399dbec-421f-49c0-9956-3bf30c2135da\",\"Origin\":{\"x\":27,\"z\":24},\"Destination\":{\"x\":30,\"z\":18}},{\"Id\":\"9195ce84-d895-4621-bd9a-ddabce07049c\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"0ea63f25-a95e-4016-9757-25ff2a565d4f\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":29,\"z\":22}},{\"Id\":\"f0c1a9b2-3e3f-4096-9c9b-605cd58bee9d\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":27,\"z\":28}},{\"Id\":\"b781537e-7649-4444-ac12-f8898f656a1d\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"711d26a8-fb1d-4e3a-ad72-05625337e319\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"58bac41a-de7b-4cf8-b94d-86af8bda1133\",\"Origin\":{\"x\":29,\"z\":22},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"69a4c645-f2d1-4e79-99c6-21078ba221e4\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"3bdfb487-e369-4658-9a33-ac57919ead83\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":29,\"z\":22}},{\"Id\":\"b76e6223-c03e-42e5-90a9-a44b09b47286\",\"Origin\":{\"x\":27,\"z\":28},\"Destination\":{\"x\":28,\"z\":19}},{\"Id\":\"cae2de95-55c6-4914-accf-4ad91a913fb5\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":29,\"z\":22}},{\"Id\":\"4a25eb94-6646-43eb-aa91-eef13f697b41\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":27,\"z\":28}},{\"Id\":\"407c1bdc-b5da-4504-8e73-2df1b18a0165\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":27,\"z\":28}},{\"Id\":\"d324e77a-9c0f-4214-9734-0ed6e382c393\",\"Origin\":{\"x\":28,\"z\":19},\"Destination\":{\"x\":27,\"z\":28}},{\"Id\":\"8e7bd824-9f04-443b-87c9-1c1abb44b6ef\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":29,\"z\":24}},{\"Id\":\"a8c07cc2-7e41-4bd1-aa63-677d6a08a98d\",\"Origin\":{\"x\":29,\"z\":24},\"Destination\":{\"x\":30,\"z\":21}},{\"Id\":\"898fe8d0-c81a-4e0d-99fd-b37c25d0f811\",\"Origin\":{\"x\":25,\"z\":22},\"Destination\":{\"x\":30,\"z\":21}},{\"Id\":\"1e122435-a7ee-4e1a-897f-f6dff89441b2\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":29,\"z\":24}},{\"Id\":\"4d1a2f66-f445-481e-832f-f62d5fa7d3d9\",\"Origin\":{\"x\":29,\"z\":24},\"Destination\":{\"x\":30,\"z\":21}},{\"Id\":\"41facc6d-fd76-4e07-9544-9f11bd9eaf8a\",\"Origin\":{\"x\":29,\"z\":24},\"Destination\":{\"x\":30,\"z\":21}},{\"Id\":\"566ca93e-ca5d-41ef-94ed-f22630e972a1\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":25,\"z\":22}},{\"Id\":\"6ad6907c-4325-4d2e-9a24-4795bf2517ae\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":25,\"z\":22}},{\"Id\":\"43c1500e-dabf-4628-9ced-4ae8ee1f5bb4\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":25,\"z\":22}},{\"Id\":\"c08266e1-85a1-49cd-8674-3e57fd3d4649\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":25,\"z\":22}},{\"Id\":\"b7b7c001-a1ee-43bd-959f-3da06af2e76e\",\"Origin\":{\"x\":30,\"z\":21},\"Destination\":{\"x\":25,\"z\":22}}]}";
-
-    // measure (full or partial) of a update type.
-    private string initialCityState;
+    private static string jsonString = "{\"GridLength\":50,\"GridWidth\":49,\"NetHours\":0,\"NewRoads\":[{\"X\":24,\"Z\":21},{\"X\":24,\"Z\":28},{\"X\":25,\"Z\":21},{\"X\":25,\"Z\":28},{\"X\":26,\"Z\":21},{\"X\":26,\"Z\":28},{\"X\":27,\"Z\":21},{\"X\":27,\"Z\":28},{\"X\":24,\"Z\":22},{\"X\":27,\"Z\":22},{\"X\":24,\"Z\":23},{\"X\":27,\"Z\":23},{\"X\":24,\"Z\":24},{\"X\":27,\"Z\":24},{\"X\":24,\"Z\":25},{\"X\":27,\"Z\":25},{\"X\":24,\"Z\":26},{\"X\":27,\"Z\":26},{\"X\":24,\"Z\":27},{\"X\":27,\"Z\":27},{\"X\":21,\"Z\":21},{\"X\":21,\"Z\":28},{\"X\":22,\"Z\":21},{\"X\":22,\"Z\":28},{\"X\":23,\"Z\":21},{\"X\":23,\"Z\":28},{\"X\":21,\"Z\":22},{\"X\":21,\"Z\":23},{\"X\":21,\"Z\":24},{\"X\":21,\"Z\":25},{\"X\":21,\"Z\":26},{\"X\":21,\"Z\":27},{\"X\":24,\"Z\":14},{\"X\":25,\"Z\":14},{\"X\":26,\"Z\":14},{\"X\":27,\"Z\":14},{\"X\":24,\"Z\":15},{\"X\":27,\"Z\":15},{\"X\":24,\"Z\":16},{\"X\":27,\"Z\":16},{\"X\":24,\"Z\":17},{\"X\":27,\"Z\":17},{\"X\":24,\"Z\":18},{\"X\":27,\"Z\":18},{\"X\":24,\"Z\":19},{\"X\":27,\"Z\":19},{\"X\":24,\"Z\":20},{\"X\":27,\"Z\":20}],\"NewBuildings\":[{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Tremblay, Hudson and Abernathy\",\"Point\":{\"X\":25,\"Z\":24},\"Type\":\"I\",\"Id\":\"e50bd0d7-246a-4f0f-a4e6-2718416f4151\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Davis, Grimes and Champlin\",\"Point\":{\"X\":22,\"Z\":24},\"Type\":\"C\",\"Id\":\"5bdb506e-4df0-4c9b-8699-c880df2b8c95\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"X\":25,\"Z\":16},\"Type\":\"H\",\"Id\":\"4598989a-309f-4293-9150-736081c2fb58\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"X\":26,\"Z\":15},\"Type\":\"H\",\"Id\":\"5377f77d-44fd-4719-8dc0-48a4a880b30d\"}],\"PeopleMoving\":[{\"Id\":\"15304cdf-2a98-4c92-8dae-a7a101d21cc6\",\"Origin\":{\"X\":25,\"Z\":16},\"Destination\":{\"X\":25,\"Z\":24}},{\"Id\":\"153dfafa-a27f-442f-aaa4-fa0fc750cf7b\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"e69d08a1-7fef-4ebb-9907-32ef1912f57a\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"d1b55e8e-4ac9-4e60-bcc2-c386a0c42c92\",\"Origin\":{\"X\":25,\"Z\":16},\"Destination\":{\"X\":25,\"Z\":24}},{\"Id\":\"0991a29e-7fad-4d79-8fd4-effb3b220b2a\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"502ad4d0-8adf-45c8-82a9-7be7ad64e750\",\"Origin\":{\"X\":22,\"Z\":24},\"Destination\":{\"X\":26,\"Z\":15}},{\"Id\":\"091b0c4d-6912-4953-a1c3-08f207fbbde0\",\"Origin\":{\"X\":22,\"Z\":24},\"Destination\":{\"X\":26,\"Z\":15}},{\"Id\":\"3f4683fd-09e2-4038-a53c-2d4dd98397fa\",\"Origin\":{\"X\":26,\"Z\":15},\"Destination\":{\"X\":22,\"Z\":24}}]}";
+    
+	// measure (full or partial) of a update type.
+	private string initialCityState;
     private string partialCityState;
 
     // detect whether there was the last update.(In hours)
@@ -270,6 +270,7 @@ public class CityDataManager : MonoBehaviour
     }
 
     public bool runOnce = true;
+    public bool runOnce2 = true;
 
     /// <summary>
     /// Gets or sets the humans.
@@ -304,16 +305,23 @@ public class CityDataManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    // Awake this instance.
-    /// </summary>
-    void Awake()
-    {
+	/// <summary>
+	// Awake this instance.
+	/// </summary>
+	void Awake () {
         buildingManager = GameObject.Find("BuildingManager");
         characterManager = GameObject.Find("CharacterManager");
         gridManager = GameObject.Find("Grid");
 
+        // Server request initial
+        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
+        {
+            RequestType = "update",
+            FullUpdate = true
+        };
 
+		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
+        initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = false;
@@ -327,72 +335,77 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     // Start this instance.
     /// </summary>
-    void Start()
-    {
+    void Start () {
         InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
-        // Server request initial
-        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest("update", true);
-        //send a initial reqeust to the server and expect data for an initial update for the application back from the server
-        initialCityState = AsynchronousClient.StartClient(JsonUtility.ToJson(fullRequest));
-        if (tryParseInitialCityData())
-        {
-            initiateGrid();
+        if(tryParseInitialCityData(jsonString)){
+            initiateGrid();  
             updateCityData();
         }
-
+        
     }
 
-    /// <summary>
-    /// Update this instance.
-    /// </summary>
-    void Update()
-    {
-        /// Will be used in the future
-        systemCurrentTimeStamp = System.DateTime.Now.Minute;
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
+	void Update() {
+		/// Will be used in the future
+		systemCurrentTimeStamp = System.DateTime.Now.Minute;
 
         // TODO: request update
 
-        if (runOnce)
-            if (tryParseInitialCityData())
-            {
-                if (gridManager.GetComponent<GridManager>().createEntireGrid())
-                {
-                    initiateGrid();
-                    updateCityData();
-                    updateCity();
-                }
-                runOnce = false;
+        if(runOnce)
+        if(tryParseInitialCityData(jsonString)){
+            if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+                updateCityData();
+                updateCity();
             }
-        // if(initateCity){
-        // if(turnOnTestGrid){ // if turned on for test, initiate test grid
-        //     initiateGridForTest();
-        // }
+            runOnce = false;
+        }
+
+        if(runOnce2){
+            initiateGridForTest();
+
+            if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+                 updateCityForTest();
+            }
+            runOnce2 = false;
+        }
+
+        if (Time.time >= nextTime) {
+            nextTime += 1; 
+            updateClock((int)nextTime);
+        }
+
+		// if(initateCity){
+            // if(turnOnTestGrid){ // if turned on for test, initiate test grid
+            //     initiateGridForTest();
+            // }
 
         //           if(buildingManager != null
         //               && characterManager != null){
 
-        // if(runOnce){
-        //     buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
-        //     runOnce = false;
-        //     gridManager.GetComponent<GridManager>().createRoad(1, 2);
-        //     gridManager.GetComponent<GridManager>().createRoad(2, 2);
-        //     gridManager.GetComponent<GridManager>().createRoad(3, 2);
-        //     gridManager.GetComponent<GridManager>().createRoad(4, 2);
+                // if(runOnce){
+                //     buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
+                //     runOnce = false;
+                //     gridManager.GetComponent<GridManager>().createRoad(1, 2);
+                //     gridManager.GetComponent<GridManager>().createRoad(2, 2);
+                //     gridManager.GetComponent<GridManager>().createRoad(3, 2);
+                //     gridManager.GetComponent<GridManager>().createRoad(4, 2);
 
-        // }
+                // }
 
-        // if(runOnce2){
-        //     buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
-        //     runOnce = false;
-        // }
+                // if(runOnce2){
+                //     buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
+                //     runOnce = false;
+                // }
 
-        // if (Time.time >= nextTime) {
-        //     nextTime += 1; 
-        //     updateClock((int)nextTime);
-        // }
+                // if (Time.time >= nextTime) {
+                //     nextTime += 1; 
+                //     updateClock((int)nextTime);
+                // }
 
-        //           }
-        // }
+  //           }
+		// }
 
         // if (updateTheCity) {
         //     cityData = JsonUtility.FromJson<CityData>(partialCityState);
@@ -401,31 +414,30 @@ public class CityDataManager : MonoBehaviour
 
 
         //     // TODO :Client team 
-
+            
         //     updateTheCity = false;
         // }
 
-    }
+	}
 
     /// <summary>
     /// try to parse initial city data and returns true false depends on succeed or not
     /// <returns>true false bool for succeed or not</returns>
     /// </summary>
-    public bool tryParseInitialCityData()
-    {
+    public bool tryParseInitialCityData(string jstring){
+        
+        cityData= JsonUtility.FromJson<CityData>(jstring);
 
-        cityData = JsonUtility.FromJson<CityData>(initialCityState);
-        lastUpdate = cityData.NetHours;
-        if (cityData == null)
+        if(cityData == null)
             Debug.Log(cityData);
-        return cityData != null ? true : false;
+
+        return cityData != null ? true:false;
     }
 
     /// <summary>
     /// Initials the grid.
     /// </summary>
-    public void initiateGrid()
-    {
+    public void initiateGrid() {
 
         size_x = cityData.GridWidth;
         size_z = cityData.GridLength;
@@ -443,13 +455,12 @@ public class CityDataManager : MonoBehaviour
         {
             for (int z = size_z - 1; z >= 0; z--)
             {
-                grid[x][z] = -1;
+                grid[x][z] =  -1;          
             }
         }
     }
 
-    public bool updateCityData()
-    {
+    public bool updateCityData(){
 
         // assign road
         foreach (Point point in cityData.NewRoads)
@@ -495,8 +506,7 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     /// Creates actual city based on data
     /// </summary>
-    public bool updateCity()
-    {
+    public bool updateCity(){
 
         // new building
         foreach (NewBuilding building in cityData.NewBuildings)
@@ -510,37 +520,30 @@ public class CityDataManager : MonoBehaviour
             //         + building.Rating + " "
             //         + building.IsTall);
 
-            if (building.Type.Equals("H"))
-            {
+            if (building.Type.Equals("H")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
                                                                                 building.Point.x,
                                                                                 building.Point.z,
                                                                                 1,
                                                                                 building.Rating);
-            }
-            else if (building.Type.Equals("C"))
-            {
+            } else if (building.Type.Equals("C")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
                                                                                 building.Point.x,
                                                                                 building.Point.z,
                                                                                 2,
                                                                                 building.Rating);
-            }
-            else if (building.Type.Equals("I"))
-            {
+            } else if (building.Type.Equals("I")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
                                                                                 building.Point.x,
                                                                                 building.Point.z,
                                                                                 3,
-                                                                                building.Rating);
-            }
-            else
-            {
+                                                                                building.Rating);   
+            } else {
                 Debug.Log("CityDataManager: non deifined building");
             }
 
         }
-
+        
         // new character
         foreach (PersonTravel person in cityData.PeopleMoving)
         {
@@ -555,37 +558,78 @@ public class CityDataManager : MonoBehaviour
             characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.x, person.Origin.z, person.Destination.x, person.Destination.z);
         }
 
-
+        
         return true;
     }
 
 
-
     /// <summary>
-    /// Turns on updateTheCity to update city 
+    /// Creates actual city based on data
     /// </summary>
-    public void noticeUpdate()
-    {
-        updateTheCity = true;
+    public bool updateCityForTest(){
+
+        int indexB = 0;
+		int indexP = 0;
+        // new building
+        for (int x = 0; x < size_x; x++)
+        {
+            for (int z = 0; z < size_z; z++){
+                
+                if(grid[x][z] >= 1 && grid[x][z] <= 3){
+					int rate = UnityEngine.Random.Range (0, 3);
+					buildingManager.GetComponent<BuildingManager>().createBuilding("TEST BUILDING" + indexB++,
+                                                                                x,
+                                                                                z,
+                                                                                grid[x][z],
+																				rate );
+                }
+
+                if(x < 24 && z < 13)
+                if(grid[x][z] == 0) {
+					characterManager.GetComponent<CharacterCreation>().createCharacter("TEST PERSON" + indexP++, x, z, 24, 13);
+                }
+            }
+        }
+        
+        return true;
     }
+
+    public List<Point> getPossibleDest(){
+
+        List<Point> possibleDest = new List<Point>();
+
+        for (int x = 0; x < size_x; x++)
+        {
+            for (int z = 0; z < size_z; z++){
+                if(grid[x][z] == 0) {
+                    possibleDest.Add(new Point{ x = x, z = z });
+                }
+            }
+        }
+
+		return possibleDest;
+    }
+
+	/// <summary>
+	/// Turns on updateTheCity to update city 
+	/// </summary>
+	public void noticeUpdate(){
+		updateTheCity = true;
+	}
 
     /// <summary>
     /// update the clock's time
     /// </summary>
-    public void updateClock(int entireHours)
-    {
-        Text clock = GameObject.Find("Clock").transform.GetChild(0).GetComponent<Text>();
-        Debug.Log(clock);
-        int days = entireHours / 24;
-        int hours = entireHours % 24;
+    public void updateClock(int entireHours){
+        Text clock = GameObject.Find("Clock").transform.GetChild(0).GetComponent<Text>(); 
+        // Debug.Log(clock);
+        int days = entireHours/24;
+        int hours = entireHours%24;
         string textForHour = "";
-
-        if (days < 1)
-        {
+        
+        if(days < 1){
             textForHour = hours + " Hours";
-        }
-        else
-        {
+        } else {
             textForHour = days + " Days " + hours + " Hours";
         }
 
@@ -596,8 +640,7 @@ public class CityDataManager : MonoBehaviour
     /// <summary>
     /// Initiate grid for test
     /// </summary>
-    public void initiateGridForTest()
-    {
+    public void initiateGridForTest() {
 
         // initializing and assigning arrays
         grid = new[] {

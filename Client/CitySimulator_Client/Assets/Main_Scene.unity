@@ -271,7 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 400000, guid: 44931af28ca6c48b5aa3511ca2f7baa7, type: 3}
+  character: {fileID: 400032, guid: 30e9b345bb66b4edda662342eb984b73, type: 3}
+  characterManager: {fileID: 17867333}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -623,11 +624,10 @@ MonoBehaviour:
   cellPrefab: {fileID: 4143390876923042, guid: 7a1cbdc745d894d2381d5b1db83a443a, type: 2}
   size: {x: 0, y: 0, z: 0}
   roadTexture: {fileID: 2800000, guid: a4d1dcfb2222b41aba7162a5db220bc2, type: 3}
-  onOffSwitch: 0
-  cityDataManager: {fileID: 127092658}
-  parentGrid: {fileID: 127092655}
   turnOnGrid: 0
   turnOffGrid: 0
+  cityDataManager: {fileID: 127092658}
+  parentGrid: {fileID: 127092655}
 --- !u!114 &127092658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +649,7 @@ MonoBehaviour:
   gridManager: {fileID: 127092655}
   nextTime: 0
   runOnce: 0
+  runOnce2: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,6 +2714,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingManager: {fileID: 1857592181}
+  residential1: {fileID: 1056641790476886, guid: 238b714ee23b7413b8fc4e6f0b92319a,
+    type: 2}
+  residential2: {fileID: 1519847380221910, guid: 6c28dd7165891468bbabc62bf5d65a2c,
+    type: 2}
+  residential3: {fileID: 1820120386455652, guid: 59dd8205f94874d17a6d8e56d16f8fca,
+    type: 2}
+  commercial1: {fileID: 1134223571499180, guid: da6274ef7778e470a888dfdef4b70d49,
+    type: 2}
+  commercial2: {fileID: 1662130287229594, guid: dc304550d7abd4252ac41511a7e6cb06,
+    type: 2}
+  commercial3: {fileID: 1367884608666102, guid: 9107b1b04945249df87e0001352197bc,
+    type: 2}
+  industrial1: {fileID: 1962621831253164, guid: be51e9cfdb19a49499a07e08ba408865,
+    type: 2}
+  industrial2: {fileID: 1044826462618652, guid: 876a678b0e67d453e8f358b8f68a870b,
+    type: 2}
+  industrial3: {fileID: 1122977556802630, guid: 70e4290f8c543408a8d6d399c52340e7,
+    type: 2}
 --- !u!4 &1857592183
 Transform:
   m_ObjectHideFlags: 0
