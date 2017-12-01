@@ -541,7 +541,7 @@ namespace DataAccessLayer
 		/// <param name="rating">The rating of the Residential building</param>
 		/// <param name="isTall">Boolean if the building is tall or not</param>
 		/// <param name="capacity">The capacity of the Residential building</param>
-		public async void UpdateResidentialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity)
+		public async void UpdateResidentialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Residential");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
@@ -552,7 +552,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			ResidentialDB residentialBuildingToUpdate = new ResidentialDB(guid, xPoint, yPoint, rating, isTall, capacity);
+			ResidentialDB residentialBuildingToUpdate = new ResidentialDB(guid, name, xPoint, yPoint, rating, isTall, capacity);
 			if (!DALValidator.DALResidentialBuildingValidator(residentialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update residential building, at least one of the input field is invalid.");
@@ -583,7 +583,7 @@ namespace DataAccessLayer
 		/// <param name="capacity">The capacity of the Commercial building</param>
 		/// <param name="retailPrice">The retail price of the Commercial building</param>
 		/// <param name="inventoryCount">The inventory count of the Commercial building</param>
-		public async void UpdateCommercialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
+		public async void UpdateCommercialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Commercial");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
@@ -594,7 +594,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			CommercialDB commercialBuildingToUpdate = new CommercialDB(guid, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
+			CommercialDB commercialBuildingToUpdate = new CommercialDB(guid, name, xPoint, yPoint, rating, isTall, capacity, retailPrice, inventoryCount);
 			if (!DALValidator.DALCommercialBuildingValidator(commercialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update commercial building, at least one of the input field is invalid.");
@@ -628,7 +628,7 @@ namespace DataAccessLayer
 		/// <param name="inventoryCount">The inventory count of the industrial building being updated</param>
 		/// <param name="productionCost">The cost it takes the building to produce one product</param>
 		/// <param name="wholesalePrice">The price the building sells its product to another building</param>
-		public async void UpdateIndustrialBuildingByGuid(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
+		public async void UpdateIndustrialBuildingByGuid(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int inventoryCount, int productionCost, int wholesalePrice)
 		{
 			var collection = Database.GetCollection<BsonDocument>("Industrial");
 			var filter = Builders<BsonDocument>.Filter.Eq("guid", guid);
@@ -639,7 +639,7 @@ namespace DataAccessLayer
 				return;
 			}
 
-			IndustrialDB industrialBuildingToUpdate = new IndustrialDB(guid, xPoint, yPoint, rating, isTall, capacity, inventoryCount, productionCost, wholesalePrice);
+			IndustrialDB industrialBuildingToUpdate = new IndustrialDB(guid, name, xPoint, yPoint, rating, isTall, capacity, inventoryCount, productionCost, wholesalePrice);
 			if (!DALValidator.DALIndustrialBuildingValidator(industrialBuildingToUpdate))
 			{
 				Console.WriteLine("Can not update industrial building, at least one of the input field is invalid.");

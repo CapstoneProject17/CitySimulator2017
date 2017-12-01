@@ -16,8 +16,8 @@ namespace ServerForTheLogic.ClientObject.Building
     /// </summary>
     public class CommercialDB : BuildingDB
     {
-        public CommercialDB(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
-            : base(guid, xPoint, yPoint, rating, isTall, capacity)
+        public CommercialDB(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity, int retailPrice, int inventoryCount)
+            : base(guid, name, xPoint, yPoint, rating, isTall, capacity)
         {
             RetailPrice = retailPrice;
             InventoryCount = inventoryCount;
