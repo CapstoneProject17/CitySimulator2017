@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3749d540594b74ace8c0ba6968557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 400022, guid: 494a1d970820f467297e204d753e1989, type: 3}
+  character: {fileID: 400032, guid: 30e9b345bb66b4edda662342eb984b73, type: 3}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -2714,6 +2714,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingManager: {fileID: 0}
+  residential1: {fileID: 1584187718163576, guid: 5d725b20dcd434edcb014bc482bedefc,
+    type: 2}
+  residential2: {fileID: 1601140144005222, guid: 44b68154ab1404691aa1652cbf62d82b,
+    type: 2}
+  residential3: {fileID: 1005903105797776, guid: bb5372eaa1e9b4fbeae0efdd85fb9c20,
+    type: 2}
+  commercial1: {fileID: 1292991448919594, guid: aafb56af203cd4394b975958832443d0,
+    type: 2}
+  commercial2: {fileID: 1701901802644816, guid: a43edb408366e40f2be7b93907b2ea11,
+    type: 2}
+  commercial3: {fileID: 1803008691484076, guid: 2b0f8f7e6749240b5abf062b11f70dd6,
+    type: 2}
+  industrial1: {fileID: 1466271320598484, guid: 5b2dc72b2d95442c28b5817b00c51026,
+    type: 2}
+  industrial2: {fileID: 1951652561853310, guid: 9c08681803dda48a8b4920874e62496d,
+    type: 2}
+  industrial3: {fileID: 1926836989916964, guid: f79bd5f3ba20440dfae99fa196e2157b,
+    type: 2}
 --- !u!4 &1857592183
 Transform:
   m_ObjectHideFlags: 0
