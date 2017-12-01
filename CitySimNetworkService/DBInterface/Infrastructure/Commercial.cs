@@ -57,7 +57,6 @@ namespace DBInterface.Infrastructure
             {
                 Order order = new Order(Market.Products[rand], MINIMUM_VALUE, this);
                 // Console.WriteLine("Sending order to market");
-                Console.WriteLine(Name + " Bought: " + order.Amount + " C");
                 Market.ProcessOrder(order, Market.IndustrialBusinesses);
                 Market.ComStock += MINIMUM_VALUE;
 
