@@ -33,11 +33,15 @@ public class MouseLook : MonoBehaviour {
 	// Text Object for messge
 	public Text msgForLock;
 
+	// timer to make a delay
+	public float timer;
+	public float keyInputDelay;
+
 	/// <summary>
 	/// Starts this instance
 	/// </summary>
 	void Start () {
-
+		keyInputDelay = 0.2f;
 		//unlock the mouse(camera) look
 		cClicked = true;
 		Vector3 rot = transform.localRotation.eulerAngles;
@@ -54,9 +58,12 @@ public class MouseLook : MonoBehaviour {
 	/// Plaies the game button.
 	/// </summary>
 	void Update () {
+		timer += Time.deltaTime;
+
 
 		//check the input c or C gets from keyboard 
-		if(Input.GetKey(KeyCode.C)){
+		if(Input.GetKey(KeyCode.C)
+			&& timer >= keyInputDelay){
 			//switch statement
 			if(cClicked){
 				cClicked = false;
@@ -67,6 +74,7 @@ public class MouseLook : MonoBehaviour {
 				// disable GUI Text msg for lock
 				msgForLock.enabled = false;
 			}
+			timer = 0;
 		} 
 
 		// if c has been tunred on apply following rotation

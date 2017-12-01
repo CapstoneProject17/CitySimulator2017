@@ -14,39 +14,29 @@ using UnityEngine;
 ///	 Name: Andrew Lam   Change: create, update, destroy building funtions added 	Date: 2017-11-25
 ///	 Name: Shawn  Kim   Change: Append objects to parent 							Date: 2017-10-20
 /// Based on:  N/A
-/// https://docs.unity3d.com/ScriptReference/Material-color.html
-/// https://docs.unity3d.com/ScriptReference/GameObject.html
-/// https://docs.unity3d.com/ScriptReference/Resources.Load.html
+///  https://docs.unity3d.com/ScriptReference/Material-color.html
+///  https://docs.unity3d.com/ScriptReference/GameObject.html
+///  https://docs.unity3d.com/ScriptReference/Resources.Load.html
 /// </summary>
 public class BuildingManager : MonoBehaviour {
 
 	public GameObject buildingManager;
+
 	private GameObject[] planes;
+
 	private Transform planeTransform;
 	// private IList<GameObject> testplanes = new List<GameObject>();
 	// private IList<GameObject> testbuildings = new List<GameObject>();
 
-	private GameObject residential1;
-	private GameObject residential2;
-	private GameObject residential3;
-	private GameObject commercial1;
-	private GameObject commercial2;
-	private GameObject commercial3;
-	private GameObject industrial1;
-	private GameObject industrial2;
-	private GameObject industrial3;
-
-	// Use this for initialization
-	void Start () {
-		// planeTransform = GameObject.Find("Plane(Clone)").transform;
-		buildingManager = GameObject.Find ("BuildingManager");
-		initializeBuildingObjects();
-		intializeBuildings ();
-	}
-
-	// Update is called once per frame
-	void Update () {
-	}
+	public GameObject residential1;
+	public GameObject residential2;
+	public GameObject residential3;
+	public GameObject commercial1;
+	public GameObject commercial2;
+	public GameObject commercial3;
+	public GameObject industrial1;
+	public GameObject industrial2;
+	public GameObject industrial3;
 
 	// Update builings
 	void updateBuildings (string id) {
@@ -56,112 +46,127 @@ public class BuildingManager : MonoBehaviour {
 	}
 
 	// Create new building to on given grid location
-	void createBuilding (string GUID, int x, int z, short type, short tier) {
+	public void createBuilding (string GUID, int x, int z, int type, int rating) {
 
+		Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
+		
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
 		{
 			// Residental 
 			case 1: 
-				if(tier == 1) {
+			Debug.Log("1");
+				if(rating == 1) {
+					Debug.Log("res1");
 				residential1.name = GUID;
 				instantiateBuilding (residential1,
 									 x,
 									 0,
 									 z);
+               	residential1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR1") as RuntimeAnimatorController;
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
+					Debug.Log("res2");
 				residential2.name = GUID;
 				instantiateBuilding (residential2,
 									 x,
 									 0,
 									 z);
+				residential2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR2") as RuntimeAnimatorController;
 				}
 
-				if(tier == 3) {				
+				if(rating == 3) {	
+				Debug.Log("res3");			
 				residential3.name = GUID;
 				instantiateBuilding (residential3,
 									 x,
 									 0,
 									 z);
+				residential3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR3") as RuntimeAnimatorController;
 				}
 			break; 
 
 			// Commercial
 			case 2:
-				if(tier == 1) {
+			Debug.Log("2");
+				if(rating == 1) {
+					Debug.Log("com1");
 				commercial1.name = GUID;
 				instantiateBuilding (commercial1,
 									 x,
 									 0,
 									 z);
+				commercial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC1") as RuntimeAnimatorController;
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
+					Debug.Log("com2");
 				commercial2.name = GUID;
 				instantiateBuilding (commercial2,
 									 x,
 									 0,
 									 z);
+				commercial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC2") as RuntimeAnimatorController;
 				}
 
-				if(tier == 3) {				
+				if(rating == 3) {	
+				Debug.Log("com3");
 				commercial3.name = GUID;
 				instantiateBuilding (commercial3,
 									 x,
 									 0,
 									 z);
+				commercial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC3") as RuntimeAnimatorController;
 				}
 			break;
 
 			// Industrial
 			case 3:
-				if(tier == 1) {				
+			Debug.Log("3");
+				if(rating == 1) {
+				Debug.Log("ind1");				
 				industrial1.name = GUID;
 				instantiateBuilding (industrial1,
 									 x,
 									 0,
 									 z);
+				industrial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI1") as RuntimeAnimatorController;
 				}
 
-				if(tier == 2) {
+				if(rating == 2) {
+					Debug.Log("ind2");
 				industrial2.name = GUID;
 				instantiateBuilding (industrial2,
 									 x,
 									 0,
 									 z);
+				industrial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI2") as RuntimeAnimatorController;
 				}
 
-				if(tier == 3) {
+				if(rating == 3) {
+					Debug.Log("ind3");
 				industrial3.name = GUID;
 				instantiateBuilding (industrial3,
 									 x,
 									 0,
 									 z);
+				industrial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI3") as RuntimeAnimatorController;
 				}
 			break;
 		}
 	}
 
 	// Dispose building 
-	void disposeBuilding (string id) {
+	public void disposeBuilding (string id) {
 
 		GameObject building = GameObject.Find( id + "(Clone)");
-		
-		// Animation for destroying building
-		//
-		// while (building.transform.localScale.y > 0.0) {
-		// 	building.transform.localScale -= new Vector3(building.transform.localScale.x * 0.5, 
-		// 												building.transform.localScale.y * 0.5, 
-		// 												building.transform.localScale.z * 0.5);
-		// }
 
 		Destroy(building);
 	}
 
 	// initialize building models
-	void intializeBuildings () {
+	public void intializeBuildings () {
 		planes = GameObject.FindGameObjectsWithTag ("plane");
 		int x = 0;
 		int z = 0;
@@ -183,8 +188,7 @@ public class BuildingManager : MonoBehaviour {
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
-				
-				 rotateBuilding(residential2, grid);
+               	residential2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR2") as RuntimeAnimatorController;
 			}
 
 			//Commercial building objects
@@ -195,6 +199,8 @@ public class BuildingManager : MonoBehaviour {
 									grid.transform.position.x,
 									grid.transform.position.y,
 									grid.transform.position.z);
+				Animator animator = commercial1.transform.GetComponent<Animator>();
+               	animator.runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC1") as RuntimeAnimatorController;
 			}
 
 			z++;
@@ -205,59 +211,33 @@ public class BuildingManager : MonoBehaviour {
 	// Rotate the building to face the road
 	void rotateBuilding(GameObject obj, GameObject grid) {
 		IList<GameObject> possibleNodes = new List<GameObject> ();
-		Vector3 position;
-		Transform target;
-		Quaternion lookRotation;
+
+		// Only get nodes that are roads
 		possibleNodes = GetWalkableNodes(grid);
-
-		//Debug.Log(possibleNodes.Count);
-		//Debug.Log(possibleNodes[0].transform.GetChild(1).GetComponent<TextMesh>().text);
-
-		Transform oldParent = obj.transform.parent;
 		if(possibleNodes.Count > 0) {
-			obj.transform.SetParent (null);
-			Debug.Log ("Parent Check1: " + obj.transform.parent.gameObject.name);
-			obj.transform.SetParent (oldParent);
-			Debug.Log ("Parent Check2: " + obj.transform.parent.gameObject.name);
-
-
-
-//			target = possibleNodes [0].transform;
-//
-//			position = (target.position - obj.transform.position).normalized;
-//			lookRotation = Quaternion.LookRotation(position);
-
-
-
-
-
-			// float smooth = 2.0F;
-	    	// float tiltAngle = 90.0F;
-	     //    float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
-	     //    float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
-	     //    Quaternion target = Quaternion.Euler(tiltAroundX, 90, tiltAroundZ);
-	        // transform.localRotation = Quaternion.Euler(tiltAroundX, 90, tiltAroundZ);
-	        // transform.localRotation(Vector3.up * 90, Space.Self);
-	        // transform.Translate(new Vector3(transform.position.z, transform.position.y, transform.position.x));
-//	        transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
-
+			foreach(Transform child in transform) {
+				if (child.name.Equals(obj.name + "(Clone)"))
+				{
+					child.LookAt(possibleNodes[0].transform);
+				}
+			}
 		}
 	}
 
 	// Initializes the building objects
 	void initializeBuildingObjects() {
 
-		residential1 = Resources.Load("Models/Building/Completed_Models/residential1") as GameObject; 
-		residential2 = Resources.Load("Models/Building/Completed_Models/residential2") as GameObject; 
-		residential3 = Resources.Load("Models/Building/Completed_Models/residential3") as GameObject; 
+		residential1 = Resources.Load("Models/Building/New_Models/residential1") as GameObject; 
+		residential2 = Resources.Load("Models/Building/New_Models/residential2") as GameObject; 
+		residential3 = Resources.Load("Models/Building/New_Models/residential3") as GameObject; 
 
-		commercial1 = Resources.Load("Models/Building/Completed_Models/commercial1") as GameObject; 
-		commercial2 = Resources.Load("Models/Building/Completed_Models/commercial2") as GameObject; 
-		commercial3 = Resources.Load("Models/Building/Completed_Models/commercial3") as GameObject; 
+		commercial1 = Resources.Load("Models/Building/New_Models/commercial1") as GameObject; 
+		commercial2 = Resources.Load("Models/Building/New_Models/commercial2") as GameObject; 
+		commercial3 = Resources.Load("Models/Building/New_Models/commercial3") as GameObject; 
 
-		industrial1 = Resources.Load("Models/Building/Completed_Models/industrial1") as GameObject; 
-		industrial2 = Resources.Load("Models/Building/Completed_Models/industrial2") as GameObject; 
-		industrial3 = Resources.Load("Models/Building/Completed_Models/industrial3") as GameObject; 
+		industrial1 = Resources.Load("Models/Building/New_Models/industrial1") as GameObject; 
+		industrial2 = Resources.Load("Models/Building/New_Models/industrial2") as GameObject; 
+		industrial3 = Resources.Load("Models/Building/New_Models/industrial3") as GameObject; 
 	}
 
 

@@ -176,7 +176,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1302665231337926}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 0
@@ -244,7 +244,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1585834825036688}
-  m_Text: 1
+  m_Text: -1
   m_OffsetZ: 0
   m_CharacterSize: 2.5
   m_LineSpacing: 1
@@ -265,7 +265,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112835258613984}
-  m_Text: (24, 20)
+  m_Text: (48, 49)
   m_OffsetZ: 0
   m_CharacterSize: 1.6
   m_LineSpacing: 1
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rend: {fileID: 0}
-  colorIndex: 1
+  colorIndex: -1
   colors:
   - serializedVersion: 2
     rgba: 4286545791

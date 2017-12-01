@@ -18,6 +18,7 @@ using UnityEngine;
 /// </summary>
 /// 
 public class DataManager{
+	
 	public static bool isClock = false;
 	public static bool isGridObject = false;
 	public static bool isPerson = false;
