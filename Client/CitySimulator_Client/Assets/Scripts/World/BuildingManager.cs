@@ -184,7 +184,7 @@ public class BuildingManager : MonoBehaviour {
 									grid.transform.position.y,
 									grid.transform.position.z);
 				
-				// rotateBuilding(residential2, grid);
+				 rotateBuilding(residential2, grid);
 			}
 
 			//Commercial building objects
@@ -205,13 +205,32 @@ public class BuildingManager : MonoBehaviour {
 	// Rotate the building to face the road
 	void rotateBuilding(GameObject obj, GameObject grid) {
 		IList<GameObject> possibleNodes = new List<GameObject> ();
-
+		Vector3 position;
+		Transform target;
+		Quaternion lookRotation;
 		possibleNodes = GetWalkableNodes(grid);
 
 		//Debug.Log(possibleNodes.Count);
 		//Debug.Log(possibleNodes[0].transform.GetChild(1).GetComponent<TextMesh>().text);
-		
-		if(possibleNodes.Count != 0) {
+
+		Transform oldParent = obj.transform.parent;
+		if(possibleNodes.Count > 0) {
+			obj.transform.SetParent (null);
+			Debug.Log ("Parent Check1: " + obj.transform.parent.gameObject.name);
+			obj.transform.SetParent (oldParent);
+			Debug.Log ("Parent Check2: " + obj.transform.parent.gameObject.name);
+
+
+
+//			target = possibleNodes [0].transform;
+//
+//			position = (target.position - obj.transform.position).normalized;
+//			lookRotation = Quaternion.LookRotation(position);
+
+
+
+
+
 			// float smooth = 2.0F;
 	    	// float tiltAngle = 90.0F;
 	     //    float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
@@ -220,7 +239,7 @@ public class BuildingManager : MonoBehaviour {
 	        // transform.localRotation = Quaternion.Euler(tiltAroundX, 90, tiltAroundZ);
 	        // transform.localRotation(Vector3.up * 90, Space.Self);
 	        // transform.Translate(new Vector3(transform.position.z, transform.position.y, transform.position.x));
-	        transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
+//	        transform.localRotation = Quaternion.Euler(new Vector3(0,90,0));
 
 		}
 	}
