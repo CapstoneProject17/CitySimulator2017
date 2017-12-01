@@ -58,10 +58,9 @@ public class BuildingManager : MonoBehaviour {
 		{
 			// Residental 
 			case 1: 
-			Debug.Log("1");
-				if(rating == 1) {
-					Debug.Log("res1");
-
+			// Debug.Log("1");
+				if(rating == 0) {
+					// Debug.Log("res1");
 				residential1.name = GUID;
 				instantiateBuilding (residential1,
 									 go.transform.localPosition.x,
@@ -70,8 +69,8 @@ public class BuildingManager : MonoBehaviour {
                	residential1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR1") as RuntimeAnimatorController;
 				}
 
-				if(rating == 2) {
-					Debug.Log("res2");
+				if(rating == 1) {
+					// Debug.Log("res2");
 				residential2.name = GUID;
 				instantiateBuilding (residential2,
 									 go.transform.localPosition.x,
@@ -80,8 +79,8 @@ public class BuildingManager : MonoBehaviour {
 				residential2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR2") as RuntimeAnimatorController;
 				}
 
-				if(rating == 3) {	
-				Debug.Log("res3");			
+				if(rating == 2) {	
+				// Debug.Log("res3");			
 				residential3.name = GUID;
 				instantiateBuilding (residential3,
 									 go.transform.localPosition.x,
@@ -93,9 +92,9 @@ public class BuildingManager : MonoBehaviour {
 
 			// Commercial
 			case 2:
-			Debug.Log("2");
-				if(rating == 1) {
-					Debug.Log("com1");
+			// Debug.Log("2");
+				if(rating == 0) {
+					// Debug.Log("com1");
 				commercial1.name = GUID;
 				instantiateBuilding (commercial1,
 									 go.transform.localPosition.x,
@@ -104,8 +103,8 @@ public class BuildingManager : MonoBehaviour {
 				commercial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC1") as RuntimeAnimatorController;
 				}
 
-				if(rating == 2) {
-					Debug.Log("com2");
+				if(rating == 1) {
+					// Debug.Log("com2");
 				commercial2.name = GUID;
 				instantiateBuilding (commercial2,
 									 go.transform.localPosition.x,
@@ -114,8 +113,8 @@ public class BuildingManager : MonoBehaviour {
 				commercial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC2") as RuntimeAnimatorController;
 				}
 
-				if(rating == 3) {	
-				Debug.Log("com3");
+				if(rating == 2) {	
+				// Debug.Log("com3");
 				commercial3.name = GUID;
 				instantiateBuilding (commercial3,
 									 go.transform.localPosition.x,
@@ -127,9 +126,9 @@ public class BuildingManager : MonoBehaviour {
 
 			// Industrial
 			case 3:
-			Debug.Log("3");
-				if(rating == 1) {
-				Debug.Log("ind1");				
+			// Debug.Log("3");
+				if(rating == 0) {
+				// Debug.Log("ind1");				
 				industrial1.name = GUID;
 				instantiateBuilding (industrial1,
 									 go.transform.localPosition.x,
@@ -138,8 +137,8 @@ public class BuildingManager : MonoBehaviour {
 				industrial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI1") as RuntimeAnimatorController;
 				}
 
-				if(rating == 2) {
-					Debug.Log("ind2");
+				if(rating == 1) {
+					// Debug.Log("ind2");
 				industrial2.name = GUID;
 				instantiateBuilding (industrial2,
 									 go.transform.localPosition.x,
@@ -148,8 +147,8 @@ public class BuildingManager : MonoBehaviour {
 				industrial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI2") as RuntimeAnimatorController;
 				}
 
-				if(rating == 3) {
-					Debug.Log("ind3");
+				if(rating == 2) {
+					// Debug.Log("ind3");
 				industrial3.name = GUID;
 				instantiateBuilding (industrial3,
 									 go.transform.localPosition.x,
