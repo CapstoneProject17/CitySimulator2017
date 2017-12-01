@@ -21,8 +21,9 @@ namespace ServerForTheLogic.ClientObject.Buildings
         /// <param name="rating">The rating of the building</param>
         /// <param name="isTall">Boolean if the building is tall or not</param>
         /// <param name="capacity">The capacity of the building</param>
-        public BuildingDB(Guid guid, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint)
+        public BuildingDB(Guid guid, string name, int xPoint, int yPoint, int rating, bool isTall, int capacity) : base(guid, xPoint, yPoint)
         {
+            Name = name;
             Rating = rating;
             IsTall = isTall;
             Capacity = capacity;
@@ -30,10 +31,16 @@ namespace ServerForTheLogic.ClientObject.Buildings
 
         public BuildingDB(Building building) : base(building)
         {
+        Name = building.Name;
             Rating = building.Rating;
             IsTall = building.IsTall;
             Capacity = building.Capacity;
         }
+        ///<summary
+        ///
+        ///</summary>
+        public string Name { get; set; }
+
         /// <summary>
         /// Rating is an int between 1 - 3
         /// </summary>            

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using ServerForTheLogic;
 using ServerForTheLogic.Json;
+using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 
@@ -64,8 +65,8 @@ namespace CitySimNetworkService
         /// </param>
         protected override void OnStart(string[] args)
         {
-            connectionHandler.StartListening();
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
+            connectionHandler.StartListening();
         }
 
         /// <summary>
@@ -73,6 +74,13 @@ namespace CitySimNetworkService
         /// </summary>
         protected override void OnStop()
         {
+        }
+
+        internal void TestStartAndStop(string[] args)
+        {
+            OnStart(args);
+            Console.ReadLine();
+            this.OnStop();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using Bogus;
-using ServerForTheLogic.Infrastructure;
+using DALInterface.Infrastructure;
 using Newtonsoft.Json;
-using ServerForTheLogic.Econ;
+using DALInterface.Econ;
 
 namespace DALInterface 
 {
