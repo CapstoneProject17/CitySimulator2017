@@ -90,6 +90,7 @@ public class BFS {
 		}
 
 		set {
+			
 			currentPlane = value;
 		}
 	}

@@ -368,14 +368,12 @@ public class CityDataManager : MonoBehaviour
             runOnce = false;
         }
 
-        if(runOnce2)
-        if(nextTime > 15){
-            if(tryParseInitialCityData(jsonString2))
-                if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
-                    updateCityData();
-                    updateCity();
-                }
+        if(runOnce2){
+            initiateGridForTest();
 
+            if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+                 updateCityForTest();
+            }
             runOnce2 = false;
         }
 
@@ -570,7 +568,53 @@ public class CityDataManager : MonoBehaviour
         return true;
     }
 
-   
+
+    /// <summary>
+    /// Creates actual city based on data
+    /// </summary>
+    public bool updateCityForTest(){
+
+        int indexB = 0;
+		int indexP = 0;
+        // new building
+        for (int x = 0; x < size_x; x++)
+        {
+            for (int z = 0; z < size_z; z++){
+                
+                if(grid[x][z] >= 1 && grid[x][z] <= 3){
+					int rate = UnityEngine.Random.Range (0, 3);
+					buildingManager.GetComponent<BuildingManager>().createBuilding("TEST BUILDING" + indexB++,
+                                                                                x,
+                                                                                z,
+                                                                                grid[x][z],
+																				rate );
+                }
+
+                if(x < 24 && z < 13)
+                if(grid[x][z] == 0) {
+					characterManager.GetComponent<CharacterCreation>().createCharacter("TEST PERSON" + indexP++, x, z, 24, 13);
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    public List<Point> getPossibleDest(){
+
+        List<Point> possibleDest = new List<Point>();
+
+        for (int x = 0; x < size_x; x++)
+        {
+            for (int z = 0; z < size_z; z++){
+                if(grid[x][z] == 0) {
+                    possibleDest.Add(new Point{ x = x, z = z });
+                }
+            }
+        }
+
+		return possibleDest;
+    }
 
 	/// <summary>
 	/// Turns on updateTheCity to update city 

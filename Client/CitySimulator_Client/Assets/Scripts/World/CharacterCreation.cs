@@ -50,6 +50,7 @@ public class CharacterCreation : MonoBehaviour {
 		human.gameObject.AddComponent<CharacterMove> ();
 		human.GetComponent<CharacterMove> ().X_Dest = dest_x;
 		human.GetComponent<CharacterMove> ().Z_Dest = dest_z;
+		human.GetComponent<CharacterMove> ().StartBFS = true;
 		human.name = guid;
 	}
 
