@@ -28,7 +28,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         {
             if (clockNetMinutes < 0 || clockNetMinutes > 59)
             {
-                Console.WriteLine("Invalid clock net minutes: " + clockNetMinutes);
+                //Console.WriteLine("Invalid clock net minutes: " + clockNetMinutes);
                 return false;
             }
             return true;
@@ -50,7 +50,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         {
             if (clockNetHours < 0 || clockNetHours > 23)
             {
-                Console.WriteLine("Invalid clock net hours: " + clockNetHours);
+                //Console.WriteLine("Invalid clock net hours: " + clockNetHours);
                 return false;
             }
             return true;
@@ -72,7 +72,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
         {
             if (clockNetDays < 0 || clockNetDays > 365)
             {
-                Console.WriteLine("Invalid clock net days: " + clockNetDays);
+                //Console.WriteLine("Invalid clock net days: " + clockNetDays);
                 return false;
             }
             return true;
@@ -94,7 +94,7 @@ namespace ServerForTheLogic.DALValidator.ValidationHelper
             if (clockNetYears < 0 || clockNetYears == UInt32.MaxValue)
 
             {
-                Console.WriteLine("Invalid clock net years: " + clockNetYears);
+               //Console.WriteLine("Invalid clock net years: " + clockNetYears);
                 return false;
             }
             return true;
