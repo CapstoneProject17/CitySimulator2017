@@ -49,7 +49,7 @@ public class BuildingManager : MonoBehaviour {
 		planes = GameObject.FindGameObjectsWithTag ("plane");
 		GameObject go = findPlane(x,z);
 
-		Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
+		// Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
 		
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 

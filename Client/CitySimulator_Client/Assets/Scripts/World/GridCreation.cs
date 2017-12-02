@@ -38,15 +38,14 @@ public class GridCreation : MonoBehaviour {
 	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
-	public bool turnOnGrid;
-	public bool turnOffGrid;
+	public bool turnOnGrid = false;
+	public bool turnOffGrid = true;
 
 	// Use this for initialization
 	void Start () {
 		parentGrid = GameObject.Find ("Grid");
 		cityDataManager = this.GetComponent<CityDataManager> ();
 		createGrid ();
-		turnEntireGrid(turnOnGrid);
 		//ShowGrid (false);
 	}
 
@@ -91,6 +90,7 @@ public class GridCreation : MonoBehaviour {
 				// set color index to GridColor to color the grid
 				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(cellPrefab.GetChild (0).GetComponent<TextMesh> ().text);
 
+
 				// creates each cell of the grid
 			 	Instantiate(cellPrefab, 
 							new Vector3(
@@ -98,13 +98,9 @@ public class GridCreation : MonoBehaviour {
 							0,
 							z + (cellPrefab.localScale.z * z)*8),
 							Quaternion.identity,
-							parentGrid.transform);	            
+							parentGrid.transform);
 			}
 		}
-	}
-
-	void createRoad(int x, int z){
-		
 	}
 
 	/// <summary>
