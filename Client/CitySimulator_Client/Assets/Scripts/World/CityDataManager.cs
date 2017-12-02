@@ -151,7 +151,7 @@ public class CityDataManager : MonoBehaviour
 	private string initialCityState;
     private string partialCityState;
 
-	// detect whether there was the last update.(In hours)
+    // detect whether there was the last update.(In hours)
     private int? lastUpdate;
 
     // deserialize json to object
@@ -183,7 +183,7 @@ public class CityDataManager : MonoBehaviour
 
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
-    
+
 
     /// <summary>
     /// Gets the population.
@@ -296,21 +296,15 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-	/// <summary>
-	/// Make a request for partial update and request to the server 
-	/// </summary>
+    /// <summary>
+    /// Make a request for partial update and request to the server 
+    /// </summary>
     private void GetCityUpdate()
     {
         int lastPartialUpdate = lastUpdate ?? -1;
 
-        PartialSimulationUpdateRequest partialUpdate = new PartialSimulationUpdateRequest
-        {
-            RequestType = "update",
-            FullUpdate = false,
-            LastUpdate = lastPartialUpdate
-        };
-
-        partialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(partialUpdate));
+        PartialSimulationUpdateRequest partialUpdate = new PartialSimulationUpdateRequest("update", false, lastPartialUpdate);
+        partialCityState = AsynchronousClient.StartClient(JsonUtility.ToJson(partialUpdate));
         updateTheCity = true;
     }
 
@@ -337,14 +331,10 @@ public class CityDataManager : MonoBehaviour
         jsonString = targetFile3.text;
 
         // Server request initial
-        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
-        {
-            RequestType = "update",
-            FullUpdate = true
-        };
+        SimulationUpdateRequest fullRequest = new SimulationUpdateRequest ("update", true);
 
 		//send a initial reqeust to the server and expect data for an initial update for the application back from the server
-        initialCityState = NetworkConnectionHandler.WriteForServer(JsonUtility.ToJson(fullRequest));
+        initialCityState = AsynchronousClient.StartClient(JsonUtility.ToJson(fullRequest));
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = false;

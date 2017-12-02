@@ -645,9 +645,9 @@ MonoBehaviour:
   systemStartedTimeStamp: 0
   systemCurrentTimeStamp: 0
   timeInHour: 0
-  buildingManager: {fileID: 0}
-  characterManager: {fileID: 0}
-  gridManager: {fileID: 0}
+  buildingManager: {fileID: 1857592181}
+  characterManager: {fileID: 17867333}
+  gridManager: {fileID: 127092655}
   nextTime: 0
   runOnce: 0
   runOnce2: 0
