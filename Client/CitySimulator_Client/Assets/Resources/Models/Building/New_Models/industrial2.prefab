@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4830504683569170}
   - component: {fileID: 95437700499180550}
   m_Layer: 0
-  m_Name: TEST BUILDING370
+  m_Name: industrial2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
