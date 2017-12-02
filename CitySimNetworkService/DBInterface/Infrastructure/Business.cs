@@ -17,9 +17,6 @@ namespace DBInterface.Infrastructure
         //minum number of a single product allowed to be in Inventory until more are ordered
         public const int MINIMUM_VALUE = 200;
 
-        //average salary of workers
-        public int TotalPayout { get; set; }
-
         //list of all current employees
         public List<Person> workers { get; set; }
 
@@ -68,15 +65,10 @@ namespace DBInterface.Infrastructure
         /// </summary>
         public void PayEmployees()
         {
-            int TotalPayout = 0;
             foreach (Person w in workers)
             {
                 w.Funds += w.Salary;
-                Funds -= w.Salary;
-                TotalPayout += w.Salary;
-
             }
-            Console.WriteLine(Name + ": Monthly Payout :" + TotalPayout);
         }
     }
 }

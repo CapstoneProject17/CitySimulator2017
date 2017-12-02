@@ -5,6 +5,8 @@ using System.Timers;
 using CitySimNetworkService;
 using DBInterface;
 using System.IO;
+using DBInterface.Infrastructure;
+using DBInterface.Econ;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -47,6 +49,12 @@ namespace ServerForTheLogic.Utilities
         public UInt32 NetDays { get; set; }
 
         /// <summary>
+        /// The total number of months since this Clock started.
+        /// </summary>
+        [JsonProperty]
+        public UInt32 NetMonths { get; set; }
+
+        /// <summary>
         /// The total number of years since this Clock started.
         /// </summary>
         [JsonProperty]
@@ -56,7 +64,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// The number of milliseconds between Clock "ticks."  In this case, 1 second = 1000.
         /// </summary>
-        public const int INTERVAL = 100;
+        public const int INTERVAL = 1;
 
         private SimulationStateQueue FullUpdate;
 
@@ -120,22 +128,23 @@ namespace ServerForTheLogic.Utilities
         internal void TickHour()
         {
             NetHours = NetMinutes / 60;
-            //Console.WriteLine("Hours:\t" + NetHours);
+            Console.WriteLine("Hours:\t" + NetHours);
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            //Console.WriteLine("Population = " + city.AllPeople.Count);
+            city.createPerson();
             foreach (Person p in city.AllPeople)
             {
                 p.ConsumeProd();
             }
+
             ClientPacket packet = new ClientPacket(city);
             //packet.ConvertPacket();
 
             string output = packet.ConvertPartialPacket();
-            Console.WriteLine("~~~~~~PARTIAL PACKET");
-            Console.WriteLine(output);
+            //Console.WriteLine("~~~~~~PARTIAL PACKET");
+            //Console.WriteLine(output);
             PartialUpdate.Enqueue(output);
-
+            
             //Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
@@ -164,6 +173,7 @@ namespace ServerForTheLogic.Utilities
             }
             NetDays = NetHours / 24;
             Console.WriteLine("Days:\t" + NetDays);
+            
 
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
@@ -184,18 +194,42 @@ namespace ServerForTheLogic.Utilities
             //packet.ConvertPacket();
 
             string output = packet.ConvertFullPacket();
-            Console.WriteLine("~~~~~~FULL PACKET");
-            Console.WriteLine(output);
+            //Console.WriteLine("~~~~~~FULL PACKET");
+            //Console.WriteLine(output);
             FullUpdate.Enqueue(output);
 
 
             if (NetDays / 365 > NetYears)
             {
-                TickYear();
+                TickMonth();
             }
 
             // FullUpdater.SendFullUpdate(new ClientPacket(city), Formatting.Indented);
         }
+        /// <summary>
+        /// Updates netMoneths.
+        /// </summary>
+        /// <para>Written by Justin McLennan </para>
+        /// <para/> Last edited:  2017-12-1
+        internal void TickMonth()
+        {
+            NetMonths = NetDays / 30;
+            Console.WriteLine("Months:\t" + NetMonths);
+
+            foreach (Business b in Market.CommercialBusinesses)
+            {
+                b.PayEmployees();
+            }
+            foreach (Business b in Market.IndustrialBusinesses)
+            {
+                b.PayEmployees();
+            }
+            if (NetMonths / 12 > NetYears)
+            {
+                TickYear();
+            }
+        }
+
 
         /// <summary>
         /// Updates netYears.
