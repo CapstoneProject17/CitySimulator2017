@@ -68,20 +68,9 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\partialPacket.json"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, this);
-                sw.Close();
-                // {"ExpiryDate":new Date(1230375600000),"Price":0}
-            }
-
-       
             string JsonString =  JsonConvert.SerializeObject(this, Formatting.Indented);
-            //Console.WriteLine("CONVERT PACKET");
             city.SendtoDB();
 
-            //Console.WriteLine(JsonString);
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();
 
@@ -96,45 +85,13 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\fullPacket.json"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, this);
-                sw.Close();
-                // {"ExpiryDate":new Date(1230375600000),"Price":0}
-            }
+           string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
-            //Console.WriteLine("CONVERT PACKET");
-
-            //Console.WriteLine(JsonString);
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();
 
             return JsonString;
         }
 
-
-        //public void fillQuickMap(City city)
-        //{
-
-        //    for (int i = 0; i < City.CITY_WIDTH; ++i)
-        //    {
-        //        for (int j = 0; j < City.CITY_LENGTH; ++j)
-        //        {
-        //            if (city.Map[i, j] != null)
-        //            {
-
-        //                QuickMap[i, j] = city.Map[i, j].Type;
-
-        //            }
-        //            else
-        //            {
-        //                QuickMap[i, j] = ".";
-
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
