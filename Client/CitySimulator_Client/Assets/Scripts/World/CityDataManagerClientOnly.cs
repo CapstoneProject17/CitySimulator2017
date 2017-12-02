@@ -6,24 +6,17 @@ using UnityEngine.UI;
 
 
 /// <summary>
-/// Module: CityDataManager
+/// Module: CityDataManagerClientOnly
 /// Team: Client
-/// Description: Handle the all the data of the city, for now it has been used
+/// Description: Handle the all the data of the city, for now it has been used for client only
 /// Author:
-///  Name: Dongwon(Shawn) Kim    Date: 2017-09-11
+///  Name: Dongwon(Shawn) Kim    Date: 2017-12-01
 /// Modified by:    
-///  Name: Dongwon(Shawn) Kim   Change: Start to use                                            Date: 2017-10-17
-///  Name: Dongwon(Shawn) Kim   Change: bug fix                                                 Date: 2017-10-18
-///  Name: Lancelei Herradura   Change: Adding walkable path                                    Date: 2017-10-31
-///  Name: Dongwon(Shawn) Kim   Change: gridforTest                                             Date: 2017-11-13
-///  Name Lancelei Herradura    Change: Add human dictionary                                    Date: 2017-11-25
-///  Name Harman Mahal          Change: integrate network connection and reqeust enable         Date: 2017-11-28
-///  Name Gisu Kim              Change: integrate network connection and reqeust enable         Date: 2017-11-28
 /// Based on:  
 /// https://docs.unity3d.com/Manual/JSONSerialization.html
 /// https://stackoverflow.com/questions/36239705/serialize-and-deserialize-json-and-json-array-in-unity
 /// </summary>
-public class CityDataManager_Client_isolated : MonoBehaviour
+public class CityDataManagerClientOnly : MonoBehaviour
 {
     private string filePath1;
     private string filePath2;
@@ -240,6 +233,8 @@ public class CityDataManager_Client_isolated : MonoBehaviour
         // systemStartedTimeStamp = System.DateTime.Now.Minute;
         // updateTheCity = false;
 
+        tryParseInitialCityData(jsonString);
+        initiateGrid();  
 
         // Debug.Log(cityData.GridLength);
         timeInHour = 0;
@@ -251,10 +246,8 @@ public class CityDataManager_Client_isolated : MonoBehaviour
     /// </summary>
     void Start () {
         InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
-        if(tryParseInitialCityData(jsonString)){
-            initiateGrid();  
-            updateCityData();
-        }
+        updateCityData();
+
     }
 
     /// <summary>
@@ -265,8 +258,8 @@ public class CityDataManager_Client_isolated : MonoBehaviour
         systemCurrentTimeStamp = System.DateTime.Now.Minute;
 
         // TODO: request update
-
         if(runOnce){
+            initiateGrid();
             switch(textFileIndex){
                 case 0:
                     jsonString = targetFile1.text;
@@ -282,7 +275,8 @@ public class CityDataManager_Client_isolated : MonoBehaviour
             if(tryParseInitialCityData(jsonString)){
                 updateCityData();
 
-                if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+                Debug.Log(gridManager);
+                if(gridManager.GetComponent<GridManager>().updateEntireGridForClient()){
                     updateCity();
                 }
                 runOnce = false;
@@ -291,7 +285,9 @@ public class CityDataManager_Client_isolated : MonoBehaviour
         if(runOnce2){
             initiateGridForTest();
 
-            if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+            if(gridManager.GetComponent<GridManager>().updateEntireGridForClient()){
+
+                
                  updateCityForTest();
             }
             runOnce2 = false;

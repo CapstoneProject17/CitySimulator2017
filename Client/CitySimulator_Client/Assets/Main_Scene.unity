@@ -619,16 +619,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 127092655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07726d2b8828242eca0d63c6e8888aa3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b7e2b54e57484d22a1ec72777625de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 0}
+  cellPrefab: {fileID: 4143390876923042, guid: 7a1cbdc745d894d2381d5b1db83a443a, type: 2}
   size: {x: 0, y: 0, z: 0}
   roadTexture: {fileID: 2800000, guid: a4d1dcfb2222b41aba7162a5db220bc2, type: 3}
-  cityDataManager: {fileID: 127092658}
-  parentGrid: {fileID: 127092655}
   turnOnGrid: 0
   turnOffGrid: 1
+  cityDataManager: {fileID: 127092658}
+  cityDataManagerClientOnly: {fileID: 127092659}
+  parentGrid: {fileID: 127092655}
 --- !u!114 &127092658
 MonoBehaviour:
   m_ObjectHideFlags: 0
