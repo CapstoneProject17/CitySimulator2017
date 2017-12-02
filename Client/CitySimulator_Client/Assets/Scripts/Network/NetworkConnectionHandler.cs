@@ -54,7 +54,7 @@ public class AsynchronousClient
         {
             // Establish the remote endpoint for the socket.  
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[1];
+            IPAddress ipAddress = ipHostInfo.AddressList[2];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
             // Create a TCP/IP socket.  
