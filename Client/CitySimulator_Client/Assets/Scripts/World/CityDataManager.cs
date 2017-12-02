@@ -350,7 +350,7 @@ public class CityDataManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
+        InvokeRepeating("GetCityUpdate", 10.0f, 10.0f);
         if (updateTheCity && tryParseInitialCityData(receivedCityState))
         {
             initiateGrid();
@@ -404,11 +404,12 @@ public class CityDataManager : MonoBehaviour
     public bool tryParseInitialCityData(string jstring)
     {
 
-        cityData = JsonUtility.FromJson<CityData>(jstring);
+        cityData = JsonUtility.FromJson<CityData>(receivedCityState);
 
         if (cityData == null)
             Debug.Log("tryParseInitialCityData: null");
 
+        lastUpdate = cityData.NetHours;
         return cityData != null ? true : false;
     }
 
