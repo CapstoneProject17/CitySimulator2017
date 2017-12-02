@@ -19,10 +19,10 @@ using UnityEngine.UI;
 public class Point
 {
     // x coordinate 
-    public int x;
+    public int X;
 
     // z coordinate
-    public int z;
+    public int Z;
 }
 
 /// <summary>
@@ -135,9 +135,17 @@ public class CityData
 /// </summary>
 public class CityDataManager : MonoBehaviour
 {
-    // switch for testing
+    private string filePath1;
+    private string filePath2;
+    private string filePath3;
+    TextAsset targetFile1;
+    TextAsset targetFile2;
+    TextAsset targetFile3;
+
+    public int textFileIndex = 0;
+	// switch for testing
     // JSON dummy String for testing
-    private static string jsonString = "{\"GridLength\":50,\"GridWidth\":49,\"NetHours\":0,\"NewRoads\":[{\"X\":24,\"Z\":21},{\"X\":24,\"Z\":28},{\"X\":25,\"Z\":21},{\"X\":25,\"Z\":28},{\"X\":26,\"Z\":21},{\"X\":26,\"Z\":28},{\"X\":27,\"Z\":21},{\"X\":27,\"Z\":28},{\"X\":24,\"Z\":22},{\"X\":27,\"Z\":22},{\"X\":24,\"Z\":23},{\"X\":27,\"Z\":23},{\"X\":24,\"Z\":24},{\"X\":27,\"Z\":24},{\"X\":24,\"Z\":25},{\"X\":27,\"Z\":25},{\"X\":24,\"Z\":26},{\"X\":27,\"Z\":26},{\"X\":24,\"Z\":27},{\"X\":27,\"Z\":27},{\"X\":21,\"Z\":21},{\"X\":21,\"Z\":28},{\"X\":22,\"Z\":21},{\"X\":22,\"Z\":28},{\"X\":23,\"Z\":21},{\"X\":23,\"Z\":28},{\"X\":21,\"Z\":22},{\"X\":21,\"Z\":23},{\"X\":21,\"Z\":24},{\"X\":21,\"Z\":25},{\"X\":21,\"Z\":26},{\"X\":21,\"Z\":27},{\"X\":24,\"Z\":14},{\"X\":25,\"Z\":14},{\"X\":26,\"Z\":14},{\"X\":27,\"Z\":14},{\"X\":24,\"Z\":15},{\"X\":27,\"Z\":15},{\"X\":24,\"Z\":16},{\"X\":27,\"Z\":16},{\"X\":24,\"Z\":17},{\"X\":27,\"Z\":17},{\"X\":24,\"Z\":18},{\"X\":27,\"Z\":18},{\"X\":24,\"Z\":19},{\"X\":27,\"Z\":19},{\"X\":24,\"Z\":20},{\"X\":27,\"Z\":20}],\"NewBuildings\":[{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Tremblay, Hudson and Abernathy\",\"Point\":{\"X\":25,\"Z\":24},\"Type\":\"I\",\"Id\":\"e50bd0d7-246a-4f0f-a4e6-2718416f4151\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Davis, Grimes and Champlin\",\"Point\":{\"X\":22,\"Z\":24},\"Type\":\"C\",\"Id\":\"5bdb506e-4df0-4c9b-8699-c880df2b8c95\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"X\":25,\"Z\":16},\"Type\":\"H\",\"Id\":\"4598989a-309f-4293-9150-736081c2fb58\"},{\"Rating\":0,\"Capacity\":50,\"IsTall\":true,\"Name\":\"Residence\",\"Point\":{\"X\":26,\"Z\":15},\"Type\":\"H\",\"Id\":\"5377f77d-44fd-4719-8dc0-48a4a880b30d\"}],\"PeopleMoving\":[{\"Id\":\"15304cdf-2a98-4c92-8dae-a7a101d21cc6\",\"Origin\":{\"X\":25,\"Z\":16},\"Destination\":{\"X\":25,\"Z\":24}},{\"Id\":\"153dfafa-a27f-442f-aaa4-fa0fc750cf7b\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"e69d08a1-7fef-4ebb-9907-32ef1912f57a\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"d1b55e8e-4ac9-4e60-bcc2-c386a0c42c92\",\"Origin\":{\"X\":25,\"Z\":16},\"Destination\":{\"X\":25,\"Z\":24}},{\"Id\":\"0991a29e-7fad-4d79-8fd4-effb3b220b2a\",\"Origin\":{\"X\":25,\"Z\":24},\"Destination\":{\"X\":25,\"Z\":16}},{\"Id\":\"502ad4d0-8adf-45c8-82a9-7be7ad64e750\",\"Origin\":{\"X\":22,\"Z\":24},\"Destination\":{\"X\":26,\"Z\":15}},{\"Id\":\"091b0c4d-6912-4953-a1c3-08f207fbbde0\",\"Origin\":{\"X\":22,\"Z\":24},\"Destination\":{\"X\":26,\"Z\":15}},{\"Id\":\"3f4683fd-09e2-4038-a53c-2d4dd98397fa\",\"Origin\":{\"X\":26,\"Z\":15},\"Destination\":{\"X\":22,\"Z\":24}}]}";
+    private  string jsonString;
     
 	// measure (full or partial) of a update type.
 	private string initialCityState;
@@ -269,8 +277,8 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-    public bool runOnce = true;
-    public bool runOnce2 = true;
+    public bool runOnce = false;
+    public bool runOnce2 = false;
 
     /// <summary>
     /// Gets or sets the humans.
@@ -313,6 +321,15 @@ public class CityDataManager : MonoBehaviour
         characterManager = GameObject.Find("CharacterManager");
         gridManager = GameObject.Find("Grid");
 
+        filePath1 = "json/fullPacket";
+        filePath2 = "json/fullPacket_2";
+        filePath3 = "json/partialPacket";
+        targetFile1 = Resources.Load<TextAsset>(filePath1);
+        targetFile2 = Resources.Load<TextAsset>(filePath2);
+        targetFile3 = Resources.Load<TextAsset>(filePath3);
+
+        jsonString = targetFile3.text;
+
         // Server request initial
         SimulationUpdateRequest fullRequest = new SimulationUpdateRequest ("update", true);
 
@@ -337,7 +354,6 @@ public class CityDataManager : MonoBehaviour
             initiateGrid();  
             updateCityData();
         }
-        
     }
 
 	/// <summary>
@@ -349,15 +365,28 @@ public class CityDataManager : MonoBehaviour
 
         // TODO: request update
 
-        if(runOnce)
-        if(tryParseInitialCityData(jsonString)){
-            if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
-                updateCityData();
-                updateCity();
+        if(runOnce){
+            switch(textFileIndex){
+                case 0:
+                    jsonString = targetFile1.text;
+                    break;
+                case 1:
+                    jsonString = targetFile2.text;
+                    break;
+                case 2:
+                    jsonString = targetFile3.text;
+                    break;
             }
-            runOnce = false;
-        }
 
+            if(tryParseInitialCityData(jsonString)){
+                updateCityData();
+
+                if(gridManager.GetComponent<GridManager>().updateEntireGrid()){
+                    updateCity();
+                }
+                runOnce = false;
+            }
+        }
         if(runOnce2){
             initiateGridForTest();
 
@@ -372,48 +401,6 @@ public class CityDataManager : MonoBehaviour
             updateClock((int)nextTime);
         }
 
-		// if(initateCity){
-            // if(turnOnTestGrid){ // if turned on for test, initiate test grid
-            //     initiateGridForTest();
-            // }
-
-        //           if(buildingManager != null
-        //               && characterManager != null){
-
-                // if(runOnce){
-                //     buildingManager.GetComponent<BuildingManager>().createBuilding("TESTGUID", 1, 1, 2, 2);
-                //     runOnce = false;
-                //     gridManager.GetComponent<GridManager>().createRoad(1, 2);
-                //     gridManager.GetComponent<GridManager>().createRoad(2, 2);
-                //     gridManager.GetComponent<GridManager>().createRoad(3, 2);
-                //     gridManager.GetComponent<GridManager>().createRoad(4, 2);
-
-                // }
-
-                // if(runOnce2){
-                //     buildingManager.GetComponent<BuildingManager>().disposeBuilding("TESTGUID");
-                //     runOnce = false;
-                // }
-
-                // if (Time.time >= nextTime) {
-                //     nextTime += 1; 
-                //     updateClock((int)nextTime);
-                // }
-
-  //           }
-		// }
-
-        // if (updateTheCity) {
-        //     cityData = JsonUtility.FromJson<CityData>(partialCityState);
-        //     lastUpdate = cityData.netHours;
-        //     //Update the city with the latest city data
-
-
-        //     // TODO :Client team 
-            
-        //     updateTheCity = false;
-        // }
-
 	}
 
     /// <summary>
@@ -425,7 +412,7 @@ public class CityDataManager : MonoBehaviour
         cityData= JsonUtility.FromJson<CityData>(jstring);
 
         if(cityData == null)
-            Debug.Log(cityData);
+            Debug.Log("tryParseInitialCityData: null");
 
         return cityData != null ? true:false;
     }
@@ -461,39 +448,20 @@ public class CityDataManager : MonoBehaviour
         // assign road
         foreach (Point point in cityData.NewRoads)
         {
-            grid[point.x][point.z] = 0;
+            grid[point.X][point.Z] = 0;
         }
 
         // assign building
-        foreach (NewBuilding building in cityData.NewBuildings)
-        {
-            // update grid
-            int type = -1;
-            switch (building.Type[0])
-            {
-                case 'H':
-                    type = 1;
-                    break;
+        foreach (NewBuilding building in cityData.NewBuildings) {
+            if (building.Type.Equals("H")){
+                grid[building.Point.X][building.Point.Z] = 1;
+            } else if (building.Type.Equals("C")){
+                grid[building.Point.X][building.Point.Z] = 2;
+            } else if (building.Type.Equals("I")){
+                grid[building.Point.X][building.Point.Z] = 3;
+            } else {}
 
-                case 'C':
-                    type = 2;
-                    break;
-
-                case 'I':
-                    type = 3;
-                    break;
-
-                default:
-                    type = -1;
-                    break;
-            }
-
-            // update CityDataManager.Grid for building
-            if (building.Point.x < size_x || building.Point.z < size_z)
-            {
-                grid[building.Point.x][building.Point.z] = type;
-
-            }
+            
         }
 
         return true;
@@ -509,29 +477,29 @@ public class CityDataManager : MonoBehaviour
         {
 
             // Debug.Log(building);
-            // Debug.Log((string)building.Type + " "
-            //         + (string)building.Name + " "
-            //         + building.Point.x + " "
-            //         + building.Point.z + " "
-            //         + building.Rating + " "
-            //         + building.IsTall);
+            Debug.Log((string)building.Type + " "
+                    + (string)building.Name + " "
+                    + building.Point.X + " "
+                    + building.Point.Z + " "
+                    + building.Rating + " "
+                    + building.IsTall);
 
             if (building.Type.Equals("H")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.x,
-                                                                                building.Point.z,
+                                                                                building.Point.X,
+                                                                                building.Point.Z,
                                                                                 1,
                                                                                 building.Rating);
             } else if (building.Type.Equals("C")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.x,
-                                                                                building.Point.z,
+                                                                                building.Point.X,
+                                                                                building.Point.Z,
                                                                                 2,
                                                                                 building.Rating);
             } else if (building.Type.Equals("I")){
                 buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.x,
-                                                                                building.Point.z,
+                                                                                building.Point.X,
+                                                                                building.Point.Z,
                                                                                 3,
                                                                                 building.Rating);   
             } else {
@@ -545,13 +513,13 @@ public class CityDataManager : MonoBehaviour
         {
 
             // Debug.Log(person);
-            // Debug.Log((string)person.Id + " "
-            //         + person.Origin.x + " "
-            //         + person.Origin.z + " "
-            //         + person.Destination.x + " "
-            //         + person.Destination.z + " ");
+            Debug.Log((string)person.Id + " "
+                    + person.Origin.X + " "
+                    + person.Origin.Z + " "
+                    + person.Destination.X + " "
+                    + person.Destination.Z + " ");
 
-            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.x, person.Origin.z, person.Destination.x, person.Destination.z);
+            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
         }
 
         
@@ -590,22 +558,6 @@ public class CityDataManager : MonoBehaviour
         return true;
     }
 
-    public List<Point> getPossibleDest(){
-
-        List<Point> possibleDest = new List<Point>();
-
-        for (int x = 0; x < size_x; x++)
-        {
-            for (int z = 0; z < size_z; z++){
-                if(grid[x][z] == 0) {
-                    possibleDest.Add(new Point{ x = x, z = z });
-                }
-            }
-        }
-
-		return possibleDest;
-    }
-
 	/// <summary>
 	/// Turns on updateTheCity to update city 
 	/// </summary>
@@ -642,15 +594,15 @@ public class CityDataManager : MonoBehaviour
         grid = new[] {
             new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
+            new int [] { 0, 1, 1, 1, 1, 0, 2, 2, 2, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+            new int [] { 0, 1, 1, 1, 2, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+            new int [] { 0, 1, 1, 1, 2, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
+            new int [] { 0, 1, 1, 1, 2, 0, 2, 2, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
             new int [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
