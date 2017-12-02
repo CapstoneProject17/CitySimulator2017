@@ -66,15 +66,15 @@ namespace DBInterface.Econ
                 Market.ComStock -= NumOrdered;
                 buyer.Funds -= NumOrdered * order.OrderProduct.RetailPrice;
                 buyer.Inventory += NumOrdered;
-                Console.WriteLine("============================");
+                
                 foreach (Business b in SellerList)
                 {
                     b.Inventory -= NumPerSeller;
                     b.Funds += NumPerSeller * order.OrderProduct.RetailPrice;
-                    Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
+                    //Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
                 }
-                Console.WriteLine("============================");
-                Console.WriteLine("Market total: " + Market.ComStock);
+                //Console.WriteLine("============================");
+                //Console.WriteLine("Market total: " + Market.ComStock);
             }
             else if (first.Type.Equals("I", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -88,80 +88,16 @@ namespace DBInterface.Econ
                 Market.IndStock -= NumOrdered;
                 buyer.Funds -= NumOrdered * order.OrderProduct.WholesalePrice;
                 buyer.Inventory += NumOrdered;
-                Console.WriteLine("============================");
+                //Console.WriteLine("============================");
                 foreach (Business b in SellerList)
                 {
                     b.Inventory -= NumPerSeller;
                     b.Funds += NumPerSeller * order.OrderProduct.WholesalePrice;
-                    Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
+                    //Console.WriteLine(b.Name + " " + b.Inventory + ", " + b.Funds);
                 }
-                Console.WriteLine("============================");
-                Console.WriteLine("Market total: " + Market.IndStock);
+                //Console.WriteLine("============================");
+                //Console.WriteLine("Market total: " + Market.IndStock);
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //Console.WriteLine("Businesses available " + SellerList.Count);
-            //int transfer;
-            //for (int i = 0; i < SellerList.Count && quantityOrdered > 0; ++i)
-            //{
-            //    Business seller = SellerList[i];
-            //    //If business carries product being ordered
-
-            //    int amountAvailable = seller.Inventory.Amount;
-            //    //if seller does not have enough to complete order.
-            //    if (amountAvailable < quantityOrdered)
-            //    {
-            //        transfer = (int)(order.OrderProduct.RetailPrice * amountAvailable);
-            //        seller.Inventory.Amount -= amountAvailable;
-            //        //seller needs to order more
-            //        seller.FillInventory();
-            //        quantityOrdered -= amountAvailable;
-            //        //b.Inventory[order.OrderProduct] -= amountAvailable;
-            //        seller.Funds += transfer;
-            //        buyer.Funds -= transfer;
-            //    }
-            //    //if seller can complete order
-            //    else if (amountAvailable >= quantityOrdered)
-            //    {
-            //        transfer = (int)(order.OrderProduct.RetailPrice * quantityOrdered);
-            //        seller.Inventory.Amount -= quantityOrdered;
-            //        quantityOrdered = 0;
-            //        //b.Inventory[order.OrderProduct] -= amountAvailable;
-            //        seller.Funds += transfer;
-            //        buyer.Funds -= transfer;
-
-
-            //    }
-
-            //}
-
         }
     }
 }

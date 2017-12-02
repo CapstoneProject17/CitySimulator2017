@@ -62,7 +62,7 @@ namespace CitySimNetworkService
                 foreach (string s in queue)
                 {
                     JObject o = JObject.Parse(s);
-                    if((int)o["netHours"] == id)
+                    if((int)o["NetHours"] == id)
                     {
                         return s;
                     }

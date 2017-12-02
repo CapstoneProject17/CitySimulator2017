@@ -296,7 +296,7 @@ namespace DataAccessLayer
 		/// Changed method to use new validation style
 		/// </summary>
 		/// <param name="buildings">A list of the buildings to be inserted into the database</param>
-		public void InsertBuildings(IEnumerable<Building> buildings)
+		public Task InsertBuildings(IEnumerable<Building> buildings)
 		{
             List<BuildingDB> buildingsDB = new List<BuildingDB>();
             foreach (Building b in buildings)
@@ -308,14 +308,13 @@ namespace DataAccessLayer
 				if (!DALValidator.DALBuildingValidator(b))
 				{
 					System.Console.WriteLine("Building Id: " + b.Guid.ToString() + " did not meet validation rules.");
-					return;
+					return null;
 				}
 			}
 
 			//TODO: we need to decide if inserting collection of buildings is needed
-
-			//var buildingCol = Database.GetCollection<Building>("Buildings");
-			//buildingCol.InsertMany(buildings);
+			var buildingCol = Database.GetCollection<Building>("Buildings");
+			return buildingCol.InsertManyAsync(buildings);
 		}
 
 
