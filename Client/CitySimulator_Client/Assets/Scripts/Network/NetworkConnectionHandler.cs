@@ -79,6 +79,10 @@ public class AsynchronousClient
             client.Shutdown(SocketShutdown.Both);
             client.Close();
 
+            connectDone.Reset();
+            sendDone.Reset();
+            receiveDone.Reset();
+
             //Return response to data manager
             return response;
         }
