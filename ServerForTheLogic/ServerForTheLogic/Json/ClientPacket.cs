@@ -94,7 +94,7 @@ namespace ServerForTheLogic.Json
             NetHours = city.clock.NetHours;
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
-
+            string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
             using (StreamWriter sw = new StreamWriter(PATH))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
