@@ -42,29 +42,7 @@ namespace ServerForTheLogic
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            string path = @"..\..\SerializedCity\city.json";
-
-            // This text is added only once to the file.
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path, "");
-            }
-
-            // Open the file to read from.
-            string readText = File.ReadAllText(path);
-            //Console.WriteLine(readText);
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Converters.Add(new LocationConverter());
-            settings.Converters.Add(new BlockConverter());
-            //JsonSerializer serializer = new JsonSerializer();
-            city = JsonConvert.DeserializeObject<City>(readText, settings);
-
-
-
-            if (city == null)
-            {
-                city = new City(fullUpdateQueue, partialUpdateQueue);
-            }
+            city = new City(fullUpdateQueue, partialUpdateQueue);
 
             //city.CommercialBlocksToFill.Dump();
             //city.PartialUpdateList.Dump();
@@ -87,9 +65,6 @@ namespace ServerForTheLogic
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
             foreach (Block b in city.BlockMap)
                 city.setAdjacents(b);
-
-
-            
             GetInput();
         }
 
@@ -165,6 +140,16 @@ namespace ServerForTheLogic
                 if (cmd.Equals("day"))
                 {
                     city.TickDay();
+                }
+                if (cmd.Equals("week"))
+                {
+                    for (int i = 0; i < 7; i++)
+                        city.TickDay();
+                }
+                if (cmd.Equals("month"))
+                {
+                    for (int i = 0; i < 30; i++)
+                        city.TickDay();
                 }
                 if (cmd.Equals("year"))
                 {

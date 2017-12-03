@@ -43,7 +43,7 @@ namespace DBInterface.Infrastructure
         /// <param name="Name"></param>
         /// <param name="capacity"></param>
         /// <param name="isTall"></param>
-        public Business(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
+        public Business(string Name, int capacity) : base(Name, capacity)
         {
             workers = new List<Person>();
 
