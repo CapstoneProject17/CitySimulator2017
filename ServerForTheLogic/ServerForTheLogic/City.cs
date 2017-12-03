@@ -602,7 +602,8 @@ namespace ServerForTheLogic
         {
             //starts clock 
             clock = new Clock(this, full, partial);
-            clock.SaveInitialClientState();
+            //commented out
+            //clock.SaveInitialClientState();
             clock.timer.Start();
             Console.WriteLine("Started simulation");
         }

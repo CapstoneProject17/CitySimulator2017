@@ -47,9 +47,14 @@ namespace ServerForTheLogic
             //city.CommercialBlocksToFill.Dump();
             //city.PartialUpdateList.Dump();
             city.printCity();
+            
+
             foreach (Block b in city.BlockMap)
                 if (b.Type != BlockType.Empty)
-                city.addRoads(b);
+                {
+                    city.addRoads(b);
+                }
+                    
             int max = 0;
             foreach (Person p in city.AllPeople)
             {
@@ -58,10 +63,8 @@ namespace ServerForTheLogic
             }
             Console.WriteLine(max);
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
-
             foreach (Block b in city.BlockMap)
                 city.setAdjacents(b);
-
             GetInput();
         }
 

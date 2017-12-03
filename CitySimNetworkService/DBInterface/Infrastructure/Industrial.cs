@@ -50,7 +50,6 @@ namespace DBInterface.Infrastructure
         {
             Inventory += 200;
             Market.IndStock += 200;
-            Console.WriteLine("Adding 200 Stock to IND");
         }
 
         /// <summary>
