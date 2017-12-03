@@ -14,6 +14,13 @@ namespace DBInterface.Infrastructure
     /// </summary>
     public class Building : Location
     {
+        //max number of residents if building is tall
+        public const int CAPACITY_RATING_0 = 5;
+        //max number of residents if building is not tall
+        public const int CAPACITY_RATING_1 = 10;
+        //max number of residents if building is not tall
+        public const int CAPACITY_RATING_2 = 15;
+
         [JsonProperty]
         // the quality of the building 1-3, 1 being the lowest quality
         public int Rating { get; set; }
@@ -21,10 +28,6 @@ namespace DBInterface.Infrastructure
         [JsonProperty]
         // number of people that live or work in this building
         public int Capacity { get; set; }
-
-        [JsonProperty]
-        // whether the building is larger or not
-        public bool IsTall { get; private set; }
 
         /// <summary>
         /// Constructs a building using the passed in name
@@ -41,10 +44,9 @@ namespace DBInterface.Infrastructure
         /// <param name="Name"></param>
         /// <param name="Capacity"></param>
         /// <param name="isTall"></param>
-        public Building(string Name, int Capacity, Boolean isTall) : base(Name)
+        public Building(string Name, int Capacity) : base(Name)
         {
             this.Capacity = Capacity;
-            this.IsTall = isTall;
         }
 
         /// <summary>
@@ -62,7 +64,21 @@ namespace DBInterface.Infrastructure
             this.Point = building.Point;
             this.Type = building.Type;
             this.Rating = building.Rating;
-            this.IsTall = building.IsTall;
+        }
+
+        public bool Upgrade()
+        {
+            if (Capacity == CAPACITY_RATING_0)
+            {
+                Capacity = CAPACITY_RATING_1;
+                return true;
+            }
+            else if (Capacity == CAPACITY_RATING_1)
+            {
+                Capacity = CAPACITY_RATING_2;
+                return true;
+            }
+            return false;
         }
     }
 }

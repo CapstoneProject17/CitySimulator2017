@@ -296,7 +296,7 @@ namespace DataAccessLayer
 		/// Changed method to use new validation style
 		/// </summary>
 		/// <param name="buildings">A list of the buildings to be inserted into the database</param>
-		public void InsertBuildings(IEnumerable<Building> buildings)
+		public Task InsertBuildings(IEnumerable<Building> buildings)
 		{
             List<BuildingDB> buildingsDB = new List<BuildingDB>();
             foreach (Building b in buildings)
@@ -308,14 +308,13 @@ namespace DataAccessLayer
 				if (!DALValidator.DALBuildingValidator(b))
 				{
 					System.Console.WriteLine("Building Id: " + b.Guid.ToString() + " did not meet validation rules.");
-					return;
+					return null;
 				}
 			}
 
 			//TODO: we need to decide if inserting collection of buildings is needed
-
-			//var buildingCol = Database.GetCollection<Building>("Buildings");
-			//buildingCol.InsertMany(buildings);
+			var buildingCol = Database.GetCollection<Building>("Buildings");
+			return buildingCol.InsertManyAsync(buildings);
 		}
 
 
@@ -588,7 +587,6 @@ namespace DataAccessLayer
 				.Set("XPoint", residential.Point.X)
 				.Set("YPoint", residential.Point.Z)
 				.Set("Rating", residential.Rating)
-				.Set("IsTall", residential.IsTall)
 				.Set("Capacity", residential.Capacity);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
@@ -631,7 +629,6 @@ namespace DataAccessLayer
 				.Set("XPoint", commercial.Point.X)
 				.Set("YPoint", commercial.Point.Z)
 				.Set("Rating", commercial.Rating)
-				.Set("IsTall", commercial.IsTall)
 				.Set("Capacity", commercial.Capacity)
 				.Set("RetailPrice", 0)
 				.Set("InventoryCount", 0);
@@ -676,7 +673,6 @@ namespace DataAccessLayer
                 .Set("XPoint", industrial.Point.X)
                 .Set("YPoint", industrial.Point.Z)
                 .Set("Rating", industrial.Rating)
-                .Set("IsTall", industrial.IsTall)
                 .Set("Capacity", industrial.Capacity)
                 .Set("RetailPrice", 0)
                 .Set("InventoryCount", 0);

@@ -141,6 +141,16 @@ namespace ServerForTheLogic
                 {
                     city.TickDay();
                 }
+                if (cmd.Equals("week"))
+                {
+                    for (int i = 0; i < 7; i++)
+                        city.TickDay();
+                }
+                if (cmd.Equals("month"))
+                {
+                    for (int i = 0; i < 30; i++)
+                        city.TickDay();
+                }
                 if (cmd.Equals("year"))
                 {
                     city.TickYear();

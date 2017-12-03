@@ -7,6 +7,7 @@ using DBInterface;
 using System.IO;
 using DBInterface.Infrastructure;
 using DBInterface.Econ;
+using Bogus;
 
 namespace ServerForTheLogic.Utilities
 {
@@ -59,7 +60,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// The number of milliseconds between Clock "ticks."  In this case, 1 second = 1000.
         /// </summary>
-        public const int INTERVAL = 1;
+        public const int INTERVAL = 50;
 
         private SimulationStateQueue FullUpdate;
 
@@ -125,8 +126,15 @@ namespace ServerForTheLogic.Utilities
             Console.WriteLine("Hours:\t" + NetHours);
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
-            city.createPerson();
-            foreach (Person p in city.AllPeople)
+            Randomizer rand = new Randomizer();
+            int peopleAdded = rand.Number(0, 3);
+            Console.WriteLine("added " + peopleAdded + "people");
+            for (int i = 0; i < peopleAdded; i++)
+            {
+                city.createPerson();
+            }
+
+            foreach (DBInterface.Person p in city.AllPeople)
             {
                 p.ConsumeProd();
             }
@@ -138,7 +146,7 @@ namespace ServerForTheLogic.Utilities
             //Console.WriteLine("~~~~~~PARTIAL PACKET");
             //Console.WriteLine(output);
             PartialUpdate.Enqueue(output);
-            
+
             //Console.WriteLine(output);
             //Console.WriteLine("Market checker " + Market.BusinessesHiring.Count);
 
@@ -158,7 +166,7 @@ namespace ServerForTheLogic.Utilities
         /// <para/> Last edited:  2017-11-07
         internal void TickDay()
         {
-            foreach (Person p in city.AllPeople)
+            foreach (DBInterface.Person p in city.AllPeople)
             {
                 if (p.AgeDeathTick())
                 {
@@ -167,7 +175,7 @@ namespace ServerForTheLogic.Utilities
             }
             NetDays = NetHours / 24;
             Console.WriteLine("Days:\t" + NetDays);
-            
+
 
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Converters.Add(new LocationConverter());
@@ -234,7 +242,7 @@ namespace ServerForTheLogic.Utilities
         {
             NetYears = NetDays / 365;
             Console.WriteLine("Years:\t" + NetYears);
-            foreach (Person p in city.AllPeople)
+            foreach (DBInterface.Person p in city.AllPeople)
             {
                 p.SetAge();
             }

@@ -35,7 +35,7 @@ namespace DBInterface.Infrastructure
         /// <param name="Name"></param>
         /// <param name="capacity"></param>
         /// <param name="isTall"></param>
-        public Commercial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
+        public Commercial(string Name, int capacity) : base(Name, capacity)
         {
             Funds = 4000;
             Inventory = 0;

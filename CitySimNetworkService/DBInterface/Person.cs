@@ -10,8 +10,8 @@ namespace DBInterface
     public class Person : ICustomer
     {
 
-        private const int MEAN_DEATH_AGE = 80;
-        private const int STANDARD_DEVIATION_DEATH = 14;
+        private const int MEAN_DEATH_AGE = 75;
+        private const int STANDARD_DEVIATION_DEATH = 10;
         public double Funds { get; set; }
         /// <summary>
         /// Number of Products the person owns
@@ -179,6 +179,7 @@ namespace DBInterface
 
             //converts years left to days
             DaysLeft = (int)randNormal * 365;
+            Age = new Randomizer().Int(0, DaysLeft / 2);
         }
 
         /// <summary>
