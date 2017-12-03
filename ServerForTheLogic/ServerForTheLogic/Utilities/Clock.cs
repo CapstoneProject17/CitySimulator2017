@@ -133,7 +133,7 @@ namespace ServerForTheLogic.Utilities
             //Updater<Dictionary<Guid, Point>> updater = new Updater<Dictionary<Guid, Point>>();
 
             Randomizer rand = new Randomizer();
-            int peopleAdded = rand.Number(0, 30);
+            int peopleAdded = rand.Number(0, 3);
             Console.WriteLine("added " + peopleAdded + "people");
             for (int i = 0; i < peopleAdded; i++)
             {

@@ -31,7 +31,7 @@ namespace DBInterface.Infrastructure
         /// <param name="Name"></param>
         /// <param name="capacity"></param>
         /// <param name="isTall"></param>
-        public Industrial(string Name, int capacity, Boolean isTall) : base(Name, capacity, isTall)
+        public Industrial(string Name, int capacity) : base(Name, capacity)
         {
             this.Type = "I";
             Inventory = 0;

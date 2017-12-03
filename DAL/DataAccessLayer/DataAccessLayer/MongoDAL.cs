@@ -587,7 +587,6 @@ namespace DataAccessLayer
 				.Set("XPoint", residential.Point.X)
 				.Set("YPoint", residential.Point.Z)
 				.Set("Rating", residential.Rating)
-				.Set("IsTall", residential.IsTall)
 				.Set("Capacity", residential.Capacity);
 			var result = await collection.UpdateOneAsync(filter, update);
 		}
@@ -630,7 +629,6 @@ namespace DataAccessLayer
 				.Set("XPoint", commercial.Point.X)
 				.Set("YPoint", commercial.Point.Z)
 				.Set("Rating", commercial.Rating)
-				.Set("IsTall", commercial.IsTall)
 				.Set("Capacity", commercial.Capacity)
 				.Set("RetailPrice", 0)
 				.Set("InventoryCount", 0);
@@ -675,7 +673,6 @@ namespace DataAccessLayer
                 .Set("XPoint", industrial.Point.X)
                 .Set("YPoint", industrial.Point.Z)
                 .Set("Rating", industrial.Rating)
-                .Set("IsTall", industrial.IsTall)
                 .Set("Capacity", industrial.Capacity)
                 .Set("RetailPrice", 0)
                 .Set("InventoryCount", 0);

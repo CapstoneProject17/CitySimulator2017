@@ -17,10 +17,6 @@ namespace DBInterface.Infrastructure
     [JsonObject(MemberSerialization.OptIn)]
     public class Residential : Building
     {
-        //max number of residents if building is tall
-        public const int CAPACITY_TALL = 50;
-        //max number of residents if building is not tall
-        public const int CAPACITY_SHORT = 50;
 
         //current resident count
         [JsonProperty]
@@ -41,17 +37,10 @@ namespace DBInterface.Infrastructure
         /// </summary>
         /// <param name="capacity"></param>
         /// <param name="isTall"></param>
-        public Residential(int capacity, Boolean isTall) : base("Residence", capacity, isTall)
+        public Residential(int capacity) : base("Residence", capacity)
         {
             this.Type = "H";
-            if (isTall)
-            {
-                Capacity = CAPACITY_TALL;
-            }
-            else
-            {
-                Capacity = CAPACITY_SHORT;
-            }
+            Capacity = CAPACITY_RATING_0;
         }
     }
 }

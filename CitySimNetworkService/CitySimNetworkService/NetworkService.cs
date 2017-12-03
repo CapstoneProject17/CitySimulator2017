@@ -29,7 +29,6 @@ namespace CitySimNetworkService
         /// </summary>
         private AsyncServer connectionHandler;
         private City city;
-        private Updater<City> updater;
         SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
         {
             StateBufferSize = 1

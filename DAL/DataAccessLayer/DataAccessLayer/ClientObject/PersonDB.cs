@@ -23,8 +23,6 @@ namespace ServerForTheLogic.ClientObject
     /// </summary>
     public class PersonDB
     {
-        private string personfirstName;
-
         /// <summary>
         /// default constructor of Person.
         /// </summary>

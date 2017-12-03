@@ -34,7 +34,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// 
         /// </summary>
-        public static int FIXED_CAPACITY = 50;
+        public static int FIXED_CAPACITY = 5;
 
         /// <summary>
         /// Faker object used to generate names for people, businesses etc
@@ -86,7 +86,7 @@ namespace ServerForTheLogic
         /// Every hour, send the nested dictionary to the network queue
         /// </summary>
         public Dictionary<int, List<PersonTravel>> PartialUpdateList { get; private set; }
-        
+
         [JsonProperty]
         /// <summary>
         /// The grid that all buildings/roads/people exist in
@@ -112,7 +112,7 @@ namespace ServerForTheLogic
         /// </summary>
         public Clock clock;
         public static int DEFAULT_RATING = 1;
-        
+
         [JsonConstructor]
         /// <summary>
         /// Constructor for a new city, creates the grid of cells,
@@ -295,9 +295,8 @@ namespace ServerForTheLogic
             List<Residential> randHomes = Homes.ToList();
             List<Business> randBusinesses = Market.BusinessesHiring.ToList();
 
-            randBusinesses.OrderBy(x => rand.Int(0, Market.BusinessesHiring.Count));
-            randHomes.OrderBy(x => rand.Int(0, Homes.Count)).ToList();
-
+            randBusinesses.OrderBy(x => rand.Int(0, randBusinesses.Count));
+            randHomes.OrderBy(x => rand.Int(0, randHomes.Count));
             //assigns/creates Home
             foreach (Residential r in randHomes)
             {
@@ -311,9 +310,25 @@ namespace ServerForTheLogic
             }
             if (temp.Home == null)
             {
-                Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
-                temp.Home = newHome;
-                newHome.NumberOfResidents++;
+                if (ResidentialBlocksToFill.Count > 0)
+                {
+                    Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
+                    temp.Home = newHome;
+                    newHome.NumberOfResidents++;
+
+                }
+                if (temp.Home == null)
+                {
+                    for (int i = 0; i < randHomes.Count; i++)
+                    {
+                        if (randHomes[i].Upgrade())
+                        {
+                            temp.Home = randHomes[i];
+                            randHomes[i].NumberOfResidents++;
+                            break;
+                        }
+                    }
+                }
                 // PartialUpdateList[temp.EndShift].Add(temp.Id, newHome.Point);
             }
 
@@ -343,8 +358,42 @@ namespace ServerForTheLogic
 
             if (Market.BusinessesHiring.Count == 0)
             {
-                createBuilding(CommercialBlocksToFill.Peek());
-                createBuilding(IndustrialBlocksToFill.Peek());
+                if (CommercialBlocksToFill.Count != 0)
+                {
+                    createBuilding(CommercialBlocksToFill.Peek());
+                }
+                else
+                {
+                    List<Business> randCommercials = Market.CommercialBusinesses.ToList();
+                    randCommercials.OrderBy(x => rand.Int(0, randCommercials.Count));
+
+                    foreach (Business b in randCommercials)
+                    {
+                        if (b.Upgrade())
+                        {
+                            Market.BusinessesHiring.Add(b);
+                            break;
+                        }
+                    }
+                }
+                if (IndustrialBlocksToFill.Count != 0)
+                {
+                    createBuilding(IndustrialBlocksToFill.Peek());
+                }
+                else
+                {
+                    List<Business> randIndustrials = Market.IndustrialBusinesses.ToList();
+                    randIndustrials.OrderBy(x => rand.Int(0, randIndustrials.Count));
+
+                    foreach (Business b in randIndustrials)
+                    {
+                        if (b.Upgrade())
+                        {
+                            Market.BusinessesHiring.Add(b);
+                            break;
+                        }
+                    }
+                }
                 int index = rand.Int(0, Market.BusinessesHiring.Count - 1);
 
                 temp.Workplace = Market.BusinessesHiring[index];
@@ -361,6 +410,7 @@ namespace ServerForTheLogic
 
             return temp;
         }
+
 
         /// <summary>
         /// Generates a building on the block being passed in.
@@ -395,18 +445,18 @@ namespace ServerForTheLogic
 
             if (block.Type == BlockType.Commercial)
             {
-                building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
+                building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
                 Market.BusinessesHiring.Add((Business)building);
             }
             else if (block.Type == BlockType.Residential)
             {
-                building = new Residential(FIXED_CAPACITY, true);
+                building = new Residential(FIXED_CAPACITY);
                 Homes.Add((Residential)building);
 
             }
             else if (block.Type == BlockType.Industrial)
             {
-                building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY, true);
+                building = new Industrial(faker.Company.CompanyName(), FIXED_CAPACITY);
                 Market.BusinessesHiring.Add((Business)building);
             }
             else
@@ -424,7 +474,7 @@ namespace ServerForTheLogic
 
         public void SendtoDB()
         {
-            
+
             db.InsertBuildings(NewBuildings);
             db.InsertClock(clock);
             db.InsertPeople(AllPeople);
