@@ -11,14 +11,7 @@ namespace ServerForTheLogic.Json
     [JsonObject(MemberSerialization.OptIn)]
     class ClientPacket
     {
-        //[JsonProperty]
-        //public List<Person> PeopleSent { get; set; }
-
-        //[JsonProperty]
-        //public List<Location> Locations { get; set; }
-
-        //[JsonProperty]
-        //public Point GridSize { get; set; }
+        const string PATH = @"..\..\fullPacket.json";
 
         [JsonProperty]
         public int GridLength { get; set; }
@@ -59,6 +52,14 @@ namespace ServerForTheLogic.Json
             PeopleMoving = new List<PersonTravel>();
         }
 
+        static ClientPacket()
+        {
+            // This text is added only once to the file.
+            if (!File.Exists(PATH))
+            {
+                File.WriteAllText(PATH, "");
+            }
+        }
 
         public string ConvertPartialPacket()
         {
@@ -68,6 +69,15 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
+            using (StreamWriter sw = new StreamWriter(PATH))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, this);
+                sw.Close();
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
+
+       
             string JsonString =  JsonConvert.SerializeObject(this, Formatting.Indented);
             city.SendtoDB();
 
@@ -85,13 +95,18 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-           string JsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            using (StreamWriter sw = new StreamWriter(PATH))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, this);
+                sw.Close();
+                // {"ExpiryDate":new Date(1230375600000),"Price":0}
+            }
 
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();
 
             return JsonString;
         }
-
     }
 }
