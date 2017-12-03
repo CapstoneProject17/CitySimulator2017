@@ -424,7 +424,6 @@ namespace ServerForTheLogic
 
         public void SendtoDB()
         {
-            
             db.InsertBuildings(NewBuildings);
             db.InsertClock(clock);
             db.InsertPeople(AllPeople);

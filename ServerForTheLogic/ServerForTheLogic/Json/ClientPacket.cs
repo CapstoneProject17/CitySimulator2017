@@ -11,14 +11,7 @@ namespace ServerForTheLogic.Json
     [JsonObject(MemberSerialization.OptIn)]
     class ClientPacket
     {
-        //[JsonProperty]
-        //public List<Person> PeopleSent { get; set; }
-
-        //[JsonProperty]
-        //public List<Location> Locations { get; set; }
-
-        //[JsonProperty]
-        //public Point GridSize { get; set; }
+        const string PATH = @"..\..\fullPacket.json";
 
         [JsonProperty]
         public int GridLength { get; set; }
@@ -59,6 +52,14 @@ namespace ServerForTheLogic.Json
             PeopleMoving = new List<PersonTravel>();
         }
 
+        static ClientPacket()
+        {
+            // This text is added only once to the file.
+            if (!File.Exists(PATH))
+            {
+                File.WriteAllText(PATH, "");
+            }
+        }
 
         public string ConvertPartialPacket()
         {
@@ -68,7 +69,7 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\partialPacket.json"))
+            using (StreamWriter sw = new StreamWriter(PATH))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
@@ -96,7 +97,7 @@ namespace ServerForTheLogic.Json
             PeopleMoving = city.PartialUpdateList[(int)NetHours % 24];
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter(@"..\..\SerializedCity\fullPacket.json"))
+            using (StreamWriter sw = new StreamWriter(PATH))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, this);
@@ -113,28 +114,5 @@ namespace ServerForTheLogic.Json
 
             return JsonString;
         }
-
-
-        //public void fillQuickMap(City city)
-        //{
-
-        //    for (int i = 0; i < City.CITY_WIDTH; ++i)
-        //    {
-        //        for (int j = 0; j < City.CITY_LENGTH; ++j)
-        //        {
-        //            if (city.Map[i, j] != null)
-        //            {
-
-        //                QuickMap[i, j] = city.Map[i, j].Type;
-
-        //            }
-        //            else
-        //            {
-        //                QuickMap[i, j] = ".";
-
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

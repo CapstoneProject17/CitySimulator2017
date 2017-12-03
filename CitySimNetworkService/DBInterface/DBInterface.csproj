@@ -53,7 +53,7 @@
     <Compile Include="Econ\Market.cs" />
     <Compile Include="Econ\Order.cs" />
     <Compile Include="Econ\Product.cs" />
-    <Compile Include="IClock.cs" />
+    <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\Block.cs" />
     <Compile Include="Infrastructure\Building.cs" />
     <Compile Include="Infrastructure\Business.cs" />
