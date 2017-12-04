@@ -171,12 +171,6 @@ public class CityDataManager : MonoBehaviour
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
 
-
-    // human render every frame
-    public bool humanSwitch = true;
-    public PersonTravel[] people;
-    public int humanCounter;
-
     /// <summary>
     /// Gets the population.
     /// </summary>
@@ -357,23 +351,8 @@ public class CityDataManager : MonoBehaviour
                 updateCity();
             }
 
-            people = cityData.PeopleMoving;
-
             updateTheCity = false;
         }
-
-        if(Time.time >= nextTime){
-            if(people != null && humanCounter >= 0){   
-                characterManager.GetComponent<CharacterCreation>().createCharacter(
-                        people[humanCounter].Id,
-                        people[humanCounter].Origin.X,
-                        people[humanCounter].Origin.Z, 
-                        people[humanCounter].Destination.X,
-                        people[humanCounter].Destination.Z);
-                humanCounter--;
-            }
-        }
-
 
         if (Time.time >= nextTime * 15)
         {
@@ -468,7 +447,7 @@ public class CityDataManager : MonoBehaviour
         foreach (NewBuilding building in cityData.NewBuildings)
         {
 
-            Debug.Log(building.Id);
+            // Debug.Log(building.Id);
             // Debug.Log((string)building.Type + " "
             //         + (string)building.Name + " "
             //         + building.Point.X + " "
