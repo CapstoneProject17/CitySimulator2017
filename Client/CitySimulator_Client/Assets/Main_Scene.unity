@@ -664,19 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec56e53711f443d880618f5968ed9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textFileIndex: 0
-  turnOnTestGrid: 0
-  updateTheCity: 0
-  systemStartedTimeStamp: 0
-  systemCurrentTimeStamp: 0
-  timeInHour: 0
-  buildingManager: {fileID: 0}
-  characterManager: {fileID: 0}
-  gridManager: {fileID: 0}
-  nextTime: 0
-  trackTime: 0
-  runOnce: 0
-  runOnce2: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,6 +1251,7 @@ GameObject:
   - component: {fileID: 599436263}
   - component: {fileID: 599436268}
   - component: {fileID: 599436269}
+  - component: {fileID: 599436270}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1369,6 +1357,18 @@ MonoBehaviour:
   msgForLock: {fileID: 1066460608}
   timer: 0
   keyInputDelay: 0
+--- !u!114 &599436270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599436262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e1c8a9dc4e04cec9c7ab490d77518b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
 --- !u!1 &911481323
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,7 +2721,6 @@ GameObject:
   - component: {fileID: 1857592183}
   - component: {fileID: 1857592182}
   - component: {fileID: 1857592184}
-  - component: {fileID: 1857592185}
   m_Layer: 0
   m_Name: BuildingManager
   m_TagString: Untagged
@@ -2783,18 +2782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98572b495a844bf58c07febed75605c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1857592185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1857592181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e1c8a9dc4e04cec9c7ab490d77518b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 35
 --- !u!1 &1898423400
 GameObject:
   m_ObjectHideFlags: 0
