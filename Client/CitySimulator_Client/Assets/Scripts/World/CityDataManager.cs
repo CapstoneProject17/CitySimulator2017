@@ -363,14 +363,14 @@ public class CityDataManager : MonoBehaviour
         }
 
         if(Time.time >= nextTime){
-            if(people != null){   
+            if(people != null && humanCounter >= 0){   
                 characterManager.GetComponent<CharacterCreation>().createCharacter(
                         people[humanCounter].Id,
                         people[humanCounter].Origin.X,
                         people[humanCounter].Origin.Z, 
                         people[humanCounter].Destination.X,
                         people[humanCounter].Destination.Z);
-                humanCounter++;
+                humanCounter--;
             }
         }
 
