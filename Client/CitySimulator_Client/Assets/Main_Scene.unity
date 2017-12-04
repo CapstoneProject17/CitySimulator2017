@@ -641,8 +641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textFileIndex: 0
-  turnOnTestGrid: 0
   updateTheCity: 0
   systemStartedTimeStamp: 0
   systemCurrentTimeStamp: 0
@@ -651,8 +649,6 @@ MonoBehaviour:
   characterManager: {fileID: 0}
   gridManager: {fileID: 0}
   nextTime: 0
-  runOnce: 0
-  runOnce2: 0
 --- !u!114 &127092659
 MonoBehaviour:
   m_ObjectHideFlags: 0
