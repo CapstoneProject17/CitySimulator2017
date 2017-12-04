@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Net.Sockets;
 using System.IO;
 using System.Text;
+using System.Net;
 
 /// <summary>
 /// Name:       CitySimulator 
@@ -42,8 +43,11 @@ public class Client : MonoBehaviour
         }
 
         //default host / port values
-        string host = "127.0.0.1";
-        int port = 6321;
+#pragma warning disable CS0618 // Type or member is obsolete
+        string host = "142.232.165.87";
+#pragma warning restore CS0618 // Type or member is obsolete
+        Console.WriteLine(host); 
+        int port = 13456;
 
         //overwrite default host / port values, if there is something in thoese boxes
         string h;

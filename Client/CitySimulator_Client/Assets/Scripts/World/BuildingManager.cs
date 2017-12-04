@@ -25,8 +25,6 @@ public class BuildingManager : MonoBehaviour {
 	private GameObject[] planes;
 
 	private Transform planeTransform;
-	// private IList<GameObject> testplanes = new List<GameObject>();
-	// private IList<GameObject> testbuildings = new List<GameObject>();
 
 	public GameObject residential1;
 	public GameObject residential2;
@@ -48,110 +46,101 @@ public class BuildingManager : MonoBehaviour {
 	// Create new building to on given grid location
 	public void createBuilding (string GUID, int x, int z, int type, int rating) {
 
-		Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
+		planes = GameObject.FindGameObjectsWithTag ("plane");
+		GameObject go = findPlane(x,z);
+
+		// Debug.Log("Reciever Order: Create BUilding: " + GUID + " " + x +", " + z + " " + type + " " + rating);
 		
 		// Finds the type of the building. eg. Industrial, Residential, Commercial.
 		switch(type) 
 		{
 			// Residental 
 			case 1: 
-			Debug.Log("1");
-				if(rating == 1) {
-					Debug.Log("res1");
+				if(rating == 0) {
 				residential1.name = GUID;
 				instantiateBuilding (residential1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-               	residential1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR1") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+               	rotateBuilding(residential1, go);
 				}
 
-				if(rating == 2) {
-					Debug.Log("res2");
+				if(rating == 1) {
 				residential2.name = GUID;
 				instantiateBuilding (residential2,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				residential2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR2") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(residential2, go);
 				}
 
-				if(rating == 3) {	
-				Debug.Log("res3");			
+				if(rating == 2) {	
 				residential3.name = GUID;
 				instantiateBuilding (residential3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				residential3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACR3") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(residential3, go);
 				}
 			break; 
 
 			// Commercial
 			case 2:
-			Debug.Log("2");
-				if(rating == 1) {
-					Debug.Log("com1");
+				if(rating == 0) {
 				commercial1.name = GUID;
 				instantiateBuilding (commercial1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				commercial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC1") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(commercial1, go);
 				}
 
-				if(rating == 2) {
-					Debug.Log("com2");
+				if(rating == 1) {
 				commercial2.name = GUID;
 				instantiateBuilding (commercial2,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				commercial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC2") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(commercial2, go);
 				}
 
-				if(rating == 3) {	
-				Debug.Log("com3");
+				if(rating == 2) {	
 				commercial3.name = GUID;
 				instantiateBuilding (commercial3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				commercial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACC3") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(commercial3, go);
 				}
 			break;
 
 			// Industrial
 			case 3:
-			Debug.Log("3");
-				if(rating == 1) {
-				Debug.Log("ind1");				
+				if(rating == 0) {
 				industrial1.name = GUID;
 				instantiateBuilding (industrial1,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				industrial1.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI1") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(industrial1, go);
+				}
+
+				if(rating == 1) {
+				industrial2.name = GUID;
+				instantiateBuilding (industrial2,
+									 go.transform.localPosition.x,
+									 0,
+									 go.transform.localPosition.z);
+				rotateBuilding(industrial2, go);
 				}
 
 				if(rating == 2) {
-					Debug.Log("ind2");
-				industrial2.name = GUID;
-				instantiateBuilding (industrial2,
-									 x,
-									 0,
-									 z);
-				industrial2.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI2") as RuntimeAnimatorController;
-				}
-
-				if(rating == 3) {
-					Debug.Log("ind3");
 				industrial3.name = GUID;
 				instantiateBuilding (industrial3,
-									 x,
+									 go.transform.localPosition.x,
 									 0,
-									 z);
-				industrial3.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Models/Building/New_Models/ACs/ACI3") as RuntimeAnimatorController;
+									 go.transform.localPosition.z);
+				rotateBuilding(industrial3, go);
 				}
 			break;
 		}
@@ -171,17 +160,10 @@ public class BuildingManager : MonoBehaviour {
 		int x = 0;
 		int z = 0;
 
-		// building.localScale = planeTransform.localScale;
-		// building.localScale -= new Vector3 (0.25f, 0.20f, 0.15f);
-
-		// industryBuilding.localScale = planeTransform.localScale;
-		// industryBuilding.localScale -= new Vector3 (0.15f, 0.35f, 0.30f);
-
 		foreach(GameObject grid in planes) {
 
 			// Residential building models
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "1") {
-//				Debug.Log ("find 1: " + grid.transform.position.x + ", " + grid.transform.position.y);
 				
 				//Creating each cell of grid
 				instantiateBuilding(residential2, 
@@ -193,7 +175,6 @@ public class BuildingManager : MonoBehaviour {
 
 			//Commercial building objects
 			if (grid.transform.GetChild(0).GetComponent<TextMesh>().text == "3") {
-//				Debug.Log ("find 3: " + grid.transform.position.x + ", " + grid.transform.position.y);
 								
 				instantiateBuilding(commercial1, 
 									grid.transform.position.x,
