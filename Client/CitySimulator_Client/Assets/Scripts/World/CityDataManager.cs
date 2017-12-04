@@ -58,7 +58,7 @@ public class NewBuilding
     public string Type;
 
     // unique id for the building
-    public string id;
+    public string Id;
 }
 
 /// <summary>
@@ -468,7 +468,7 @@ public class CityDataManager : MonoBehaviour
         foreach (NewBuilding building in cityData.NewBuildings)
         {
 
-            // Debug.Log(building);
+            Debug.Log(building.Id);
             // Debug.Log((string)building.Type + " "
             //         + (string)building.Name + " "
             //         + building.Point.X + " "
@@ -478,7 +478,7 @@ public class CityDataManager : MonoBehaviour
 
             if (building.Type.Equals("H"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 1,
@@ -486,7 +486,7 @@ public class CityDataManager : MonoBehaviour
             }
             else if (building.Type.Equals("C"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 2,
@@ -494,7 +494,7 @@ public class CityDataManager : MonoBehaviour
             }
             else if (building.Type.Equals("I"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 3,
