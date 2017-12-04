@@ -16,14 +16,7 @@ using UnityEngine.UI;
 /// https://docs.unity3d.com/Manual/JSONSerialization.html
 /// https://stackoverflow.com/questions/36239705/serialize-and-deserialize-json-and-json-array-in-unity
 /// </summary>
-public class CityDataManagerClientOnly : MonoBehaviour
-{
-    private string filePath1;
-    private string filePath2;
-    private string filePath3;
-    TextAsset targetFile1;
-    TextAsset targetFile2;
-    TextAsset targetFile3;
+public class CityDataManagerClientOnly : MonoBehaviour {
 
     public int textFileIndex = 0;
     // switch for testing
@@ -67,7 +60,9 @@ public class CityDataManagerClientOnly : MonoBehaviour
 
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
-    
+
+    public bool runOnce2 = false;
+
 
     /// <summary>
     /// Gets the population.
@@ -161,8 +156,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
         }
     }
 
-    public bool runOnce = false;
-    public bool runOnce2 = false;
 
     /// <summary>
     /// Gets or sets the humans.
@@ -211,15 +204,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
         characterManager = GameObject.Find("CharacterManager");
         gridManager = GameObject.Find("Grid");
 
-        filePath1 = "json/fullPacket";
-        filePath2 = "json/fullPacket_2";
-        filePath3 = "json/partialPacket";
-        targetFile1 = Resources.Load<TextAsset>(filePath1);
-        targetFile2 = Resources.Load<TextAsset>(filePath2);
-        targetFile3 = Resources.Load<TextAsset>(filePath3);
-
-        jsonString = targetFile3.text;
-
         // // Server request initial
         // SimulationUpdateRequest fullRequest = new SimulationUpdateRequest
         // {
@@ -232,10 +216,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
 
         // systemStartedTimeStamp = System.DateTime.Now.Minute;
         // updateTheCity = false;
-
-        tryParseInitialCityData(jsonString);
-        initiateGrid();  
-
         // Debug.Log(cityData.GridLength);
         timeInHour = 0;
         nextTime = 0;
@@ -246,8 +226,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
     /// </summary>
     void Start () {
         InvokeRepeating("GetCityUpdate", 60.0f, 60.0f);
-        updateCityData();
-
     }
 
     /// <summary>
@@ -257,31 +235,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
         /// Will be used in the future
         systemCurrentTimeStamp = System.DateTime.Now.Minute;
 
-        // TODO: request update
-        if(runOnce){
-            initiateGrid();
-            switch(textFileIndex){
-                case 0:
-                    jsonString = targetFile1.text;
-                    break;
-                case 1:
-                    jsonString = targetFile2.text;
-                    break;
-                case 2:
-                    jsonString = targetFile3.text;
-                    break;
-            }
-
-            if(tryParseInitialCityData(jsonString)){
-                updateCityData();
-
-                Debug.Log(gridManager);
-                if(gridManager.GetComponent<GridManager>().updateEntireGridForClient()){
-                    updateCity();
-                }
-                runOnce = false;
-            }
-        }
         if(runOnce2){
             initiateGridForTest();
 
@@ -340,90 +293,6 @@ public class CityDataManagerClientOnly : MonoBehaviour
             }
         }
     }
-
-    public bool updateCityData(){
-
-        // assign road
-        foreach (Point point in cityData.NewRoads)
-        {
-            grid[point.X][point.Z] = 0;
-        }
-
-        // assign building
-        foreach (NewBuilding building in cityData.NewBuildings) {
-            if (building.Type.Equals("H")){
-                grid[building.Point.X][building.Point.Z] = 1;
-            } else if (building.Type.Equals("C")){
-                grid[building.Point.X][building.Point.Z] = 2;
-            } else if (building.Type.Equals("I")){
-                grid[building.Point.X][building.Point.Z] = 3;
-            } else {}
-
-            
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Creates actual city based on data
-    /// </summary>
-    public bool updateCity(){
-
-        // new building
-        foreach (NewBuilding building in cityData.NewBuildings)
-        {
-
-            // Debug.Log(building);
-            Debug.Log((string)building.Type + " "
-                    + (string)building.Name + " "
-                    + building.Point.X + " "
-                    + building.Point.Z + " "
-                    + building.Rating + " "
-                    + building.IsTall);
-
-            if (building.Type.Equals("H")){
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.X,
-                                                                                building.Point.Z,
-                                                                                1,
-                                                                                building.Rating);
-            } else if (building.Type.Equals("C")){
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.X,
-                                                                                building.Point.Z,
-                                                                                2,
-                                                                                building.Rating);
-            } else if (building.Type.Equals("I")){
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
-                                                                                building.Point.X,
-                                                                                building.Point.Z,
-                                                                                3,
-                                                                                building.Rating);   
-            } else {
-                Debug.Log("CityDataManager: non deifined building");
-            }
-
-        }
-        
-        // new character
-        foreach (PersonTravel person in cityData.PeopleMoving)
-        {
-
-            // Debug.Log(person);
-            Debug.Log((string)person.Id + " "
-                    + person.Origin.X + " "
-                    + person.Origin.Z + " "
-                    + person.Destination.X + " "
-                    + person.Destination.Z + " ");
-
-            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
-        }
-
-        
-        return true;
-    }
-
 
     /// <summary>
     /// Creates actual city based on data
