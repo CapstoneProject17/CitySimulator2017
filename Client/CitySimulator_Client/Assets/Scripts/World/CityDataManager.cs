@@ -172,6 +172,11 @@ public class CityDataManager : MonoBehaviour
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
 
 
+    // human render every frame
+    public bool humanSwitch = true;
+    public PersonTravel[] people;
+    public int humanCounter;
+
     /// <summary>
     /// Gets the population.
     /// </summary>
@@ -331,6 +336,7 @@ public class CityDataManager : MonoBehaviour
         {
             initiateGrid();
             updateCityData();
+            humanCounter = cityData.PeopleMoving.Length;
         }
     }
 
@@ -351,8 +357,23 @@ public class CityDataManager : MonoBehaviour
                 updateCity();
             }
 
+            people = cityData.PeopleMoving;
+
             updateTheCity = false;
         }
+
+        if(Time.time >= nextTime){
+            if(people != null){   
+                characterManager.GetComponent<CharacterCreation>().createCharacter(
+                        people[humanCounter].Id,
+                        people[humanCounter].Origin.X,
+                        people[humanCounter].Origin.Z, 
+                        people[humanCounter].Destination.X,
+                        people[humanCounter].Destination.Z);
+                humanCounter++;
+            }
+        }
+
 
         if (Time.time >= nextTime * 15)
         {
@@ -448,12 +469,12 @@ public class CityDataManager : MonoBehaviour
         {
 
             // Debug.Log(building);
-            Debug.Log((string)building.Type + " "
-                    + (string)building.Name + " "
-                    + building.Point.X + " "
-                    + building.Point.Z + " "
-                    + building.Rating + " "
-                    + building.IsTall);
+            // Debug.Log((string)building.Type + " "
+            //         + (string)building.Name + " "
+            //         + building.Point.X + " "
+            //         + building.Point.Z + " "
+            //         + building.Rating + " "
+            //         + building.IsTall);
 
             if (building.Type.Equals("H"))
             {
@@ -487,18 +508,18 @@ public class CityDataManager : MonoBehaviour
         }
 
         // new character
-        foreach (PersonTravel person in cityData.PeopleMoving)
-        {
+        // foreach (PersonTravel person in cityData.PeopleMoving)
+        // {
 
-            // Debug.Log(person);
-            Debug.Log((string)person.Id + " "
-                    + person.Origin.X + " "
-                    + person.Origin.Z + " "
-                    + person.Destination.X + " "
-                    + person.Destination.Z + " ");
+        //     // Debug.Log(person);
+        //     // Debug.Log((string)person.Id + " "
+        //     //         + person.Origin.X + " "
+        //     //         + person.Origin.Z + " "
+        //     //         + person.Destination.X + " "
+        //     //         + person.Destination.Z + " ");
 
-            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
-        }
+        //     characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
+        // }
 
 
         return true;
