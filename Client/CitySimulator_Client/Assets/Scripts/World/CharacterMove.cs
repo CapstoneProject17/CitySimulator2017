@@ -139,8 +139,8 @@ public class CharacterMove : MonoBehaviour {
 					bfs.PathIndex--;
 				} 
 
-				if(bfs.CurrentPlane.Equals(bfs.Goal))
-					bfs.To = false;
+				if (bfs.CurrentPlane.Equals (bfs.Goal))
+					Destroy (this.gameObject);
 
 			} else {
 				Destroy (this.gameObject);
