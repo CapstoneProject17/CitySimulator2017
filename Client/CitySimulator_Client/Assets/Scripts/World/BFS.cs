@@ -17,6 +17,7 @@ using UnityEngine;
 /// </summary>
 public class BFS {
 
+	public Dictionary<int, Dictionary<int,GameObject>> Grid;
 	// x axis of destination
 	private int x_dest;
 	//z axis of destination
@@ -166,22 +167,12 @@ public class BFS {
 	/// </summary>
 	public void Start () {
 		planes = GameObject.FindGameObjectsWithTag("plane");
-		goal = findGoal(x_dest, z_dest);
+		goal = Grid[x_dest][z_dest];
 		path = getShortestPath (originalPlane, goal);
 		pathIndex = path.Count - 1;
 		to = true;
 		valid = pathIndex >= 0 ? true : false;
 
-	}
-
-	GameObject findGoal(int x_dest, int z_dest) {
-		GameObject destination = findPlane (x_dest, z_dest);
-		IList<GameObject> possibles = GetWalkableNodes (destination);
-
-		if (possibles.Count > 0)
-			return possibles [0];
-
-		return null;
 	}
 
 	/// <summary>
@@ -253,17 +244,26 @@ public class BFS {
 	IList<GameObject> GetWalkableNodes(GameObject current) {
 		IList<GameObject> walkableNodes = new List<GameObject> ();
 		IList<GameObject> possibleNodes = new List<GameObject> ();
-		GameObject up, down, left, right;
+		GameObject up = null, down = null, left = null, right = null;
 		string textMesh = current.transform.GetChild(1).GetComponent<TextMesh> ().text;
 		IList<int> points = findNumber (textMesh);
 		int x = points [0];
 		int z = points [1];
 
-		up = findPlane (x, z + 1);
-		down = findPlane (x, z - 1);
-		left = findPlane (x - 1, z);
-		right = findPlane (x + 1, z);
+		if (Grid.ContainsKey (x) && Grid [x].ContainsKey (z + 1)) {
+			up = Grid [x][z + 1];	
+		}
+		if (Grid.ContainsKey (x) && Grid [x].ContainsKey (z - 1)) {
+			down = Grid [x][z - 1];	
+		}
+		if (Grid.ContainsKey (x - 1) && Grid [x].ContainsKey (z)) {
+			right = Grid [x - 1][z];	
+		}
+		if (Grid.ContainsKey (x + 1) && Grid [x].ContainsKey (z)) {
+			right = Grid [x + 1][z];	
+		}
 
+		
 		possibleNodes.Add (up);
 		possibleNodes.Add (down);
 		possibleNodes.Add (left);
@@ -302,25 +302,6 @@ public class BFS {
 
 		return points;
 
-	}
-
-	/// <summary>
-	/// Finds the plane that has certain x and z axis.
-	/// </summary>
-	/// <returns>The plane.</returns>
-	/// <param name="x">The x coordinate.</param>
-	/// <param name="z">The z coordinate.</param>
-	GameObject findPlane(int x, int z) {
-		string goalPlaneText = "(" + x + ", " + z + ")";
-		foreach (GameObject plane in planes) {
-			Transform grid = plane.transform;
-			string gridText = grid.GetChild (1).GetComponent<TextMesh> ().text;
-			if (gridText.Equals (goalPlaneText)) {
-				return plane;
-			}
-		}
-
-		return null;
 	}
 
 }

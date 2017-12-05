@@ -42,6 +42,8 @@ public class GridManager : MonoBehaviour {
 	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
+	public Dictionary<int, Dictionary<int,GameObject>> Grid = new Dictionary<int, Dictionary<int, GameObject>>();
+
 	/// <summary>
 	/// Update this instance.
 	/// </summary>
@@ -80,6 +82,7 @@ public class GridManager : MonoBehaviour {
 				// component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
+				Transform plane = 
 			 	Instantiate(cellPrefab, 
 							new Vector3(
 							x + (cellPrefab.localScale.x * x)*8,
@@ -87,6 +90,11 @@ public class GridManager : MonoBehaviour {
 							z + (cellPrefab.localScale.z * z)*8),
 							Quaternion.identity,
 							parentGrid.transform);
+				if (!Grid.ContainsKey (x)) {
+					Grid.Add (x, new Dictionary<int, GameObject> ());
+				}
+				Grid [x] [z] = plane.gameObject;
+				
 			}
 		}
 
@@ -120,13 +128,18 @@ public class GridManager : MonoBehaviour {
 				// component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
-			 	Instantiate(cellPrefab, 
-							new Vector3(
+				Transform plane = 
+					Instantiate(cellPrefab, 
+						new Vector3(
 							x + (cellPrefab.localScale.x * x)*8,
 							0,
 							z + (cellPrefab.localScale.z * z)*8),
-							Quaternion.identity,
-							parentGrid.transform);
+						Quaternion.identity,
+						parentGrid.transform);
+				if (!Grid.ContainsKey (x)) {
+					Grid.Add (x, new Dictionary<int, GameObject> ());
+				}
+				Grid [x] [z] = plane.gameObject;
 			}
 		}
 

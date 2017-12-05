@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427147, b: 0.56452364, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 400032, guid: 30e9b345bb66b4edda662342eb984b73, type: 3}
   characterManager: {fileID: 17867333}
+  gridDm: {fileID: 127092657}
 --- !u!4 &17867335
 Transform:
   m_ObjectHideFlags: 0
@@ -628,7 +629,7 @@ MonoBehaviour:
   turnOnGrid: 0
   turnOffGrid: 1
   cityDataManager: {fileID: 127092658}
-  cityDataManagerClientOnly: {fileID: 0}
+  cityDataManagerClientOnly: {fileID: 127092659}
   parentGrid: {fileID: 127092655}
 --- !u!114 &127092658
 MonoBehaviour:
@@ -636,7 +637,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 127092655}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6f2493ffc49642e9ab3de04db0dad19, type: 3}
   m_Name: 
@@ -649,20 +650,29 @@ MonoBehaviour:
   characterManager: {fileID: 0}
   gridManager: {fileID: 0}
   nextTime: 0
-  humanSwitch: 1
-  people: []
-  humanCounter: 0
 --- !u!114 &127092659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 127092655}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a34ca6067f5634397a3e345767d53fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textFileIndex: 0
+  turnOnTestGrid: 0
+  updateTheCity: 0
+  systemStartedTimeStamp: 0
+  systemCurrentTimeStamp: 0
+  timeInHour: 0
+  buildingManager: {fileID: 0}
+  characterManager: {fileID: 0}
+  gridManager: {fileID: 0}
+  nextTime: 0
+  trackTime: 0
+  runOnce2: 0
 --- !u!1 &213611283
 GameObject:
   m_ObjectHideFlags: 0
