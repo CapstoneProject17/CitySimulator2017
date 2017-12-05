@@ -330,7 +330,6 @@ public class CityDataManager : MonoBehaviour
         {
             initiateGrid();
             updateCityData();
-            humanCounter = cityData.PeopleMoving.Length;
         }
     }
 
