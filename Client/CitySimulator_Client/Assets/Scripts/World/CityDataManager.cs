@@ -477,18 +477,18 @@ public class CityDataManager : MonoBehaviour
         }
 
         // new character
-        // foreach (PersonTravel person in cityData.PeopleMoving)
-        // {
+        foreach (PersonTravel person in cityData.PeopleMoving)
+        {
 
-        //     // Debug.Log(person);
-        //     // Debug.Log((string)person.Id + " "
-        //     //         + person.Origin.X + " "
-        //     //         + person.Origin.Z + " "
-        //     //         + person.Destination.X + " "
-        //     //         + person.Destination.Z + " ");
+            // Debug.Log(person);
+            // Debug.Log((string)person.Id + " "
+            //         + person.Origin.X + " "
+            //         + person.Origin.Z + " "
+            //         + person.Destination.X + " "
+            //         + person.Destination.Z + " ");
 
-        //     characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
-        // }
+            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
+        }
 
 
         return true;

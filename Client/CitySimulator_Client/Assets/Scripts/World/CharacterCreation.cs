@@ -107,7 +107,7 @@ public class CharacterCreation : MonoBehaviour {
 					Instantiate (character,
 						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
 						Quaternion.identity,characterManager.transform) as Transform;
-
+					
 				human.gameObject.AddComponent<CharacterMove> ();
 				xz = setRandDest ();
 				human.GetComponent<CharacterMove> ().X_Dest = xz[1];

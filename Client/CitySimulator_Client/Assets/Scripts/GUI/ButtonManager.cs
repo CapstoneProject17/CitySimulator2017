@@ -38,7 +38,7 @@ public class ButtonManager : MonoBehaviour {
     /// <summary>
     /// Grid on trigger
     /// </summary>
-    public bool gridOn;
+    public bool gridOn = true;
 
 //	/// <summary>
 //	/// Open setting panel
@@ -69,7 +69,7 @@ public class ButtonManager : MonoBehaviour {
     }
 
     public void gridTurnOn() {
-        Debug.Log("gridTurnOn clickeD");
+        //Debug.Log("gridTurnOn clickeD");
         if (gridOn)
         {
             GameObject.Find("Grid").GetComponent<GridManager>().turnEntireGrid(true);

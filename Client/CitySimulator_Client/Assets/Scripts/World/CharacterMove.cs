@@ -75,7 +75,7 @@ public class CharacterMove : MonoBehaviour {
 	// Plane on which character is on
 	public GameObject originalPlane;
 	// Movement speed
-	private static float speed = 30f;
+	private static float speed = 10f;
 	// access all BFS functions
 	private BFS bfs = new BFS();
 
