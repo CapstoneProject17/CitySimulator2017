@@ -401,8 +401,8 @@ namespace ServerForTheLogic
                 temp.incomeGenerated(Market.BusinessesHiring[index]);
             }
 
-            PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point));
-            PartialUpdateList[temp.StartShift].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point));
+            PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point,this));
+            PartialUpdateList[temp.StartShift].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point,this));
 
 
 
@@ -652,7 +652,6 @@ namespace ServerForTheLogic
         {
             //starts clock 
             clock = new Clock(this, full, partial);
-            //commented out
             clock.SaveInitialClientState();
             clock.timer.Start();
             Console.WriteLine("Started simulation");
