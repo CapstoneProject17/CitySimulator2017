@@ -49,7 +49,10 @@ public class CharacterCreation : MonoBehaviour {
 				new Vector3 (source.transform.position.x, 0, source.transform.position.z),
 				Quaternion.identity,characterManager.transform) as Transform;
 
-		human.gameObject.AddComponent<CharacterMove> ();
+        Animator animator = human.GetComponent<Animator>();
+        animator.runtimeAnimatorController = Resources.Load("Models/Character/ACHuman") as RuntimeAnimatorController;
+
+        human.gameObject.AddComponent<CharacterMove> ();
 		human.GetComponent<CharacterMove> ().X_Dest = dest_x;
 		human.GetComponent<CharacterMove> ().Z_Dest = dest_z;
 		human.GetComponent<CharacterMove> ().X_Src = src_x;
@@ -107,7 +110,7 @@ public class CharacterCreation : MonoBehaviour {
 					Instantiate (character,
 						new Vector3 (source.transform.position.x, 0, source.transform.position.z),
 						Quaternion.identity,characterManager.transform) as Transform;
-					
+
 				human.gameObject.AddComponent<CharacterMove> ();
 				xz = setRandDest ();
 				human.GetComponent<CharacterMove> ().X_Dest = xz[1];
