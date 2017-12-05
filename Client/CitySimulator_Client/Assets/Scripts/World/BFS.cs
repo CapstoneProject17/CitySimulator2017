@@ -179,7 +179,8 @@ public class BFS {
 	/// Move this instance.
 	/// </summary>
 	public void Move() {
-		currentPlane = path [pathIndex];
+		if(pathIndex >= 0)
+			currentPlane = path [pathIndex];
 	}
 
 	/// <summary>
