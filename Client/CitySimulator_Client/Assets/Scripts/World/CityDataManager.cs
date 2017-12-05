@@ -58,7 +58,7 @@ public class NewBuilding
     public string Type;
 
     // unique id for the building
-    public string id;
+    public string Id;
 }
 
 /// <summary>
@@ -135,17 +135,6 @@ public class CityData
 /// </summary>
 public class CityDataManager : MonoBehaviour
 {
-    private string filePath1;
-    private string filePath2;
-    private string filePath3;
-    TextAsset targetFile1;
-    TextAsset targetFile2;
-    TextAsset targetFile3;
-
-    public int textFileIndex = 0;
-    // switch for testing
-    // JSON dummy String for testing
-    private string jsonString;
 
     // measure (full or partial) of a update type.
     private string receivedCityState;
@@ -156,7 +145,6 @@ public class CityDataManager : MonoBehaviour
     // deserialize json to object
     private CityData cityData;
 
-    public bool turnOnTestGrid;
     // update trigger
     public bool updateTheCity;
 
@@ -172,17 +160,16 @@ public class CityDataManager : MonoBehaviour
     // population of the city
     private int population = 1000;
 
+    // each manager reference
     public GameObject buildingManager;
-
     public GameObject characterManager;
-
     public GameObject gridManager;
 
+    // time trigger
     public float nextTime;
 
     // Store human references here for easy access
     private Dictionary<int, GameObject> humans = new Dictionary<int, GameObject>();
-
 
     /// <summary>
     /// Gets the population.
@@ -276,9 +263,6 @@ public class CityDataManager : MonoBehaviour
         }
     }
 
-    public bool runOnce = false;
-    public bool runOnce2 = false;
-
     /// <summary>
     /// Gets or sets the humans.
     /// </summary>
@@ -321,15 +305,6 @@ public class CityDataManager : MonoBehaviour
         characterManager = GameObject.Find("CharacterManager");
         gridManager = GameObject.Find("Grid");
 
-        filePath1 = "json/fullPacket";
-        filePath2 = "json/fullPacket_2";
-        filePath3 = "json/partialPacket";
-        targetFile1 = Resources.Load<TextAsset>(filePath1);
-        targetFile2 = Resources.Load<TextAsset>(filePath2);
-        targetFile3 = Resources.Load<TextAsset>(filePath3);
-
-        jsonString = targetFile3.text;
-
         // Server request initial
         SimulationUpdateRequest fullRequest = new SimulationUpdateRequest("update", true);
 
@@ -350,7 +325,7 @@ public class CityDataManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        InvokeRepeating("GetCityUpdate", 10.0f, 10.0f);
+        InvokeRepeating("GetCityUpdate", 15.0f, 15.0f);
         if (updateTheCity && tryParseInitialCityData(receivedCityState))
         {
             initiateGrid();
@@ -378,18 +353,7 @@ public class CityDataManager : MonoBehaviour
             updateTheCity = false;
         }
 
-        if (runOnce2)
-        {
-            initiateGridForTest();
-
-            if (gridManager.GetComponent<GridManager>().updateEntireGrid())
-            {
-                updateCityForTest();
-            }
-            runOnce2 = false;
-        }
-
-        if (Time.time >= nextTime)
+        if (Time.time >= nextTime * 15)
         {
             nextTime += 1;
             updateClock((int)nextTime);
@@ -482,17 +446,17 @@ public class CityDataManager : MonoBehaviour
         foreach (NewBuilding building in cityData.NewBuildings)
         {
 
-            // Debug.Log(building);
-            Debug.Log((string)building.Type + " "
-                    + (string)building.Name + " "
-                    + building.Point.X + " "
-                    + building.Point.Z + " "
-                    + building.Rating + " "
-                    + building.IsTall);
+            // Debug.Log(building.Id);
+            // Debug.Log((string)building.Type + " "
+            //         + (string)building.Name + " "
+            //         + building.Point.X + " "
+            //         + building.Point.Z + " "
+            //         + building.Rating + " "
+            //         + building.IsTall);
 
             if (building.Type.Equals("H"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 1,
@@ -500,7 +464,7 @@ public class CityDataManager : MonoBehaviour
             }
             else if (building.Type.Equals("C"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 2,
@@ -508,7 +472,7 @@ public class CityDataManager : MonoBehaviour
             }
             else if (building.Type.Equals("I"))
             {
-                buildingManager.GetComponent<BuildingManager>().createBuilding(building.id,
+                buildingManager.GetComponent<BuildingManager>().createBuilding(building.Id,
                                                                                 building.Point.X,
                                                                                 building.Point.Z,
                                                                                 3,
@@ -522,18 +486,18 @@ public class CityDataManager : MonoBehaviour
         }
 
         // new character
-        foreach (PersonTravel person in cityData.PeopleMoving)
-        {
+        // foreach (PersonTravel person in cityData.PeopleMoving)
+        // {
 
-            // Debug.Log(person);
-            Debug.Log((string)person.Id + " "
-                    + person.Origin.X + " "
-                    + person.Origin.Z + " "
-                    + person.Destination.X + " "
-                    + person.Destination.Z + " ");
+        //     // Debug.Log(person);
+        //     // Debug.Log((string)person.Id + " "
+        //     //         + person.Origin.X + " "
+        //     //         + person.Origin.Z + " "
+        //     //         + person.Destination.X + " "
+        //     //         + person.Destination.Z + " ");
 
-            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
-        }
+        //     characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
+        // }
 
 
         return true;

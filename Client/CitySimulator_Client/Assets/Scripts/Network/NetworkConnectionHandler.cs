@@ -53,7 +53,7 @@ public class AsynchronousClient
         try
         {
             // Establish the remote endpoint for the socket.  
-			IPHostEntry ipHostInfo = Dns.GetHostEntry("104.42.15.215");
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("104.42.15.215");
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
