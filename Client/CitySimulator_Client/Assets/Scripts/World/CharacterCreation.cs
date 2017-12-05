@@ -27,6 +27,8 @@ public class CharacterCreation : MonoBehaviour {
 	// The character manager.
 	public GameObject characterManager;
 
+	public GridManager gridDm;
+
 	/// <summary>
 	/// Creates the character.
 	/// </summary>
@@ -37,9 +39,9 @@ public class CharacterCreation : MonoBehaviour {
 		// Delete character if it already exists
 		destroyCharacter (guid);
 
-		planes = GameObject.FindGameObjectsWithTag("plane");
+		planes = GameObject.FindGameObjectsWithTag("plane");	
 
-		GameObject source = findPlane (src_x, src_z);
+		GameObject source = gridDm.Grid [src_x] [src_z];
 		Debug.Log(source);
 
 		Transform human = 
@@ -50,8 +52,13 @@ public class CharacterCreation : MonoBehaviour {
 		human.gameObject.AddComponent<CharacterMove> ();
 		human.GetComponent<CharacterMove> ().X_Dest = dest_x;
 		human.GetComponent<CharacterMove> ().Z_Dest = dest_z;
+		human.GetComponent<CharacterMove> ().X_Src = src_x;
+		human.GetComponent<CharacterMove> ().Z_Src = src_z;
+		human.GetComponent<CharacterMove> ().originalPlane = source;
+		human.GetComponent<CharacterMove> ().Grid = gridDm.Grid;
 		human.GetComponent<CharacterMove> ().StartBFS = true;
 		human.name = guid;
+
 	}
 
 	/// <summary>
