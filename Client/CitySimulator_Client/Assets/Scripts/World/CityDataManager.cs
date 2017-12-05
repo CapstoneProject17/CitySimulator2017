@@ -291,11 +291,6 @@ public class CityDataManager : MonoBehaviour
         updateTheCity = true;
     }
 
-    private void GetDatabaseResource()
-    {
-
-    }
-
     /// <summary>
     // Awake this instance.
     /// </summary>
@@ -313,7 +308,6 @@ public class CityDataManager : MonoBehaviour
 
         systemStartedTimeStamp = System.DateTime.Now.Minute;
         updateTheCity = true;
-
 
         // Debug.Log(cityData.GridLength);
         timeInHour = 0;
@@ -408,8 +402,7 @@ public class CityDataManager : MonoBehaviour
     {
 
         // assign road
-        foreach (Point point in cityData.NewRoads)
-        {
+        foreach (Point point in cityData.NewRoads){
             grid[point.X][point.Z] = 0;
         }
 
@@ -429,8 +422,6 @@ public class CityDataManager : MonoBehaviour
                 grid[building.Point.X][building.Point.Z] = 3;
             }
             else { }
-
-
         }
 
         return true;
@@ -486,58 +477,23 @@ public class CityDataManager : MonoBehaviour
         }
 
         // new character
-        // foreach (PersonTravel person in cityData.PeopleMoving)
-        // {
-
-        //     // Debug.Log(person);
-        //     // Debug.Log((string)person.Id + " "
-        //     //         + person.Origin.X + " "
-        //     //         + person.Origin.Z + " "
-        //     //         + person.Destination.X + " "
-        //     //         + person.Destination.Z + " ");
-
-        //     characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
-        // }
-
-
-        return true;
-    }
-
-
-    /// <summary>
-    /// Creates actual city based on data
-    /// </summary>
-    public bool updateCityForTest()
-    {
-
-        int indexB = 0;
-        int indexP = 0;
-        // new building
-        for (int x = 0; x < size_x; x++)
+        foreach (PersonTravel person in cityData.PeopleMoving)
         {
-            for (int z = 0; z < size_z; z++)
-            {
 
-                if (grid[x][z] >= 1 && grid[x][z] <= 3)
-                {
-                    int rate = UnityEngine.Random.Range(0, 3);
-                    buildingManager.GetComponent<BuildingManager>().createBuilding("TEST BUILDING" + indexB++,
-                                                                                x,
-                                                                                z,
-                                                                                grid[x][z],
-                                                                                rate);
-                }
+            // Debug.Log(person);
+            // Debug.Log((string)person.Id + " "
+            //         + person.Origin.X + " "
+            //         + person.Origin.Z + " "
+            //         + person.Destination.X + " "
+            //         + person.Destination.Z + " ");
 
-                if (x < 24 && z < 13)
-                    if (grid[x][z] == 0)
-                    {
-                        characterManager.GetComponent<CharacterCreation>().createCharacter("TEST PERSON" + indexP++, x, z, 24, 13);
-                    }
-            }
+            characterManager.GetComponent<CharacterCreation>().createCharacter(person.Id, person.Origin.X, person.Origin.Z, person.Destination.X, person.Destination.Z);
         }
 
+
         return true;
     }
+
 
     /// <summary>
     /// Turns on updateTheCity to update city 
@@ -568,47 +524,6 @@ public class CityDataManager : MonoBehaviour
         }
 
         clock.text = textForHour;
-    }
-
-
-    /// <summary>
-    /// Initiate grid for test
-    /// </summary>
-    public void initiateGridForTest()
-    {
-
-        // initializing and assigning arrays
-        grid = new[] {
-            new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 2, 2, 2, 1, 0, 3, 3, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 3, 3, 3, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 2, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 2, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 2, 0, 2, 2, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 3, 3, 3, 3, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 3, 3, 1, 1},
-            new int [] { 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 3, 3, 3, 1, 1}
-        };
-
-        // set the size to fit into array of
-        size_x = grid.GetLength(0);
-        size_z = grid[0].GetLength(0);
     }
 
     /// <summary>

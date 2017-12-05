@@ -32,8 +32,7 @@ public class GridManager : MonoBehaviour {
 	public Texture roadTexture;
 	
 	// grid system switch
-	public bool turnOnGrid = true;
-	public bool turnOffGrid;
+	public bool gridOn = false;
 
 	// Reference for the CityDataManager class
 	public CityDataManager cityDataManager;
@@ -43,20 +42,6 @@ public class GridManager : MonoBehaviour {
 	public GameObject parentGrid;
 
 	public Dictionary<int, Dictionary<int,GameObject>> Grid = new Dictionary<int, Dictionary<int, GameObject>>();
-
-	/// <summary>
-	/// Update this instance.
-	/// </summary>
-	void Update(){
-		//ShowGrid (false);
-		if(turnOnGrid){
-			turnEntireGrid(true);
-			turnOnGrid=false;
-		} else if(turnOffGrid) {
-			turnEntireGrid(false);
-			turnOffGrid=false;
-		}
-	}
 
 	/// <summary>
 	/// Creates the grid.
@@ -143,7 +128,7 @@ public class GridManager : MonoBehaviour {
 			}
 		}
 
-		turnEntireGrid(true);
+		turnEntireGrid(gridOn);
 
 		return true;
 	}
