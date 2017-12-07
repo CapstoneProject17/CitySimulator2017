@@ -44,6 +44,9 @@ namespace DBInterface.Infrastructure
         [JsonProperty]
         public BlockType Type { get;  set; }
 
+        /// <summary>
+        /// Instantiates a list of all blocks for deserialization
+        /// </summary>
         static Block()
         {
             blocks = new Dictionary<Guid, Block>();

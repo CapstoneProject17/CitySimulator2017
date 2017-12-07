@@ -58,14 +58,22 @@ namespace ServerForTheLogic
         /// </summary>
         [JsonProperty]
         public Queue<Block> ResidentialBlocksToFill { get; set; }
-
+        /// <summary>
+        /// New roads added since last update
+        /// </summary>
         public List<Point> NewRoads { get; set; }
-
+        /// <summary>
+        /// New buildings added since last update
+        /// </summary>
         public List<Building> NewBuildings { get; set; }
-
+        /// <summary>
+        /// All buildings in the city
+        /// </summary>
         [JsonProperty]
         public List<Building> AllBuildings { get; set; }
-
+        /// <summary>
+        /// All positions of all roads in the city
+        /// </summary>
         [JsonProperty]
         public List<Point> AllRoads { get; set; }
 
@@ -101,8 +109,14 @@ namespace ServerForTheLogic
         /// </summary>
         public Block[,] BlockMap { get; set; }
 
+        /// <summary>
+        /// Blocks that have already been assigned a block type
+        /// </summary>
         public List<Block> assignedBlocks { get; set; }
 
+        /// <summary>
+        /// New people who have been added to the city
+        /// </summary>
         public List<DBInterface.Person> NewPeople { get; set; }
 
         [JsonProperty]
@@ -111,6 +125,9 @@ namespace ServerForTheLogic
         /// has passed since city creation.
         /// </summary>
         public Clock clock;
+        /// <summary>
+        /// Starting rating of buildings that are added to the city
+        /// </summary>
         public static int DEFAULT_RATING = 1;
 
         [JsonConstructor]
@@ -131,7 +148,7 @@ namespace ServerForTheLogic
             //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
             faker = new Faker("en");
-            db = new MongoDAL();
+            //db = new MongoDAL();
             NewRoads = new List<Point>();
             NewBuildings = new List<Building>();
 
@@ -231,9 +248,9 @@ namespace ServerForTheLogic
         /// <returns>the one building on the new block</returns>
         public Building ExpandCity(BlockType type)
         {
-
+            //list of empty blocks
             List<Block> empties = new List<Block>();
-            //Console.WriteLine("Occupied count: " + occupiedBlocks.Count);
+            //Fills the empty block map
             foreach (Block assignedBlock in assignedBlocks)
             {
                 foreach (Block b in assignedBlock.Adjacents)
@@ -250,7 +267,7 @@ namespace ServerForTheLogic
             {
                 Randomizer rand = new Randomizer();
                 int randIndex = rand.Number(0, empties.Count - 1);
-
+                //initialize the block if there is an empty block to fill
                 addRoads(empties[randIndex]);
                 setAdjacents(empties[randIndex]);
                 empties[randIndex].Type = type;
@@ -292,14 +309,18 @@ namespace ServerForTheLogic
         {
             DBInterface.Person temp = new DBInterface.Person(faker.Name.FirstName(), faker.Name.LastName());
             Randomizer rand = new Randomizer();
+            
+            //create copies of the homes and business lists
             List<Residential> randHomes = Homes.ToList();
             List<Business> randBusinesses = Market.BusinessesHiring.ToList();
 
+            //randomize the copied lists
             randBusinesses.OrderBy(x => rand.Int(0, randBusinesses.Count));
             randHomes.OrderBy(x => rand.Int(0, randHomes.Count));
-            //assigns/creates Home
+
             foreach (Residential r in randHomes)
             {
+                //assigns a home if it has room for the person
                 if (r.NumberOfResidents < r.Capacity)
                 {
                     temp.Home = r;
@@ -308,8 +329,10 @@ namespace ServerForTheLogic
                     break;
                 }
             }
+            //if the end of the loop was reached wthout assigning a home
             if (temp.Home == null)
             {
+                //add a new home to the block at the top of the blocks to fill queue
                 if (ResidentialBlocksToFill.Count > 0)
                 {
                     Residential newHome = (Residential)createBuilding(ResidentialBlocksToFill.Peek());
@@ -317,8 +340,9 @@ namespace ServerForTheLogic
                     newHome.NumberOfResidents++;
 
                 }
-                if (temp.Home == null)
+                else
                 {
+                    //upgrade a home in the city and assign the new person to that residence
                     for (int i = 0; i < randHomes.Count; i++)
                     {
                         if (randHomes[i].Upgrade())
@@ -334,9 +358,10 @@ namespace ServerForTheLogic
 
             //assigns/creates jobs
             List<Business> fullBusinesses = new List<Business>();
-
+            
             foreach (Business b in randBusinesses)
             {
+                //assigns a workplace if it has room for the person
                 if (b.workers.Count < b.Capacity)
                 {
                     temp.Workplace = b;
@@ -350,23 +375,27 @@ namespace ServerForTheLogic
                     fullBusinesses.Add(b);
                 }
             }
-
+            
             foreach (Business b in fullBusinesses)
             {
                 Market.BusinessesHiring.Remove(b);
             }
 
+            //if there are no business that can hire more employees
             if (Market.BusinessesHiring.Count == 0)
             {
+                //if there is a block with a vacancy, create a new building in it
                 if (CommercialBlocksToFill.Count != 0)
                 {
                     createBuilding(CommercialBlocksToFill.Peek());
                 }
                 else
                 {
+                    //copy list of commercial businesses and shuffle it
                     List<Business> randCommercials = Market.CommercialBusinesses.ToList();
                     randCommercials.OrderBy(x => rand.Int(0, randCommercials.Count));
 
+                    //upgrade the first commercial that can be improved and break out of the loop
                     foreach (Business b in randCommercials)
                     {
                         if (b.Upgrade())
@@ -382,9 +411,11 @@ namespace ServerForTheLogic
                 }
                 else
                 {
+                    //copy list of industrial businesses and shuffle it
                     List<Business> randIndustrials = Market.IndustrialBusinesses.ToList();
                     randIndustrials.OrderBy(x => rand.Int(0, randIndustrials.Count));
 
+                    //upgrade the first commercial that can be improved and break out of the loop
                     foreach (Business b in randIndustrials)
                     {
                         if (b.Upgrade())
@@ -394,18 +425,17 @@ namespace ServerForTheLogic
                         }
                     }
                 }
+                //assign the person to a random workplace
                 int index = rand.Int(0, Market.BusinessesHiring.Count - 1);
 
                 temp.Workplace = Market.BusinessesHiring[index];
                 Market.BusinessesHiring[index].workers.Add(temp);
                 temp.incomeGenerated(Market.BusinessesHiring[index]);
             }
-
+            //add the person to the partial update lists for when they go to and from work
             PartialUpdateList[temp.EndShift].Add(new PersonTravel(temp.Id, temp.Workplace.Point, temp.Home.Point,this));
             PartialUpdateList[temp.StartShift].Add(new PersonTravel(temp.Id, temp.Home.Point, temp.Workplace.Point,this));
-
-
-
+            
             AllPeople.Add(temp);
 
             return temp;
@@ -420,9 +450,10 @@ namespace ServerForTheLogic
         /// <returns></returns>
         public Building createBuilding(Block block)
         {
-            Console.WriteLine("Creating new " + block.Type + "building");
+            //Console.WriteLine("Creating new " + block.Type + "building");
             Building building;
             List<Point> availablePoints = new List<Point>();
+            //find an available point to place a building within a block
             for (int i = 0; i < Block.BLOCK_WIDTH; ++i)
             {
                 for (int j = 0; j < Block.BLOCK_LENGTH; ++j)
@@ -442,7 +473,7 @@ namespace ServerForTheLogic
             int rand = new Randomizer().Number(0, availablePoints.Count - 1);
             int x = availablePoints[rand].X;
             int z = availablePoints[rand].Z;
-
+            //create a building based on the type of block
             if (block.Type == BlockType.Commercial)
             {
                 building = new Commercial(faker.Company.CompanyName(), FIXED_CAPACITY);
@@ -472,6 +503,10 @@ namespace ServerForTheLogic
             return building;
         }
 
+        /// <summary>
+        /// Updates all objects in the database
+        /// <para>Written by Connor Goudie 2017-11-30 </para>
+        /// </summary>
         public void SendtoDB()
         {
             db.InsertBuildings(NewBuildings);
@@ -605,6 +640,7 @@ namespace ServerForTheLogic
 
         /// <summary>
         /// Adds references to a specified block's adjacent blocks.
+        /// <para>Written by Chandu Dissanayake 2017-10-08 </para>
         /// </summary>
         /// <param name="b"></param>
         public void setAdjacents(Block b)
@@ -646,8 +682,12 @@ namespace ServerForTheLogic
             }
         }
 
-
-
+        /// <summary>
+        /// Starts the simulation
+        /// <para>Written by Chandu Dissanayake 2017-10-27 </para>
+        /// </summary>
+        /// <param name="full"></param>
+        /// <param name="partial"></param>
         public void InitSimulation(SimulationStateQueue full, SimulationStateQueue partial)
         {
             //starts clock 
@@ -657,6 +697,10 @@ namespace ServerForTheLogic
             Console.WriteLine("Started simulation");
         }
 
+        /// <summary>
+        /// Moves time forward 1 hour
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
+        /// </summary>
         public void TickHour()
         {
             if (clock != null)
@@ -668,7 +712,8 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        /// Moves time forward 1 day as fast as the cpu can process
+        /// Moves time forward 1 day
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
         /// </summary>
         public void TickDay()
         {
@@ -684,8 +729,8 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        /// Moves time forward 1 year as fast as the cpu can process
-        /// NOTE: THIS WILL TAKE A LONG TIME
+        /// Moves time forward 1 year
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
         /// </summary>
         public void TickYear()
         {
@@ -702,6 +747,7 @@ namespace ServerForTheLogic
 
         /// <summary>
         /// Pauses the simulation
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
         /// </summary>
         public void StopSimulation()
         {
@@ -710,8 +756,8 @@ namespace ServerForTheLogic
         }
 
         /// <summary>
-        /// Prints the city represented as symbols/letters in a neatly formatted manner
-        /// <para/> Last editted:  2017-10-02
+        /// Prints the city in a formatted manner
+        /// <para>Written by Connor Goudie 2017-10-02 </para>
         /// </summary>
         public void printCity()
         {
@@ -733,6 +779,10 @@ namespace ServerForTheLogic
         }
 
 
+        /// <summary>
+        /// Serializes the city into a json string and saves it to a file.
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
+        /// </summary>
         public void SaveState()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
@@ -773,6 +823,10 @@ namespace ServerForTheLogic
             }
         }
 
+        /// <summary>
+        /// Prints out the total number of objects in all of the lists owned by the city
+        /// <para>Written by Connor Goudie 2017-11-26 </para>
+        /// </summary>
         public void PropertyCounts()
         {
             string displayString =

@@ -18,26 +18,27 @@ namespace ServerForTheLogic
     /// </summary>
     class Program
     {
+        //NLog logging object
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        //queue that has the full city state for clients when they connect to the server
         private static SimulationStateQueue fullUpdateQueue = new SimulationStateQueue
         {
             StateBufferSize = 1
         };
-
+        //queue that has the partial city state that clients receive every simulated hour
         private static SimulationStateQueue partialUpdateQueue = new SimulationStateQueue
         {
             StateBufferSize = 25
         };
 
         public const string ServiceName = "ServerForTheLogic";
+        //list of people for deserialization
         public static List<Person> People = new List<Person>();
-        private const int MEAN_DEATH_AGE = 80;
-        private const int STANDARD_DEVIATION_DEATH = 14;
         private static City city;
 
         /// <summary>
         /// Entry point for the city simulator program
-        /// <para/> Last editted:  2017-10-02
+        /// <para/> Last editted: 2017-11-28
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
@@ -47,21 +48,14 @@ namespace ServerForTheLogic
             //city.CommercialBlocksToFill.Dump();
             //city.PartialUpdateList.Dump();
             city.printCity();
-            
+
 
             foreach (Block b in city.BlockMap)
                 if (b.Type != BlockType.Empty)
                 {
                     city.addRoads(b);
                 }
-                    
-            int max = 0;
-            foreach (Person p in city.AllPeople)
-            {
-                if (p.DaysLeft > max)
-                    max = p.DaysLeft;
-            }
-            Console.WriteLine(max);
+            
             city.InitSimulation(fullUpdateQueue, partialUpdateQueue);
             foreach (Block b in city.BlockMap)
                 city.setAdjacents(b);
@@ -69,7 +63,10 @@ namespace ServerForTheLogic
         }
 
 
-
+        /// <summary>
+        /// Function used for debugging, allows the programmers to view city information,
+        /// or run/stop the simulation. Reads in user commands and waits for additional commands.
+        /// </summary>
         private static void GetInput()
         {
             while (true)
