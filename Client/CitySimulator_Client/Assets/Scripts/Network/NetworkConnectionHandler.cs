@@ -7,7 +7,8 @@ using System.Net;
 
 /// <summary>
 /// Name:       CitySimulator 
-/// Author:     Harman Mahal A00959494
+/// Author:     Gisu Kim A00959494
+/// Author:     Harman Mahal A00914315
 /// Date:       2017-10-02
 /// Updated by: 2017-10-07
 /// Updated by: 2017-10-11
