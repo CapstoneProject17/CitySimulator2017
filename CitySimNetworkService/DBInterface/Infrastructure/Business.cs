@@ -58,8 +58,7 @@ namespace DBInterface.Infrastructure
         }
 
         /// <summary>
-        /// Currently unimplemted; pay employees, if the business does not have enough
-        /// funds to pay every employee, lay off a certain number
+        /// Pays all employees their specified salary
         /// <para>Written by Chandu Dissanayake, Andrew Busto 2017-11-08</para>
         /// <para>Last modified by Chandu Dissanayake 2017-11-13</para>
         /// </summary>
