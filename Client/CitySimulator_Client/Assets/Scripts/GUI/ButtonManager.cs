@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 ///  Name: Andrew Lam			Date: 2017-09-28
 /// Modified by:	
 ///	 Name: Benjamin Hao   Change: comment out void settingBtn()				Date: 2017-10-17
+///	 Name: Dongwon Kim    Change: add grid On button                        Date: 2017-12-04
 /// Based on:  
 /// https://unity3d.com/learn/tutorials/topics/user-interface-ui/creating-main-menu
 /// </summary>
@@ -33,6 +34,11 @@ public class ButtonManager : MonoBehaviour {
 	public void playGameBtn() {
 		SceneManager.LoadScene(sceneToLoad);
 	}
+
+    /// <summary>
+    /// Grid on trigger
+    /// </summary>
+    public bool gridOn = true;
 
 //	/// <summary>
 //	/// Open setting panel
@@ -60,6 +66,19 @@ public class ButtonManager : MonoBehaviour {
 	public void refreshScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void gridTurnOn() {
+        //Debug.Log("gridTurnOn clickeD");
+        if (gridOn)
+        {
+            GameObject.Find("Grid").GetComponent<GridManager>().turnEntireGrid(true);
+            gridOn = false;
+        } else
+        {
+            GameObject.Find("Grid").GetComponent<GridManager>().turnEntireGrid(false);
+            gridOn = true;
+        }
     }
 
 	/// <summary>

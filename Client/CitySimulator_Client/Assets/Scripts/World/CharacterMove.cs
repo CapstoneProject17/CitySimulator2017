@@ -52,15 +52,44 @@ public class CharacterMove : MonoBehaviour {
 		}
 	}
 
-	// Reference for the CityDataManager class
-	public CityDataManager cityDataManager;
+	private static int x_src;
+	public int X_Src {
+		get {
+			return x_src;
+		}
+		set {
+			x_src = value;
+		}
+	}
+
+	private static int z_src;
+	public int Z_Src {
+		get {
+			return z_src;
+		}
+		set {
+			z_src = value;
+		}
+	}
 
 	// Plane on which character is on
-	private GameObject originalPlane;
+	public GameObject originalPlane;
 	// Movement speed
-	private static float speed = 30f;
+	private static float speed = 10f;
 	// access all BFS functions
 	private BFS bfs = new BFS();
+
+	private Dictionary<int, Dictionary<int,GameObject>> grid;
+	public Dictionary<int, Dictionary<int,GameObject>> Grid {
+		get {
+			return grid;
+		}
+		set {
+			grid = value;
+			bfs.Grid = grid;
+		}
+	}
+
 
 	/// <summary>
 	/// Start this instance.
@@ -77,9 +106,8 @@ public class CharacterMove : MonoBehaviour {
 	/// Move to the location back and forth.
 	/// </summary>
 	void Update() {
-
 		if(StartBFS){
-			bfs.OriginalPlane = findCurrentPlane();
+			bfs.OriginalPlane = originalPlane;
 			bfs.Start ();
 			StartBFS = false;
 			StartMove = true;
@@ -122,20 +150,5 @@ public class CharacterMove : MonoBehaviour {
 		}
 	}
 
-	/// <summary>
-	/// Finds the current plane.
-	/// </summary>
-	/// <returns>The current plane.</returns>
-	GameObject findCurrentPlane() {
-		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
-
-		foreach (GameObject plane in planes) {
-			if (plane.transform.position.Equals (this.transform.position))
-				return plane;
-		}
-
-		return null;
-
-	}
 
 }

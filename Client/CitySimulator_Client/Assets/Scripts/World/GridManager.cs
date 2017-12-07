@@ -32,32 +32,62 @@ public class GridManager : MonoBehaviour {
 	public Texture roadTexture;
 	
 	// grid system switch
-	public bool turnOnGrid = true;
-	public bool turnOffGrid;
-
-	
-// not using now
-//	public int gridWidth;
-//	public int gridHeight;
+	public bool gridOn = false;
 
 	// Reference for the CityDataManager class
 	public CityDataManager cityDataManager;
+	public CityDataManagerClientOnly cityDataManagerClientOnly;
+
 	// Parent grid object to organize the object in Hierarchy
 	public GameObject parentGrid;
 
+	public Dictionary<int, Dictionary<int,GameObject>> Grid = new Dictionary<int, Dictionary<int, GameObject>>();
+
 	/// <summary>
-	/// Update this instance.
+	/// Creates the grid.
 	/// </summary>
-	void Update(){
-		//ShowGrid (false);
-		if(turnOnGrid){
-			turnEntireGrid(true);
-			turnOnGrid=false;
-		} else if(turnOffGrid) {
-			turnEntireGrid(false);
-			turnOffGrid=false;
+	public bool createEntireGridForClientOnly(){
+		size.x = cityDataManagerClientOnly.Size_x;
+		size.z = cityDataManagerClientOnly.Size_z;
+
+		for(int x = 0; x < size.x; x++){
+			for(int z = 0; z < size.z; z++){
+				string type = cityDataManagerClientOnly.getIndexOfXZ(x, z).ToString();
+
+				// apply text to the each plane
+				cellPrefab.GetChild (0).GetComponent<TextMesh> ().text = type;
+				cellPrefab.GetChild (1).GetComponent<TextMesh> ().text = "(" + x + ", " + z + ")";				
+
+				// put the tag plane on the object
+				cellPrefab.tag = "plane";
+				// set color index to GridColor to color the grid
+				cellPrefab.GetComponent<GridColor> ().colorIndex = int.Parse(type);
+				
+				MeshRenderer component = cellPrefab.GetComponent<MeshRenderer>();
+				// component.material.mainTexture = roadTexture;
+
+				// creates each cell of the grid
+				Transform plane = 
+			 	Instantiate(cellPrefab, 
+							new Vector3(
+							x + (cellPrefab.localScale.x * x)*8,
+							0,
+							z + (cellPrefab.localScale.z * z)*8),
+							Quaternion.identity,
+							parentGrid.transform);
+				if (!Grid.ContainsKey (x)) {
+					Grid.Add (x, new Dictionary<int, GameObject> ());
+				}
+				Grid [x] [z] = plane.gameObject;
+				
+			}
 		}
+
+		turnEntireGrid(true);
+
+		return true;
 	}
+
 
 	/// <summary>
 	/// Creates the grid.
@@ -83,18 +113,38 @@ public class GridManager : MonoBehaviour {
 				// component.material.mainTexture = roadTexture;
 
 				// creates each cell of the grid
-			 	Instantiate(cellPrefab, 
-							new Vector3(
+				Transform plane = 
+					Instantiate(cellPrefab, 
+						new Vector3(
 							x + (cellPrefab.localScale.x * x)*8,
 							0,
 							z + (cellPrefab.localScale.z * z)*8),
-							Quaternion.identity,
-							parentGrid.transform);
+						Quaternion.identity,
+						parentGrid.transform);
+				if (!Grid.ContainsKey (x)) {
+					Grid.Add (x, new Dictionary<int, GameObject> ());
+				}
+				Grid [x] [z] = plane.gameObject;
 			}
 		}
 
-		turnEntireGrid(true);
+		turnEntireGrid(gridOn);
 
+		return true;
+	}
+
+	/// <summary>
+	/// Update the grid.
+	/// </summary>
+	public bool updateEntireGridForClient(){
+
+		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
+		Debug.Log("Destory: " + planes.Length);
+		foreach(GameObject plane in planes)
+			Destroy(plane);
+		
+		createEntireGridForClientOnly();
+		
 		return true;
 	}
 
@@ -105,6 +155,7 @@ public class GridManager : MonoBehaviour {
 
 		GameObject[] planes = GameObject.FindGameObjectsWithTag("plane");
 		Debug.Log("Destory: " + planes.Length);
+		
 		foreach(GameObject plane in planes)
 			Destroy(plane);
 
