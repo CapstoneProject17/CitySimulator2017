@@ -7,7 +7,7 @@ using System.Net;
 
 /// <summary>
 /// Name:       CitySimulator 
-/// Author:     Gisu Kim A00959494
+/// Author:     Harman Mahal A00959494
 /// Date:       2017-10-02
 /// Updated by: 2017-10-07
 /// Updated by: 2017-10-11
@@ -15,7 +15,8 @@ using System.Net;
 /// Updated by: 2017-10-27
 /// Updated by: 2017-10-30
 /// Updated by: 2017-11-03
-/// What the superviosr should know: N/A
+/// Based On: https://docs.microsoft.com/en-us/dotnet/framework/network-programming/asynchronous-client-socket-example
+/// What the superviosr should know: Based on the link above with slight fixes for bugs
 /// </summary>
 
 // State object for receiving data from remote device.  
@@ -53,8 +54,8 @@ public class AsynchronousClient
         try
         {
             // Establish the remote endpoint for the socket.  
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[2];
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("104.42.15.215");
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
             // Create a TCP/IP socket.  
@@ -131,6 +132,7 @@ public class AsynchronousClient
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+            throw e;
         }
     }
 
@@ -169,6 +171,7 @@ public class AsynchronousClient
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+            throw e;
         }
     }
 
@@ -199,6 +202,7 @@ public class AsynchronousClient
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+            throw e;
         }
     }
 }
