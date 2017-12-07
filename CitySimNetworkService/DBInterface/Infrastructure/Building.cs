@@ -66,6 +66,13 @@ namespace DBInterface.Infrastructure
             this.Rating = building.Rating;
         }
 
+        /// <summary>
+        /// When the city is filled, this method is called to improve
+        /// the quality of the buildings in the city
+        /// <para>Written by Connor Goudie 2017-11-20</para>
+        /// <para>Last modified by Connor Goudie 2017-11-20</para>
+        /// </summary>
+        /// <returns></returns>
         public bool Upgrade()
         {
             if (Capacity == CAPACITY_RATING_0)

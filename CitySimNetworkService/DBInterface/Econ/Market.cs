@@ -53,7 +53,7 @@ namespace DBInterface.Econ
             Business first = SellerList.First();
             double NumPerSeller = NumOrdered / NumofSellers;
 
-
+            
             if (first.Type.Equals("C", StringComparison.CurrentCultureIgnoreCase))
             {
                 if (Market.ComStock < NumOrdered)

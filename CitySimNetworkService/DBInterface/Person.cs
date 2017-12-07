@@ -9,9 +9,11 @@ namespace DBInterface
     [JsonObject(MemberSerialization.OptIn)]
     public class Person : ICustomer
     {
-
+        //average age of death (in years) that person objects die
         private const int MEAN_DEATH_AGE = 75;
+        //standard deviation for bell curve distribution of person deaths
         private const int STANDARD_DEVIATION_DEATH = 10;
+        //bank account balance of person
         public double Funds { get; set; }
         /// <summary>
         /// Number of Products the person owns
@@ -92,9 +94,7 @@ namespace DBInterface
         /// </summary>
         public int Salary;
 
-
-
-
+        //if this person is dead
         public bool isDead;
         /// <summary>
         /// This is the Person Constructor
@@ -164,6 +164,7 @@ namespace DBInterface
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
         /// guassian distribution.
+        /// <para>Written by Connor Goudie 2017-10-02</para>
         /// </summary>
         public void setDeathAge()
         {
@@ -184,6 +185,7 @@ namespace DBInterface
 
         /// <summary>
         /// Prints out a person's attributes in a neatly formatted manner
+        /// <para>Written by Andrew Busto 2017-11-08</para>
         /// </summary>
         /// <returns></returns>
         public override String ToString()
@@ -194,6 +196,7 @@ namespace DBInterface
 
         /// <summary>
         /// Decrements the Days left for a person
+        /// <para>Written by Andrew Busto 2017-11-19</para>
         /// </summary>
         public bool AgeDeathTick()
         {

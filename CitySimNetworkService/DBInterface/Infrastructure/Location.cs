@@ -32,6 +32,7 @@ namespace DBInterface.Infrastructure
         //unique object Id
         public Guid Id { get; set; }
 
+
         static Location()
         {
             locations = new Dictionary<Guid, Location>();
