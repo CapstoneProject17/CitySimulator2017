@@ -79,7 +79,7 @@ namespace ServerForTheLogic.Json
 
        
             string JsonString =  JsonConvert.SerializeObject(this, Formatting.Indented);
-            //city.SendtoDB();
+            city.SendtoDB();
 
             city.NewBuildings = new List<Building>();
             city.NewRoads = new List<Point>();

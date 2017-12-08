@@ -509,6 +509,9 @@ namespace ServerForTheLogic
         /// </summary>
         public void SendtoDB()
         {
+            db.DeleteAllCitizens();
+            db.DeleteAllCommercial();
+            db.DeleteAllBuildings();
             db.InsertBuildings(NewBuildings);
             db.InsertClock(clock);
             db.InsertPeople(AllPeople);
