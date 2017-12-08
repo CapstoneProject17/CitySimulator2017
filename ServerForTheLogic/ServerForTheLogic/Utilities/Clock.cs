@@ -90,7 +90,7 @@ namespace ServerForTheLogic.Utilities
         public void SaveInitialClientState()
         {
             ClientPacket packet = new ClientPacket(city);
-            //city.SendtoDB();
+            city.SendtoDB();
             string output = packet.ConvertFullPacket();
             Console.WriteLine("~~~~~~FIRST FULL PACKET");
             Console.WriteLine(output);

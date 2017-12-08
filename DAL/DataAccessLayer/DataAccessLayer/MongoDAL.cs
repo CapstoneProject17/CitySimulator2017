@@ -942,5 +942,16 @@ namespace DataAccessLayer
 			Database.DropCollection("Product");
 			Database.CreateCollection("Product");
 		}
+
+        /// <summary>
+        /// Deletes all buildings (drop and recreate collection)
+        /// Author: Connor Goudie
+        ///     Date: 2017-11-29
+        /// </summary>
+        public void DeleteAllBuildings()
+        {
+            Database.DropCollection("Building");
+            Database.CreateCollection("Building");
+        }
 	}
 }
