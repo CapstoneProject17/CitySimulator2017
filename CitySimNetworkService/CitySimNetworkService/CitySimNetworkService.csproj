@@ -106,16 +106,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj">
-      <Project>{2F2ED6E7-5507-430A-8DAB-F20E57F7FFD6}</Project>
-      <Name>ServerForTheLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
-      <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
-      <Name>CitySimNetworkingApplication</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -126,6 +116,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ServerForTheLogic\ServerForTheLogic\ServerForTheLogic.csproj">
+      <Project>{2f2ed6e7-5507-430a-8dab-f20e57f7ffd6}</Project>
+      <Name>ServerForTheLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CitySimNetworkApplication\CitySimNetworkingApplication.csproj">
+      <Project>{8dc8959f-95ea-4d79-8298-406ff9067717}</Project>
+      <Name>CitySimNetworkingApplication</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

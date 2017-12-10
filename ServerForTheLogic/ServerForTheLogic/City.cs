@@ -148,7 +148,7 @@ namespace ServerForTheLogic
             //Workplaces = new List<Business>();
             assignedBlocks = new List<Block>();
             faker = new Faker("en");
-            //db = new MongoDAL();
+            db = new MongoDAL();
             NewRoads = new List<Point>();
             NewBuildings = new List<Building>();
 
