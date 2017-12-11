@@ -164,7 +164,7 @@ namespace DBInterface
         /// <summary>
         /// Randomly generates an age this person will die (in days) based on
         /// guassian distribution.
-        /// <para>Written by Connor Goudie 2017-10-02</para>
+        /// <para>Written by Justin McLennan, Connor Goudie 2017-10-02</para>
         /// </summary>
         public void setDeathAge()
         {
@@ -196,7 +196,7 @@ namespace DBInterface
 
         /// <summary>
         /// Decrements the Days left for a person
-        /// <para>Written by Andrew Busto 2017-11-19</para>
+        /// <para>Written by Justin McLennan, Andrew Busto 2017-11-19</para>
         /// </summary>
         public bool AgeDeathTick()
         {

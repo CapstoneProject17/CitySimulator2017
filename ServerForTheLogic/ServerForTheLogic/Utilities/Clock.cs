@@ -116,8 +116,8 @@ namespace ServerForTheLogic.Utilities
 
         /// <summary>
         /// Updates netHours. Calling methods that are run every hour
-        /// <para>Written by Andrew Busto </para>
-        /// <para>Last modified by Justin McLennan 2017-11-21</para>
+        /// <para>Written by Andrew Busto, Justin McLennan </para>
+        /// <para>Last modified by Justin McLennan 2017-12-1</para>
         /// </summary>
         /// <para/> Last edited:  2017-11-12
         internal void TickHour()
@@ -236,7 +236,7 @@ namespace ServerForTheLogic.Utilities
         /// <summary>
         /// Updates netYears.
         /// </summary>
-        /// <para>Written by Andrew Busto </para>
+        /// <para>Written by Justin McLennan, Andrew Busto </para>
         /// <para/> Last edited:  2017-11-07
         internal void TickYear()
         {
