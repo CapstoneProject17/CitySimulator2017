@@ -66,6 +66,7 @@ namespace ServerForTheLogic
         /// <summary>
         /// Function used for debugging, allows the programmers to view city information,
         /// or run/stop the simulation. Reads in user commands and waits for additional commands.
+       /// <para>Written by Justin McLennan 2017-10-31</para>
         /// </summary>
         private static void GetInput()
         {

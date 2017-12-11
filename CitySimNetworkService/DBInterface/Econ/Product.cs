@@ -4,7 +4,7 @@ namespace DBInterface.Econ
 {
     /// <summary>
     /// A product that can be bought or sold
-    /// Written by Chandu Dissanayake
+    /// Written by Chandu Dissanayake, Justin McLennan
     /// </summary>
     public class Product
     {

@@ -3,7 +3,7 @@
     /// <summary>
     /// Order class. Used in Market to handle transactions
     /// </summary>
-    /// <para>Written by Chandu Dissanayake </para>
+    /// <para>Written by Chandu Dissanayake, Justin McLennan </para>
     public class Order
     {
         //Product being ordered

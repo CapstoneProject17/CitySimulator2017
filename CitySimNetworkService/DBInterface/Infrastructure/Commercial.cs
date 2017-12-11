@@ -46,8 +46,8 @@ namespace DBInterface.Infrastructure
 
         /// <summary>
         /// Go through list of products and order more as needed.
-        /// <para>Written by Chandu Dissanayake, Andrew Busto 2017-11-08</para>
-        /// <para>Last modified by Chandu Dissanayake 2017-11-13</para>
+        /// <para>Written by Justin McLennan, Chandu Dissanayake, Andrew Busto 2017-11-08</para>
+        /// <para>Last modified by Justin McLennan 2017-12-1</para>
         /// </summary>
         public override void FillInventory()
         {

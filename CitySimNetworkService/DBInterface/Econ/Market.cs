@@ -40,9 +40,8 @@ namespace DBInterface.Econ
 
         /// <summary>
         /// Method used by People and Commercial stores, to purchase items
-        /// Called in Person.BuyThings() and Commercial.FillInventory()
         /// </summary>
-        /// <para>Written by Chandu Dissanayake, Connor Goudie </para>
+        /// <para>Written by Chandu Dissanayake, Connor Goudie, Justin McLennan </para>
         /// <param name="order">Order object created</param>
         /// <param name="SellerList">Either list of Commercial buildings or list of Industrial buildings depending on who is purchasing</param>
         public static void ProcessOrder(Order order, List<Business> SellerList)
