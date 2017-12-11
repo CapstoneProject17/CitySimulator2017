@@ -7,10 +7,19 @@ using DBInterface;
 
 namespace ServerForTheLogicTest
 {
+    /// <summary>
+    /// Unit tests for City.
+    /// <para>Written by Andrew Busto 2017-12-09</para>
+    /// </summary>
     public class CityTest
     {
         City city = new City(new SimulationStateQueue(), new SimulationStateQueue());
 
+        /// <summary>
+        /// Checks to make sure a location can be retrieved
+        /// given valid x y coordinates.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(0, 0)]
         [InlineData(City.CITY_WIDTH-1, 0)]
@@ -21,6 +30,11 @@ namespace ServerForTheLogicTest
             city.GetLocationAt(x, y);
         }
 
+        /// <summary>
+        /// Checks to make sure an exception is thrown
+        /// when GetLocationAt is passed invalid coordinates.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(-1, -1)]
         [InlineData(City.CITY_WIDTH, 0)]
@@ -32,6 +46,11 @@ namespace ServerForTheLogicTest
             Assert.ThrowsAny<IndexOutOfRangeException>(act);
         }
 
+        /// <summary>
+        /// Checks to make sure a location can be retrieved
+        /// given a valid point.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(0, 0)]
         [InlineData(City.CITY_WIDTH - 1, 0)]
@@ -44,6 +63,11 @@ namespace ServerForTheLogicTest
             city.GetLocationAt(p);
         }
 
+        /// <summary>
+        /// Checks to make sure an exception is thrown
+        /// when GetLocationAt is passed an invalid point.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(-1, -1)]
         [InlineData(City.CITY_WIDTH, 0)]
@@ -57,6 +81,12 @@ namespace ServerForTheLogicTest
             Assert.ThrowsAny<IndexOutOfRangeException>(act);
         }
 
+        /// <summary>
+        /// Checks to make sure no exception is thrown when
+        /// ExpandCity is called with a valid blocktype for
+        /// expansion.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(BlockType.Residential)]
         [InlineData(BlockType.Commercial)]
@@ -66,6 +96,11 @@ namespace ServerForTheLogicTest
             city.ExpandCity(t);
         }
 
+        /// <summary>
+        /// Checks to make sure an exception is thrown when
+        /// ExpandCity is called with the blocktype Empty.
+        /// <para>Written by Andrew Busto 2017-12-09</para>
+        /// </summary>
         [Theory]
         [InlineData(BlockType.Empty)]
         public void ExpandCity_InvalidBlockTypes_Exception(BlockType t)
