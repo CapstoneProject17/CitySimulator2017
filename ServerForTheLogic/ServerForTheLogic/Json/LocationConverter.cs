@@ -8,6 +8,7 @@ namespace ServerForTheLogic.Json
     /// <summary>
     /// LocationConverter.
     /// For reading/writing Json to/from Locations.
+    /// PRESENTLY UNUSED AS THE SAVING FUNCTION WAS REMOVED.
     /// <para/> Written by: Andrew Busto, 2017-11-25
     /// </summary>
     class LocationConverter : JsonConverter

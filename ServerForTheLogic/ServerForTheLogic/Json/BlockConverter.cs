@@ -7,7 +7,8 @@ namespace ServerForTheLogic.Json
 {
     /// <summary>
     /// BlockConverter.
-    /// For readin/writing Json to/from Blocks.
+    /// For reading/writing Json to/from Blocks.
+    /// PRESENTLY UNUSED AS THE SAVING FEATURE WAS REMOVED.
     /// <para/> Written by: Andrew Busto, 2017-11-26
     /// </summary>
     class BlockConverter : JsonConverter
